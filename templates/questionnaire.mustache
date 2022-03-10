@@ -1,0 +1,266 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_verbalfeedback/questionnaire
+
+    Moodle template to the template library
+
+    The purpose of this template is build the entire page for the template library (by including smaller templates).
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * status
+    * statusclass
+    * scalelabels
+    * ratedquestions
+    * scales
+
+    Example context (json):
+    {
+        "status": "In progress",
+        "statusclass": "label-info",
+        "ratedquestions": [
+            { "questionid" : 1, "question": "Treats co-workers with courtesy and respect." },
+            { "questionid" : 2, "question": "Has a positive attitude." },
+            { "questionid" : 3, "question": "Has initiative needed without relying on co-workers unnecessarily." },
+            { "questionid" : 4, "question": "Can capably lead projects effectively." },
+            { "questionid" : 5, "question": "Possesses strong technical skills for their position." }
+        ],
+        "scales": [
+            { "scale" : 1, "scalelabel": "1", "description": "Strongly disagree" },
+            { "scale" : 2, "scalelabel": "2", "description": "Disagree" },
+            { "scale" : 3, "scalelabel": "3", "description": "Somewhat disagree" },
+            { "scale" : 4, "scalelabel": "4", "description": "Somewhat agree" },
+            { "scale" : 5, "scalelabel": "5", "description": "Agree"},
+            { "scale" : 6, "scalelabel": "6", "description": "Strongly agree" },
+            { "scale" : 0, "scalelabel": "N/A", "description": "Not applicable" }
+        ]
+    }
+}}
+<div class="card">
+    <div class="card-body" data-region="status">
+        <span class="label {{statusclass}}">{{ status }}</span>
+    </div>
+</div>
+
+<div class="mt-3 card">
+    <div class="card-body" data-region="status">
+        <div class="mod-verbalfeedback-edit-content" data-region="itemlist">
+            <div class="mod-verbalfeedback-edit-top-controls">
+                <div class="statusbar">
+                </div>
+            </div>
+            <table id="questionnaire" class="table table-sm table-striped"
+                   data-region="questionnaire"
+                   data-verbalfeedbackid="{{verbalfeedbackid}}"
+                   data-fromuserid="{{fromuserid}}"
+                   data-touserid="{{touserid}}"
+                   data-tousername="{{tousername}}"
+                   data-contextid="{{contextid}}"
+                   data-submissionid="{{submissionid}}"
+                   data-preview="{{preview}}">
+                <thead>
+                <tr>
+                    <th>
+                        <div>
+                            <div class="row p-1">
+                                    <div class="col-md-5 span5">
+                                    </div>
+                                    {{#scales}}
+                                        <div class="col-md-1 span1 hideoverflow text-center" title="{{description}}">
+                                            <span>{{description}}</span>
+                                        </div>
+                                    {{/scales}}
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                {{# categories }}
+                    <thead>
+                    <tr class="user3 unselectedrow border-top">
+                        <td>
+                            <div>
+                                <div class="row p-1">
+                                    <div class="col-md-12 span12">
+                                        <b>{{ header }}</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{# criteria }}
+                        <tr class="user3 unselectedrow" data-region="question-row" data-criterionid="{{id}}"
+                            data-categoryid="{{categoryid}}">
+                            <td class="border-bottom">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class=" row align-items-center">
+                                                <div class="col-1">
+                                                    <button class="btn btn-sm btn-secondary pt-0 pb-0 btn-detail-rating" type="button">
+                                                        +
+                                                    </button>
+                                                </div>
+                                                <div class="col-10">
+                                                    {{text}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{#scales}}
+                                            <div class="col-md-1 span1 scaleoption text-center align-items-center">
+                                                <label class="scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                       data-value="{{scale}}" tabindex="0"
+                                                       for="option-{{id}}-{{scale}}" title="{{description}}"
+                                                       aria-label="{{description}}">
+                                                    {{scalelabel}}
+                                                </label>
+                                                <input type="radio" class="accesshide" name="question-{{id}}"
+                                                       value="{{scale}}" tabindex="-1"
+                                                       id="option-{{id}}-{{scale}}"/>
+                                            </div>
+                                        {{/scales}}
+                                    </div>
+                                    <div class="detailed-rating row-fluid rtl-compatible hidden">
+                                        <div class="container" data-region="detailed-rating">
+                                            <div class="row">
+                                                <div class="col-12 pt-3">
+                                                    <div>
+                                                        <form class="mform">
+                                                            <div class="form-group">
+                                                                <div class="col-md-3"><h5>{{#str}}detailrating, mod_verbalfeedback{{/str}}</h5></div>
+                                                                <div class="col-md-9"></div>
+                                                                <div class="col-md-12 pl-0">
+                                                                    <table id="detail-rating-{{id}}"
+                                                                           class="table table-sm table-striped mx-3">
+                                                                        <tbody>
+                                                                        {{# subratings }}
+                                                                            <tr class="user3 unselectedrow"
+                                                                                data-region="question-detail-row"
+                                                                                data-subratingid="{{id}}">
+                                                                                <td>
+                                                                                    <div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-3 col-lg-2 span3">
+                                                                                                {{ title }}
+                                                                                            </div>
+                                                                                            <div class="col-md-5 span5">
+                                                                                                {{ description }}
+                                                                                            </div>
+                                                                                            <div class="col-md-1 span1 detail-scaleoption text-center">
+                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                       data-value="{{verynegative}}"
+                                                                                                       tabindex="0"
+                                                                                                       for="detail-option-{{id}}-0"
+                                                                                                       title="{{verynegative}}">
+                                                                                                    --
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div class="col-md-1 span1 detail-scaleoption text-center">
+                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                       data-value="{{negative}}"
+                                                                                                       tabindex="0"
+                                                                                                       for="detail-option-{{id}}-1"
+                                                                                                       title="{{negative}}">
+                                                                                                    -
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div class="col-md-1 span1 detail-scaleoption text-center">
+                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                       data-value="{{positive}}"
+                                                                                                       tabindex="0"
+                                                                                                       for="detail-option-{{id}}-2"
+                                                                                                       title="{{positive}}">
+                                                                                                    +
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div class="col-md-1 span1 detail-scaleoption text-center">
+                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                       data-value="{{verypositive}}"
+                                                                                                       tabindex="0"
+                                                                                                       for="detail-option-{{id}}-3"
+                                                                                                       title="{{verypositive}}">
+                                                                                                    ++
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        {{/ subratings }}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row ml-4 mr-4">
+                                                <div class="col-12 pt-3">
+                                                  <label>{{#str}}studentcomment, mod_verbalfeedback{{/str}}</label>
+                                                  <div class="container">
+                                                    <div id="student-comment-{{id}}-{{fromuserid}}-{{touserid}}"
+                                                         data-label="studentcomment"
+                                                         class="student-comment" rows="10">
+                                                         <!-- rows is not a valid attribute, but we can regulate the atto editor height this way. -->
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="row ml-4 mr-4">
+                                              <div class="col-12 pt-3">
+                                                <label>{{#str}}privatecomment, mod_verbalfeedback{{/str}}</label>
+                                                <div class="container">
+                                                  <div id="private-comment-{{id}}-{{fromuserid}}-{{touserid}}"
+                                                       data-label="privatecomment"
+                                                       class="private-comment" rows="10">
+                                                       <!-- rows is not a valid attribute, but we can regulate the atto editor height this way. -->
+                                                  </div>
+                                                </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {{/criteria}}
+                </tbody>
+                {{/ categories }}
+            </table>
+        </div>
+    </div>
+</div>
+<div class="mt-1">
+    <button class="btn btn-primary" id="submit-feedback" {{#preview}}disabled="disabled"{{/preview}}>{{#str}}
+        finalize, mod_verbalfeedback{{/str}}</button>
+    <button class="btn btn-secondary" id="save-feedback" {{#preview}}disabled="disabled"{{/preview}} data-returnurl="{{returnurl}}">{{#str}}
+        saveandreturn, mod_verbalfeedback{{/str}}</button>
+</div>
+{{#js}}
+    require(['mod_verbalfeedback/questionnaire', 'jquery', 'core/yui', 'core/templates', 'core/notification', 'core/str'], function(Questionnaire, $) {
+        new Questionnaire();
+    });
+{{/js}}

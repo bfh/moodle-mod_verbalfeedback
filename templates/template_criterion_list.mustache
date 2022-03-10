@@ -1,0 +1,91 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_verbalfeedback/index
+
+    Moodle template to the template library
+
+    The purpose of this template is build the entire page for the template library (by including smaller templates).
+
+    Classes required for JS:
+    * mod_verbalfeedback/index
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * instances - Array of all the verbalfeedback instances.
+
+    Example context (json):
+    {
+        "instances": [
+            {
+                "name": "Anonymous verbal feedback",
+                "url" : "#"
+            },
+            {
+                "name": "Another verbal feedback",
+                "url" : "#"
+            },
+            {
+                "name": "Non-anonymous verbal feedback",
+                "url" : "#"
+            }
+        ]
+    }
+}}
+<div class="container">
+    <div class="btn-group">
+        <a class="btn btn-secondary mr-1 mb-1" href="{{templatelisturl}}">{{#str}}templateplural, mod_verbalfeedback{{/str}}</a>
+        <a class="btn btn-secondary mr-1 mb-1" href="{{templatecategorylisturl}}">{{#str}}templatecategoryplural, mod_verbalfeedback{{/str}}</a>
+        <a class="btn btn-secondary mr-1 mb-1" href="{{templatecriterialisturl}}">{{#str}}templatecriteriaplural, mod_verbalfeedback{{/str}}</a>
+        <a class="btn btn-secondary mr-1 mb-1" href="{{languagelisturl}}">{{#str}}languageplural, mod_verbalfeedback{{/str}}</a>
+    </div>
+<br/>
+    <div class="btn-group">
+        <a class="btn btn-secondary mr-1 mb-1" href="{{newtemplatecriterionurl}}">{{#str}}newcriterion, mod_verbalfeedback{{/str}}</a>
+    </div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="span4">{{#str}}id, mod_verbalfeedback{{/str}}</th>
+            <th class="span4">{{#str}}text, mod_verbalfeedback{{/str}}</th>
+            <th class="span4">{{#str}}subratingplural, mod_verbalfeedback{{/str}}</th>
+            <th class="span4"></th>
+        </tr>
+    </thead>
+    <tbody>
+    {{# templatecriteria }}
+        <tr class="unselectedrow">
+            <td>
+                <span>{{id}}</span>
+            </td>
+            <td>
+                <span>{{text}}</span>
+            </td>
+            <td>
+              <span>{{subratingcount}}</span>
+            </td>
+            <td class="text-right text-nowrap">
+                <a class="btn btn-secondary ml-1" href="{{editurl}}">{{#str}}edit{{/str}}</a>
+                <a class="btn btn-secondary ml-1" href="{{deleteurl}}">{{#str}}delete{{/str}}</a>
+            </td>
+        </tr>
+    {{/ templatecriteria }}
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <title>Titel</title>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9pt;
+    }
+
+    table {
+      border: 1px solid black;
+    }
+
+    tr {
+      border: 1px solid black;
+    }
+
+    th {
+      border: 1px solid black;
+    }
+
+    td {
+      border: 1px solid black;
+    }
+
+  </style>
+</head>
+
+<body>
+  <br>
+  <table style="width: 420px;">
+    <tr>
+      <td style="width: 80px;">{{#str}}course, mod_verbalfeedback{{/str}}</td>
+      <td>{{ course }}</td>
+    </tr>
+    <tr>
+      <td>{{#str}}startend, mod_verbalfeedback{{/str}}</td>
+      <td>{{ coursestart }} -<br>{{courseend}}</td>
+    </tr>
+    <tr>
+      <td>{{#str}}activity, mod_verbalfeedback{{/str}}</td>
+      <td>{{ instancename }}</td>
+    </tr>
+    <tr>
+      <td>{{#str}}teachers, mod_verbalfeedback{{/str}}</td>
+      <td>{{ teachers }}</td>
+    </tr>
+    <tr>
+      <td>{{#str}}student, mod_verbalfeedback{{/str}}</td>
+      <td>{{ student }}</td>
+    </tr>
+  </table>
+  <br><br>
+  <table style="width: 420px;">
+    <tr>
+      <td style="width: 80px;">{{#str}}percentage, mod_verbalfeedback{{/str}}</td>
+      <td>{{ report.resultpercentage }}</td>
+    </tr>
+    <tr>
+      <td>{{#str}}weightedaverage, mod_verbalfeedback{{/str}}</td>
+      <td>{{ report.resultvsmax }}</td>
+    </tr>
+  </table>
+  <br><br><br><br><br><br><br><br><br>
+  {{# report.categories }}
+  <table style="page-break-inside:avoid">
+    <tr>
+      <th width="400">
+        <b>{{ name }}</u>{{avg}}
+      </th>
+      <th colspan="3" width="230">
+        <span><b>{{#str}}weightedaverage, mod_verbalfeedback{{/str}}: {{average}}</b></span><br>
+        <span><b>{{#str}}categoryweight, mod_verbalfeedback{{/str}}: {{percentage}}</b></span>
+      </th>
+    </tr>
+    <tr>
+      <td>
+      </td>
+      <td>{{#str}}valuation, mod_verbalfeedback{{/str}}</td>
+      <td>{{#str}}value, mod_verbalfeedback{{/str}}</td>
+      <td>{{#str}}factor, mod_verbalfeedback{{/str}}</td>
+    </tr>
+
+    {{# criteria }}
+    <tr>
+      <td>
+        <div>{{text}}</div>
+        {{# comments }}
+          <br>
+          <strong>{{#str}}comments, mod_verbalfeedback{{/str}}:</strong>
+          {{# texts }}
+            <div>{{{.}}}</div>
+          {{/texts}}
+        {{/comments}}
+        {{^comments}}
+          <br>
+        {{/comments}}
+      </td>
+      <td>{{scaletext}}</td>
+      <td>{{averagerating}}</td>
+      <td>{{multiplier}}</td>
+    </tr>
+    {{/criteria}}
+  </table>
+  <br><br>
+    {{/ report.categories }}
+</body>
+
+</html>

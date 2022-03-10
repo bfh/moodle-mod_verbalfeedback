@@ -1,0 +1,20 @@
+---
+copyright: '2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>'
+component: mod_verbalfeedback
+release: 0.1.0
+version: 2020031900
+requires: 2019052000
+maturity: MATURITY_ALPHA
+name: verbalfeedback
+mod_features:
+  gradebook: false
+  file_area: false
+  navigation: false
+features:
+  install: true
+  uninstall: true
+  settings: true
+  readme: true
+  license: true
+  upgrade: true
+  upgradelib: true

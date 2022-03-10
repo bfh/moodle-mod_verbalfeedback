@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/verbalfeedback/db" VERSION="20190530" COMMENT="XMLDB file for Moodle mod/verbalfeedback"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="verbalfeedback_language" COMMENT="Verbalfeedback languages">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="language" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for language"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="language" UNIQUE="true" FIELDS="language"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_local_string" COMMENT="Verbalfeedback localized strings">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="foreignkey" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="type" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="languageid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="string" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for language"/>
+        <KEY NAME="verbalfeedback_language" TYPE="foreign" FIELDS="languageid" REFTABLE="verbalfeedback_language" REFFIELDS="id"/>
+     </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_template" COMMENT="Verbalfeedback templates">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for feedback_item"/>
+     </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_t_category" COMMENT="Verbalfeedback template categories">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="uniquename" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <!-- has localized string for category header -->
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_unique_name" UNIQUE="true" FIELDS="uniquename"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_t_param_cat" COMMENT="Parametrized template category within a template">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="templateid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="weight" TYPE="number" LENGTH="10" NOTNULL="false" DEFAULT="0.20" SEQUENCE="false" DECIMALS="2" COMMENT="The weight for this category in this template"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the parametrized template"/>
+        <KEY NAME="verbalfeedback_template" TYPE="foreign" FIELDS="templateid" REFTABLE="verbalfeedback_template" REFFIELDS="id"/>
+        <KEY NAME="verbalfeedback_t_category" TYPE="foreign" FIELDS="categoryid" REFTABLE="verbalfeedback_t_category" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_t_criterion" COMMENT="Verbalfeedback template criterion">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="placeholder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <!-- has localized string for criterion text -->
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_t_param_crit" COMMENT="Parametrized template criterion within a template category">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="criterionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Position the criterion in the given context"/>
+        <FIELD NAME="weight" TYPE="number" LENGTH="10" NOTNULL="true" DEFAULT="1.00" SEQUENCE="false" DECIMALS="2" COMMENT="Weight of the criterion in the given context"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for feedback_item"/>
+        <KEY NAME="verbalfeedback_t_category" TYPE="foreign" FIELDS="categoryid" REFTABLE="verbalfeedback_t_category" REFFIELDS="id"/>
+        <KEY NAME="verbalfeedback_t_criterion" TYPE="foreign" FIELDS="criterionid" REFTABLE="verbalfeedback_t_criterion" REFFIELDS="id"/>
+     </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_t_subrating" COMMENT="Verbalfeedback subrating template">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="criterionid"  TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" />
+        <!-- has localized string for title, description, verynegative, negative, positive, verypositive -->
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the subrating."/>
+        <KEY NAME="verbalfeedback_t_criterion" TYPE="foreign" FIELDS="criterionid" REFTABLE="verbalfeedback_t_criterion" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback" COMMENT="All verbal feedback instances">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="templateid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="intro" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Maximum grade the verbal feedback is worth" PREVIOUS="introformat" NEXT="status"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether this verbal feedback activity is ready to be used by the participants. 0 - Not yet ready, 1 - Ready"/>
+        <FIELD NAME="timeopen" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timeclose" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="releasetype" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to release this feedback to the participants 0 - Closed to participants. Participants cannot view the feedback given to them. Only those with the capability. 1 - Open to participants. Participants can view the feedback given to them any time. 2 - Manual release. Participants can view the feedback given to them when released by users who have the capability to manage the verbal feedback activity instance (e.g. teacher, manager, admin). 3 - Release after the activity has closed"/>
+        <FIELD NAME="released" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="For instances that are manually released. 0 = Not yet released. 1 = Released."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for verbal feedback activity instance"/>
+        <KEY NAME="verbalfeedback_template" TYPE="foreign" FIELDS="templateid" REFTABLE="verbalfeedback_template" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_i_category" COMMENT="Verbalfeedback instance categories">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="paramtemplatecategoryid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="weight" TYPE="number" LENGTH="10" NOTNULL="false" DEFAULT="0.20" SEQUENCE="false" DECIMALS="2" COMMENT="The weight for this category within the instance"/>
+        <!-- has localized string for category header -->
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
+        <KEY NAME="verbalfeedback" TYPE="foreign" FIELDS="instanceid" REFTABLE="verbalfeedback" REFFIELDS="id"/>
+        <KEY NAME="verbalfeedback_t_param_cat" TYPE="foreign" FIELDS="paramtemplatecategoryid" REFTABLE="verbalfeedback_t_param_cat" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_i_criterion" COMMENT="Verbalfeedback template criterion">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="paramtemplatecriterionid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="weight" TYPE="number" LENGTH="10" NOTNULL="false" DEFAULT="0.20" SEQUENCE="false" DECIMALS="2" COMMENT="The weight for this category within the instance"/>
+        <!-- has localized string for criterion text -->
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
+        <KEY NAME="verbalfeedback_t_param_crit" TYPE="foreign" FIELDS="paramtemplatecriterionid" REFTABLE="verbalfeedback_t_param_crit" REFFIELDS="id"/>
+        <KEY NAME="verbalfeedback_i_category" TYPE="foreign" FIELDS="categoryid" REFTABLE="verbalfeedback_i_category" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_i_subrating" COMMENT="Verbalfeedback subrating">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="criterionid"  TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" />
+        <!-- has localized string for title, description, verynegative, negative, positive, verypositive -->
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
+        <KEY NAME="verbalfeedback_i_criterion" TYPE="foreign" FIELDS="criterionid" REFTABLE="verbalfeedback_i_criterion" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_submission" COMMENT="Contains all the statuses for the verbal feedback activity.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="ID from feedback table."/>
+        <FIELD NAME="fromuserid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="User ID of the one giving feedback. 0 if anonymous mode."/>
+        <FIELD NAME="touserid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="User ID of the user that is being given feedback on."/>
+        <FIELD NAME="status" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="0 for unanswered, 1 for in progress, 2 for completed, 3 for declined"/>
+        <FIELD NAME="remarks" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Reason why the user declined to give feedback."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="verbalfeedback" TYPE="foreign" FIELDS="instanceid" REFTABLE="verbalfeedback" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="verbalfeedback_response" COMMENT="Contains all the responses for the verbal feedback activity items.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="ID from verbalfeedback table."/>
+        <FIELD NAME="submissionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="ID from verbalfeedback table."/>
+        <FIELD NAME="criterionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="ID from verbalfeedback_i_criterion table."/>
+        <FIELD NAME="fromuserid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Hashed user ID of the one giving feedback."/>
+        <FIELD NAME="touserid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Hashed user ID of the user that is being given feedback on."/>
+        <FIELD NAME="value" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Value for the response given on the feedback item."/>
+        <FIELD NAME="studentcomment" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Public comment for the response given on the feedback item."/>
+        <FIELD NAME="privatecomment" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Private comment for the response given on the feedback item."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="verbalfeedback" TYPE="foreign" FIELDS="instanceid" REFTABLE="verbalfeedback" REFFIELDS="id"/>
+        <KEY NAME="verbalfeedback_i_criterion" TYPE="foreign" FIELDS="criterionid" REFTABLE="verbalfeedback_i_criterion" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

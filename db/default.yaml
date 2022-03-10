@@ -1,0 +1,3879 @@
+languages:
+  - &lang_en
+    id: null
+    language: "en"
+  - &lang_de
+    id: null
+    language: "de"
+  - &lang_fr
+    id: null
+    language: "fr"
+
+criteria:
+  - &criterion1
+    id: null
+    texts:
+      - text: "The content is relevant, technically correct and supported by arguments."
+        language: *lang_en
+      - text: "Die Inhalte sind relevant, fachlich korrekt und argumentativ gestützt."
+        language: *lang_de
+      - text: "Le contenu est pertinent, techniquement correct et soutenu par des arguments."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Importance"
+            language: *lang_en
+          - text: "Wichtigkeit"
+            language: *lang_de
+          - text: "Importance"
+            language: *lang_fr
+        description:
+          - text: "The importance of the topic is made clear. (Why is it worthwhile to address this topic)."
+            language: *lang_en
+          - text: "Die Wichtigkeit des Themas wird aufgezeigt. (Warum lohnt es sich, sich mit diesem Thema auseinanderzusetzen.)"
+            language: *lang_de
+          - text: "L'importance du sujet est démontrée. (Pourquoi est-il important de traiter ce sujet ?)"
+            language: *lang_fr
+        verynegative:
+          - text: "The importance of the topic is not made clear."
+            language: *lang_en
+          - text: "Die Wichtigkeit des Themas kommt nicht zum Ausdruck."
+            language: *lang_de
+          - text: "L'importance du sujet n'est pas démontrée."
+            language: *lang_fr
+        negative:
+          - text: "The importance of the topic is not made clear very clearly."
+            language: *lang_en
+          - text: "Die Wichtigkeit des Themas kommt zu wenig klar zum Ausdruck."
+            language: *lang_de
+          - text: "L'importance du sujet n'est pas clairement démontrée."
+            language: *lang_fr
+        positive:
+          - text: "You highlight the importance of the topic."
+            language: *lang_en
+          - text: "Sie zeigen die Wichtigkeit des Themas auf."
+            language: *lang_de
+          - text: "Vous montrez l'importance du sujet."
+            language: *lang_fr
+        verypositive:
+          - text: "You point out the importance of the topic convincingly."
+            language: *lang_en
+          - text: "Sie zeigen die Wichtigkeit des Themas nachdrücklich auf."
+            language: *lang_de
+          - text: "Vous montrez l'importance du sujet de manière convaincante."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Essential content"
+            language: *lang_en
+          - text: "Wesentliche Inhalte"
+            language: *lang_de
+          - text: "Contenus principaux"
+            language: *lang_fr
+        description:
+          - text: "The content presented is essential for the topic."
+            language: *lang_en
+          - text: "Die präsentierten Inhalte sind für das Thema wesentlich."
+            language: *lang_de
+          - text: "Les contenus présentés sont essentiels pour le sujet traité."
+            language: *lang_fr
+        verynegative:
+          - text: "The presentation contains too much non-essential content."
+            language: *lang_en
+          - text: "Die Präsentation enthält zu viele unwesentliche Inhalte."
+            language: *lang_de
+          - text: "La présentation comporte trop de contenu non essentiel."
+            language: *lang_fr
+        negative:
+          - text: "The presentation contains some non-essential content."
+            language: *lang_en
+          - text: "Die Präsentation enthält einige unwesentliche Inhalte."
+            language: *lang_de
+          - text: "La présentation comporte une part de contenu non essentiel."
+            language: *lang_fr
+        positive:
+          - text: "The content presented is essential."
+            language: *lang_en
+          - text: "Die präsentierten Inhalte sind wesentlich."
+            language: *lang_de
+          - text: "Les contenus présentés sont essentiels."
+            language: *lang_fr
+        verypositive:
+          - text: "You get to the heart of the matter succinctly and effectively."
+            language: *lang_en
+          - text: "Sie bringen die wesentlichen Inhalte wirkungsvoll auf den Punkt."
+            language: *lang_de
+          - text: "Les contenus principaux sont présentés de manière pertinente et efficace."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Correctness"
+            language: *lang_en
+          - text: "Korrektheit"
+            language: *lang_de
+          - text: "Justesse des contenus"
+            language: *lang_fr
+        description:
+          - text: "The contents presented are technically correct."
+            language: *lang_en
+          - text: "Die präsentierten Inhalte sind fachlich korrekt."
+            language: *lang_de
+          - text: "Les contenus présentés sont techniquement corrects."
+            language: *lang_fr
+        verynegative:
+          - text: "Your presentation contains some incorrect information."
+            language: *lang_en
+          - text: "Ihre Präsentation enthält falsche Informationen."
+            language: *lang_de
+          - text: "Votre présentation contient des informations incorrectes."
+            language: *lang_fr
+        negative:
+          - text: "Your presentation contains information that, from a technical point of view, is not substantial enough."
+            language: *lang_en
+          - text: "Ihre Präsentation enthält Informationen, die fachlich zu wenig stichhaltig sind."
+            language: *lang_de
+          - text: "Votre présentation contient des informations qui ne sont pas suffisamment solides sur le plan technique."
+            language: *lang_fr
+        positive:
+          - text: "The information presented is technically correct."
+            language: *lang_en
+          - text: "Die präsentierten Informationen sind fachlich korrekt."
+            language: *lang_de
+          - text: "Les informations présentées sont techniquement correctes."
+            language: *lang_fr
+        verypositive:
+          - text: "You clearly show the technical accuracy of the information you present."
+            language: *lang_en
+          - text: "Sie zeigen die fachliche Korrektheit Ihrer präsentierten Informationen deutlich auf."
+            language: *lang_de
+          - text: "Vous montrez clairement l'exactitude technique des informations présentées."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Precision"
+            language: *lang_en
+          - text: "Präzision"
+            language: *lang_de
+          - text: "Précision"
+            language: *lang_fr
+        description:
+          - text: "The content presented is precise."
+            language: *lang_en
+          - text: "Die präsentierten Inhalte sind präzise."
+            language: *lang_de
+          - text: "Les contenus présentés sont précis."
+            language: *lang_fr
+        verynegative:
+          - text: "The content you present is partly imprecise."
+            language: *lang_en
+          - text: "Ihre präsentierten Inhalte sind teilweise unpräzise."
+            language: *lang_de
+          - text: "Les contenus présentés sont en partie imprécis."
+            language: *lang_fr
+        negative:
+          - text: "Some of the content you present is not precise enough."
+            language: *lang_en
+          - text: "Ihre präsentierten Inhalte sind teilweise zu wenig präzise."
+            language: *lang_de
+          - text: "Les contenus présentés sont partiellemet imprécis."
+            language: *lang_fr
+        positive:
+          - text: "The content you present is mostly precise."
+            language: *lang_en
+          - text: "Ihre präsentierten Inhalte sind meist präzise."
+            language: *lang_de
+          - text: "Les contenus présentés sont précis la plupart du temps."
+            language: *lang_fr
+        verypositive:
+          - text: "You present your contents with an adequate degree of precision."
+            language: *lang_en
+          - text: "Ihre präsentierten Inhalte haben eine angemessene Präzision."
+            language: *lang_de
+          - text: "Les contenus présentés sont précis et adéquats."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Arguments"
+            language: *lang_en
+          - text: "Argumente"
+            language: *lang_de
+          - text: "Arguments"
+            language: *lang_fr
+        description:
+          - text: "The main claims are well-argued and supported by evidence."
+            language: *lang_en
+          - text: "Die Hauptaussagen werden überzeugend begründet und belegt."
+            language: *lang_de
+          - text: "Les déclarations principales sont fiables et sont présentées de manière convaincante."
+            language: *lang_fr
+        verynegative:
+          - text: "You fail to give reasons and evidence for your primary claims."
+            language: *lang_en
+          - text: "Begründungen und Belege für Ihre Hauptaussagen fehlen."
+            language: *lang_de
+          - text: "Les contenus principaux sont lacunaires, peu pertinents et peu étayés."
+            language: *lang_fr
+        negative:
+          - text: "The reasons and evidence you give for your primary claims are not convincing enough."
+            language: *lang_en
+          - text: "Die Begründungen und Belege für Ihre Hauptaussagen sind zu wenig überzeugend."
+            language: *lang_de
+          - text: "Les contenus principaux ne sont pas suffisamment pertinents et étayés."
+            language: *lang_fr
+        positive:
+          - text: "The primary claims are well-argued and supported by evidence."
+            language: *lang_en
+          - text: "Die Hauptaussagen werden begründet und belegt."
+            language: *lang_de
+          - text: "Les contenus principaux sont pertinents et étayés."
+            language: *lang_fr
+        verypositive:
+          - text: "The reasons and evidence you give for your primary claims are very convincing."
+            language: *lang_en
+          - text: "Die Begründungen und Belege für Ihre Hauptaussagen sind überzeugend."
+            language: *lang_de
+          - text: "Les contenus principaux sont convaincants et bien étayés."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Line of argument"
+            language: *lang_en
+          - text: "Argumentationslinie"
+            language: *lang_de
+          - text: "Argumentation"
+            language: *lang_fr
+        description:
+          - text: "The arguments follow a clear thread."
+            language: *lang_en
+          - text: "Die Argumente folgen einer klaren Argumentationslinie."
+            language: *lang_de
+          - text: "Les arguments suivent un raisonnement clair."
+            language: *lang_fr
+        verynegative:
+          - text: "There is no clear line of argument."
+            language: *lang_en
+          - text: "Eine Argumentationslinie ist nicht erkennbar."
+            language: *lang_de
+          - text: "Il n'y a pas de ligne d'argumentation discernable."
+            language: *lang_fr
+        negative:
+          - text: "The line of argument is not sufficiently evident."
+            language: *lang_en
+          - text: "Die Argumentationslinie ist zu wenig erkennbar."
+            language: *lang_de
+          - text: "La ligne d'argumentation n'est pas suffisamment claire."
+            language: *lang_fr
+        positive:
+          - text: "The line of argument is clear."
+            language: *lang_en
+          - text: "Die Argumentationslinie ist erkennbar."
+            language: *lang_de
+          - text: "La ligne d'argumentation est claire."
+            language: *lang_fr
+        verypositive:
+          - text: "The line of argument is evident and conclusive."
+            language: *lang_en
+          - text: "Die Argumentationslinie ist deutlich erkennbar und schlüssig."
+            language: *lang_de
+          - text: "La ligne d'argumentation est clairement identifiable et concluante."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Sources"
+            language: *lang_en
+          - text: "Quellen"
+            language: *lang_de
+          - text: "Sources"
+            language: *lang_fr
+        description:
+          - text: "The sources for the information are indicated."
+            language: *lang_en
+          - text: "Die Quellen der Informationen werden aufgezeigt."
+            language: *lang_de
+          - text: "Les sources d'information sont indiquées."
+            language: *lang_fr
+        verynegative:
+          - text: "The sources for your information are missing."
+            language: *lang_en
+          - text: "Die Quellen Ihrer Informationen fehlen."
+            language: *lang_de
+          - text: "Vos sources d'information ne sont pas mentionnées."
+            language: *lang_fr
+        negative:
+          - text: "You only partly indicate the sources for your information."
+            language: *lang_en
+          - text: "Sie zeigen die Quellen Ihrer Informationen zu wenig auf."
+            language: *lang_de
+          - text: "Vos sources d’information sont lacunaires."
+            language: *lang_fr
+        positive:
+          - text: "You indicate the sources for your information."
+            language: *lang_en
+          - text: "Sie zeigen die Quellen Ihrer Informationen auf."
+            language: *lang_de
+          - text: "Vos sources d'information sont indiquées."
+            language: *lang_fr
+        verypositive:
+          - text: "You indicate the sources for your information very precisely."
+            language: *lang_en
+          - text: "Sie zeigen die Quellen Ihrer Informationen präzise auf."
+            language: *lang_de
+          - text: "Vos sources d''information sont indiquées avec précision."
+            language: *lang_fr
+  - &criterion2
+    id: null
+    texts:
+      - text: "The content is tailored to the target audience and the occasion."
+        language: *lang_en
+      - text: "Die Inhalte sind auf das Zielpublikum und den Anlass abgestimmt."
+        language: *lang_de
+      - text: "Les contenus sont adaptés au public cible et à l'occasion."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Assessing prior knowledge"
+            language: *lang_en
+          - text: "Vorwissen einschätzen"
+            language: *lang_de
+          - text: "Évaluer les connaissances préalables"
+            language: *lang_fr
+        description:
+          - text: "The assessment of the target audience's prior knowledge is correct."
+            language: *lang_en
+          - text: "Die Einschätzungen zum Vorwissen des Zielpublikums sind richtig."
+            language: *lang_de
+          - text: "L'évaluation des connaissances préalables du public cible est correcte."
+            language: *lang_fr
+        verynegative:
+          - text: "You seem to misjudge the target audience's prior knowledge."
+            language: *lang_en
+          - text: "Sie schätzen das Vorwissen des Zielpublikums falsch ein."
+            language: *lang_de
+          - text: "Vous estimez incorrectement les connaissances préalables du public cible."
+            language: *lang_fr
+        negative:
+          - text: "You sometimes misjudge the prior knowledge of the target audience."
+            language: *lang_en
+          - text: "Sie schätzen das Vorwissen des Zielpublikums teilweise falsch ein."
+            language: *lang_de
+          - text: "Vous estimez imparfaitement les connaissances préalables du public cible."
+            language: *lang_fr
+        positive:
+          - text: "You correctly assess the prior knowledge of the target audience to some extent."
+            language: *lang_en
+          - text: "Sie schätzen das Vorwissen des Zielpublikums teilweise richtig ein."
+            language: *lang_de
+          - text: "Vous estimez assez correctement les connaissances préalables du public cible."
+            language: *lang_fr
+        verypositive:
+          - text: "You correctly assess the prior knowledge of the target audience."
+            language: *lang_en
+          - text: "Sie schätzen das Vorwissen des Zielpublikums richtig ein."
+            language: *lang_de
+          - text: "Vous évaluez correctement les connaissances préalables du public cible."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Using prior knowledge"
+            language: *lang_en
+          - text: "Vorwissen nutzen"
+            language: *lang_de
+          - text: "Utiliser les connaissances préalables"
+            language: *lang_fr
+        description:
+          - text: "The content takes the prior knowledge of the target audience into account."
+            language: *lang_en
+          - text: "Die Inhalte gehen auf das Vorwissen des Zielpublikums ein."
+            language: *lang_de
+          - text: "Le contenu prend en compte les connaissances préalables du public cible."
+            language: *lang_fr
+        verynegative:
+          - text: "You do not take into account the target audience's prior knowledge."
+            language: *lang_en
+          - text: "Sie knüpfen nicht an das Vorwissen des Zielpublikums an."
+            language: *lang_de
+          - text: "Vous ne tenez pas compte des connaissances préalables du public cible."
+            language: *lang_fr
+        negative:
+          - text: "You do not address the target audience's prior knowledge enough."
+            language: *lang_en
+          - text: "Sie gehen zu wenig auf das Vorwissen des Zielpublikums ein."
+            language: *lang_de
+          - text: "Vous ne tenez pas suffisamment compte des connaissances préalables du public cible."
+            language: *lang_fr
+        positive:
+          - text: "You partly address the prior knowledge of the target audience."
+            language: *lang_en
+          - text: "Sie gehen teilweise auf das Vorwissen des Zielpublikums ein."
+            language: *lang_de
+          - text: "Vous tenez partiellement compte des connaissances préalables du public cible."
+            language: *lang_fr
+        verypositive:
+          - text: "You skillfully incorporate the target audience's prior knowledge."
+            language: *lang_en
+          - text: "Sie beziehen das Vorwissen des Zielpublikums gekonnt ein."
+            language: *lang_de
+          - text: "Vous intégrez habilement les connaissances préalables du public cible."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Knowledge gain"
+            language: *lang_en
+          - text: "Erkenntnisgewinn bringen"
+            language: *lang_de
+          - text: "Accroitre les connaissances"
+            language: *lang_fr
+        description:
+          - text: "The content leads to the target audience gaining knowledge."
+            language: *lang_en
+          - text: "Die Inhalte bringen dem Zielpublikum einen Erkenntnisgewinn."
+            language: *lang_de
+          - text: "Le contenu apporte un gain de connaissances au public cible."
+            language: *lang_fr
+        verynegative:
+          - text: "The content is too simple for the target audience."
+            language: *lang_en
+          - text: "Ihre Inhalte sind für das Zielpublikum zu einfach."
+            language: *lang_de
+          - text: "Le contenu est trop simple pour le public cible."
+            language: *lang_fr
+        negative:
+          - text: "The content is sometimes too simple for the target audience."
+            language: *lang_en
+          - text: "Ihre Inhalte sind für das Zielpublikum teilweise zu einfach."
+            language: *lang_de
+          - text: "Le contenu est parfois trop simple pour le public cible."
+            language: *lang_fr
+        positive:
+          - text: "Some of the content leads to the target audience gaining knowledge."
+            language: *lang_en
+          - text: "Ihre Inhalte bringen dem Zielpublikum teilweise einen Erkenntnisgewinn."
+            language: *lang_de
+          - text: "Le contenu est intéressant et assez instructif pour le public cible."
+            language: *lang_fr
+        verypositive:
+          - text: "The content leads to a gain in knowledge for the target audience."
+            language: *lang_en
+          - text: "Ihre Inhalte bringen dem Zielpublikum einen Erkenntnisgewinn."
+            language: *lang_de
+          - text: "Le contenu accroit les connaissances du public cible."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Comprehensibility"
+            language: *lang_en
+          - text: "Verständlichkeit"
+            language: *lang_de
+          - text: "Compréhensibilité"
+            language: *lang_fr
+        description:
+          - text: "The content is clearly comprehensible for the target audience."
+            language: *lang_en
+          - text: "Die Inhalte sind für das Zielpublikum klar verständlich."
+            language: *lang_de
+          - text: "Les contenus sont clairement compréhensibles pour le public cible."
+            language: *lang_fr
+        verynegative:
+          - text: "The content is barely comprehensible for the target audience."
+            language: *lang_en
+          - text: "Ihre Inhalte sind für das Zielpublikum kaum verständlich."
+            language: *lang_de
+          - text: "Les contenus sont difficilement compréhensibles pour le public cible."
+            language: *lang_fr
+        negative:
+          - text: "Some of the content is not comprehensible for the target audience."
+            language: *lang_en
+          - text: "Einige Ihrer Inhalte sind für das Zielpublikum nicht verständlich."
+            language: *lang_de
+          - text: "Une partie des contenus ne sont pas compréhensibles pour le public cible."
+            language: *lang_fr
+        positive:
+          - text: "Most of the content is comprehensible for the target audience."
+            language: *lang_en
+          - text: "Die meisten Ihrer Inhalte sind für das Zielpublikum verständlich."
+            language: *lang_de
+          - text: "La plupart de vos contenus sont compréhensibles pour le public cible."
+            language: *lang_fr
+        verypositive:
+          - text: "Your content is clearly comprehensible for the target audience."
+            language: *lang_en
+          - text: "Ihre Inhalte sind für das Zielpublikum klar verständlich."
+            language: *lang_de
+          - text: "Votre contenu est clairement compréhensible pour le public cible."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Embedded in the context of the occasion"
+            language: *lang_en
+          - text: "Einbettung in Rahmen des Anlasses"
+            language: *lang_de
+          - text: "Intégration dans le contexte de la manifestation"
+            language: *lang_fr
+        description:
+          - text: "The content is put in the context of the occasion."
+            language: *lang_en
+          - text: "Die Inhalte werden in den Rahmen des Anlasses gestellt."
+            language: *lang_de
+          - text: "Les contenus sont contextualisés."
+            language: *lang_fr
+        verynegative:
+          - text: "The content of your presentation is not set in context. References to the context of the occasion are missing."
+            language: *lang_en
+          - text: "Die Inhalte Ihrer Präsentation wirken isoliert. Bezüge zum Rahmen des Anlasses fehlen."
+            language: *lang_de
+          - text: "Les contenus de votre présentation manquent de cohérence. Il n'y a pas assez de références permettant de contextualiser."
+            language: *lang_fr
+        negative:
+          - text: "The content of your presentation is not embedded enough in the context of the occasion."
+            language: *lang_en
+          - text: "Die Inhalte Ihrer Präsentation sind zu wenig in den Rahmen des Anlasses eingebettet."
+            language: *lang_de
+          - text: "Les contenus de votre présentation ne sont pas suffisamment contextualisés."
+            language: *lang_fr
+        positive:
+          - text: "The content of your presentation includes references to the context of the occasion."
+            language: *lang_en
+          - text: "Die Inhalte Ihrer Präsentation schaffen erkennbare Bezüge zum Rahmen des Anlasses."
+            language: *lang_de
+          - text: "Les contenus de votre présentation sont agréablement contextualisés."
+            language: *lang_fr
+        verypositive:
+          - text: "You include convincing references to the context of the occasion in your presentation."
+            language: *lang_en
+          - text: "Sie schaffen mit den Inhalten Ihrer Präsentation überzeugende Bezüge zum Rahmen des Anlasses."
+            language: *lang_de
+          - text: "Votre présentation s'intègre de manière très convaincante dans le contexte de la manifestation grâce à des contenus cohérents."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Adapting to the situation"
+            language: *lang_en
+          - text: "Anpassen an Situation"
+            language: *lang_de
+          - text: "Adaptation à la situation"
+            language: *lang_fr
+        description:
+          - text: "The content of the presentation fits the situation."
+            language: *lang_en
+          - text: "Die Inhalte der Präsentation passen zur Situation."
+            language: *lang_de
+          - text: "Le contenu de la présentation est adapté à la situation."
+            language: *lang_fr
+        verynegative:
+          - text: "Some of the content of your presentation is inappropriate for the audience."
+            language: *lang_en
+          - text: "Einige Inhalte Ihrer Präsentation sind für einzelne Anwesende unpassend."
+            language: *lang_de
+          - text: "Certains contenus de votre présentation sont inappropriés pour une partie du public."
+            language: *lang_fr
+        negative:
+          - text: "Certain contents of your presentation are problematic for some of the audience."
+            language: *lang_en
+          - text: "Einige Inhalte Ihrer Präsentation sind für einzelne Anwesende problematisch."
+            language: *lang_de
+          - text: "Certains contenus de votre présentation sont problématiques pour une partie du public."
+            language: *lang_fr
+        positive:
+          - text: "The content of your presentation fits the situation."
+            language: *lang_en
+          - text: "Die Inhalte Ihrer Präsentation passen zur Situation."
+            language: *lang_de
+          - text: "Le contenu de votre présentation est adapté à la situation."
+            language: *lang_fr
+        verypositive:
+          - text: "You thoughtfully adapt the content of your presentation to the situation."
+            language: *lang_en
+          - text: "Sie passen die Inhalte Ihrer Präsentation bedacht auf die Situation an."
+            language: *lang_de
+          - text: "Le contenu de votre présentation est particulièrement bien adapté à la situation."
+            language: *lang_fr
+  - &criterion3
+    id: null
+    texts:
+      - text: "The content presented is evidence of a thorough, independent examination of the topic."
+        language: *lang_en
+      - text: "Die präsentierten Inhalte zeugen von einer vertieften, eigenständigen Auseinandersetzung mit dem Thema."
+        language: *lang_de
+      - text: "Les contenus présentés montrent une analyse approfondie et personnelle de votre sujet."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Specific knowledge"
+            language: *lang_en
+          - text: "Spezifisches Wissen"
+            language: *lang_de
+          - text: "Connaissances spécifiques"
+            language: *lang_fr
+        description:
+          - text: "Specific knowledge is used."
+            language: *lang_en
+          - text: "Spezifisches Fachwissen wird genutzt."
+            language: *lang_de
+          - text: "Des connaissances spécifiques sont utilisées."
+            language: *lang_fr
+        verynegative:
+          - text: "You make little use of specific knowledge."
+            language: *lang_en
+          - text: "Sie nutzen kaum spezifisches Fachwissen."
+            language: *lang_de
+          - text: "Vous faites peu appel à des connaissances spécifiques."
+            language: *lang_fr
+        negative:
+          - text: "You make too little use of specific knowledge."
+            language: *lang_en
+          - text: "Sie nutzen zu wenig spezifisches Fachwissen."
+            language: *lang_de
+          - text: "Vous faites trop peu appel à des connaissances spécifiques."
+            language: *lang_fr
+        positive:
+          - text: "You use specific knowledge."
+            language: *lang_en
+          - text: "Sie nutzen spezifisches Fachwissen."
+            language: *lang_de
+          - text: "Vous utilisez des connaissances spécifiques."
+            language: *lang_fr
+        verypositive:
+          - text: "You apply specific technical knowledge in a nuanced manner."
+            language: *lang_en
+          - text: "Sie setzen spezifisches Fachwissen differenziert ein."
+            language: *lang_de
+          - text: "Vous appliquez des connaissances techniques spécifiques de manière différenciée."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Personal approach"
+            language: *lang_en
+          - text: "Persönlicher Zugang"
+            language: *lang_de
+          - text: "Approche personnelle"
+            language: *lang_fr
+        description:
+          - text: "A personal approach to the topic is evident."
+            language: *lang_en
+          - text: "Persönliche Zugänge zum Thema sind erkennbar."
+            language: *lang_de
+          - text: "Une approche personnelle du sujet est vérifiable."
+            language: *lang_fr
+        verynegative:
+          - text: "The content does not reveal a personal approach to the topic."
+            language: *lang_en
+          - text: "Ihre Inhalte lassen keinen persönlichen Zugang zum Thema erkennen."
+            language: *lang_de
+          - text: "Vos contenus ne montrent pas d'approche personnelle du sujet."
+            language: *lang_fr
+        negative:
+          - text: "The content does not sufficiently reveal a personal approach to the topic."
+            language: *lang_en
+          - text: "Ihre Inhalte lassen persönliche Zugänge zum Thema zu wenig erkennen."
+            language: *lang_de
+          - text: "Vos contenus ne montrent pas suffisamment une approche personnelle du sujet."
+            language: *lang_fr
+        positive:
+          - text: "The content reveals a personal approach to the topic."
+            language: *lang_en
+          - text: "Ihre Inhalte lassen einen persönlichen Zugang zum Thema erkennen."
+            language: *lang_de
+          - text: "Vos contenus montrent une approche personnelle du sujet."
+            language: *lang_fr
+        verypositive:
+          - text: "The content effectively reveals a personal approach to the topic."
+            language: *lang_en
+          - text: "Ihre Inhalte zeigen persönliche Zugänge zum Thema wirkungsvoll auf."
+            language: *lang_de
+          - text: "Vos contenus témoignent d'une approche personnelle du sujet."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Interest"
+            language: *lang_en
+          - text: "Interesse"
+            language: *lang_de
+          - text: "Intérêt"
+            language: *lang_fr
+        description:
+          - text: "The speaker’s own interest in the topic is made clear."
+            language: *lang_en
+          - text: "Das eigene Interesse am Thema kommt zum Ausdruck."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice exprime et montre de l'intérêt pour le sujet traité."
+            language: *lang_fr
+        verynegative:
+          - text: "You do not express your own interest in the topic."
+            language: *lang_en
+          - text: "Ihr eigenes Interesse am Thema ist nicht erkennbar."
+            language: *lang_de
+          - text: "Votre intérêt pour le sujet traité n'est pas perceptible."
+            language: *lang_fr
+        negative:
+          - text: "You do not express your own interest in the topic enough."
+            language: *lang_en
+          - text: "Sie bringen Ihr eigenes Interesse am Thema zu wenig zum Ausdruck."
+            language: *lang_de
+          - text: "Vous n'exprimez pas suffisamment votre intérêt pour le sujet traité."
+            language: *lang_fr
+        positive:
+          - text: "Your own interest in the topic is evident."
+            language: *lang_en
+          - text: "Ihr eigenes Interesse am Thema ist erkennbar."
+            language: *lang_de
+          - text: "Votre intérêt pour le sujet traité est évident."
+            language: *lang_fr
+        verypositive:
+          - text: "You clearly express your own interest in the topic."
+            language: *lang_en
+          - text: "Sie bringen Ihr eigenes Interesse am Thema klar zum Ausdruck."
+            language: *lang_de
+          - text: "Vous exprimez clairement votre intérêt pour le sujet traité."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Innovative approaches"
+            language: *lang_en
+          - text: "Innovative Ansätze"
+            language: *lang_de
+          - text: "Des approches innovantes"
+            language: *lang_fr
+        description:
+          - text: "The treatment of the topic utilises innovative approaches."
+            language: *lang_en
+          - text: "Die Behandlung des Themas verfolgt innovative Ansätze."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice traite le sujet de manière innovante."
+            language: *lang_fr
+        verynegative:
+          - text: "The treatment of the topic does not utilise any innovative approaches."
+            language: *lang_en
+          - text: "Die Behandlung des Themas verfolgt keine innovativen Ansätze."
+            language: *lang_de
+          - text: "Il n'y a aucune approche innovante dans le traitement de votre sujet."
+            language: *lang_fr
+        negative:
+          - text: "The treatment of the topic only partly utilises innovative approaches."
+            language: *lang_en
+          - text: "Die Behandlung des Themas verfolgt zu wenig innovative Ansätze."
+            language: *lang_de
+          - text: "Le traitement du sujet poursuit trop peu d'approches innovantes."
+            language: *lang_fr
+        positive:
+          - text: "The treatment of the topic shows innovative approaches."
+            language: *lang_en
+          - text: "Die Behandlung des Themas zeigt innovative Ansätze."
+            language: *lang_de
+          - text: "Le traitement du sujet montre des approches innovantes."
+            language: *lang_fr
+        verypositive:
+          - text: "The treatment of the topic is presuasive because of innovative approaches."
+            language: *lang_en
+          - text: "Die Behandlung des Themas überzeugt durch innovative Ansätze."
+            language: *lang_de
+          - text: "Le traitement du sujet convainc par des approches innovantes."
+            language: *lang_fr
+  - &criterion4
+    id: null
+    texts:
+      - text: "The introduction establishes contact, stimulates interest and provides orientation."
+        language: *lang_en
+      - text: "Die Einleitung stellt den Kontakt her, weckt Interesse und orientiert."
+        language: *lang_de
+      - text: "L'introduction établit le contact, suscite l'intérêt et fournit une orientation."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Title"
+            language: *lang_en
+          - text: "Titel"
+            language: *lang_de
+          - text: "Titre"
+            language: *lang_fr
+        description:
+          - text: "The title is informative and appealing."
+            language: *lang_en
+          - text: "Der Titel ist aussagekräftig und ansprechend."
+            language: *lang_de
+          - text: "Le titre est révélateur et attrayant."
+            language: *lang_fr
+        verynegative:
+          - text: "The title is not appropriate."
+            language: *lang_en
+          - text: "Der Titel ist unpassend."
+            language: *lang_de
+          - text: "Le titre est inapproprié."
+            language: *lang_fr
+        negative:
+          - text: "The title is not specific enough."
+            language: *lang_en
+          - text: "Der Titel ist zu wenig spezifisch."
+            language: *lang_de
+          - text: "Le titre n'est pas assez spécifique."
+            language: *lang_fr
+        positive:
+          - text: "The title is informative."
+            language: *lang_en
+          - text: "Der Titel ist aussagekräftig."
+            language: *lang_de
+          - text: "Le titre est révélateur."
+            language: *lang_fr
+        verypositive:
+          - text: "The title is informative and appealing."
+            language: *lang_en
+          - text: "Der Titel ist aussagekräftig und attraktiv."
+            language: *lang_de
+          - text: "Le titre est révélateur et attrayant."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Welcoming the audience"
+            language: *lang_en
+          - text: "Begrüssung"
+            language: *lang_de
+          - text: "Accueil du public"
+            language: *lang_fr
+        description:
+          - text: "The welcoming words are appropriate to the situation."
+            language: *lang_en
+          - text: "Die Begrüssung ist situationsgerecht und sinnvoll."
+            language: *lang_de
+          - text: "L'accueil est adapté à la situation et a du sens."
+            language: *lang_fr
+        verynegative:
+          - text: "There are no welcoming words although they would be appropriate."
+            language: *lang_en
+          - text: "Obschon eine Begrüssung angemessen wäre, verzichten Sie darauf."
+            language: *lang_de
+          - text: "Vous n'accueillez pas le public, bien que cela soit impératif."
+            language: *lang_fr
+        negative:
+          - text: "The welcoming words are not appropriate in this form."
+            language: *lang_en
+          - text: "Die Begrüssung ist in dieser Form nicht sinnvoll."
+            language: *lang_de
+          - text: "Votre accueil ne convient pas sous cette forme."
+            language: *lang_fr
+        positive:
+          - text: "You welcome the audience in a manner that is appropriate to the situation."
+            language: *lang_en
+          - text: "Sie begrüssen das Publikum situationsgerecht."
+            language: *lang_de
+          - text: "Vous accueillez le public en fonction de la situation."
+            language: *lang_fr
+        verypositive:
+          - text: "You welcome the audience in a manner that is appropriate to the situation and you explicitly name certain people."
+            language: *lang_en
+          - text: "Sie begrüssen das Publikum situationsgerecht und nennen bestimmte Personen explizit."
+            language: *lang_de
+          - text: "Vous accueillez le public en fonction de la situation et mentionnez certaines personnes de manière explicite."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Introducing yourself"
+            language: *lang_en
+          - text: "Vorstellung"
+            language: *lang_de
+          - text: "Présentation personnelle"
+            language: *lang_fr
+        description:
+          - text: "The speaker introduces himself or herself. In this part, his or her motivation and expertise for the topic become clear."
+            language: *lang_en
+          - text: "Der Referent, die Referentin stellt sich vor. Darin werden die Motivation und Expertise für das Thema klar."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice se présente et montre clairement sa motivation et son expertise du sujet."
+            language: *lang_fr
+        verynegative:
+          - text: "You do not introduce yourself although this would be appropriate."
+            language: *lang_en
+          - text: "Obschon eine Vorstellung angemessen wäre, verzichten Sie darauf."
+            language: *lang_de
+          - text: "Vous renoncez à vous présenter, bien que ce soit impératif."
+            language: *lang_fr
+        negative:
+          - text: "Introducing yourself in this form is not appropriate to the situation."
+            language: *lang_en
+          - text: "Die Vorstellung ist in dieser Form nicht sinnvoll."
+            language: *lang_de
+          - text: "Votre présentation n'est pas appropriée."
+            language: *lang_fr
+        positive:
+          - text: "You introduce yourself to the audience showing your motivation and expertise in a manner that is appropriate to the situation."
+            language: *lang_en
+          - text: "Sie stellen sich dem Publikum mit ihrer Motivation und Expertise situationsgerecht vor."
+            language: *lang_de
+          - text: "Vous vous présentez au public et montrez clairement votre motivation et votre expertise du sujet."
+            language: *lang_fr
+        verypositive:
+          - text: "You introduce yourself to the audience showing your motivation and expertise in a manner that is appropriate to the situation, thereby achieving trust and credibility."
+            language: *lang_en
+          - text: "Sie stellen sich dem Publikum mit ihrer Motivation und Expertise situationsgerecht vor und erreichen dadurch Vertrauen und Glaubwürdigkeit."
+            language: *lang_de
+          - text: "Vous vous présentez au public et montrez clairement votre motivation et votre expertise du sujet, ce qui vous rend crédible et digne de confiance."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Introduction"
+            language: *lang_en
+          - text: "Einstieg"
+            language: *lang_de
+          - text: "Introduction"
+            language: *lang_fr
+        description:
+          - text: "The introduction to the topic is surprising and stimulates interest."
+            language: *lang_en
+          - text: "Der Einstieg ins Thema ist packend und weckt das Interesse."
+            language: *lang_de
+          - text: "L'introduction au sujet est captivante et suscite l'intérêt."
+            language: *lang_fr
+        verynegative:
+          - text: "An introduction to the topic is missing."
+            language: *lang_en
+          - text: "Ein Einstieg ins Thema fehlt."
+            language: *lang_de
+          - text: "Il n'y a pas d'introduction au sujet."
+            language: *lang_fr
+        negative:
+          - text: "The introduction to the topic is informative but does not stimulate much interest."
+            language: *lang_en
+          - text: "Der Einstieg ins Thema ist informativ, weckt aber wenig Interesse."
+            language: *lang_de
+          - text: "L'introduction au sujet est informative, mais ne suscite pas beaucoup d'intérêt."
+            language: *lang_fr
+        positive:
+          - text: "Your introduction to the topic is appealing and gets the audience’s attention."
+            language: *lang_en
+          - text: "Ihr Einstieg ins Thema ist ansprechend und holt das Publikum ab."
+            language: *lang_de
+          - text: "Votre introduction au sujet est attrayante et attire l'attention du public."
+            language: *lang_fr
+        verypositive:
+          - text: "Your engaging introduction stimulates the audience’s curiosity for the topic."
+            language: *lang_en
+          - text: "Mit Ihrem packenden Einstieg machen Sie das Publikum richtig neugierig auf das Thema."
+            language: *lang_de
+          - text: "Grâce à une introduction captivante, vous éveillez l'intérêt du public."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Introducing the topic"
+            language: *lang_en
+          - text: "Einführung"
+            language: *lang_de
+          - text: "Présentation du sujet"
+            language: *lang_fr
+        description:
+          - text: "The speaker introduces the topic of the presentation."
+            language: *lang_en
+          - text: "Der Referent, die Referentin führt in das Thema der Präsentation ein."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice introduit le sujet de sa présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "The topic remains vague."
+            language: *lang_en
+          - text: "Das Thema bleibt unklar."
+            language: *lang_de
+          - text: "Le sujet reste vague."
+            language: *lang_fr
+        negative:
+          - text: "You name the topic but the audience does not clearly understand what your presentation is about."
+            language: *lang_en
+          - text: "Sie nennen das Thema. Das Publikum erfährt aber zu wenig klar, worum es in Ihrer Präsentation geht."
+            language: *lang_de
+          - text: "Vous nommez le sujet. Cependant, le public ne comprend pas clairement le sujet de votre présentation."
+            language: *lang_fr
+        positive:
+          - text: "You explain adequately what your presentation is about."
+            language: *lang_en
+          - text: "Sie erklären angemessen, worum es in Ihrer Präsentation geht."
+            language: *lang_de
+          - text: "Vous expliquez le sujet de votre présentation de manière adéquate."
+            language: *lang_fr
+        verypositive:
+          - text: "You explain precisely what your presentation is about and show the wider context of the topic."
+            language: *lang_en
+          - text: "Sie erklären präzise, worum es in Ihrer Präsentation geht, und zeigen den grösseren Kontext des Themas auf."
+            language: *lang_de
+          - text: "Vous expliquez précisément le thème principal de votre présentation et montrez le contexte plus large du sujet."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Objective"
+            language: *lang_en
+          - text: "Ziel"
+            language: *lang_de
+          - text: "Objectif"
+            language: *lang_fr
+        description:
+          - text: "The speaker points out the objective of the presentation to the audience."
+            language: *lang_en
+          - text: "Der Referent, die Referentin zeigt das Ziel der Präsentation für das Publikum auf."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice présente les objectifs de la présentation au public."
+            language: *lang_fr
+        verynegative:
+          - text: "You do not point out the objective of your presentation."
+            language: *lang_en
+          - text: "Sie zeigen die Zielsetzung Ihrer Präsentation nicht auf."
+            language: *lang_de
+          - text: "L'objectif de votre présentation n'est pas présenté."
+            language: *lang_fr
+        negative:
+          - text: "The objective of your presentation is implicitly clear, but you should make it explicit."
+            language: *lang_en
+          - text: "Die Zielsetzung Ihrer Präsentation wird zwar implizit klar, Sie sollten aber explizit darauf hinweisen."
+            language: *lang_de
+          - text: "L'objectif de votre présentation est implicite, mais vous devez le souligner explicitement."
+            language: *lang_fr
+        positive:
+          - text: "You explicitly point out the objective of your presentation."
+            language: *lang_en
+          - text: "Sie zeigen die Zielsetzung Ihrer Präsentation explizit auf."
+            language: *lang_de
+          - text: "Vous montrez explicitement l'objectif de votre présentation."
+            language: *lang_fr
+        verypositive:
+          - text: "You clearly point out a specific objective for your presentation."
+            language: *lang_en
+          - text: "Sie zeigen ein spezifisches Ziel Ihrer Präsentation klar auf."
+            language: *lang_de
+          - text: "Vous faites clairement ressortir un objectif précis de votre présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Orientation"
+            language: *lang_en
+          - text: "Orientierung"
+            language: *lang_de
+          - text: "Orientation"
+            language: *lang_fr
+        description:
+          - text: "The speaker points out the structure of the presentation."
+            language: *lang_en
+          - text: "Der Referent, die Referentin orientiert über den Aufbau der Präsentation."
+            language: *lang_de
+          - text: "La structure de la présentation est clairement annoncée."
+            language: *lang_fr
+        verynegative:
+          - text: "You do not provide any preview of the structure of the presentation."
+            language: *lang_en
+          - text: "Sie liefern keine Orientierung zum Aufbau der Präsentation."
+            language: *lang_de
+          - text: "Vous ne donnez aucune orientation quant à la structure de la présentation."
+            language: *lang_fr
+        negative:
+          - text: "You do not provide sufficient information about the structure of the presentation."
+            language: *lang_en
+          - text: "Ihre Orientierung zum Aufbau der Präsentation ist zu wenig zweckmässig."
+            language: *lang_de
+          - text: "Vous ne donnez pas suffisamment d'informations sur la structure de votre présentation."
+            language: *lang_fr
+        positive:
+          - text: "You provide appropriate information about the structure of the presentation."
+            language: *lang_en
+          - text: "Ihre Orientierung zum Aufbau der Präsentation ist zweckmässig."
+            language: *lang_de
+          - text: "Vous annoncez correctement la structure de votre présentation."
+            language: *lang_fr
+        verypositive:
+          - text: "The way you point out the structure of the presentation is helpful and stimulates interest."
+            language: *lang_en
+          - text: "Ihre Orientierung zum Aufbau der Präsentation ist klar und weckt Interesse."
+            language: *lang_de
+          - text: "La structure de votre présentation est clairement annoncée et suscite l'intérêt."
+            language: *lang_fr
+  - &criterion5
+    id: null
+    texts:
+      - text: "The main points build on each other and are in line with your purpose."
+        language: *lang_en
+      - text: "Die Hauptteile bauen aufeinander auf und sind zielgerichtet."
+        language: *lang_de
+      - text: "La structure de la présentation est clairement annoncée et suscite l'intérêt."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Structure"
+            language: *lang_en
+          - text: "Gliederung"
+            language: *lang_de
+          - text: "Structure"
+            language: *lang_fr
+        description:
+          - text: "The main part consists of several, clearly defined sections. (Outline)"
+            language: *lang_en
+          - text: "Der Mittelteil besteht aus mehreren, klar abgegrenzten Hauptteilen. (Gliederung)"
+            language: *lang_de
+          - text: "La partie principale se compose de plusieurs sections clairement définies. (Découpage de la présentation)"
+            language: *lang_fr
+        verynegative:
+          - text: "A breakdown into sections is not visible."
+            language: *lang_en
+          - text: "Eine Gliederung in Hauptteile ist nicht erkennbar."
+            language: *lang_de
+          - text: "La présentation n'est pas clairement découpée et structurée en points principaux."
+            language: *lang_fr
+        negative:
+          - text: "A breakdown into sections is not sufficiently clear."
+            language: *lang_en
+          - text: "Eine Gliederung in Hauptteile ist zu wenig klar erkennbar."
+            language: *lang_de
+          - text: "La structure n'est pas suffisamment précise."
+            language: *lang_fr
+        positive:
+          - text: "A breakdown into sections is evident."
+            language: *lang_en
+          - text: "Eine Gliederung in Hauptteile ist erkennbar."
+            language: *lang_de
+          - text: "La présentation est bien découpée et structurée en points principaux."
+            language: *lang_fr
+        verypositive:
+          - text: "A breakdown into sections is clearly evident."
+            language: *lang_en
+          - text: "Eine Gliederung in Hauptteile ist klar erkennbar."
+            language: *lang_de
+          - text: "Une structure claire et un découpage précis sont identifiables."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Red thread"
+            language: *lang_en
+          - text: "Roter Faden"
+            language: *lang_de
+          - text: "Fil rouge"
+            language: *lang_fr
+        description:
+          - text: "The sections build on each other. (intrinsic order, red thread)"
+            language: *lang_en
+          - text: "Die Hauptteile bauen folgerichtig aufeinander auf. (innere Ordnung, roter Faden)"
+            language: *lang_de
+          - text: "Les différentes parties de la présentation  sont liées les unes aux autres de manière logique. (Ordre interne, fil rouge)"
+            language: *lang_fr
+        verynegative:
+          - text: "The sequence of the sections is arbitrary. A red thread is missing."
+            language: *lang_en
+          - text: "Die Abfolge der Hauptteile wirkt beliebig. Ein roter Faden fehlt."
+            language: *lang_de
+          - text: "L'ordre des différentes parties de la présentation est arbitraire. Il manque un fil rouge."
+            language: *lang_fr
+        negative:
+          - text: "The sections partly build on each other, however, a consistant common theme is missing."
+            language: *lang_en
+          - text: "Die Hauptteile bauen teilweise aufeinander auf, aber ein durchgängiger roter Faden fehlt."
+            language: *lang_de
+          - text: "Les différentes parties de la présentation sont en partie liées les unes aux autres, mais il manque un fil rouge continu."
+            language: *lang_fr
+        positive:
+          - text: "The sections build on each other. A common theme is evident."
+            language: *lang_en
+          - text: "Die Hauptteile bauen aufeinander auf. Der rote Faden ist nachvollziehbar."
+            language: *lang_de
+          - text: "Les différentes parties de la présentation sont liées les unes aux autres. Le fil rouge est perceptible."
+            language: *lang_fr
+        verypositive:
+          - text: "The sections build on each other. A common theme is clearly evident, and provides an element of suspense."
+            language: *lang_en
+          - text: "Die Hauptteile bauen folgerichtig aufeinander auf. Der rote Faden ist deutlich nachvollziehbar, und die Präsentation weist einen Spannungsbogen auf."
+            language: *lang_de
+          - text: "Les différentes parties de la présentation sont liées les unes aux autres de manière logique. Le fil rouge est clairement perceptible, et la présentation est captivante."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Target orientation"
+            language: *lang_en
+          - text: "Zielorientierung"
+            language: *lang_de
+          - text: "Objectifs"
+            language: *lang_fr
+        description:
+          - text: "The structure of the sections is in line with the objective of the presentation."
+            language: *lang_en
+          - text: "Der Aufbau der Hauptteile ist auf das Präsentationsziel ausgerichtet."
+            language: *lang_de
+          - text: "La structure des points principaux traités correspond à l'objectif de la présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "You do not align the structure of your sections to the objective of the presentation."
+            language: *lang_en
+          - text: "Sie richten den Aufbau Ihrer Hauptteile nicht am Präsentationsziel aus."
+            language: *lang_de
+          - text: "Vous n'orientez pas la structure des points principaux que vous traitez vers l'objectif de la présentation."
+            language: *lang_fr
+        negative:
+          - text: "You do not sufficiently align the structure of your sections to the objective of the presentation."
+            language: *lang_en
+          - text: "Sie richten den Aufbau Ihrer Hauptteile zu wenig am Präsentationsziel aus."
+            language: *lang_de
+          - text: "Vous n'orientez pas suffisamment la structure des points que vous traitez vers l'objectif de la présentation."
+            language: *lang_fr
+        positive:
+          - text: "You align the structure of your sections to the objective of the presentation."
+            language: *lang_en
+          - text: "Sie richten den Aufbau Ihrer Hauptteile am Präsentationsziel aus."
+            language: *lang_de
+          - text: "Vous orientez la structure des principaux points que vous traitez vers l'objectif de la présentation."
+            language: *lang_fr
+        verypositive:
+          - text: "You systematically align the structure of your sections with the objective of the presentation."
+            language: *lang_en
+          - text: "Sie richten den Aufbau Ihrer Hauptteile systematisch am Präsentationsziel aus."
+            language: *lang_de
+          - text: "Vous orientez systématiquement la structure des principaux points que vous traitez vers l'objectif de la présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Linking"
+            language: *lang_en
+          - text: "Übergänge"
+            language: *lang_de
+          - text: "Transitions"
+            language: *lang_fr
+        description:
+          - text: "The sections are clearly linked."
+            language: *lang_en
+          - text: "Die Hauptteile sind durch wirksame Übergänge verbunden."
+            language: *lang_de
+          - text: "Les points principaux sont reliés par des transitions efficaces."
+            language: *lang_fr
+        verynegative:
+          - text: "Explicit transitions between different sections are missing."
+            language: *lang_en
+          - text: "Explizite Übergänge zwischen verschiedenen Hauptteilen fehlen."
+            language: *lang_de
+          - text: "Il manque des transitions claires entre les différents points principaux."
+            language: *lang_fr
+        negative:
+          - text: "Explicit transitions from one section to another are partly present."
+            language: *lang_en
+          - text: "Explizite Übergänge von einem Hauptteil zum andern sind teilweise vorhanden."
+            language: *lang_de
+          - text: "Des transitions claires pour passer d'un point à un autre sont en partie présentes."
+            language: *lang_fr
+        positive:
+          - text: "You explicitly link one section to the next."
+            language: *lang_en
+          - text: "Sie leiten explizit von einem Hauptteil zum andern über."
+            language: *lang_de
+          - text: "Les transitions pour passer d'un point à un autre sont parfaitement claires."
+            language: *lang_fr
+        verypositive:
+          - text: "The transitions are effective in linking each section."
+            language: *lang_en
+          - text: "Die Übergänge verbinden die einzelnen Hauptteile wirkungsvoll."
+            language: *lang_de
+          - text: "Les transitions pour passer d'un point à un autre sont parfaitement claires et efficaces."
+            language: *lang_fr
+  - &criterion6
+    id: null
+    texts:
+      - text: "The final is convincing and clearly signals the end of the presentation."
+        language: *lang_en
+      - text: "Der Schlussteil wirkt überzeugend und macht das Ende der Präsentation klar erkennbar."
+        language: *lang_de
+      - text: "La conclusion est efficace et marque clairement la fin de la présentation."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Coherence"
+            language: *lang_en
+          - text: "Kohärenz"
+            language: *lang_de
+          - text: "Cohérence"
+            language: *lang_fr
+        description:
+          - text: "The final part of the presentation is in line with the content and the objective of the presentation."
+            language: *lang_en
+          - text: "Der Schlussteil passt inhaltlich zum Präsentationsziel."
+            language: *lang_de
+          - text: "La conclusion de la présentation correspond à l'objectif de la présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "The final part seems detached from the objective of the presentation."
+            language: *lang_en
+          - text: "Der Schlussteil wirkt losgelöst vom Präsentationsziel."
+            language: *lang_de
+          - text: "La conclusion ne correspond pas à l'objectif de la présentation."
+            language: *lang_fr
+        negative:
+          - text: "The final part only partially fits the objective of the presentation."
+            language: *lang_en
+          - text: "Der Schlussteil passt nur teilweise zum Präsentationsziel."
+            language: *lang_de
+          - text: "La conclusion ne correspond que partiellement à l'objectif de la présentation."
+            language: *lang_fr
+        positive:
+          - text: "The final part fits the objective of the presentation."
+            language: *lang_en
+          - text: "Der Schlussteil passt zum Präsentationsziel."
+            language: *lang_de
+          - text: "La conclusion correspond à l'objectif de la présentation."
+            language: *lang_fr
+        verypositive:
+          - text: "The final part fits the objective of the presentation and successfully rounds off the presentation."
+            language: *lang_en
+          - text: "Der Schlussteil passt zum Präsentationsziel und rundet die Präsentation gelungen ab."
+            language: *lang_de
+          - text: "La conclusion correspond à l'objectif de la présentation et complète cette dernière avec succès."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Effect"
+            language: *lang_en
+          - text: "Wirkung"
+            language: *lang_de
+          - text: "Impact"
+            language: *lang_fr
+        description:
+          - text: "The speaker clearly sums up the main points and thus enhances the intended effect."
+            language: *lang_en
+          - text: "Der Referent, die Referentin bringt die wesentlichen Aussagen klar auf den Punkt und unterstreicht somit die beabsichtigte Wirkung."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice recence clairement les idées principales présentées et les met en valeur."
+            language: *lang_fr
+        verynegative:
+          - text: "An actual conclusion is missing. This means you miss the chance to consciously make an impact on the audience."
+            language: *lang_en
+          - text: "Ein eigentlicher Schlussteil fehlt. Damit vergeben Sie die Chance, bewusst beim Publikum eine Wirkung zu erzielen."
+            language: *lang_de
+          - text: "Il manque une véritable conclusion. Cela signifie que vous perdez l'occasion d'avoir un impact sur le public."
+            language: *lang_fr
+        negative:
+          - text: "In your conclusion, you do not get to the heart of the matter clearly enough. This means that you only achieve a limited effect on the audience."
+            language: *lang_en
+          - text: "In Ihrem Schlussteil bringen Sie das Wesentliche zu wenig klar auf den Punkt. Damit erzielen Sie nur bedingt beim Publikum eine passende Wirkung."
+            language: *lang_de
+          - text: "Dans votre conclusion, vous n'entrez pas assez clairement dans le vif du sujet. Cela signifie que vous n'avez qu'un effet limité sur le public."
+            language: *lang_fr
+        positive:
+          - text: "In your conclusion, you get to the heart of the matter. The intended effect is clearly evident."
+            language: *lang_en
+          - text: "In Ihrem Schlussteil bringen Sie Wesentliches klar auf den Punkt. Die beabsichtigte Wirkung ist erkennbar."
+            language: *lang_de
+          - text: "Dans votre conclusion, vous résumez clairement les points essentiels. L'effet recherché est perceptible."
+            language: *lang_fr
+        verypositive:
+          - text: "In your conclusion, you get to the heart of the matter very clearly. This makes your presentation very convincing."
+            language: *lang_en
+          - text: "In Ihrem Schlussteil bringen Sie das Wesentliche sehr klar auf den Punkt. Damit wirken Sie überzeugend."
+            language: *lang_de
+          - text: "Dans votre conclusion, vous résumez très clairement les points essentiels du sujet. Cela vous rend convaincant-e."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Final sentence"
+            language: *lang_en
+          - text: "Schlusssatz"
+            language: *lang_de
+          - text: "Phrase finale"
+            language: *lang_fr
+        description:
+          - text: "The speaker closes with a strong sentence."
+            language: *lang_en
+          - text: "Der Referent, die Referentin schliesst mit einem starken Satz ab."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice conclut par une phrase forte."
+            language: *lang_fr
+        verynegative:
+          - text: "A clear conclusion to your presentation is missing."
+            language: *lang_en
+          - text: "Ein klarer Abschluss Ihrer Präsentation fehlt."
+            language: *lang_de
+          - text: "Il manque une conclusion claire à votre présentation."
+            language: *lang_fr
+        negative:
+          - text: "You close the presentation with a somewhat predictable line."
+            language: *lang_en
+          - text: "Sie schliessen die Präsentation mit einer standardmässigen Floskel ab."
+            language: *lang_de
+          - text: "Vous terminez la présentation par une phrase banale."
+            language: *lang_fr
+        positive:
+          - text: "You conclude your presentation with a strong sentence."
+            language: *lang_en
+          - text: "Sie schliessen Ihre Präsentation mit einem prägnanten Satz ab."
+            language: *lang_de
+          - text: "Vous terminez votre présentation par une phrase impactante."
+            language: *lang_fr
+        verypositive:
+          - text: "You conclude your presentation effectively with a strong sentence."
+            language: *lang_en
+          - text: "Sie schliessen Ihre Präsentation wirkungsvoll mit einem prägnanten Satz ab."
+            language: *lang_de
+          - text: "Vous concluez efficacement votre présentation par une phrase impactante."
+            language: *lang_fr
+  - &criterion7
+    id: null
+    texts:
+      - text: "The use of media is professional."
+        language: *lang_en
+      - text: "Der Einsatz der Medien ist professionell."
+        language: *lang_de
+      - text: "L'utilisation des médias est professionnelle."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Purpose"
+            language: *lang_en
+          - text: "Funktion"
+            language: *lang_de
+          - text: "Fonction"
+            language: *lang_fr
+        description:
+          - text: "The visual aids serve a clearly recognizable purpose."
+            language: *lang_en
+          - text: "Die Anschauungsmaterialien haben eine klar erkennbare Funktion."
+            language: *lang_de
+          - text: "Les aides visuelles ont une fonction adéquate."
+            language: *lang_fr
+        verynegative:
+          - text: "For too many of your visual aids, the purpose is not clear."
+            language: *lang_en
+          - text: "Zu viele Ihrer Anschauungsmaterialien haben keine klar erkennbare Funktion."
+            language: *lang_de
+          - text: "Les aides visuelles ne sont pas utilisés de manière appropriée."
+            language: *lang_fr
+        negative:
+          - text: "For some of your visual aids, the purpose is not clear."
+            language: *lang_en
+          - text: "Einige Ihrer Anschauungsmaterialien haben keine klar erkennbare Funktion."
+            language: *lang_de
+          - text: "Certaines de vos aides visuelles n'ont pas de fonction clairement reconnaissable."
+            language: *lang_fr
+        positive:
+          - text: 'For most of your visual aids, the purpose is clear.'
+            language: *lang_en
+          - text: "Bei den meisten Ihrer Anschauungsmaterialien ist die Funktion klar erkennbar."
+            language: *lang_de
+          - text: "La plupart de vos aides visuelles sont utilisées de manière appropriée."
+            language: *lang_fr
+        verypositive:
+          - text: "All of your visual aids serve a clearly recognizable purpose."
+            language: *lang_en
+          - text: "Ihre Anschauungsmaterialien haben jeweils eine klar erkennbare Funktion."
+            language: *lang_de
+          - text: "Vos aides visuelles sont toutes utilisées de manière appropriée."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Focus on visual aids"
+            language: *lang_en
+          - text: "Fokus auf Anschauungsmaterial"
+            language: *lang_de
+          - text: "Zoom sur les aides visuelles"
+            language: *lang_fr
+        description:
+          - text: "The focus is on the speaker, not the visual aids."
+            language: *lang_en
+          - text: "Die Referentin, der Referent steht im Fokus, nicht das Anschauungsmaterial."
+            language: *lang_de
+          - text: "L'intérêt se focalise sur l'orateur ou l'oratrice, pas sur les aides visuelles."
+            language: *lang_fr
+        verynegative:
+          - text: "There is too much focus on the visual aids."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial steht zu stark im Fokus."
+            language: *lang_de
+          - text: "Les aides visuelles prennent trop de place."
+            language: *lang_fr
+        negative:
+          - text: "Sometimes the focus of the presentation is more on the visual aids than on you."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial steht zum Teil stärker im Fokus als Sie."
+            language: *lang_de
+          - text: "Les aides visuelles prennent parfois plus de place que vous."
+            language: *lang_fr
+        positive:
+          - text: "The focus of the presentation is clearly on you and you use the visual aids appropriately."
+            language: *lang_en
+          - text: "Sie stehen klar im Fokus und setzen das Anschauungsmaterial zweckmässig ein."
+            language: *lang_de
+          - text: "Vous prenez clairement votre place et vous utilisez les aides visuelles de manière appropriée."
+            language: *lang_fr
+        verypositive:
+          - text: "The focus of the presentation is clearly on you and you use the visual aids effectively to support you."
+            language: *lang_en
+          - text: "Sie stehen klar im Fokus und setzen das Anschauungsmaterial wirkungsvoll zur Unterstützung ein."
+            language: *lang_de
+          - text: "Vous prenez clairement votre place et utilisez les aides visuelles comme moyen auxiliaire."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Connections"
+            language: *lang_en
+          - text: "Zusammenhänge"
+            language: *lang_de
+          - text: "Connexions"
+            language: *lang_fr
+        description:
+          - text: "The visual aids illustrate how things relate to each other."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial macht Zusammenhänge sichtbar."
+            language: *lang_de
+          - text: "Les aides visuelles illustrent les relations entre les différents points."
+            language: *lang_fr
+        verynegative:
+          - text: "There are no visual aids to illustrate how things relate to each other."
+            language: *lang_en
+          - text: "Anschauungsmaterial zum Aufzeigen von Zusammenhängen fehlt."
+            language: *lang_de
+          - text: "Il manque des aides visuelles pour faire ressortir les connexions."
+            language: *lang_fr
+        negative:
+          - text: "The visual aids do not illustrate sufficiently how things relate to each other."
+            language: *lang_en
+          - text: "Ihr Anschauungsmaterial zeigt die Zusammenhänge zu wenig deutlich auf."
+            language: *lang_de
+          - text: "Vos aides visuelles ne font pas assez clairement ressortir les connexions."
+            language: *lang_fr
+        positive:
+          - text: "The visual aids illustrate how certain elements relate to each other."
+            language: *lang_en
+          - text: "Ihr Anschauungsmaterial zeigt einzelne Zusammenhänge auf."
+            language: *lang_de
+          - text: "Vos aides visuelles illustrent la plupart des connexions entre les points importants."
+            language: *lang_fr
+        verypositive:
+          - text: "The visual aids clearly illustrate how things relate to each other."
+            language: *lang_en
+          - text: "Ihr Anschauungsmaterial zeigt die wesentlichen Zusammenhänge auf."
+            language: *lang_de
+          - text: "Vos aides visuelles illustrent les connexions principales entre les points présentés."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Key points"
+            language: *lang_en
+          - text: "Kernaussagen"
+            language: *lang_de
+          - text: "Messages clés"
+            language: *lang_fr
+        description:
+          - text: "The visual aids contribute to the clarity of the key points."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial fördert das Verständnis der Kernaussagen."
+            language: *lang_de
+          - text: "Les aides visuelles favorisent la compréhension des messages principaux."
+            language: *lang_fr
+        verynegative:
+          - text: "The visual aids do not contribute to the clarity of the key points."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial trägt nichts zum Verständnis der Kernaussagen bei."
+            language: *lang_de
+          - text: "Les aides visuelles ne contribuent en rien à la compréhension des messages principaux."
+            language: *lang_fr
+        negative:
+          - text: "The visual aids partly contribute to the clarity of some key points."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial trägt teilweise zum Verständnis der Kernaussagen bei."
+            language: *lang_de
+          - text: "Les aides visuelles contribuent en partie à la compréhension des messages principaux."
+            language: *lang_fr
+        positive:
+          - text: "The visual aids contribute to the clarity of the key points."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial trägt zum Verständnis der Kernaussagen bei."
+            language: *lang_de
+          - text: "Les aides visuelles contribuent à la compréhension des messages principaux."
+            language: *lang_fr
+        verypositive:
+          - text: "The visual aids effectively contribute to the clarity of the key points."
+            language: *lang_en
+          - text: "Das Anschauungsmaterial unterstützt die Kernaussagen wirkungsvoll."
+            language: *lang_de
+          - text: "Les aides visuelles soutiennent efficacement les messages principaux."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Timing"
+            language: *lang_en
+          - text: "Zeitpunkt"
+            language: *lang_de
+          - text: "Timing"
+            language: *lang_fr
+        description:
+          - text: "The visual aids are well timed with the speaker’s explanations."
+            language: *lang_en
+          - text: "Die Anschauungsmaterialien werden dann gezeigt, wenn sie zu den mündlichen Erläuterungen passen."
+            language: *lang_de
+          - text: "Les aides visuelles sont affichées de manière synchrone avec les explications orales correspondantes."
+            language: *lang_fr
+        verynegative:
+          - text: "The visual aids are out of sync with the speaker’s explanations."
+            language: *lang_en
+          - text: "Die Anschauungsmaterialien passen zeitlich nicht zu den mündlichen Erläuterungen."
+            language: *lang_de
+          - text: "Les visualisations ne correspondent pas au temps des explications orales."
+            language: *lang_fr
+        negative:
+          - text: "The visual aids are somewhat out of sync with the speaker’s explanations."
+            language: *lang_en
+          - text: "Die Anschauungsmaterialien sind zeitlich zu wenig auf die mündlichen Erläuterungen abgestimmt."
+            language: *lang_de
+          - text: "Les aides visuelles ne sont pas suffisamment synchronisées avec les explications orales."
+            language: *lang_fr
+        positive:
+          - text: "Most of the visual aids are well timed with the speaker’s explanations."
+            language: *lang_en
+          - text: "Meist werden die Anschauungsmaterialien dann gezeigt, wenn sie zu den mündlichen Erläuterungen passen."
+            language: *lang_de
+          - text: "La plupart du temps, les aides visuelles sont affichées au moment où elles correspondent aux explications orales."
+            language: *lang_fr
+        verypositive:
+          - text: "The visual aids are well timed with the speaker’s explanations."
+            language: *lang_en
+          - text: "Die Anschauungsmaterialien werden dann gezeigt, wenn sie zu den mündlichen Erläuterungen passen."
+            language: *lang_de
+          - text: "Les aides visuelles sont affichées de manière totalement synchronisée avec les explications orales correspondantes."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Handling the equipment"
+            language: *lang_en
+          - text: "Umgang mit Technik"
+            language: *lang_de
+          - text: "Gestion de la technique"
+            language: *lang_fr
+        description:
+          - text: "The technology is managed successfully."
+            language: *lang_en
+          - text: "Der Umgang mit Technik gelingt."
+            language: *lang_de
+          - text: "Gestion efficace de la technique."
+            language: *lang_fr
+        verynegative:
+          - text: "You should familiarize yourself with the technology in advance and run a test."
+            language: *lang_en
+          - text: "Sie sollten sich im Vorfeld mit der Technik vertraut machen und das Anwenden testen."
+            language: *lang_de
+          - text: "Vous devez vous familiariser avec la technique à l'avance et en tester l'application."
+            language: *lang_fr
+        negative:
+          - text: "Better preparation is necessary for handling the technology successfully."
+            language: *lang_en
+          - text: "Für einen gelingenden Einsatz der Technik braucht es eine bessere Vorbereitung."
+            language: *lang_de
+          - text: "Pour une utilisation réussie de la technique, une meilleure préparation est nécessaire."
+            language: *lang_fr
+        positive:
+          - text: "Technology is managed successfully."
+            language: *lang_en
+          - text: "Der Umgang mit Technik gelingt."
+            language: *lang_de
+          - text: "Vous gérez efficacement la technique."
+            language: *lang_fr
+        verypositive:
+          - text: "You handle the technology with ease."
+            language: *lang_en
+          - text: "Der Umgang mit Technik gelingt souverän."
+            language: *lang_de
+          - text: "La gestion de la technique est particulièrement efficace."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Handling objects"
+            language: *lang_en
+          - text: "Umgang mit Gegenständen"
+            language: *lang_de
+          - text: "Gestion d'objets auxiliaires"
+            language: *lang_fr
+        description:
+          - text: "The objects displayed are clearly visible for all."
+            language: *lang_en
+          - text: "Eingesetzte Gegenstände sind für alle gut sichtbar."
+            language: *lang_de
+          - text: "Les objets utilisés pour la présentation sont clairement visibles par tout le monde."
+            language: *lang_fr
+        verynegative:
+          - text: "The objects you display are barely visible."
+            language: *lang_en
+          - text: "Die eingesetzten Gegenstände sind schlecht sichtbar."
+            language: *lang_de
+          - text: "Les objets utilisés sont peu visibles."
+            language: *lang_fr
+        negative:
+          - text: "The objects you display are only partly visible."
+            language: *lang_en
+          - text: "Die eingesetzten Gegenstände sind zu wenig gut sichtbar."
+            language: *lang_de
+          - text: "Les objets utilisés ne sont pas assez visibles."
+            language: *lang_fr
+        positive:
+          - text: "The objects you display are clearly visible for all."
+            language: *lang_en
+          - text: "Die eingesetzten Gegenstände sind für alle gut sichtbar."
+            language: *lang_de
+          - text: "Les objets utilisés sont clairement visibles par tout le public."
+            language: *lang_fr
+        verypositive:
+          - text: "You choose appropriate ways to make objects you display clearly visible to all."
+            language: *lang_en
+          - text: "Sie wählen geeignete Hilfsmittel, um Gegenstände für alle gut sichtbar zu machen."
+            language: *lang_de
+          - text: "Vous choisissez les outils appropriés pour rendre les objets facilement visibles par tout le public."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Use different forms of media"
+            language: *lang_en
+          - text: "Einsatz verschiedener Medien"
+            language: *lang_de
+          - text: "Utilisation de différents médias"
+            language: *lang_fr
+        description:
+          - text: "Different forms of media are used in an appropriate way."
+            language: *lang_en
+          - text: "Mehrere Medien werden sinnvoll verwendet."
+            language: *lang_de
+          - text: "Utilisation judicieuse de plusieurs médias."
+            language: *lang_fr
+        verynegative:
+          - text: "The use of only one medium is too monotonous."
+            language: *lang_en
+          - text: "Der Einsatz von nur einem Medium wirkt zu eintönig."
+            language: *lang_de
+          - text: "L'utilisation d'un seul média est trop monotone."
+            language: *lang_fr
+        negative:
+          - text: "The potential of using different forms of media is not exploited."
+            language: *lang_en
+          - text: "Das Potential zum Einsetzen verschiedener Medien wird nicht genutzt."
+            language: *lang_de
+          - text: "Le potentiel d'utilisation de différents médias n'est pas exploité."
+            language: *lang_fr
+        positive:
+          - text: "The use of different forms of media provides variety."
+            language: *lang_en
+          - text: "Der Einsatz verschiedener Medien wirkt abwechslungsreich."
+            language: *lang_de
+          - text: "L'utilisation de différents médias apporte de la variété."
+            language: *lang_fr
+        verypositive:
+          - text: "The different media you use complement each other effectively."
+            language: *lang_en
+          - text: "Die verschiedenen Medien ergänzen sich wirkungsvoll."
+            language: *lang_de
+          - text: "Les différents médias se complètent efficacement."
+            language: *lang_fr
+  - &criterion8
+    id: null
+    texts:
+      - text: "The visual aids are attractive and of good quality."
+        language: *lang_en
+      - text: "Das Anschauungsmaterial ist attraktiv und von überzeugender Qualität."
+        language: *lang_de
+      - text: "Les aides visuelles sont attrayants et de bonne qualité."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Homogeneity"
+            language: *lang_en
+          - text: "Einheitlichkeit"
+            language: *lang_de
+          - text: "Uniformité"
+            language: *lang_fr
+        description:
+          - text: "The slides follow a common design principle."
+            language: *lang_en
+          - text: "Die Folien folgen einem einheitlichen Gestaltungsprinzip."
+            language: *lang_de
+          - text: "Les slides ont une conception uniforme."
+            language: *lang_fr
+        verynegative:
+          - text: "There is no common design principle in your slides."
+            language: *lang_en
+          - text: "Ein einheitliches Gestaltungsprinzip für Ihre Folien fehlt."
+            language: *lang_de
+          - text: "La conception des slides n'est pas uniforme."
+            language: *lang_fr
+        negative:
+          - text: "The slides only partly follow a common design principle."
+            language: *lang_en
+          - text: "Ihre Folien sind zu wenig einheitlich gestaltet."
+            language: *lang_de
+          - text: "Les slides ne sont pas suffisamment uniformes."
+            language: *lang_fr
+        positive:
+          - text: "The slides follow a common design principle."
+            language: *lang_en
+          - text: "Ihre Folien sind einheitlich gestaltet."
+            language: *lang_de
+          - text: "Les slides sont conçues de manière uniforme."
+            language: *lang_fr
+        verypositive:
+          - text: "The slides follow a common and effective design principle."
+            language: *lang_en
+          - text: "Ihre Folien weisen ein einheitliches, wirkungsvolles Gestaltungsprinzip auf."
+            language: *lang_de
+          - text: "Les slides sont conçues de manière uniforme et efficace."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Care"
+            language: *lang_en
+          - text: "Sorgfalt"
+            language: *lang_de
+          - text: "Soin"
+            language: *lang_fr
+        description:
+          - text: "The slides are designed carefully."
+            language: *lang_en
+          - text: "Die Folien sind sorgfältig gestaltet."
+            language: *lang_de
+          - text: "Les slides sont conçues avec soin."
+            language: *lang_fr
+        verynegative:
+          - text: "The slides do not seem to have been designed very carefully."
+            language: *lang_en
+          - text: "Ihre Folien wirken unsorgfältig gestaltet."
+            language: *lang_de
+          - text: "Les slides ne sont pas conçues avec soin."
+            language: *lang_fr
+        negative:
+          - text: "The slides are not designed carefully enough."
+            language: *lang_en
+          - text: "Ihre Folien sind zu wenig sorgfältig gestaltet."
+            language: *lang_de
+          - text: "Les slides ne sont pas conçues avec suffisamment de soin."
+            language: *lang_fr
+        positive:
+          - text: "The slides are designed carefully."
+            language: *lang_en
+          - text: "Ihre Folien sind sorgfältig gestaltet."
+            language: *lang_de
+          - text: "Les slides sont conçues avec soin."
+            language: *lang_fr
+        verypositive:
+          - text: "The slides are elaborate and very carefully designed."
+            language: *lang_en
+          - text: "Ihre Folien sind aufwendig und sehr sorgfältig gestaltet."
+            language: *lang_de
+          - text: "Les slides sont élaborées et très soigneusement conçues."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Quantity of information"
+            language: *lang_en
+          - text: "Informationsmenge"
+            language: *lang_de
+          - text: "Quantité d'informations"
+            language: *lang_fr
+        description:
+          - text: "The amount of information on the slides is appropriate for the audience."
+            language: *lang_en
+          - text: "Die Informationsmenge der Folien ist für das Publikum angemessen."
+            language: *lang_de
+          - text: "La quantité d'informations sur les slides est adaptée au public."
+            language: *lang_fr
+        verynegative:
+          - text: "Your slides seem overloaded."
+            language: *lang_en
+          - text: "Ihre Folien wirken überladen."
+            language: *lang_de
+          - text: "Les slides sont surchargées."
+            language: *lang_fr
+        negative:
+          - text: "Most of your slides contain too much information."
+            language: *lang_en
+          - text: "Ihre Folien enthalten meistens zu viele Informationen."
+            language: *lang_de
+          - text: "Vos slides contiennent généralement trop d'informations."
+            language: *lang_fr
+        positive:
+          - text: "Your slides usually contain an appropriate amount of information."
+            language: *lang_en
+          - text: "Ihre Folien enthalten meistens eine angemessene Menge an Informationen."
+            language: *lang_de
+          - text: "Vos slides contiennent généralement une quantité raisonnable d'informations."
+            language: *lang_fr
+        verypositive:
+          - text: "Your slides contain a perfectly balanced amount of information."
+            language: *lang_en
+          - text: "Ihre Folien enthalten die optimale Menge an Informationen."
+            language: *lang_de
+          - text: "Vos slides contiennent la quantité optimale d'informations."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Highlighting"
+            language: *lang_en
+          - text: "Hervorhebungen"
+            language: *lang_de
+          - text: "Mise en valeur"
+            language: *lang_fr
+        description:
+          - text: "Essential information in tables and charts is highlighted."
+            language: *lang_en
+          - text: "Wesentliches auf Folien wird hervorgehoben."
+            language: *lang_de
+          - text: "Les informations essentielles sont mises en évidence sur les slides."
+            language: *lang_fr
+        verynegative:
+          - text: "Highlighting in your tables or charts is missing. This makes it difficult to recognize the essential."
+            language: *lang_en
+          - text: "Hervorhebungen auf Ihren Folien fehlen. Dadurch ist das Wesentliche nur schwer erkennbar."
+            language: *lang_de
+          - text: "Il manque des informations clés sur vos slides."
+            language: *lang_fr
+        negative:
+          - text: "You use too little highlighting in your tables and charts to make the essential information stand out."
+            language: *lang_en
+          - text: "Hervorhebungen, um das Wesentliche Ihren Folien erkennbar zu machen, werden zu wenig genutzt."
+            language: *lang_de
+          - text: "Les informations essentielles sur vos slides ne sont pas suffisamment mises en évidence."
+            language: *lang_fr
+        positive:
+          - text: "The essential pieces of information in tables and charts are highlighted."
+            language: *lang_en
+          - text: "Wesentliches auf Ihren Folien wird hervorgehoben."
+            language: *lang_de
+          - text: "Les informations essentielles sur vos slides sont mises en évidence."
+            language: *lang_fr
+        verypositive:
+          - text: "The essential pieces of information on your slides are highlighted and made to stand out very effectively."
+            language: *lang_en
+          - text: "Hervorhebungen machen das Wesentliche auf Ihren Folien deutlich erkennbar."
+            language: *lang_de
+          - text: "Les informations essentielles sont idéalement mises en valeur sur vos slides."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Complex charts"
+            language: *lang_en
+          - text: "Komplexe Visualisierungen"
+            language: *lang_de
+          - text: "Schémas complexes"
+            language: *lang_fr
+        description:
+          - text: "Complex charts are built up step by step."
+            language: *lang_en
+          - text: "Komplexe Visualisierungen werden nach und nach aufgebaut."
+            language: *lang_de
+          - text: "Les schémas complexes se construisent par étapes."
+            language: *lang_fr
+        verynegative:
+          - text: "Complex charts are not built up step by step."
+            language: *lang_en
+          - text: "Komplexe Visualisierungen werden nicht nach und nach aufgebaut."
+            language: *lang_de
+          - text: "Les schémas complexes ne se construisent pas par étapes."
+            language: *lang_fr
+        negative:
+          - text: "Complex charts are partly built up step by step."
+            language: *lang_en
+          - text: "Komplexe Visualisierungen werden teilweise nach und nach aufgebaut."
+            language: *lang_de
+          - text: "Les schémas complexes sont en partie construits étape par étape."
+            language: *lang_fr
+        positive:
+          - text: "Complex charts are built up step by step."
+            language: *lang_en
+          - text: "Komplexe Visualisierungen werden nach und nach aufgebaut."
+            language: *lang_de
+          - text: "Les schémas complexes se construisent par étapes."
+            language: *lang_fr
+        verypositive:
+          - text: "Complex charts are systematically built up step by step."
+            language: *lang_en
+          - text: "Komplexe Visualisierungen werden systematisch nach und nach aufgebaut."
+            language: *lang_de
+          - text: "Les schémas complexes se construisent systématiquement par étapes."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Size"
+            language: *lang_en
+          - text: "Grösse"
+            language: *lang_de
+          - text: "Taille"
+            language: *lang_fr
+        description:
+          - text: "The size of the charts and pictures is appropriate."
+            language: *lang_en
+          - text: "Die Grösse der Abbildungen stimmt."
+            language: *lang_de
+          - text: "La taille des illustrations est correcte."
+            language: *lang_fr
+        verynegative:
+          - text: "The charts and pictures are too small."
+            language: *lang_en
+          - text: "Die Abbildungen sind zu klein."
+            language: *lang_de
+          - text: "Les illustrations sont trop petites."
+            language: *lang_fr
+        negative:
+          - text: "Several charts and pictures are too small."
+            language: *lang_en
+          - text: "Mehrere Abbildungen sind zu klein."
+            language: *lang_de
+          - text: "Plusieurs illustrations sont trop petites."
+            language: *lang_fr
+        positive:
+          - text: "Most of the charts and pictures are large enough."
+            language: *lang_en
+          - text: "Die meisten Abbildungen sind gross genug."
+            language: *lang_de
+          - text: "La plupart des illustrations sont assez grandes."
+            language: *lang_fr
+        verypositive:
+          - text: "The size of the charts and pictures is adequate."
+            language: *lang_en
+          - text: "Die Grösse der Abbildungen stimmt."
+            language: *lang_de
+          - text: "La taille des illustrations est correcte."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Quality"
+            language: *lang_en
+          - text: "Qualität"
+            language: *lang_de
+          - text: "Qualité"
+            language: *lang_fr
+        description:
+          - text: "The charts are of good quality."
+            language: *lang_en
+          - text: "Die Abbildungen sind von guter Qualität."
+            language: *lang_de
+          - text: "Les illustrations sont de bonne qualité."
+            language: *lang_fr
+        verynegative:
+          - text: "The quality of the charts is insufficient."
+            language: *lang_en
+          - text: "Die Qualität der Abbildungen ist ungenügend."
+            language: *lang_de
+          - text: "La qualité des illustrations est insuffisante."
+            language: *lang_fr
+        negative:
+          - text: "The quality of several charts is insufficient."
+            language: *lang_en
+          - text: "Die Qualität mehrerer Abbildungen ist unbefriedigend."
+            language: *lang_de
+          - text: "La qualité de plusieurs illustrations est insatisfaisante."
+            language: *lang_fr
+        positive:
+          - text: "The quality of most charts is good."
+            language: *lang_en
+          - text: "Die Qualität der meisten Abbildungen ist gut."
+            language: *lang_de
+          - text: "La qualité de la plupart des illustrations est bonne."
+            language: *lang_fr
+        verypositive:
+          - text: "The quality of the charts is excellent."
+            language: *lang_en
+          - text: "Die Qualität der Abbildungen ist hervorragend."
+            language: *lang_de
+          - text: "La qualité des illustrations est excellente."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Sources"
+            language: *lang_en
+          - text: "Quellen"
+            language: *lang_de
+          - text: "Sources"
+            language: *lang_fr
+        description:
+          - text: "The references to the sources for pictures and charts are complete."
+            language: *lang_en
+          - text: "Die Quellenangaben zu den Abbildungen sind vollständig."
+            language: *lang_de
+          - text: "Les références aux sources des illustrations sont complètes."
+            language: *lang_fr
+        verynegative:
+          - text: "The references to the sources for your pictures and charts are missing."
+            language: *lang_en
+          - text: "Die Quellenangaben zu Ihren Abbildungen fehlen."
+            language: *lang_de
+          - text: "Les références aux sources de vos illustrations sont manquantes."
+            language: *lang_fr
+        negative:
+          - text: "The references to the sources for your pictures and charts are partially incomplete."
+            language: *lang_en
+          - text: "Die Quellenangaben zu Ihren Abbildungen sind teilweise unvollständig."
+            language: *lang_de
+          - text: "Les références aux sources de vos illustrations sont en partie incomplètes."
+            language: *lang_fr
+        positive:
+          - text: "The references to the sources for your pictures and charts are complete."
+            language: *lang_en
+          - text: "Die Quellenangaben zu Ihren Abbildungen sind vollständig."
+            language: *lang_de
+          - text: "Les références aux sources de vos illustrations sont complètes."
+            language: *lang_fr
+        verypositive:
+          - text: "The references to the sources for your pictures and charts are complete and consistent."
+            language: *lang_en
+          - text: "Die Quellenangaben zu Ihren Abbildungen sind vollständig und einheitlich."
+            language: *lang_de
+          - text: "Les références aux sources de vos illustrations sont complètes et unifiées."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Units"
+            language: *lang_en
+          - text: "Einheiten"
+            language: *lang_de
+          - text: "Unités"
+            language: *lang_fr
+        description:
+          - text: "The important units are specified in charts and tables."
+            language: *lang_en
+          - text: "Diagramme und Tabellen enthalten die wichtigen Einheiten."
+            language: *lang_de
+          - text: "Les unités importantes sont indiquées dans les diagrammes et les tableaux."
+            language: *lang_fr
+        verynegative:
+          - text: "Important units in tables and charts are missing."
+            language: *lang_en
+          - text: "Wichtige Einheiten in Tabellen und Diagrammen fehlen."
+            language: *lang_de
+          - text: "Des unités importantes manquent dans les tableaux et les diagrammes."
+            language: *lang_fr
+        negative:
+          - text: "Important units are missing in several tables and charts."
+            language: *lang_en
+          - text: "Bei mehreren Tabellen und Diagrammen fehlen wichtige Einheiten."
+            language: *lang_de
+          - text: "Des unités importantes manquent dans plusieurs tableaux et diagrammes."
+            language: *lang_fr
+        positive:
+          - text: "The important units are specified in most charts and tables "
+            language: *lang_en
+          - text: "Bei den meisten Tabellen und Diagrammen sind die wichtigen Einheiten vorhanden."
+            language: *lang_de
+          - text: "Les unités importantes sont indiquées dans la plupart des tableaux et des diagrammes."
+            language: *lang_fr
+        verypositive:
+          - text: "By specifying the units, you make the tables and charts easy to read."
+            language: *lang_en
+          - text: "Durch die Angabe der Einheiten sind Ihre Tabellen und Diagramme leicht verständlich."
+            language: *lang_de
+          - text: "Grâce à l'indication précise des unités, vos tableaux et diagrammes sont faciles à comprendre."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Readability"
+            language: *lang_en
+          - text: "Lesbarkeit"
+            language: *lang_de
+          - text: "Lisibilité"
+            language: *lang_fr
+        description:
+          - text: "Text elements are easy to read."
+            language: *lang_en
+          - text: "Die Textelemente sind gut lesbar."
+            language: *lang_de
+          - text: "Les éléments du texte sont faciles à lire."
+            language: *lang_fr
+        verynegative:
+          - text: "Many text elements are difficult to read."
+            language: *lang_en
+          - text: "Viele Textelemente sind schlecht lesbar."
+            language: *lang_de
+          - text: "De nombreux éléments de texte sont difficiles à lire."
+            language: *lang_fr
+        negative:
+          - text: "Some text elements are rather difficult to read."
+            language: *lang_en
+          - text: "Einige Textelemente sind zu wenig leicht lesbar."
+            language: *lang_de
+          - text: "Certains éléments de texte ne sont pas faciles à lire."
+            language: *lang_fr
+        positive:
+          - text: "Text elements are easy to read."
+            language: *lang_en
+          - text: "Die Textelemente sind gut lesbar."
+            language: *lang_de
+          - text: "Les éléments du texte sont faciles à lire."
+            language: *lang_fr
+        verypositive:
+          - text: "Design elements make your text easy to read."
+            language: *lang_en
+          - text: "Gestalterische Elemente machen Ihre Textelemente gut lesbar."
+            language: *lang_de
+          - text: "Des éléments de design rendent les éléments de texte faciles à lire."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Correctness"
+            language: *lang_en
+          - text: "Korrektheit"
+            language: *lang_de
+          - text: "Justesse"
+            language: *lang_fr
+        description:
+          - text: "The texts are linguistically correct."
+            language: *lang_en
+          - text: "Die Texte sind sprachlich korrekt."
+            language: *lang_de
+          - text: "Les textes sont linguistiquement corrects."
+            language: *lang_fr
+        verynegative:
+          - text: "Care is needed in the spelling."
+            language: *lang_en
+          - text: "Die Rechtschreibung ist unsorgfältig."
+            language: *lang_de
+          - text: "L'orthographe est peu soignée."
+            language: *lang_fr
+        negative:
+          - text: "The text elements contain too many mistakes."
+            language: *lang_en
+          - text: "Die Textelemente enthalten zu viele Fehler."
+            language: *lang_de
+          - text: "Les éléments de texte contiennent trop de fautes."
+            language: *lang_fr
+        positive:
+          - text: "The text element contain only few mistakes."
+            language: *lang_en
+          - text: "Die Textelemente enthalten nur wenige Fehler."
+            language: *lang_de
+          - text: "Les éléments de texte ne contiennent que quelques fautes."
+            language: *lang_fr
+        verypositive:
+          - text: "The text elements are without fault."
+            language: *lang_en
+          - text: "Die Textelemente sind fehlerfrei."
+            language: *lang_de
+          - text: "Les éléments de texte sont linguistiquement corrects."
+            language: *lang_fr
+  - &criterion9
+    id: null
+    texts:
+      - text: "The language style is typical for spoken texts and suitable for the target audience."
+        language: *lang_en
+      - text: "Der Sprachstil ist mündlich, sorgfältig und auf das Zielpublikum ausgerichtet."
+        language: *lang_de
+      - text: "Le langage est oral, recherché et adapté au public cible."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Oral register"
+            language: *lang_en
+          - text: "Mündlicher Sprachstil"
+            language: *lang_de
+          - text: "Style d'expression orale"
+            language: *lang_fr
+        description:
+          - text: "The language style is typical for spoken texts and easy for listeners to understand."
+            language: *lang_en
+          - text: "Der Sprachstil ist mündlich und für Zuhörende leicht verständlich."
+            language: *lang_de
+          - text: "Le style d'expression orale est facile à comprendre pour le public."
+            language: *lang_fr
+        verynegative:
+          - text: "You use a language style that is typical for written texts and seems difficult for listeners to understand."
+            language: *lang_en
+          - text: "Ihr Sprachstil ist schriftlich und wirkt für Zuhörende schwer verständlich."
+            language: *lang_de
+          - text: "Votre langage est tiré du registre écrit et difficile à comprendre pour le public."
+            language: *lang_fr
+        negative:
+          - text: "You sometimes use a language style that is typical for written texts and is not easy to understand."
+            language: *lang_en
+          - text: "Ihr Sprachstil ist zu wenig mündlich und dadurch nicht leicht verständlich."
+            language: *lang_de
+          - text: "Votre langage n'est pas assez axé sur l'oral et donc plus difficile à comprendre."
+            language: *lang_fr
+        positive:
+          - text: "Your language style is typical for spoken texts and easy for listeners to understand."
+            language: *lang_en
+          - text: "Ihr Sprachstil ist mündlich und für Zuhörende verständlich."
+            language: *lang_de
+          - text: "Votre style d'expression orale est compréhensible pour le public."
+            language: *lang_fr
+        verypositive:
+          - text: "Your language style is typical for spoken texts and one that listeners enjoy and find easy to follow."
+            language: *lang_en
+          - text: "Sie verwenden einen mündlichen Sprachstil, dem Zuhörende gerne und leicht folgen können."
+            language: *lang_de
+          - text: "Vous utilisez un style d'expression orale que le public apprécie et trouve facile à suivre."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Sentence length"
+            language: *lang_en
+          - text: "Satzlänge"
+            language: *lang_de
+          - text: "Longueur des phrases"
+            language: *lang_fr
+        description:
+          - text: "The sentence length is appropriate to the content."
+            language: *lang_en
+          - text: "Die Satzlänge passt zu den Inhalten."
+            language: *lang_de
+          - text: "La longueur des phrases est adaptée aux contenus."
+            language: *lang_fr
+        verynegative:
+          - text: "Your sentences are unnecessarily long and complex."
+            language: *lang_en
+          - text: "Ihre Sätze sind unnötig lang und verschachtelt."
+            language: *lang_de
+          - text: "Vos phrases sont inutilement longues et complexes."
+            language: *lang_fr
+        negative:
+          - text: "Some of your sentences are too long."
+            language: *lang_en
+          - text: "Ihre Sätze sind teilweise zu lang."
+            language: *lang_de
+          - text: "Certaines de vos phrases sont trop longues."
+            language: *lang_fr
+        positive:
+          - text: "Your sentences are usually short and easy to understand."
+            language: *lang_en
+          - text: "Ihre Sätze sind in der Regel angenehm kurz."
+            language: *lang_de
+          - text: "Vos phrases sont généralement agréablement courtes et faciles à comprendre."
+            language: *lang_fr
+        verypositive:
+          - text: "You skillfully match the length of your sentences to the content."
+            language: *lang_en
+          - text: "Sie passen die Länge Ihrer Sätze gekonnt an die Inhalte an."
+            language: *lang_de
+          - text: "Vous veillez soigneusement à faire correspondre la longueur de vos phrases aux contenus."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Rhetorical devices"
+            language: *lang_en
+          - text: "Rhetorische Mittel"
+            language: *lang_de
+          - text: "Moyens rhétoriques"
+            language: *lang_fr
+        description:
+          - text: "Rhetorical devices are used effectively."
+            language: *lang_en
+          - text: "Rhetorische Mittel werden wirkungsvoll eingesetzt."
+            language: *lang_de
+          - text: "Les moyens rhétoriques sont utilisés efficacement."
+            language: *lang_fr
+        verynegative:
+          - text: "Rhetorical questions, deliberate pauses, comparisons, etc. are missing in your presentation."
+            language: *lang_en
+          - text: "Rhetorische Fragen, bewusste Pausen oder Vergleiche fehlen in Ihrer Sprache."
+            language: *lang_de
+          - text: "Des questions rhétoriques, des pauses délibérées ou des comparaisons manquent dans votre présentation."
+            language: *lang_fr
+        negative:
+          - text: "Attempts at rhetorical devices are evident."
+            language: *lang_en
+          - text: "Ansätze im Umgang mit rhetorischen Mitteln sind erkennbar."
+            language: *lang_de
+          - text: "Vous utilisez des de moyens rhétoriques assez rudimentaires."
+            language: *lang_fr
+        positive:
+          - text: "You use rhetorical devices effectively."
+            language: *lang_en
+          - text: "Sie setzen rhetorische Mittel wirkungsvoll ein."
+            language: *lang_de
+          - text: "Vous utilisez efficacement les moyens rhétoriques."
+            language: *lang_fr
+        verypositive:
+          - text: "You skillfully use rhetorical devices to make your presentation convincing."
+            language: *lang_en
+          - text: "Ihre Sprache überzeugt mit gezielt eingesetzten rhetorischen Mitteln."
+            language: *lang_de
+          - text: "Votre présentation est convaincante, grâce à des moyens rhétoriques bien utilisés."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Vivid language"
+            language: *lang_en
+          - text: "Anschaulichkeit"
+            language: *lang_de
+          - text: "Langage vivant"
+            language: *lang_fr
+        description:
+          - text: "Vivid language makes the presentation easier to follow and understand."
+            language: *lang_en
+          - text: "Eine anschauliche Sprache fördert das Verständnis."
+            language: *lang_de
+          - text: "Un langage vivant favorise la compréhension de votre présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "Your language seems abstract and thus difficult to understand."
+            language: *lang_en
+          - text: "Ihre Sprache wirkt abstrakt und dadurch schwer verständlich."
+            language: *lang_de
+          - text: "Votre langage semble abstrait et donc difficile à comprendre."
+            language: *lang_fr
+        negative:
+          - text: "Make your language more vivid so that your presentation becomes easier to follow and understand."
+            language: *lang_en
+          - text: "Um das Verständnis zu fördern, müsste die Sprache anschaulicher sein."
+            language: *lang_de
+          - text: "Pour favoriser la compréhension de votre présentation, le langage devrait être plus vivant."
+            language: *lang_fr
+        positive:
+          - text: "You use good examples of vivid language in your presentation."
+            language: *lang_en
+          - text: "In Ihren Formulierungen gibt es gute Beispiele anschaulicher Sprache."
+            language: *lang_de
+          - text: "Il existe de bons exemples de langage vivant dans vos formulations."
+            language: *lang_fr
+        verypositive:
+          - text: "You use a vivid language to make your presentation easier to follow and understand."
+            language: *lang_en
+          - text: "Sie verwenden eine anschauliche Sprache, die das Verständnis fördert."
+            language: *lang_de
+          - text: "Vous utilisez un langage vivant qui favorise la compréhension de votre présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Grammatical accuracy"
+            language: *lang_en
+          - text: "Grammatikalische Korrektheit"
+            language: *lang_de
+          - text: "Justesse grammaticale"
+            language: *lang_fr
+        description:
+          - text: "The language is grammatically correct."
+            language: *lang_en
+          - text: "Die Sprache ist grammatikalisch korrekt."
+            language: *lang_de
+          - text: "La langue est grammaticalement correcte."
+            language: *lang_fr
+        verynegative:
+          - text: "The amount of grammatical mistakes in your presentation is distracting and confusing."
+            language: *lang_en
+          - text: "Die vielen grammatikalischen Fehler in der Sprache stören."
+            language: *lang_de
+          - text: "Les nombreuses erreurs grammaticales empêchent une bonne compréhension de votre présentation."
+            language: *lang_fr
+        negative:
+          - text: "Your presentation contains some obvious grammatical errors."
+            language: *lang_en
+          - text: "Die Sprache weist auffällige grammatikalische Fehler auf."
+            language: *lang_de
+          - text: "Votre présentation comporte des fautes grammaticales importantes."
+            language: *lang_fr
+        positive:
+          - text: "The language is mostly grammatically correct."
+            language: *lang_en
+          - text: "Die Sprache ist grammatikalisch meist korrekt."
+            language: *lang_de
+          - text: "Le langage utilisé est grammaticalement correct la plupart du temps."
+            language: *lang_fr
+        verypositive:
+          - text: "The language is grammatically correct."
+            language: *lang_en
+          - text: "Die Sprache ist grammatikalisch korrekt."
+            language: *lang_de
+          - text: "Le langage est grammaticalement correct."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Technical terms"
+            language: *lang_en
+          - text: "Technische Fachbegriffe"
+            language: *lang_de
+          - text: "Termes techniques"
+            language: *lang_fr
+        description:
+          - text: "Technical terms are explained by use of examples."
+            language: *lang_en
+          - text: "Technische Fachbegriffe werden mit Beispielen erklärt."
+            language: *lang_de
+          - text: "Les termes techniques sont expliqués à l'aide d'exemples."
+            language: *lang_fr
+        verynegative:
+          - text: "Technical terms are not explained."
+            language: *lang_en
+          - text: "Technische Fachbegriffe werden nicht erklärt."
+            language: *lang_de
+          - text: "Les termes techniques ne sont pas expliqués."
+            language: *lang_fr
+        negative:
+          - text: "Technical terms are not sufficiently explained."
+            language: *lang_en
+          - text: "Technische Fachbegriffe werden zu wenig erklärt."
+            language: *lang_de
+          - text: "Les termes techniques ne sont pas suffisamment expliqués."
+            language: *lang_fr
+        positive:
+          - text: "The most important technical terms are explained."
+            language: *lang_en
+          - text: "Die wichtigsten Fachbegriffe werden erklärt."
+            language: *lang_de
+          - text: "Les termes techniques les plus importants sont expliqués."
+            language: *lang_fr
+        verypositive:
+          - text: "The technical terms are explained by use of examples in a way that is appropriate to the situation."
+            language: *lang_en
+          - text: "Das technische Fachvokabular wird passend zum Anlass mit Beispielen erläutert."
+            language: *lang_de
+          - text: "Le vocabulaire technique est expliqué à l'aide d'exemples adaptés à la situation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Abbreviations"
+            language: *lang_en
+          - text: "Abkürzungen"
+            language: *lang_de
+          - text: "Abréviations"
+            language: *lang_fr
+        description:
+          - text: "Abbreviations are explained where necessary."
+            language: *lang_en
+          - text: "Abkürzungen werden wenn nötig erklärt."
+            language: *lang_de
+          - text: "Les abréviations sont expliquées si nécessaire."
+            language: *lang_fr
+        verynegative:
+          - text: "You use abbreviations that require explanation."
+            language: *lang_en
+          - text: "Sie verwenden Abkürzungen, die erklärt werden müssten."
+            language: *lang_de
+          - text: "Vous utilisez des abréviations qui doivent être expliquées."
+            language: *lang_fr
+        negative:
+          - text: "Some abbreviations require explanation."
+            language: *lang_en
+          - text: "Einige Abkürzungen müssten Sie erklären."
+            language: *lang_de
+          - text: "Quelques abréviations devraient être expliquées."
+            language: *lang_fr
+        positive:
+          - text: "You systematically explain uncommon abbreviations."
+            language: *lang_en
+          - text: "Sie erklären unbekannte Abkürzungen konsequent."
+            language: *lang_de
+          - text: "Vous expliquez systématiquement les abréviations inconnues."
+            language: *lang_fr
+        verypositive:
+          - text: "You explain uncommon abbreviations systematically and elegantly."
+            language: *lang_en
+          - text: "Sie erklären unbekannte Abkürzungen konsequent und elegant."
+            language: *lang_de
+          - text: "Vous expliquez systématiquement les abréviations peu familières de manière élégante."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Dealing with foreign or difficult words"
+            language: *lang_en
+          - text: "Umgang mit Fremdwörtern"
+            language: *lang_de
+          - text: "Gestion des termes difficiles ou étrangers"
+            language: *lang_fr
+        description:
+          - text: "Foreign or difficult words are only used when they are clear to the audience."
+            language: *lang_en
+          - text: "Fremdwörter sind verständlich."
+            language: *lang_de
+          - text: "Les termes difficiles ou étrangers sont compréhensibles."
+            language: *lang_fr
+        verynegative:
+          - text: "Your language includes a noticeable degree of difficult words."
+            language: *lang_en
+          - text: "Ihre Sprache enthält auffallend viele unnötige Fremdwörter."
+            language: *lang_de
+          - text: "Vous utilisez une grande quantité de termes difficiles ou étrangers inutiles."
+            language: *lang_fr
+        negative:
+          - text: "Your language contains some unnecessarily difficult or foreign words."
+            language: *lang_en
+          - text: "Ihre Sprache enthält einige unnötige Fremdwörter."
+            language: *lang_de
+          - text: "Vous utilisez certains termes difficiles ou étrangers inutiles."
+            language: *lang_fr
+        positive:
+          - text: "You do not use difficult or foreign words unless necessary."
+            language: *lang_en
+          - text: "Sie verwenden keine unnötigen Fremdwörter."
+            language: *lang_de
+          - text: "Vous n'utilisez aucun terme difficile ou étranger inutile."
+            language: *lang_fr
+        verypositive:
+          - text: "You only use difficult or foreign words to enhance clarity."
+            language: *lang_en
+          - text: "Sie setzen Fremdwörter verständnisfördernd ein."
+            language: *lang_de
+          - text: "Vous utilisez des termes difficiles ou étrangers pour augmenter la compréhension."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Gender-inclusive language"
+            language: *lang_en
+          - text: "Gendergerechte Sprache"
+            language: *lang_de
+          - text: "Langage inclusif"
+            language: *lang_fr
+        description:
+          - text: "The presentation applies the rules of gender-inclusive language."
+            language: *lang_en
+          - text: "Die Sprache folgt Regeln der gendergerechten Sprache."
+            language: *lang_de
+          - text: "Un langage inclusif est privilégié pour la présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "Your language is biased toward a male audience."
+            language: *lang_en
+          - text: "Ihre Sprache ist einseitig auf eine männliche Zielgruppe ausgerichtet."
+            language: *lang_de
+          - text: "Votre langage est biaisé en faveur d'un public masculin."
+            language: *lang_fr
+        negative:
+          - text: "You take too little account of the rules of gender-inclusive language."
+            language: *lang_en
+          - text: "Sie berücksichtigen Regeln der gendergerechten Sprache zu wenig."
+            language: *lang_de
+          - text: "Vous tenez trop peu compte des règles du langage inclusif."
+            language: *lang_fr
+        positive:
+          - text: "You apply the rules of gender-inclusive language systematically."
+            language: *lang_en
+          - text: "Sie wenden Regeln der gendergerechten Sprache kohärent an."
+            language: *lang_de
+          - text: "Vous appliquez systématiquement et de manière cohérente les règles du langage inclusif."
+            language: *lang_fr
+        verypositive:
+          - text: "You use the advantages of gender-inclusive language confidently and effectively."
+            language: *lang_en
+          - text: "Sie nutzen die Vorteile einer gendergerechten Sprache souverän und wirkungsvoll."
+            language: *lang_de
+          - text: "Vous tournez le langage inclusif à votre avantage avec classe et efficacité."
+            language: *lang_fr
+  - &criterion10
+    id: null
+    texts:
+      - text: "The style of speaking is convincing and facilitates comprehension."
+        language: *lang_en
+      - text: "Die Sprechweise überzeugt und trägt zum Verständnis bei."
+        language: *lang_de
+      - text: "La façon de parler est convaincante et contribue à la compréhension."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Fluency"
+            language: *lang_en
+          - text: "Sprachfluss"
+            language: *lang_de
+          - text: "Fluidité"
+            language: *lang_fr
+        description:
+          - text: "The speech is fluent."
+            language: *lang_en
+          - text: "Die Vortragsweise ist flüssig."
+            language: *lang_de
+          - text: "Le discours est fluide."
+            language: *lang_fr
+        verynegative:
+          - text: "You delivery is not fluent."
+            language: *lang_en
+          - text: "Ihre Vortragsweise ist stark stockend."
+            language: *lang_de
+          - text: "Le discours est très hésitant."
+            language: *lang_fr
+        negative:
+          - text: "Your delivery partly lacks fluency."
+            language: *lang_en
+          - text: "Ihre Vortragsweise ist teilweise stockend."
+            language: *lang_de
+          - text: "Votre discours est parfois hésitant."
+            language: *lang_fr
+        positive:
+          - text: "On the whole, the delivery is fluent."
+            language: *lang_en
+          - text: "Ihre Vortragsweise ist mehrheitlich flüssig."
+            language: *lang_de
+          - text: "Votre discours est fluide la plupart du temps."
+            language: *lang_fr
+        verypositive:
+          - text: "You speak very fluently."
+            language: *lang_en
+          - text: "Ihre Vortragsweise ist ausgesprochen flüssig."
+            language: *lang_de
+          - text: "Votre discours est très fluide."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Filler words (um… etc.)"
+            language: *lang_en
+          - text: "Verzögerungslaute (ähm)"
+            language: *lang_de
+          - text: "Disfluences (euh... etc.)"
+            language: *lang_fr
+        description:
+          - text: "Filler words (um… etc.) are rare and do not interfere."
+            language: *lang_en
+          - text: "Verzögerungslaute (ähm) stören nicht."
+            language: *lang_de
+          - text: "Les disfluences (euh) ne dérangent pas."
+            language: *lang_fr
+        verynegative:
+          - text: "The amount of filler words (um… etc.) is troublesome for the listener."
+            language: *lang_en
+          - text: "Die vielen Verzögerungslaute (ähm) machen das Zuhören mühsam."
+            language: *lang_de
+          - text: "Les nombreuses disfluences (euh) rendent l'écoute fastidieuse."
+            language: *lang_fr
+        negative:
+          - text: "You use too many filler words (um… etc.), which does not appear professional."
+            language: *lang_en
+          - text: "Sie machen zu viele Verzögerungslaute (ähm), was wenig professionell wirkt."
+            language: *lang_de
+          - text: "Votre présentation est truffée de disfluences (euh), ce qui la rend peu professionnelle."
+            language: *lang_fr
+        positive:
+          - text: "Filler words (um… etc.) only occur occasionally and are not distracting."
+            language: *lang_en
+          - text: "Verzögerungslaute (ähm) kommen nur vereinzelt vor und stören nicht."
+            language: *lang_de
+          - text: "Les disfluences (euh) sont très occasionnelles et ne dérangent pas."
+            language: *lang_fr
+        verypositive:
+          - text: "Your speech is free of filler words (um… etc.), which comes across as professional."
+            language: *lang_en
+          - text: "Ihre Sprechweise ist frei von Verzögerungslauten (ähm), was professionell wirkt."
+            language: *lang_de
+          - text: "Votre présentation est exempte de disfluences (euh), ce qui la rend très professionnelle."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Impromptu formulations"
+            language: *lang_en
+          - text: "Freies Sprechen"
+            language: *lang_de
+          - text: "Formulation spontanée"
+            language: *lang_fr
+        description:
+          - text: "Impromptu formulations make the presentation natural."
+            language: *lang_en
+          - text: "Die Sprache ist frei formuliert."
+            language: *lang_de
+          - text: "Un langage spontané rend la présentation naturelle."
+            language: *lang_fr
+        verynegative:
+          - text: "You read off the majority of the text for presentation."
+            language: *lang_en
+          - text: "Sie lesen den Text Ihrer Präsentation mehrheitlich ab."
+            language: *lang_de
+          - text: "Vous avez lu la majeure partie du texte de votre présentation."
+            language: *lang_fr
+        negative:
+          - text: "Your presentation comes across as learned by heart."
+            language: *lang_en
+          - text: "Ihre Formulierungen wirken zu stark gelernt."
+            language: *lang_de
+          - text: "Votre présentation semble avoir été apprise par cœur."
+            language: *lang_fr
+        positive:
+          - text: "You largely use impromptu formulations."
+            language: *lang_en
+          - text: "Sie formulieren weitgehend frei."
+            language: *lang_de
+          - text: "Vous parlez spontanément dans une large mesure."
+            language: *lang_fr
+        verypositive:
+          - text: "You use impromptu formulations, which makes your presentation very natural and convincing."
+            language: *lang_en
+          - text: "Ihr freies Formulieren überzeugt sehr."
+            language: *lang_de
+          - text: "Votre formulation spontanée est très convaincante."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Rhythm and pace of speech"
+            language: *lang_en
+          - text: "Sprechtempo"
+            language: *lang_de
+          - text: "Rythme de la présentation"
+            language: *lang_fr
+        description:
+          - text: "The rhythm and pace of speech are pleasant."
+            language: *lang_en
+          - text: "Das Sprechtempo ist angenehm."
+            language: *lang_de
+          - text: "Le rythme du discours est agréable."
+            language: *lang_fr
+        verynegative:
+          - text: "You speak too fast, which makes your presentation difficult to understand."
+            language: *lang_en
+          - text: "Das Sprechtempo ist zu schnell, was das Verständnis erschwert."
+            language: *lang_de
+          - text: "Le rythme du discours est trop rapide, ce qui le rend difficile à comprendre."
+            language: *lang_fr
+        negative:
+          - text: "The pace of speech is too slow, which makes listening tedious for the audience."
+            language: *lang_en
+          - text: "Das Sprechtempo ist zu langsam, was für das Publikum mühsam wirkt."
+            language: *lang_de
+          - text: "Le rythme du discours est trop lent, ce qui est pénible pour le public."
+            language: *lang_fr
+        positive:
+          - text: "Your rhythm and pace of speech are pleasing, one can follow your explanations well."
+            language: *lang_en
+          - text: "Ihr Sprechtempo ist angenehm, man kann dem Inhalt gut folgen."
+            language: *lang_de
+          - text: "Le rythme de votre discours est agréable, et vos explications faciles à suivre."
+            language: *lang_fr
+        verypositive:
+          - text: "You vary the rhythm and pace of speech in a way that fits the content."
+            language: *lang_en
+          - text: "Sie variieren das Sprechtempo passend zu den Inhalten."
+            language: *lang_de
+          - text: "Vous variez le rythme du discours de manière très cohérente en fonction du contenu."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Volume"
+            language: *lang_en
+          - text: "Lautstärke"
+            language: *lang_de
+          - text: "Volume"
+            language: *lang_fr
+        description:
+          - text: "The volume is adapted to the size of the room and the audience."
+            language: *lang_en
+          - text: "Die Lautstärke passt zur Grösse des Raums und Publikums."
+            language: *lang_de
+          - text: "Le volume de la voix correspond à la taille de la salle et au public."
+            language: *lang_fr
+        verynegative:
+          - text: "You speak too softly, so that you can hardly be heard."
+            language: *lang_en
+          - text: "Sie sprechen zu leise, so dass man Sie kaum hört."
+            language: *lang_de
+          - text: "Vous parlez trop doucement, de sorte qu'on vous entend à peine."
+            language: *lang_fr
+        negative:
+          - text: "You speak too loudly, which does not transmit well."
+            language: *lang_en
+          - text: "Sie sprechen zu laut, was unangenehm wirkt."
+            language: *lang_de
+          - text: "Vous parlez trop fort, ce qui est désagréable."
+            language: *lang_fr
+        positive:
+          - text: "Your volume is adapted to the size of the room and the audience."
+            language: *lang_en
+          - text: "Die Lautstärke passt zur Grösse des Raums und des Publikums."
+            language: *lang_de
+          - text: "Le volume de votre voix correspond à la taille de la salle et du public."
+            language: *lang_fr
+        verypositive:
+          - text: "You effectively vary the volume during your presentation."
+            language: *lang_en
+          - text: "Sie wechseln die Lautstärke wirkungsvoll."
+            language: *lang_de
+          - text: "Vous modulez le volume de votre voix de manière efficace."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Voice variation"
+            language: *lang_en
+          - text: "Sprachmelodie"
+            language: *lang_de
+          - text: "Intonation"
+            language: *lang_fr
+        description:
+          - text: "The variation of the tone is engaging."
+            language: *lang_en
+          - text: "Die Sprachmelodie ist lebendig."
+            language: *lang_de
+          - text: "L'intonation est vivante."
+            language: *lang_fr
+        verynegative:
+          - text: "You speak in a monotonous manner, which has a tiring effect on the audience."
+            language: *lang_en
+          - text: "Sie sprechen ausgesprochen monoton, was einschläfernd wirkt."
+            language: *lang_de
+          - text: "Votre intonation est monotone, ce qui a un effet soporifique sur le public."
+            language: *lang_fr
+        negative:
+          - text: "You only rarely emphasise words or phrases to make them stand out."
+            language: *lang_en
+          - text: "Zu selten betonen Sie Wörter oder Satzteile bewusst, um diese hervorzuheben."
+            language: *lang_de
+          - text: "Vous accentuez rarement des mots ou des parties de phrases pour les faire ressortir."
+            language: *lang_fr
+        positive:
+          - text: "The variation in your voice seems natural and engaging."
+            language: *lang_en
+          - text: "Ihre Sprachmelodie wirkt natürlich und lebendig."
+            language: *lang_de
+          - text: "L'intonation de votre discours est naturelle et vivante."
+            language: *lang_fr
+        verypositive:
+          - text: "You skillfully emphasize words or phrases to make them stand out."
+            language: *lang_en
+          - text: "Sie betonen Wörter oder Satzteile bewusst, um diese hervorzuheben."
+            language: *lang_de
+          - text: "Vous accentuez volontairement des mots ou des parties de phrases pour les faire ressortir."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Pronunciation"
+            language: *lang_en
+          - text: "Artikulation"
+            language: *lang_de
+          - text: "Prononciation"
+            language: *lang_fr
+        description:
+          - text: "The pronunciation is clear and distinct."
+            language: *lang_en
+          - text: "Die Aussprache ist klar und deutlich."
+            language: *lang_de
+          - text: "La prononciation est claire et distincte."
+            language: *lang_fr
+        verynegative:
+          - text: "Your pronunciation is unclear, making it difficult to understand."
+            language: *lang_en
+          - text: "Die Aussprache ist undeutlich, so dass man Sie schlecht versteht."
+            language: *lang_de
+          - text: "La prononciation n'est pas claire, de sorte que l'on vous comprend mal."
+            language: *lang_fr
+        negative:
+          - text: "Your pronunciation is at times unclear."
+            language: *lang_en
+          - text: "Die Aussprache ist teilweise undeutlich."
+            language: *lang_de
+          - text: "La prononciation est parfois peu claire."
+            language: *lang_fr
+        positive:
+          - text: "Your pronunciation is clear and distinct."
+            language: *lang_en
+          - text: "Ihre Aussprache ist klar und deutlich."
+            language: *lang_de
+          - text: "Votre prononciation est claire et distincte."
+            language: *lang_fr
+        verypositive:
+          - text: "Your pronunciation is clear and very pleasant to listen to."
+            language: *lang_en
+          - text: "Die Aussprache ist deutlich und sehr angenehm zum Zuhören."
+            language: *lang_de
+          - text: "La prononciation est claire et très agréable à écouter."
+            language: *lang_fr
+  - &criterion11
+    id: null
+    texts:
+      - text: "The performance is confident and the space is used effectively."
+        language: *lang_en
+      - text: 'Das Auftreten ist selbstsicher und der Raum wird "bühnenwirksam" genutzt.'
+        language: *lang_de
+      - text: "La prestance est bonne et l'espace est utilisé efficacement."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Confidence through body language"
+            language: *lang_en
+          - text: "Selbstsicherheit durch Körpersprache"
+            language: *lang_de
+          - text: "Prestance liée au langage corporel"
+            language: *lang_fr
+        description:
+          - text: "The speaker’s body language expresses self-confidence."
+            language: *lang_en
+          - text: "Die Körperhaltung drückt Selbstsicherheit aus."
+            language: *lang_de
+          - text: "La posture exprime la confiance en soi."
+            language: *lang_fr
+        verynegative:
+          - text: "Your body language expresses a lack of confidence."
+            language: *lang_en
+          - text: "Die Körperhaltung drückt Unsicherheit aus."
+            language: *lang_de
+          - text: "La posture exprime l'insécurité."
+            language: *lang_fr
+        negative:
+          - text: "Your body language lacks self-confidence."
+            language: *lang_en
+          - text: "Die Körperhaltung drückt zu wenig Selbstsicherheit aus."
+            language: *lang_de
+          - text: "La posture n'exprime pas suffisamment la confiance en soi."
+            language: *lang_fr
+        positive:
+          - text: "Your body language generally expresses self-confidence."
+            language: *lang_en
+          - text: "Die Körperhaltung drückt meist Selbstsicherheit aus."
+            language: *lang_de
+          - text: "La posture exprime généralement la confiance en soi."
+            language: *lang_fr
+        verypositive:
+          - text: "Your body language expresses confidence."
+            language: *lang_en
+          - text: "Durch die Körperhaltung wirken Sie souverän."
+            language: *lang_de
+          - text: "Votre posture montre que vous êtes à l'aise."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Calm composure"
+            language: *lang_en
+          - text: "Ruhiger Stand"
+            language: *lang_de
+          - text: "Position calme"
+            language: *lang_fr
+        description:
+          - text: "Posture is calm and deliberately chosen."
+            language: *lang_en
+          - text: "Der Stand ist ruhig und überlegt."
+            language: *lang_de
+          - text: "La position, étudiée, exprime le calme."
+            language: *lang_fr
+        verynegative:
+          - text: "Your posture and movements seem restless and nervous."
+            language: *lang_en
+          - text: "Ihr Stand wirkt unruhig und nervös."
+            language: *lang_de
+          - text: "Vous semblez agité-e et nerveux/nerveuse."
+            language: *lang_fr
+        negative:
+          - text: "Your posture is not composed."
+            language: *lang_en
+          - text: "Ihr Stand ist zu wenig ruhig."
+            language: *lang_de
+          - text: "Vous n'êtes pas suffisamment paisible."
+            language: *lang_fr
+        positive:
+          - text: "You are generally well composed."
+            language: *lang_en
+          - text: "Ihr Stand ist meist ruhig."
+            language: *lang_de
+          - text: "Vous êtes paisible la plupart du temps."
+            language: *lang_fr
+        verypositive:
+          - text: "Your posture is calm and considered."
+            language: *lang_en
+          - text: "Ihr Stand ist ruhig und kontrolliert."
+            language: *lang_de
+          - text: "Vous avez une bonne prestance et êtes délibérément calme."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Facing the audience"
+            language: *lang_en
+          - text: "Ausrichtung des Körpers"
+            language: *lang_de
+          - text: "Positionnement par rapport au public"
+            language: *lang_fr
+        description:
+          - text: "The speaker faces the audience."
+            language: *lang_en
+          - text: "Der Körper ist dem Publikum zugewandt."
+            language: *lang_de
+          - text: "Le corps est tourné vers le public."
+            language: *lang_fr
+        verynegative:
+          - text: "You usually turn away from the audience."
+            language: *lang_en
+          - text: "Sie wenden sich meist vom Publikum ab."
+            language: *lang_de
+          - text: "Vous vous détournez généralement du public."
+            language: *lang_fr
+        negative:
+          - text: "You do not face the audience enough."
+            language: *lang_en
+          - text: "Sie wenden sich zu wenig dem Publikum zu."
+            language: *lang_de
+          - text: "Vous ne vous tournez pas assez vers le public."
+            language: *lang_fr
+        positive:
+          - text: "You usually face the audience."
+            language: *lang_en
+          - text: "Sie wenden sich meist dem Publikum zu."
+            language: *lang_de
+          - text: "Vous vous tournez généralement vers le public."
+            language: *lang_fr
+        verypositive:
+          - text: "You face the audience un an effective manner."
+            language: *lang_en
+          - text: "Sie wenden sich wirksam dem Publikum zu."
+            language: *lang_de
+          - text: "Vous vous adressez clairement au public en le regardant."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Authenticity"
+            language: *lang_en
+          - text: "Authentizität"
+            language: *lang_de
+          - text: "Authenticité"
+            language: *lang_fr
+        description:
+          - text: "The body language appears authentic and supports the presentation in a positive way."
+            language: *lang_en
+          - text: "Die Körpersprache wirkt authentisch und unterstützt die Präsentation positiv."
+            language: *lang_de
+          - text: "Le langage corporel est naturel et soutient positivement la présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "Your body language seems artificial and distracting."
+            language: *lang_en
+          - text: "Ihre Körpersprache wirkt künstlich und lenkt ab."
+            language: *lang_de
+          - text: "Votre langage corporel est artificiel et perturbant."
+            language: *lang_fr
+        negative:
+          - text: "Your body language does not come across authentic enough."
+            language: *lang_en
+          - text: "Ihre Körpersprache wirkt zu wenig authentisch."
+            language: *lang_de
+          - text: "Votre langage corporel n'est pas assez naturel."
+            language: *lang_fr
+        positive:
+          - text: "Your body language generally appears authentic."
+            language: *lang_en
+          - text: "Ihre Körpersprache wirkt grösstenteils authentisch."
+            language: *lang_de
+          - text: "Votre langage corporel est en principe naturel."
+            language: *lang_fr
+        verypositive:
+          - text: "Your body language appears authentic, which positively supports your presentation."
+            language: *lang_en
+          - text: "Ihre Körpersprache wirkt authentisch, was Ihre Präsentation positiv unterstützt."
+            language: *lang_de
+          - text: "Votre langage corporel est naturel, ce qui soutient positivement votre présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Charisma"
+            language: *lang_en
+          - text: "Ausstrahlung"
+            language: *lang_de
+          - text: "Charisme"
+            language: *lang_fr
+        description:
+          - text: "The speaker radiates positive energy."
+            language: *lang_en
+          - text: "Die Präsenz strahlt positive Energie aus."
+            language: *lang_de
+          - text: "L'orateur ou l'oratrice dégage une énergie positive."
+            language: *lang_fr
+        verynegative:
+          - text: "One does not perceive any positive energy."
+            language: *lang_en
+          - text: "Man nimmt keine positive Energie wahr."
+            language: *lang_de
+          - text: "Vous ne dégagez aucune énergie positive."
+            language: *lang_fr
+        negative:
+          - text: "You do not radiate enough positive energy."
+            language: *lang_en
+          - text: "Mit Ihrer Präsenz strahlen Sie zu wenig positive Energie aus."
+            language: *lang_de
+          - text: "Vous ne dégagez pas assez d'énergie positive."
+            language: *lang_fr
+        positive:
+          - text: "During some parts of the presentation, you radiate positive energy."
+            language: *lang_en
+          - text: "Mit Ihrer Präsenz strahlen Sie phasenweise positive Energie aus."
+            language: *lang_de
+          - text: "Durant certaines parties de votre présentation, vous dégagez une belle énergie positive."
+            language: *lang_fr
+        verypositive:
+          - text: "You radiate positive energy throughout your presentation."
+            language: *lang_en
+          - text: "Mit Ihrer Präsenz strahlen Sie positive Energie aus."
+            language: *lang_de
+          - text: "Vous dégagez une énergie positive de manière continue."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Position in the room"
+            language: *lang_en
+          - text: "Position im Raum"
+            language: *lang_de
+          - text: "Occupation de l'espace"
+            language: *lang_fr
+        description:
+          - text: "The speaker’s position in the room facilitates rapport with the entire audience."
+            language: *lang_en
+          - text: "Die Position im Raum stellt den Bezug zum gesamten Publikum her."
+            language: *lang_de
+          - text: "La position dans la salle permet à l'ensemble du public d'être en contact avec la personne qui présente."
+            language: *lang_fr
+        verynegative:
+          - text: "Your position in the room creates no rapport with the audience."
+            language: *lang_en
+          - text: "Ihre Position im Raum schafft keinen Bezug zum Publikum."
+            language: *lang_de
+          - text: "Leur position dans la salle ne crée pas de relation avec le public."
+            language: *lang_fr
+        negative:
+          - text: "Your position in the room creates too little rapport with the audience."
+            language: *lang_en
+          - text: "Ihre Position im Raum schafft zu wenig Bezug zum Publikum."
+            language: *lang_de
+          - text: "Votre position dans la salle ne permet pas de créer de relation avec le public."
+            language: *lang_fr
+        positive:
+          - text: "Your position in the room usually allows you to build rapport with the audience."
+            language: *lang_en
+          - text: "Mit Ihrer Position im Raum stellen Sie meist den Bezug zum Publikum her."
+            language: *lang_de
+          - text: "Votre position dans la salle vous permet généralement d'établir un lien avec le public."
+            language: *lang_fr
+        verypositive:
+          - text: "Your position in the room allows you to build rapport with the entire audience."
+            language: *lang_en
+          - text: "Ihre Position im Raum stellt den Bezug zum gesamten Publikum her."
+            language: *lang_de
+          - text: "Votre position dans la salle établit un lien avec l'ensemble du public."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Moving in the room"
+            language: *lang_en
+          - text: "Bewegung im Raum"
+            language: *lang_de
+          - text: "Mouvement dans la salle"
+            language: *lang_fr
+        description:
+          - text: 'The space in the room is used effectively.'
+            language: *lang_en
+          - text: 'Das Variieren der Position im Raum ist "bühnenwirksam".'
+            language: *lang_de
+          - text: "L'espace à disposition est utilisé efficacement."
+            language: *lang_fr
+        verynegative:
+          - text: 'You do not use the space because your position in the room is too static.'
+            language: *lang_en
+          - text: 'Sie nutzen die "Bühne" durch Ihre zu statische Position im Raum nicht.'
+            language: *lang_de
+          - text: "Vous n'utilisez pas l'espace à disposition dans la salle en raison de votre position trop statique."
+            language: *lang_fr
+        negative:
+          - text: "You use the space too little as you mainly keep a static position in the room."
+            language: *lang_en
+          - text: 'Sie nutzen die "Bühne" durch eine zu statische Position im Raum zu wenig.'
+            language: *lang_de
+          - text: "Vous utilisez trop peu l''espace à disposition, en étant souvent trop statique."
+            language: *lang_fr
+        positive:
+          - text: "You use the space by changing your position in the room."
+            language: *lang_en
+          - text: 'Sie nutzen die "Bühne" durch Variieren Ihrer Position im Raum.'
+            language: *lang_de
+          - text: "Vous utilisez l'espace à disposition en bougeant de manière pertinente."
+            language: *lang_fr
+        verypositive:
+          - text: "You move freely and vary your position in the room very effectively."
+            language: *lang_en
+          - text: 'Sie bewegen sich frei und nutzen Ihre Position im Raum "bühnenwirksam".'
+            language: *lang_de
+          - text: "Vous vous déplacez librement et utilisez l'espace à disposition de manière efficace et agréable pour le public."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Position and media"
+            language: *lang_en
+          - text: "Position und Medien"
+            language: *lang_de
+          - text: "Position et médias"
+            language: *lang_fr
+        description:
+          - text: "The speaker’s position in the room is oriented around the visual aids."
+            language: *lang_en
+          - text: "Die Position im Raum ist auf die eingesetzten Medien abgestimmt."
+            language: *lang_de
+          - text: "La position dans la pièce est en adéquation avec les aides visuelles utilisées."
+            language: *lang_fr
+        verynegative:
+          - text: "Your position in the room is not oriented around your visual aids."
+            language: *lang_en
+          - text: "Ihre Position im Raum ist nicht auf die eingesetzten Medien abgestimmt."
+            language: *lang_de
+          - text: "Votre position dans la pièce n'est pas idéale par rapport aux aides visuelles que vous utilisez."
+            language: *lang_fr
+        negative:
+          - text: "Your position in the room is not sufficiently oriented around your visual aids."
+            language: *lang_en
+          - text: "Ihre Position im Raum ist zu wenig auf die eingesetzten Medien abgestimmt."
+            language: *lang_de
+          - text: "Votre position dans la pièce n'est pas suffisamment en adéquation avec les aides visuelles utilisées."
+            language: *lang_fr
+        positive:
+          - text: "Your position in the room is usually oriented around your visual aids."
+            language: *lang_en
+          - text: "Ihre Position im Raum ist meist auf die eingesetzten Medien abgestimmt."
+            language: *lang_de
+          - text: "Votre position dans la pièce est généralement en adéquation avec les aides visuelles utilisées."
+            language: *lang_fr
+        verypositive:
+          - text: "Your position in the room is skillfully oriented around your visual aids."
+            language: *lang_en
+          - text: "Ihre Position im Raum ist gekonnt auf die eingesetzten Medien abgestimmt."
+            language: *lang_de
+          - text: "Votre position dans la salle est agréablement en adéquation avec les aides visuelles utilisées."
+            language: *lang_fr
+  - &criterion12
+    id: null
+    texts:
+      - text: "Eye contact is made with the entire audience and is maintained as much as possible."
+        language: *lang_en
+      - text: "Der Blickkontakt wird mit dem ganzen Publikum aufgenommen und bleibt weitestgehend bestehen."
+        language: *lang_de
+      - text: "Le contact visuel est établi avec l'ensemble du public et le reste autant que possible."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Eye contact before starting"
+            language: *lang_en
+          - text: "Blick vor dem Start"
+            language: *lang_de
+          - text: "Contact visuel avant de débuter"
+            language: *lang_fr
+        description:
+          - text: "Eye contact is established before the presentation begins."
+            language: *lang_en
+          - text: "Der Blickkontakt wird vor dem Start der Präsentation aufgenommen."
+            language: *lang_de
+          - text: "Un contact visuel est établi avant le début de la présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "You fail to establish eye contact before the presentation begins."
+            language: *lang_en
+          - text: "Sie nehmen vor dem Start der Präsentation keinen Blickkontakt auf."
+            language: *lang_de
+          - text: "Vous n'établissez pas de contact visuel avant le début de la présentation."
+            language: *lang_fr
+        negative:
+          - text: "You only partly establish eye contact before the presentation begins."
+            language: *lang_en
+          - text: "Sie nehmen vor dem Start der Präsentation den Blickkontakt zu wenig deutlich auf."
+            language: *lang_de
+          - text: "Vous n'établissez pas un contact visuel suffisant avant le début de la présentation."
+            language: *lang_fr
+        positive:
+          - text: "You establish eye contact before the presentation begins."
+            language: *lang_en
+          - text: "Sie nehmen vor dem Start der Präsentation Blickkontakt auf."
+            language: *lang_de
+          - text: "Vous établissez un contact visuel avant le début de la présentation."
+            language: *lang_fr
+        verypositive:
+          - text: "You deliberately and effectively establish eye contact before the presentation begins."
+            language: *lang_en
+          - text: "Sie nehmen vor dem Start der Präsentation den Blickkontakt bewusst und wirksam auf."
+            language: *lang_de
+          - text: "Vous établissez un contact visuel délibéré et efficace avant le début de la présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Eye contact during the presentation"
+            language: *lang_en
+          - text: "Blick während der Präsentation"
+            language: *lang_de
+          - text: "Contact visuel pendant la présentation"
+            language: *lang_fr
+        description:
+          - text: "Eye contact is maintained during most of the presentation."
+            language: *lang_en
+          - text: "Der Blickkontakt bleibt während eines Grossteils der Präsentation bestehen."
+            language: *lang_de
+          - text: "Le contact visuel est maintenu pendant la majeure partie de la présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "You make insufficient eye contact with the audience."
+            language: *lang_en
+          - text: "Sie nehmen kaum Blickkontakt zum Publikum auf."
+            language: *lang_de
+          - text: "Vous n'avez pratiquement aucun contact visuel avec le public."
+            language: *lang_fr
+        negative:
+          - text: "You do not make enough eye contact with the audience often."
+            language: *lang_en
+          - text: "Sie nehmen zu wenig oft Blickkontakt zum Publikum auf."
+            language: *lang_de
+          - text: "Vous n'établissez pas assez souvent un contact visuel avec le public."
+            language: *lang_fr
+        positive:
+          - text: "You often make eye contact with the audience."
+            language: *lang_en
+          - text: "Sie nehmen den Blickkontakt zum Publikum regelmässig auf."
+            language: *lang_de
+          - text: "Vous avez souvent un contact visuel avec le public."
+            language: *lang_fr
+        verypositive:
+          - text: "You maintain eye contact with the audience during your presentation."
+            language: *lang_en
+          - text: "Sie halten den Blickkontakt zum Publikum grösstenteils aufrecht."
+            language: *lang_de
+          - text: "Vous maintenez un contact visuel avec le public la majeure partie du temps de votre présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Eye contact at the end"
+            language: *lang_en
+          - text: "Blick zum Abschluss"
+            language: *lang_de
+          - text: "Contact visuel à la fin de la présentation"
+            language: *lang_fr
+        description:
+          - text: "Eye contact is deliberately made at the end of the presentation."
+            language: *lang_en
+          - text: "Der Blickkontakt wird zum Abschluss der Präsentation bewusst aufgenommen."
+            language: *lang_de
+          - text: "Un contact visuel est établi de manière délibérée à la fin de la présentation."
+            language: *lang_fr
+        verynegative:
+          - text: "You end your presentation without eye contact."
+            language: *lang_en
+          - text: "Sie beenden Ihre Präsentation ohne Blickkontakt."
+            language: *lang_de
+          - text: "Vous terminez votre présentation sans aucun contact visuel."
+            language: *lang_fr
+        negative:
+          - text: "Your eye contact at the end of the presentation is superficial."
+            language: *lang_en
+          - text: "Ihr Blickkontakt zum Abschluss der Präsentation ist flüchtig."
+            language: *lang_de
+          - text: "Votre contact visuel à la fin de la présentation est superficiel."
+            language: *lang_fr
+        positive:
+          - text: "At the end of the presentation you deliberately seek eye contact."
+            language: *lang_en
+          - text: "Ihr Blick zum Abschluss der Präsentation richtet sich zum Publikum."
+            language: *lang_de
+          - text: "À la fin de la présentation, vous regardez le public."
+            language: *lang_fr
+        verypositive:
+          - text: "You effectively finish your presentation effectively making deliberate eye contact with the audience."
+            language: *lang_en
+          - text: "Sie schliessen Ihre Präsentation mit bewusstem Blickkontakt ins Publikum wirkungsvoll ab."
+            language: *lang_de
+          - text: "Vous concluez votre présentation de manière efficace par un contact visuel délibéré avec le public."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Eye contact with the entire audience"
+            language: *lang_en
+          - text: "Verteilung des Blicks auf Publikum"
+            language: *lang_de
+          - text: "Contact visuel avec l'ensemble du public"
+            language: *lang_fr
+        description:
+          - text: "Eye contact is established with the entire audience."
+            language: *lang_en
+          - text: "Der Blickkontakt verteilt sich über das gesamte Publikum."
+            language: *lang_de
+          - text: "Le contact visuel est établi avec l'ensemble du public."
+            language: *lang_fr
+        verynegative:
+          - text: "You only look at one section of the audience."
+            language: *lang_en
+          - text: "Sie richten Ihren Blick nur auf einen Teil des Publikums."
+            language: *lang_de
+          - text: "Vous ne dirigez votre regard que sur une partie du public."
+            language: *lang_fr
+        negative:
+          - text: "You only look at certain sections of the audience."
+            language: *lang_en
+          - text: "Sie richten Ihren Blick nur auf Teile des Publikums."
+            language: *lang_de
+          - text: "Vous dirigez votre regard sur certaines parties du public."
+            language: *lang_fr
+        positive:
+          - text: "You regularly look towards different sections of the audience."
+            language: *lang_en
+          - text: "Sie richten Ihren Blick wiederholt auf unterschiedliche Teile des Publikums."
+            language: *lang_de
+          - text: "Vous regardez sans cesse différentes parties du public."
+            language: *lang_fr
+        verypositive:
+          - text: "You regurlarly look at the entire audience."
+            language: *lang_en
+          - text: "Sie richten Ihren Blick immer wieder auf alle Teile des Publikums."
+            language: *lang_de
+          - text: "Vous dirigez sans cesse votre attention vers toutes les parties du public."
+            language: *lang_fr
+  - &criterion13
+    id: null
+    texts:
+      - text: "Facial expressions are friendly and authentic. Gestures emphasize what is being said."
+        language: *lang_en
+      - text: "Die Mimik ist freundlich und authentisch. Die Gestik unterstützt das Gesagte."
+        language: *lang_de
+      - text: "Les expressions du visage sont amicales et authentiques. Les gestes appuient ce qui est dit."
+        language: *lang_fr
+    subratings:
+      - id: null
+        title:
+          - text: "Natural gestures"
+            language: *lang_en
+          - text: "Natürliche Gestik"
+            language: *lang_de
+          - text: "Gestuelle naturelle"
+            language: *lang_fr
+        description:
+          - text: "Gestures are natural."
+            language: *lang_en
+          - text: "Die Gestik ist natürlich."
+            language: *lang_de
+          - text: "La gestuelle est naturelle."
+            language: *lang_fr
+        verynegative:
+          - text: "Your gestures seem artificial."
+            language: *lang_en
+          - text: "Ihre Gestik wirkt unnatürlich."
+            language: *lang_de
+          - text: "Votre gestuelle est artificielle."
+            language: *lang_fr
+        negative:
+          - text: "Your gestures sometimes seem artificial."
+            language: *lang_en
+          - text: "Ihre Gestik wirkt teilweise unnatürlich."
+            language: *lang_de
+          - text: "Votre gestuelle est parfois artificielle."
+            language: *lang_fr
+        positive:
+          - text: "Your gestures generally look natural."
+            language: *lang_en
+          - text: "Ihre Gestik wirkt meist natürlich."
+            language: *lang_de
+          - text: "Votre gestuelle est souvent naturelle."
+            language: *lang_fr
+        verypositive:
+          - text: "Your gestures appear natural throughout the entire presentation."
+            language: *lang_en
+          - text: "Ihre Gestik wirkt in allen Phasen der Präsentation natürlich."
+            language: *lang_de
+          - text: "Votre gestuelle est naturelle durant toute la présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Gestures appropriate to the situation"
+            language: *lang_en
+          - text: "Situationsgerechte Gestik"
+            language: *lang_de
+          - text: "Gestuelle adaptée à la situation"
+            language: *lang_fr
+        description:
+          - text: "Gestures are appropriate to the situation."
+            language: *lang_en
+          - text: "Die Gestik ist situationsgerecht."
+            language: *lang_de
+          - text: "La gestuelle est adaptée à la situation."
+            language: *lang_fr
+        verynegative:
+          - text: "You do not use your gestures in a way that is appropriate to the situation."
+            language: *lang_en
+          - text: "Ihre Gestik passt nicht zur Situation der Präsentation."
+            language: *lang_de
+          - text: "Votre gestuelle n'est pas appropriée à la situation."
+            language: *lang_fr
+        negative:
+          - text: "Your gestures do not sufficiently suit the context of the presentation."
+            language: *lang_en
+          - text: "Ihre Gestik passt zu wenig zur Situation der Präsentation."
+            language: *lang_de
+          - text: "Votre gestuelle est peu appropriée à la situation."
+            language: *lang_fr
+        positive:
+          - text: "Your gestures are generally appropriate to the situation."
+            language: *lang_en
+          - text: "Ihre Gestik passt grösstenteils zur Situation der Präsentation."
+            language: *lang_de
+          - text: "Votre gestuelle est en principe appropriée à la situation."
+            language: *lang_fr
+        verypositive:
+          - text: "Your gestures are appropriate to the situation all through your presentation."
+            language: *lang_en
+          - text: "Ihre Gestik passt durchgehend zur Situation der Präsentation."
+            language: *lang_de
+          - text: "Votre gestuelle est appropriée à la situation tout au long de la présentation."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Gestures emphasizing content"
+            language: *lang_en
+          - text: "Gestik unterstützt Inhalte"
+            language: *lang_de
+          - text: "La gestuelle soutenant le contenu"
+            language: *lang_fr
+        description:
+          - text: "Gestures emphasize the content."
+            language: *lang_en
+          - text: "Die Gestik unterstützt die Inhalte."
+            language: *lang_de
+          - text: "La gestuelle soutient le contenu."
+            language: *lang_fr
+        verynegative:
+          - text: "Your gestures do not lend themselves towards a better understanding of the content."
+            language: *lang_en
+          - text: "Die Gestik unterstützt das Verstehen der Inhalte nicht."
+            language: *lang_de
+          - text: "Les gestes ne favorisent pas la compréhension du contenu."
+            language: *lang_fr
+        negative:
+          - text: "Your gestures only partially aid a better understanding of the content."
+            language: *lang_en
+          - text: "Die Gestik unterstützt das Verstehen der Inhalte zu wenig."
+            language: *lang_de
+          - text: "Les gestes ne favorisent pas suffisamment la compréhension du contenu."
+            language: *lang_fr
+        positive:
+          - text: "Your gestures aid a better understanding of the content."
+            language: *lang_en
+          - text: "Die Gestik unterstützt das Verstehen der Inhalte."
+            language: *lang_de
+          - text: "Les gestes favorisent la compréhension du contenu."
+            language: *lang_fr
+        verypositive:
+          - text: "Your gestures effectively aid a better understanding of the content."
+            language: *lang_en
+          - text: "Die Gestik unterstützt das Verstehen der Inhalte wirkungsvoll."
+            language: *lang_de
+          - text: "Les gestes soutiennent efficacement la compréhension du contenu."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Hands visible"
+            language: *lang_en
+          - text: "Hände sichtbar"
+            language: *lang_de
+          - text: "Mains visibles"
+            language: *lang_fr
+        description:
+          - text: "The hands are generally visible."
+            language: *lang_en
+          - text: "Die Hände sind in der Regel sichtbar."
+            language: *lang_de
+          - text: "Les mains sont généralement visibles."
+            language: *lang_fr
+        verynegative:
+          - text: "Your hands are generally hidden."
+            language: *lang_en
+          - text: "Die Hände sind meist verborgen."
+            language: *lang_de
+          - text: "Les mains sont généralement cachées."
+            language: *lang_fr
+        negative:
+          - text: "Your hands can not be seen enough."
+            language: *lang_en
+          - text: "Die Hände sind zu wenig sichtbar."
+            language: *lang_de
+          - text: "Les mains ne sont pas assez visibles."
+            language: *lang_fr
+        positive:
+          - text: "Your hands can be seen most of the time."
+            language: *lang_en
+          - text: "Die Hände sind mehrheitlich sichtbar."
+            language: *lang_de
+          - text: "Les mains sont visibles la plupart du temps."
+            language: *lang_fr
+        verypositive:
+          - text: "Your hands can generally be seen."
+            language: *lang_en
+          - text: "Die Hände sind in der Regel sichtbar."
+            language: *lang_de
+          - text: "Les mains sont généralement visibles."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Effect of facial expressions"
+            language: *lang_en
+          - text: "Mimik wirkt positiv"
+            language: *lang_de
+          - text: "Les expressions faciales ont un effet positif"
+            language: *lang_fr
+        description:
+          - text: "Facial expressions show a positive attitude."
+            language: *lang_en
+          - text: "Die Mimik ist Ausdruck einer positiven Einstellung."
+            language: *lang_de
+          - text: "Les expressions faciales montrent une attitude positive."
+            language: *lang_fr
+        verynegative:
+          - text: "Your facial expressions do not show a positive attitude."
+            language: *lang_en
+          - text: "Ihre Mimik drückt keine positive Einstellung aus."
+            language: *lang_de
+          - text: "Vos expressions faciales n'expriment pas une attitude positive."
+            language: *lang_fr
+        negative:
+          - text: "Your facial expressions show a positive attitude only on some occasions."
+            language: *lang_en
+          - text: "Ihre Mimik lässt an wenigen Stellen eine positive Einstellung erkennen."
+            language: *lang_de
+          - text: "Vos expressions faciales montrent parfois une attitude positive."
+            language: *lang_fr
+        positive:
+          - text: "Your facial expressions generally show a positive attitude."
+            language: *lang_en
+          - text: "Ihre Mimik lässt meist eine positive Einstellung erkennen."
+            language: *lang_de
+          - text: "Vos expressions faciales montrent généralement une attitude positive."
+            language: *lang_fr
+        verypositive:
+          - text: "Your facial expressions show a positive attitude all through the presentation."
+            language: *lang_en
+          - text: "Ihre Mimik ist Ausdruck einer positiven Einstellung."
+            language: *lang_de
+          - text: "Les expressions de votre visage montrent une attitude positive."
+            language: *lang_fr
+      - id: null
+        title:
+          - text: "Relaxed facial expression"
+            language: *lang_en
+          - text: "Entspannte Mimik"
+            language: *lang_de
+          - text: "Expression détendue"
+            language: *lang_fr
+        description:
+          - text: "The facial expression is relaxed."
+            language: *lang_en
+          - text: "Die Mimik ist entspannt."
+            language: *lang_de
+          - text: "L'expression du visage est détendue."
+            language: *lang_fr
+        verynegative:
+          - text: "Your facial expression look strained."
+            language: *lang_en
+          - text: "Ihre Mimik wirkt angespannt."
+            language: *lang_de
+          - text: "Votre expression faciale indique que vous êtes tendu-e."
+            language: *lang_fr
+        negative:
+          - text: "Your facial expressions do not look relaxed enough."
+            language: *lang_en
+          - text: "Ihre Mimik wirkt zu wenig entspannt."
+            language: *lang_de
+          - text: "Votre expression faciale n’est pas suffisamment détendue."
+            language: *lang_fr
+        positive:
+          - text: "Your facial expressions usually look relaxed."
+            language: *lang_en
+          - text: "Ihre Mimik wirkt meist entspannt."
+            language: *lang_de
+          - text: "Vos expressions faciales montrent que vous êtes détendu-e la plupart du temps."
+            language: *lang_fr
+        verypositive:
+          - text: "With your relaxed facial expressions, you appear confident."
+            language: *lang_en
+          - text: "Mit Ihrer entspannten Mimik wirken Sie souverän."
+            language: *lang_de
+          - text: "Grâce à vos expressions faciales détendues, vous montrez que vous maitrisez la situation."
+            language: *lang_fr
+
+categories:
+  - &category1
+    id: null
+    unique_name: "content"
+    headers:
+      - text: "Content"
+        language: *lang_en
+      - text: "Inhalt"
+        language: *lang_de
+      - text: "Contenu"
+        language: *lang_fr
+    criteria:
+      - position: 1
+        weight: 1
+        criterion: *criterion1
+      - position: 2
+        weight: 1
+        criterion: *criterion2
+      - position: 3
+        weight: 1
+        criterion: *criterion3
+
+  - &category2
+    id: null
+    unique_name: "structure"
+    headers:
+      - text: "Structure"
+        language: *lang_en
+      - text: "Aufbau"
+        language: *lang_de
+      - text: "Construction"
+        language: *lang_fr
+    criteria:
+      - position: 1
+        weight: 1
+        criterion: *criterion4
+      - position: 2
+        weight: 1
+        criterion: *criterion5
+      - position: 3
+        weight: 1
+        criterion: *criterion6
+
+
+  - &category3
+    id: null
+    unique_name: "media"
+    headers:
+      - text: "Media"
+        language: *lang_en
+      - text: "Medien"
+        language: *lang_de
+      - text: "Médias"
+        language: *lang_fr
+    criteria:
+      - position: 1
+        weight: 1
+        criterion: *criterion7
+      - position: 2
+        weight: 1
+        criterion: *criterion8
+
+
+  - &category4
+    id: null
+    unique_name: "speech"
+    headers:
+      - text: "Speech"
+        language: *lang_en
+      - text: "Sprache"
+        language: *lang_de
+      - text: "Langue"
+        language: *lang_fr
+    criteria:
+      - position: 1
+        weight: 1
+        criterion: *criterion9
+      - position: 2
+        weight: 1
+        criterion: *criterion10
+
+
+  - &category5
+    id: null
+    unique_name: "body_language"
+    headers:
+      - text: "Body language"
+        language: *lang_en
+      - text: "Körpersprache"
+        language: *lang_de
+      - text: "Langage corporel"
+        language: *lang_fr
+    criteria:
+      - position: 1
+        weight: 1
+        criterion: *criterion11
+      - position: 2
+        weight: 1
+        criterion: *criterion12
+      - position: 3
+        weight: 1
+        criterion: *criterion13
+
+templates:
+  - &template1
+    id: null
+    name: "Default template"
+    description: "The default template."
+    categories:
+      - position: 1
+        weight: 0.2
+        category: *category1
+      - weight: 0.2
+        position: 2
+        category: *category2
+      - weight: 0.2
+        position: 3
+        category: *category3
+      - weight: 0.2
+        position: 4
+        category: *category4
+      - weight: 0.2
+        position: 5
+        category: *category5

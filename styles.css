@@ -1,0 +1,33 @@
+/** Choice highlighting **/
+
+.path-mod-verbalfeedback .scaleoptionlabel.badge.badge-success {
+    text-decoration: underline overline;
+}
+
+/** Table headings **/
+
+.path-mod-verbalfeedback table#questionnaire.table-striped .col-md-1 {
+    -moz-hyphens: auto;
+    -o-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+#page-mod-verbalfeedback-edit_items .user3.unselectedrow.border-top,
+#page-mod-verbalfeedback-view .user3.unselectedrow.border-top,
+#page-mod-verbalfeedback-report .user3.unselectedrow.border-top {
+    border-top: 2px solid black !important;
+}
+
+/* Editor borders */
+#page-mod-verbalfeedback-view .editor_atto_content_wrap {
+    border-left: 1px solid #8f959e;
+    border-bottom: 1px solid #8f959e;
+    border-right: 1px solid #8f959e;
+}
+
+/* Maximum grade label */
+#page-mod-verbalfeedback-edit_instance .maxgrade label {
+    display: inline;
+}

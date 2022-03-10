@@ -1,0 +1,1047 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_verbalfeedback/list_verbalfeedback_items
+
+    Moodle template to the template library
+
+    The purpose of this template is build the entire page for the template library (by including smaller templates).
+
+    Classes required for JS:
+    * mod_verbalfeedback/edit_items
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * verbalfeedbackid - Optional. The verbalfeedback ID.
+    * allitems - Array of all the verbalfeedback items.
+
+    Example context (json):
+    {
+        "categories": [{
+            "header": "Structure",
+            "id": 82,
+            "criteria": [{
+                "categoryid": 82,
+                "id": 212,
+                "position": 1,
+                "weight": "1.00",
+                "text": "The introduction establishes contact, arouses interest and provides orientation.",
+                "subratings": [{
+                    "id": 1362,
+                    "title": "Title",
+                    "description": "The title is meaningful and appealing.",
+                    "verynegative": "The title is not appropriate.",
+                    "negative": "The title is not specific enough.",
+                    "positive": "The title is meaningful.",
+                    "verypositive": "The title is meaningful and attractive."
+                  },
+                  {
+                    "id": 1363,
+                    "title": "Welcome",
+                    "description": "The greeting is appropriate to the situation and makes sense.",
+                    "verynegative": "Although a greeting would be appropriate, do without it.",
+                    "negative": "The greeting is not useful in this form.",
+                    "positive": "You welcome the audience according to the situation.",
+                    "verypositive": "You welcome the audience according to the situation and name certain persons explicitly."
+                  },
+                  {
+                    "id": 1364,
+                    "title": "Introduction",
+                    "description": "The speaker introduces himself or herself. In it the motivation and expertise for the topic becomes clear.",
+                    "verynegative": "Although an introduction would be appropriate, you refrain from it.",
+                    "negative": "The introduction is not meaningful in this form.",
+                    "positive": "You introduce yourself to the audience with your motivation and expertise in a way appropriate to the situation.",
+                    "verypositive": "You introduce yourself to the audience with your motivation and expertise in a way appropriate to the situation, thereby achieving trust and credibility."
+                  },
+                  {
+                    "id": 1365,
+                    "title": "Entry",
+                    "description": "The introduction to the topic is gripping and arouses interest.",
+                    "verynegative": "An introduction to the topic is missing.",
+                    "negative": "The introduction to the topic is informative, but does not arouse much interest.",
+                    "positive": "Your introduction to the topic is appealing and picks up the audience.",
+                    "verypositive": "With your gripping introduction you make the audience really curious about the topic."
+                  },
+                  {
+                    "id": 1366,
+                    "title": "Introduction",
+                    "description": "The speaker introduces the topic of the presentation.",
+                    "verynegative": "The topic remains unclear.",
+                    "negative": "You name the topic. But the audience does not clearly understand what your presentation is about.",
+                    "positive": "You explain adequately what your presentation is about.",
+                    "verypositive": "You explain precisely what your presentation is about and show the larger context of the topic."
+                  },
+                  {
+                    "id": 1367,
+                    "title": "Goal",
+                    "description": "The speaker points out the goal of the presentation to the audience.",
+                    "verynegative": "The objective of your presentation is not revealed.",
+                    "negative": "The objective of your presentation is implicitly clear, but you should point this out explicitly.",
+                    "positive": "You explicitly point out the objective of your presentation.",
+                    "verypositive": "You clearly point out a specific goal of your presentation."
+                  },
+                  {
+                    "id": 1368,
+                    "title": "Orientation",
+                    "description": "The speaker informs about the structure of the presentation.",
+                    "verynegative": "You do not provide any orientation for the structure of the presentation.",
+                    "negative": "Your orientation to the structure of the presentation is not appropriate enough.",
+                    "positive": "Your orientation to the structure of the presentation is appropriate.",
+                    "verypositive": "Your orientation to the structure of the presentation is clear and arouses interest."
+                  }]
+              },
+              {
+                "categoryid": 82,
+                "id": 213,
+                "position": 2,
+                "weight": "1.00",
+                "text": "The main parts build on each other and are purposeful.",
+                "subratings": [{
+                    "id": 1369,
+                    "title": "Structure",
+                    "description": "The middle section consists of several, clearly defined main sections. (Outline)",
+                    "verynegative": "A division into main parts is not visible.",
+                    "negative": "A division into main parts is not clearly enough recognizable.",
+                    "positive": "A division into main parts is recognizable.",
+                    "verypositive": "A division into main parts is clearly visible."
+                  },
+                  {
+                    "id": 1370,
+                    "title": "Red thread",
+                    "description": "The main parts build on each other. (inner order, red thread)",
+                    "verynegative": "The sequence of the main parts is arbitrary. A red thread is missing.",
+                    "negative": "The main parts are partly based on each other, but a continuous red thread is missing.",
+                    "positive": "The main parts build upon each other. The red thread is comprehensible.",
+                    "verypositive": "The main parts build on each other. The red thread is clearly comprehensible, and the presentation shows an arc of tension."
+                  },
+                  {
+                    "id": 1371,
+                    "title": "Target orientation",
+                    "description": "The structure of the main parts is geared to the presentation goal.",
+                    "verynegative": "You do not align the structure of your main parts with the presentation goal.",
+                    "negative": "You do not align the structure of your main parts enough with the presentation goal.",
+                    "positive": "You align the structure of your main parts with the presentation goal.",
+                    "verypositive": "You systematically align the structure of your main parts with the presentation goal."
+                  },
+                  {
+                    "id": 1372,
+                    "title": "Transitions",
+                    "description": "The main parts are connected by effective transitions.",
+                    "verynegative": "Explicit transitions between different main parts are missing.",
+                    "negative": "Explicit transitions from one main part to another are partly present.",
+                    "positive": "You explicitly lead from one main part to another.",
+                    "verypositive": "The transitions effectively connect the individual main parts."
+                  }]
+              },
+              {
+                "categoryid": 82,
+                "id": 214,
+                "position": 3,
+                "weight": "1.00",
+                "text": "The final part creates a convincing effect and clearly marks the end of the presentation.",
+                "subratings": [{
+                    "id": 1373,
+                    "title": "Coherence",
+                    "description": "The final part of the presentation is in line with the content of the presentation goal.",
+                    "verynegative": "The concluding part seems detached from the presentation goal.",
+                    "negative": "The concluding part only partially fits the presentation objective.",
+                    "positive": "The concluding part fits the presentation objective.",
+                    "verypositive": "The final part fits the presentation objective and rounds off the presentation successfully."
+                  },
+                  {
+                    "id": 1374,
+                    "title": "Effect",
+                    "description": "The speaker brings the essential statements clearly to the point and thus underlines the intended effect.",
+                    "verynegative": "An actual final part is missing. This means you miss the chance to consciously make an impact on the audience.",
+                    "negative": "In your concluding section, you do not get to the heart of the matter clearly enough. This means that you only achieve a limited effect on the audience.",
+                    "positive": "In your concluding section, you get to the heart of the matter. The intended effect is recognizable.",
+                    "verypositive": "In your final part you get to the heart of the matter very clearly. This makes you appear convincing."
+                  },
+                  {
+                    "id": 1375,
+                    "title": "Final sentence",
+                    "description": "The speaker concludes with a strong sentence.",
+                    "verynegative": "A clear conclusion of your presentation is missing.",
+                    "negative": "You close the presentation with a standard phrase.",
+                    "positive": "You conclude your presentation with a concise sentence.",
+                    "verypositive": "You conclude your presentation effectively with a concise sentence."
+                  }]
+              }],
+            "position": 2,
+            "weight": "0.20"
+          },
+          {
+            "header": "Media",
+            "id": 83,
+            "criteria": [{
+                "categoryid": 83,
+                "id": 215,
+                "position": 1,
+                "weight": "1.00",
+                "text": "The use of media is professional.",
+                "subratings": [{
+                    "id": 1376,
+                    "title": "Function",
+                    "description": "Visualizations have a clearly recognizable function.",
+                    "verynegative": "Too many of your visualizations have no clearly recognizable function.",
+                    "negative": "Some of your visualizations do not have a clearly recognizable function.",
+                    "positive": "In most of your visualizations the function is clearly visible.",
+                    "verypositive": "Your visualizations each have a clearly recognizable function."
+                  },
+                  {
+                    "id": 1377,
+                    "title": "Focus on illustrative material",
+                    "description": "The speaker is the focus, not the visual material.",
+                    "verynegative": "There is too much focus on the visual material.",
+                    "negative": "Sometimes the illustrative material is more in focus than you are.",
+                    "positive": "You are clearly in focus and use the illustrative material appropriately.",
+                    "verypositive": "You are clearly in focus and effectively use the visuals to support you."
+                  },
+                  {
+                    "id": 1378,
+                    "title": "Contexts",
+                    "description": "The visualizations make connections visible.",
+                    "verynegative": "Visualizations to show connections are missing.",
+                    "negative": "Your visualizations do not show the connections clearly enough.",
+                    "positive": "Your visualizations show individual connections.",
+                    "verypositive": "Your visualizations show the essential connections."
+                  },
+                  {
+                    "id": 1379,
+                    "title": "Key statements",
+                    "description": "The visualizations promote the understanding of the core statements.",
+                    "verynegative": "The visualizations do not contribute to the understanding of the core statements.",
+                    "negative": "The visualizations partly contribute to the understanding of the core statements.",
+                    "positive": "The visualizations contribute to the understanding of the core statements.",
+                    "verypositive": "The visualizations effectively support the core statements."
+                  },
+                  {
+                    "id": 1380,
+                    "title": "Timing",
+                    "description": "The visualizations are shown when they match the oral explanations.",
+                    "verynegative": "The visualizations do not match the time of the oral explanations.",
+                    "negative": "The visualizations do not match the time of the oral explanations.",
+                    "positive": "Mostly the visualizations are shown when they fit to the oral explanations.",
+                    "verypositive": "The visualizations are shown when they fit to the oral explanations."
+                  },
+                  {
+                    "id": 1381,
+                    "title": "Dealing with technology",
+                    "description": "Dealing with technology successfully.",
+                    "verynegative": "You should familiarize yourself with the technique in advance and test the application.",
+                    "negative": "Better preparation is needed for successful use of technology.",
+                    "positive": "Dealing with technology successfully.",
+                    "verypositive": "The handling of technology succeeds confidently."
+                  },
+                  {
+                    "id": 1382,
+                    "title": "Handling objects",
+                    "description": "Deployed items are clearly visible to all.",
+                    "verynegative": "The objects used are poorly visible.",
+                    "negative": "The objects used are not visible enough.",
+                    "positive": "The items used are clearly visible to all.",
+                    "verypositive": "You choose appropriate tools to make items easily visible to all."
+                  },
+                  {
+                    "id": 1383,
+                    "title": "Use of different media",
+                    "description": "Multiple media are used judiciously.",
+                    "verynegative": "The use of only one media seems too monotonous.",
+                    "negative": "The potential for using different media is not used.",
+                    "positive": "The use of different media has a varied effect.",
+                    "verypositive": "The different media complement each other effectively."
+                  }]
+              },
+              {
+                "categoryid": 83,
+                "id": 216,
+                "position": 2,
+                "weight": "1.00",
+                "text": "The visual aids are attractive and of good quality.",
+                "subratings": [{
+                    "id": 1384,
+                    "title": "Uniformity",
+                    "description": "The visualizations follow a uniform design principle.",
+                    "verynegative": "A uniform design principle for the foils is missing.",
+                    "negative": "The foils are not uniformly designed enough.",
+                    "positive": "The slides are uniformly designed.",
+                    "verypositive": "The films have a uniform, effective design principle."
+                  },
+                  {
+                    "id": 1385,
+                    "title": "Care",
+                    "description": "The visualizations are carefully designed.",
+                    "verynegative": "The visualizations seem to be designed carelessly.",
+                    "negative": "The visualizations are not designed carefully enough.",
+                    "positive": "The visualizations are carefully designed.",
+                    "verypositive": "The visualizations are elaborate and very carefully designed."
+                  },
+                  {
+                    "id": 1386,
+                    "title": "Quantity of information",
+                    "description": "The amount of information of a visualization is appropriate for the audience.",
+                    "verynegative": "Your visualizations seem overloaded.",
+                    "negative": "Your visualizations usually contain too much information.",
+                    "positive": "Your visualizations usually contain an appropriate amount of information.",
+                    "verypositive": "Your visualizations contain the optimal amount of information."
+                  },
+                  {
+                    "id": 1387,
+                    "title": "Highlights",
+                    "description": "Essential information in tables and graphics is highlighted.",
+                    "verynegative": "Emphasis in your tables or graphics is missing. This makes it difficult to recognize the essential.",
+                    "negative": "Emphasis, in order to make the substantial in tables and/or diagrams recognizable, is used too little.",
+                    "positive": "Essential things in tables and graphics are highlighted.",
+                    "verypositive": "Emphasis makes the essentials in tables or graphics clearly recognizable."
+                  },
+                  {
+                    "id": 1388,
+                    "title": "Complex visualizations",
+                    "description": "Complex visualizations are built up gradually.",
+                    "verynegative": "Complex visualizations are not built up bit by bit.",
+                    "negative": "Complex visualizations are partly built up gradually.",
+                    "positive": "Complex visualizations are built up gradually.",
+                    "verypositive": "Complex visualizations are built up systematically gradually."
+                  },
+                  {
+                    "id": 1389,
+                    "title": "Size",
+                    "description": "The size of the illustrations is correct.",
+                    "verynegative": "The illustrations are too small.",
+                    "negative": "Several illustrations are too small.",
+                    "positive": "Most of the illustrations are large enough.",
+                    "verypositive": "The size of the illustrations is correct."
+                  },
+                  {
+                    "id": 1390,
+                    "title": "Quality",
+                    "description": "The illustrations are of good quality.",
+                    "verynegative": "The quality of the illustrations is insufficient.",
+                    "negative": "The quality of several illustrations is unsatisfactory.",
+                    "positive": "The quality of several illustrations is good.",
+                    "verypositive": "The quality of the illustrations is excellent."
+                  },
+                  {
+                    "id": 1391,
+                    "title": "Sources",
+                    "description": "The references to the illustrations are complete.",
+                    "verynegative": "The references to your illustrations are missing.",
+                    "negative": "The references to your illustrations are partially incomplete.",
+                    "positive": "The references to your illustrations are complete.",
+                    "verypositive": "The references to your illustrations are complete and consistent."
+                  },
+                  {
+                    "id": 1392,
+                    "title": "Units",
+                    "description": "Diagrams and tables contain the important units.",
+                    "verynegative": "Important units in tables and diagrams are missing.",
+                    "negative": "Important units are missing in several tables and diagrams.",
+                    "positive": "Most tables and diagrams contain the important units.",
+                    "verypositive": "By indicating the units, your tables and diagrams are easy to understand."
+                  },
+                  {
+                    "id": 1393,
+                    "title": "Readability",
+                    "description": "The text elements are easy to read.",
+                    "verynegative": "Many text elements are difficult to read.",
+                    "negative": "Some text elements are not easy to read.",
+                    "positive": "The text elements are easy to read.",
+                    "verypositive": "Creative elements make your text elements easy to read."
+                  },
+                  {
+                    "id": 1394,
+                    "title": "Correctness",
+                    "description": "The texts are linguistically correct.",
+                    "verynegative": "The spelling is careless.",
+                    "negative": "The text elements contain too many errors.",
+                    "positive": "The text elements contain only few errors.",
+                    "verypositive": "The text elements are error-free."
+                  }]
+              }],
+            "position": 3,
+            "weight": "0.20"
+          },
+          {
+            "header": "Speech",
+            "id": 84,
+            "criteria": [{
+                "categoryid": 84,
+                "id": 217,
+                "position": 1,
+                "weight": "1.00",
+                "text": "The language style is typical for spoken texts and suitable for the target audience.",
+                "subratings": [{
+                    "id": 1395,
+                    "title": "Oral language style",
+                    "description": "The language style is oral and easy for listeners to understand.",
+                    "verynegative": "Your speaking style is written and seems difficult for listeners to understand.",
+                    "negative": "Your speaking style is not verbal enough and thus not easy to understand.",
+                    "positive": "Your speaking style is oral and understandable for listeners.",
+                    "verypositive": "You use an oral style of speech that listeners enjoy and find easy to follow."
+                  },
+                  {
+                    "id": 1396,
+                    "title": "Sentence length",
+                    "description": "The sentence length fits the content.",
+                    "verynegative": "Your sentences are unnecessarily long and complicated.",
+                    "negative": "Some of your sentences are too long.",
+                    "positive": "Your sentences are usually pleasantly short.",
+                    "verypositive": "You skillfully match the length of your sentences to the content."
+                  },
+                  {
+                    "id": 1397,
+                    "title": "Rhetorical means",
+                    "description": "Rhetorical means are used effectively.",
+                    "verynegative": "Rhetorical questions, deliberate pauses, or comparisons are missing in your language.",
+                    "negative": "Approaches in the use of rhetorical devices are recognizable.",
+                    "positive": "You use rhetorical means effectively.",
+                    "verypositive": "Your language is convincing with purposefully used rhetorical means."
+                  },
+                  {
+                    "id": 1398,
+                    "title": "Vivid language",
+                    "description": "Vivid language promotes understanding.",
+                    "verynegative": "Your language seems abstract and thus difficult to understand.",
+                    "negative": "To promote understanding, the language would have to be more vivid.",
+                    "positive": "There are good examples of vivid language in your formulations.",
+                    "verypositive": "You use vivid language that promotes understanding."
+                  },
+                  {
+                    "id": 1399,
+                    "title": "Grammatical correctness",
+                    "description": "The language is grammatically correct.",
+                    "verynegative": "The many grammatical errors in the language are disturbing.",
+                    "negative": "The language has noticeable grammatical errors.",
+                    "positive": "The language is mostly grammatically correct.",
+                    "verypositive": "The language is grammatically correct."
+                  },
+                  {
+                    "id": 1400,
+                    "title": "Technical terms",
+                    "description": "Technical terms are explained with examples.",
+                    "verynegative": "Technical terms are not explained.",
+                    "negative": "Technical terms are not explained enough.",
+                    "positive": "The most important technical terms are explained.",
+                    "verypositive": "The technical vocabulary is explained with examples appropriate to the event."
+                  },
+                  {
+                    "id": 1401,
+                    "title": "Abbreviations",
+                    "description": "Abbreviations are explained when necessary.",
+                    "verynegative": "You use abbreviations that would need to be explained.",
+                    "negative": "Some abbreviations you would have to explain.",
+                    "positive": "You consistently explain unfamiliar abbreviations.",
+                    "verypositive": "You explain unfamiliar abbreviations consistently and elegantly."
+                  },
+                  {
+                    "id": 1402,
+                    "title": "Dealing with foreign words",
+                    "description": "Foreign words are understandable.",
+                    "verynegative": "Your language contains a striking number of unnecessary foreign words.",
+                    "negative": "Your language contains some unnecessary foreign words.",
+                    "positive": "You do not use unnecessary foreign words.",
+                    "verypositive": "You use foreign words in a way that promotes understanding."
+                  },
+                  {
+                    "id": 1403,
+                    "title": "Gender-sensitive language",
+                    "description": "The language follows rules of gender-appropriate language.",
+                    "verynegative": "Your language is biased toward a male audience.",
+                    "negative": "You take too little account of rules of gender-appropriate language.",
+                    "positive": "You apply rules of gender-appropriate language coherently.",
+                    "verypositive": "You use the advantages of gender-appropriate language confidently and effectively."
+                  }]
+              },
+              {
+                "categoryid": 84,
+                "id": 218,
+                "position": 2,
+                "weight": "1.00",
+                "text": "The speaking style is convincing and facilitates comprehension.",
+                "subratings": [{
+                    "id": 1404,
+                    "title": "Fluency",
+                    "description": "The speech style is fluid.",
+                    "verynegative": "Your speech style is very halting.",
+                    "negative": "Your speech style is sometimes halting.",
+                    "positive": "Your speech style is mostly fluent.",
+                    "verypositive": "Your speech style is very fluent."
+                  },
+                  {
+                    "id": 1405,
+                    "title": "Hesitation sounds",
+                    "description": "Hesitation sounds do not interfere.",
+                    "verynegative": "The many hesitation sounds make listening tedious.",
+                    "negative": "You make too many hesitation sounds, which doesn't seem very professional.",
+                    "positive": "Hesitation sounds occur only sporadically and do not interfere.",
+                    "verypositive": "Your way of speaking is free of hesitation sounds, which comes across as professional."
+                  },
+                  {
+                    "id": 1406,
+                    "title": "Express yourself spontaneously",
+                    "description": "The language is spontaneously formulated.",
+                    "verynegative": "You read the majority of the text of your presentation.",
+                    "negative": "Your formulations come across as overly learned.",
+                    "positive": "You largely formulate spontaneously.",
+                    "verypositive": "Your spontaneously formulation is very convincing."
+                  },
+                  {
+                    "id": 1407,
+                    "title": "Speech tempo",
+                    "description": "The pace of speech is pleasant.",
+                    "verynegative": "The pace of speech is too fast, which makes it difficult to understand.",
+                    "negative": "The pace of speech is too slow, which seems labored for the audience.",
+                    "positive": "Your pace of speech is pleasant, one can follow the content well.",
+                    "verypositive": "You vary the pace of speech to match the content."
+                  },
+                  {
+                    "id": 1408,
+                    "title": "Volume",
+                    "description": "The volume matches the size of the room and audience.",
+                    "verynegative": "You speak too softly, so that you can hardly be heard.",
+                    "negative": "You speak too loudly, which seems unpleasant.",
+                    "positive": "The volume matches the size of the room and the audience.",
+                    "verypositive": "You effectively change the volume."
+                  },
+                  {
+                    "id": 1409,
+                    "title": "Voice melody",
+                    "description": "The melody of speech is lively.",
+                    "verynegative": "You speak in a decidedly monotone manner, which has a soporific effect.",
+                    "negative": "Too rarely do you deliberately emphasize words or parts of sentences to make them stand out.",
+                    "positive": "Your speech melody seems natural and lively.",
+                    "verypositive": "You deliberately emphasize words or parts of sentences to make them stand out."
+                  },
+                  {
+                    "id": 1410,
+                    "title": "Articulation",
+                    "description": "The pronunciation is clear and distinct.",
+                    "verynegative": "The pronunciation is unclear, so that you are poorly understood.",
+                    "negative": "The pronunciation is sometimes unclear.",
+                    "positive": "Your pronunciation is clear and distinct.",
+                    "verypositive": "The pronunciation is clear and very pleasant to listen to."
+                  }]
+              }],
+            "position": 4,
+            "weight": "0.20"
+          },
+          {
+            "header": "Body language",
+            "id": 85,
+            "criteria": [{
+                "categoryid": 85,
+                "id": 219,
+                "position": 1,
+                "weight": "1.00",
+                "text": "The performance is confident and the stage is used effectively.",
+                "subratings": [{
+                    "id": 1411,
+                    "title": "Confidence",
+                    "description": "The posture expresses self-confidence.",
+                    "verynegative": "The posture expresses insecurity.",
+                    "negative": "The posture expresses too little self-confidence.",
+                    "positive": "The posture usually expresses self-confidence.",
+                    "verypositive": "The posture makes you look confident."
+                  },
+                  {
+                    "id": 1412,
+                    "title": "Quiet stand",
+                    "description": "The stand is calm and considered.",
+                    "verynegative": "Your stance appears restless and nervous.",
+                    "negative": "Your stance is not calm enough.",
+                    "positive": "Your stance is usually calm.",
+                    "verypositive": "Your stance is calm and deliberate."
+                  },
+                  {
+                    "id": 1413,
+                    "title": "Alignment",
+                    "description": "The body is turned towards the audience.",
+                    "verynegative": "You usually turn away from the audience.",
+                    "negative": "You turn too little to the audience.",
+                    "positive": "They usually turn towards the audience.",
+                    "verypositive": "You turn effectively towards the audience."
+                  },
+                  {
+                    "id": 1414,
+                    "title": "Authenticity",
+                    "description": "The body language appears authentic and supports the presentation positively.",
+                    "verynegative": "Your body language seems artificial and distracting.",
+                    "negative": "Your body language does not seem authentic enough.",
+                    "positive": "Your body language appears mostly authentic.",
+                    "verypositive": "Your body language appears authentic, which positively supports your presentation."
+                  },
+                  {
+                    "id": 1415,
+                    "title": "Charisma",
+                    "description": "The presence radiates positive energy.",
+                    "verynegative": "You do not perceive any positive energy.",
+                    "negative": "Your presence does not radiate enough positive energy.",
+                    "positive": "With your presence you radiate positive energy in phases.",
+                    "verypositive": "With your presence you radiate positive energy."
+                  },
+                  {
+                    "id": 1416,
+                    "title": "Position in space",
+                    "description": "The position in the room establishes the reference to the entire audience.",
+                    "verynegative": "Your position in the room creates no relation to the audience.",
+                    "negative": "Your position in space creates too little relation to the audience.",
+                    "positive": "With your position in the room you usually establish a connection to the audience.",
+                    "verypositive": "Your position in the room establishes the reference to the entire audience."
+                  },
+                  {
+                    "id": 1417,
+                    "title": "Movement in space",
+                    "description": "Varying the position in space is \"stage-effective\".",
+                    "verynegative": "You do not use the \"stage\" because your position in the room is too static.",
+                    "negative": "You use the \"stage\" too little due to a too static position in the room.",
+                    "positive": "You use the \"stage\" by varying your position in the room.",
+                    "verypositive": "You move freely and use your position in space \"stage-effectively\"."
+                  },
+                  {
+                    "id": 1418,
+                    "title": "Position and media",
+                    "description": "The position in the room is adjusted to the visualizations used.",
+                    "verynegative": "Your position in the room is not aligned with the visualizations used.",
+                    "negative": "Your position in the room is not sufficiently aligned with the visualizations used.",
+                    "positive": "Your position in the room is usually coordinated with the visualizations used.",
+                    "verypositive": "Your position in the room is skilfully coordinated with the visualizations used."
+                  }]
+              },
+              {
+                "categoryid": 85,
+                "id": 220,
+                "position": 2,
+                "weight": "1.00",
+                "text": "Eye contact is made with the entire audience and is maintained as far as possible.",
+                "subratings": [{
+                    "id": 1419,
+                    "title": "View before the start",
+                    "description": "Eye contact is made before the presentation starts.",
+                    "verynegative": "You do not make eye contact before the presentation starts.",
+                    "negative": "You do not make enough eye contact before the presentation starts.",
+                    "positive": "You make eye contact before the presentation starts.",
+                    "verypositive": "You make eye contact consciously and effectively before the presentation starts."
+                  },
+                  {
+                    "id": 1420,
+                    "title": "View during the presentation",
+                    "description": "Eye contact is maintained during most of the presentation.",
+                    "verynegative": "You hardly make eye contact with the audience.",
+                    "negative": "You do not make eye contact with the audience sufficiently often.",
+                    "positive": "You often make eye contact with the audience.",
+                    "verypositive": "You maintain eye contact with the audience for the most part."
+                  },
+                  {
+                    "id": 1421,
+                    "title": "View to the conclusion",
+                    "description": "Eye contact is consciously made at the end of the presentation.",
+                    "verynegative": "You end your presentation without eye contact.",
+                    "negative": "Your eye contact at the end of the presentation is fleeting.",
+                    "positive": "At the end of the presentation you look at the audience.",
+                    "verypositive": "You conclude your presentation effectively with conscious eye contact with the audience."
+                  },
+                  {
+                    "id": 1422,
+                    "title": "Distribution of view to audience",
+                    "description": "The eye contact is spread over the entire audience.",
+                    "verynegative": "You direct your gaze only to a part of the audience.",
+                    "negative": "You direct your gaze at parts of the audience.",
+                    "positive": "You repeatedly look at different parts of the audience.",
+                    "verypositive": "You repeatedly direct your gaze to all parts of the audience."
+                  }]
+              },
+              {
+                "categoryid": 85,
+                "id": 221,
+                "position": 3,
+                "weight": "1.00",
+                "text": "Facial expressions are friendly and authentic. Gestures emphasize what is being said.",
+                "subratings": [{
+                    "id": 1423,
+                    "title": "Natural gestures",
+                    "description": "The gestures are natural.",
+                    "verynegative": "Her gestures seem unnatural.",
+                    "negative": "Your gestures sometimes seem unnatural.",
+                    "positive": "Your gestures usually look natural.",
+                    "verypositive": "Your gestures appear natural in all phases of the presentation."
+                  },
+                  {
+                    "id": 1424,
+                    "title": "Gestures appropriate to the situation",
+                    "description": "The gestures are appropriate to the situation.",
+                    "verynegative": "You do not use the gestures in a way that is appropriate to the situation.",
+                    "negative": "You do not use the gestures in a way that is appropriate to the situation.",
+                    "positive": "You usually use the gestures in a way appropriate to the situation.",
+                    "verypositive": "You use the gestures in a way that is appropriate to the situation throughout."
+                  },
+                  {
+                    "id": 1425,
+                    "title": "Gestures support content",
+                    "description": "The gestures support the content.",
+                    "verynegative": "The gestures do not support the understanding of the contents.",
+                    "negative": "The gestures do not support the understanding of the contents enough.",
+                    "positive": "The gestures support the understanding of the contents.",
+                    "verypositive": "The gestures effectively support the understanding of the contents."
+                  },
+                  {
+                    "id": 1426,
+                    "title": "Hands visible",
+                    "description": "The hands are usually visible.",
+                    "verynegative": "The hands are usually hidden.",
+                    "negative": "The hands are not visible enough.",
+                    "positive": "The hands are visible enough.",
+                    "verypositive": "The hands are usually visible."
+                  },
+                  {
+                    "id": 1427,
+                    "title": "Facial expressions have a positive effect",
+                    "description": "Facial expressions show a positive attitude.",
+                    "verynegative": "Your facial expressions do not express a positive attitude.",
+                    "negative": "Your facial expressions reveal a positive attitude at some moments.",
+                    "positive": "Your facial expressions usually indicate a positive attitude.",
+                    "verypositive": "Your facial expressions show a positive attitude."
+                  },
+                  {
+                    "id": 1428,
+                    "title": "Relaxed facial expression",
+                    "description": "The facial expression is relaxed.",
+                    "verynegative": "Your facial expression looks strained.",
+                    "negative": "Your facial expressions do not look relaxed enough.",
+                    "positive": "Your facial expressions usually look relaxed.",
+                    "verypositive": "With your relaxed facial expressions, you appear confident."
+                  }]
+              }],
+            "position": 5,
+            "weight": "0.20"
+          },
+          {
+            "header": "Content",
+            "id": 81,
+            "criteria": [{
+                "categoryid": 81,
+                "id": 209,
+                "position": 1,
+                "weight": "1.00",
+                "text": "The content is relevant, technically correct and supported by arguments.",
+                "subratings": [{
+                    "id": 1345,
+                    "title": "Importance",
+                    "description": "The importance of the topic is shown. (Why is it worthwhile to deal with this topic).",
+                    "verynegative": "The importance of the topic is not expressed.",
+                    "negative": "The importance of the topic is not clearly expressed.",
+                    "positive": "You show the importance of the topic.",
+                    "verypositive": "You emphasize the importance of the topic."
+                  },
+                  {
+                    "id": 1346,
+                    "title": "Essential contents",
+                    "description": "The presented contents are essential for the topic.",
+                    "verynegative": "The presentation contains too much non-essential content.",
+                    "negative": "The presentation contains some non-essential content.",
+                    "positive": "The presented contents are essential.",
+                    "verypositive": "You bring the essential contents effectively to the point."
+                  },
+                  {
+                    "id": 1347,
+                    "title": "Correctness",
+                    "description": "The presented contents are technically correct.",
+                    "verynegative": "Your presentation contains incorrect information.",
+                    "negative": "Your presentation contains information that is not technically sound enough.",
+                    "positive": "The information presented is technically correct.",
+                    "verypositive": "You clearly show the technical correctness of your presented information."
+                  },
+                  {
+                    "id": 1348,
+                    "title": "Precision",
+                    "description": "The presented contents are precise.",
+                    "verynegative": "Your presented contents are partly imprecise.",
+                    "negative": "Your contents presented are sometimes not precise enough.",
+                    "positive": "Your presented contents are mostly precise.",
+                    "verypositive": "Your presented contents have an appropriate precision."
+                  },
+                  {
+                    "id": 1349,
+                    "title": "Arguments",
+                    "description": "The main statements are convincingly justified and proven.",
+                    "verynegative": "Justifications and evidence for your main statements are missing.",
+                    "negative": "The justifications and evidence for your main statements are not convincing enough.",
+                    "positive": "The main statements are justified and documented.",
+                    "verypositive": "The justifications and evidence for your main statements are convincing."
+                  },
+                  {
+                    "id": 1350,
+                    "title": "Line of argumentation",
+                    "description": "The arguments follow a clear line of argumentation.",
+                    "verynegative": "A line of argumentation is not recognizable.",
+                    "negative": "The line of argumentation is too little recognizable.",
+                    "positive": "The line of argumentation is recognizable.",
+                    "verypositive": "The line of argumentation is clearly recognizable and conclusive."
+                  },
+                  {
+                    "id": 1351,
+                    "title": "Sources",
+                    "description": "The sources of the information are shown.",
+                    "verynegative": "The sources of your information are missing.",
+                    "negative": "You do not show the sources of your information enough.",
+                    "positive": "You show the sources of your information.",
+                    "verypositive": "You precisely point out the sources of your information."
+                  }]
+              },
+              {
+                "categoryid": 81,
+                "id": 210,
+                "position": 2,
+                "weight": "1.00",
+                "text": "The contents are tailored to the target audience and the occasion.",
+                "subratings": [{
+                    "id": 1352,
+                    "title": "Assess prior knowledge",
+                    "description": "The assessments of the target audience's prior knowledge are correct.",
+                    "verynegative": "You are misjudging the target audience's prior knowledge.",
+                    "negative": "You sometimes misjudge the prior knowledge of the target audience.",
+                    "positive": "You correctly estimate the prior knowledge of the target audience to some extent.",
+                    "verypositive": "You correctly assess the prior knowledge of the target audience."
+                  },
+                  {
+                    "id": 1353,
+                    "title": "Use prior knowledge",
+                    "description": "The content addresses the prior knowledge of the target audience.",
+                    "verynegative": "You do not link to the target audience's prior knowledge.",
+                    "negative": "You do not address enough of the target audience's prior knowledge.",
+                    "positive": "You partially address the prior knowledge of the target audience.",
+                    "verypositive": "You skillfully incorporate the target audience's prior knowledge."
+                  },
+                  {
+                    "id": 1354,
+                    "title": "Bring knowledge gain",
+                    "description": "The content brings a gain in knowledge to the target audience.",
+                    "verynegative": "Your content is too simple for the target audience.",
+                    "negative": "Your contents are sometimes too simple for the target audience.",
+                    "positive": "Some of your content brings a gain in knowledge to the target audience.",
+                    "verypositive": "Your content brings a gain of knowledge to the target audience."
+                  },
+                  {
+                    "id": 1355,
+                    "title": "Comprehensibility",
+                    "description": "The content is clearly understandable for the target audience.",
+                    "verynegative": "Your contents are hardly understandable for the target audience.",
+                    "negative": "Some of your content is not understandable to the target audience.",
+                    "positive": "Most of your content is understandable to the target audience.",
+                    "verypositive": "Your content is clearly understandable for the target audience."
+                  },
+                  {
+                    "id": 1356,
+                    "title": "Embedding in the framework of the event",
+                    "description": "The contents are placed in the framework of the event.",
+                    "verynegative": "The contents of your presentation seem isolated. References to the framework of the event are missing.",
+                    "negative": "The content of your presentation is not embedded enough in the context of the event.",
+                    "positive": "The content of your presentation creates recognizable references to the framework of the event.",
+                    "verypositive": "You create convincing references to the framework of the event with the contents of your presentation."
+                  },
+                  {
+                    "id": 1357,
+                    "title": "Adapt to situation",
+                    "description": "The content of the presentation fits the situation.",
+                    "verynegative": "Some of the content of your presentation is inappropriate for individual attendees.",
+                    "negative": "Some content of your presentation is problematic for individual attendees.",
+                    "positive": "The content of your presentation fits the situation.",
+                    "verypositive": "You thoughtfully adapt the content of your presentation to the situation."
+                  }]
+              },
+              {
+                "categoryid": 81,
+                "id": 211,
+                "position": 3,
+                "weight": "1.00",
+                "text": "The contents presented are evidence of a thorough, independent examination of the topic.",
+                "subratings": [{
+                    "id": 1358,
+                    "title": "Specific knowledge",
+                    "description": "Specific knowledge is utilized.",
+                    "verynegative": "You make little use of specific knowledge.",
+                    "negative": "You make too little use of specific knowledge.",
+                    "positive": "You use specific knowledge.",
+                    "verypositive": "You apply specific technical knowledge in a differentiated manner."
+                  },
+                  {
+                    "id": 1359,
+                    "title": "Personal access",
+                    "description": "Personal approaches to the topic are recognizable.",
+                    "verynegative": "Your contents do not reveal a personal approach to the subject.",
+                    "negative": "Your contents do not reveal enough personal approaches to the topic.",
+                    "positive": "Your contents reveal a personal approach to the subject.",
+                    "verypositive": "Your contents effectively show personal approaches to the subject."
+                  },
+                  {
+                    "id": 1360,
+                    "title": "Interest",
+                    "description": "Your own interest in the subject is expressed.",
+                    "verynegative": "Your own interest in the subject is not apparent.",
+                    "negative": "You do not express your own interest in the subject enough.",
+                    "positive": "Your own interest in the subject is apparent.",
+                    "verypositive": "You clearly express your own interest in the topic."
+                  },
+                  {
+                    "id": 1361,
+                    "title": "Innovative approaches",
+                    "description": "The treatment of the topic follows innovative approaches.",
+                    "verynegative": "The treatment of the topic does not pursue any innovative approaches.",
+                    "negative": "The treatment of the topic pursues too few innovative approaches.",
+                    "positive": "The treatment of the topic shows innovative approaches.",
+                    "verypositive": "The treatment of the topic convinces with innovative approaches."
+                  }]
+              }],
+            "position": 1,
+            "weight": "0.20"
+          }],
+        "verbalfeedbackid": 21,
+        "viewurl": {},
+        "makeavailableurl": {},
+        "previewurl": {},
+        "maxgrade": "15.00",
+        "cmid": 465,
+        "sesskey": "BABEgbUslM"
+    }
+}}
+<div class="mod-verbalfeedback-edit-content" data-region="itemlist">
+    <div class="mod-verbalfeedback-edit-top-controls">
+        <div class="d-flex justify-content-between flex-wrap mb-1">
+            <div class="d-flex flex-column justify-content-around">
+            </div>
+            <div class="d-flex flex-column justify-content-around">
+                <div class="maxgrade">
+                    <form method="post" action="edit_instance.php" class="verbalfeedbacksavegradesform form-inline">
+                        <fieldset class="invisiblefieldset">
+                            <input type="hidden" name="id" value="{{ cmid }}">
+                            <input type="hidden" name="sesskey" value="{{ sesskey }}">
+                            <label for="inputmaxgrade">{{#str}}grademax, grades{{/str}}</label>
+                            <input type="text" id="inputmaxgrade" name="maxgrade" size="4" value="{{ maxgrade }}" class="form-control">
+                            <input type="submit" class="btn btn-secondary ml-1" name="savechanges" value="{{#str}}save, core{{/str}}">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap mb-1">
+            <div class="d-flex flex-column justify-content-around">
+            </div>
+            <div>
+                <a class="btn btn-link pr-0" href="{{viewurl}}">{{#str}}
+                    backtoverbalfeedbackdashboard, mod_verbalfeedback{{/str}}</a>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap mb-1">
+        </div>
+
+        <div class="d-flex justify-content-between flex-wrap mb-1">
+            <div class="mod-verbalfeedback-edit-action-buttons btn-group edit-toolbar" role="group">
+                {{#makeavailableurl}}
+                    <a class="btn btn-secondary mr-1" href="{{{makeavailableurl}}}">{{#str}}makeavailable{{/str}}</a>
+                {{/makeavailableurl}}
+                {{#previewurl}}
+                    <a class="btn btn-secondary mr-1" href="{{{previewurl}}}">{{#str}}preview{{/str}}</a>
+                {{/previewurl}}
+            </div>
+            <div id="percentage-total" class="pt-1 font-weight-bold">
+              <span>{{#str}}totalpercentage, mod_verbalfeedback{{/str}}</span>
+              <span id="percentage-total-value"></span>
+              <span>%</span>
+            </div>
+        </div>
+        <div class="row ml-0 mr-0 mt-3">
+            <!-- classes: flexible generaltable generalbox -->
+            <table class="table table-sm table-striped">
+                {{# categories }}
+                    <thead>
+                    <tr class="user3 unselectedrow border-top">
+                        <th class="span4 align-middle"><span class="pl-2"><b>{{ header }}</b></span></th>
+                        <th class="span4 align-middle">
+                            <b>{{#str}}percentage, mod_verbalfeedback{{/str}}:&nbsp;</b>
+                            <div class="input-group">
+                                <label for="category-{{id}}-percentage" class="sr-only">{{#str}}percentage, mod_verbalfeedback{{/str}}</label>
+                                <select class="category-percentage custom-select" id="category-{{id}}-percentage"
+                                        data-action="change-category-percentage" data-categoryid="{{id}}" size="1">
+                                    <option value="0.00">0%</option>
+                                    <option value="0.05">5%</option>
+                                    <option value="0.10">10%</option>
+                                    <option value="0.15">15%</option>
+                                    <option value="0.20">20%</option>
+                                    <option value="0.25">25%</option>
+                                    <option value="0.30">30%</option>
+                                    <option value="0.35">35%</option>
+                                    <option value="0.40">40%</option>
+                                    <option value="0.45">45%</option>
+                                    <option value="0.50">50%</option>
+                                </select>
+                                {{#js}}
+                                    require(['jquery'], function($) {
+                                        $('#category-{{id}}-percentage option[value="{{weight}}"]').prop('selected', true);
+                                    });
+                                {{/js}}
+                                <span class="text-success" style="display: none;">{{#pix }} e/save, core, {{/pix }}</span>
+                                <!-- do not use 'd-none' class, because of jquery .show() method -->
+                            </div>
+                        </th>
+                        <th class="span4"></th>
+                        <th class="span4"></th>
+                    </tr>
+                    <tr class="user3 unselectedrow">
+                        <th class="span4 align-middle">&nbsp;</th>
+                        <th class="span4 align-middle"><b>{{#str}}multiplier, mod_verbalfeedback{{/str}}</b></th>
+                        <th class="span4 align-middle">&nbsp;</th>
+                        <th class="span4 align-middle">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{# criteria }}
+                        <tr class="user3 unselectedrow">
+                            <td class="border-bottom">
+                                <span class="pl-2">{{ text }}</span>
+                            </td>
+                            <td class="border-bottom">
+                                <div class="input-group" style="min-width:80px;">
+                                    <label for="item-{{id}}-multiplier" class="sr-only">{{#str}}multiplier, mod_verbalfeedback{{/str}}</label>
+                                    <!-- lang "en" is required because we don't want diffrent floating point separators. -->
+                                    <input lang="en" class="form-control w-40 pl-1 pr-1" type="number"
+                                           data-action="change-item-multiplier" id="item-{{id}}-multiplier" data-itemid="{{id}}"
+                                           step="0.50" value="{{weight}}" min="0" max="5" size="4">
+                                    <span class="text-success" style="display: none;">{{#pix }} e/save, core, {{/pix }}</span>
+                                    <!-- do not use 'd-none' class, because of jquery .show() method -->
+                                </div>
+                            </td>
+                            <td class="border-bottom">
+                            </td>
+                            <td class="border-bottom">
+                            </td>
+                        </tr>
+                    {{/ criteria }}
+                    </tbody>
+                {{/ categories }}
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{{#js}}
+  require(['jquery', 'mod_verbalfeedback/edit_items'], function($, EditItems) {
+        let editItems = new EditItems({{verbalfeedbackid}});
+        editItems.updatePercentageSum();
+    });
+{{/js}}

@@ -1,0 +1,12 @@
+{
+  "name": "verbalfeedback",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~1.2.0",
+    "grunt-contrib-jshint": "~3.0.0",
+    "grunt-contrib-nodeunit": "~2.1.0",
+    "grunt-contrib-uglify": "~5.0.0",
+    "grunt-contrib-clean": "~2.0.0",
+    "grunt-load-gruntfile": "~0.0.2"
+  }
+}
