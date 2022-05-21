@@ -412,7 +412,7 @@ class external extends external_api {
     public static function update_item_multiplier_parameters() {
         return new external_function_parameters([
             'itemid' => new external_value(PARAM_INT, 'The id of the item.'),
-            'multiplier' => new external_value(PARAM_NUMBER, 'The new multiplier value.')
+            'multiplier' => new external_value(PARAM_FLOAT, 'The new multiplier value.')
         ]);
     }
 
@@ -459,7 +459,7 @@ class external extends external_api {
     public static function update_category_percentage_parameters() {
         return new external_function_parameters([
             'categoryid' => new external_value(PARAM_INT, 'The id of the item.'),
-            'percentage' => new external_value(PARAM_NUMBER, 'The new percentage value.')
+            'percentage' => new external_value(PARAM_FLOAT, 'The new percentage value.')
         ]);
     }
 
