@@ -28,13 +28,13 @@ Feature: Grade a verbal feedback activity
       | Description | Test verbal feedback description |
       | Template    | Default template                 |
     And I am on "Course 1" course homepage
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I follow "Edit verbal feedback items"
     And I should see "Edit verbal feedback items"
     And the field "Maximum grade" matches value "100.00"
     And I set the field "Maximum grade" to "50"
     And I click on "Save" "button"
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I follow "Make available"
     And I click on "Provide feedback" "link" in the "Student 1" "table_row"
     And I should see "Pending" in the "[data-region='status']" "css_element"
@@ -59,7 +59,7 @@ Feature: Grade a verbal feedback activity
     And I log out
     And I log in as "teacher2"
     And I am on "Course 1" course homepage
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher2
     And I click on "Provide feedback" "link" in the "Student 1" "table_row"
     And I change window size to "large"
     And I click on "label[aria-label=\"Strongly disagree\"]" "css_element" in the "The content is relevant, technically correct and supported by arguments." "table_row"

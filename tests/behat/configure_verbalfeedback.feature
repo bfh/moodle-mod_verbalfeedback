@@ -28,8 +28,7 @@ Feature: Configure a verbal feedback activity
       | Name        | Test verbal feedback             |
       | Description | Test verbal feedback description |
       | Template    | Default template                 |
-    And I am on "Course 1" course homepage
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I follow "Edit verbal feedback items"
     Then I should see "Edit verbal feedback items"
 
@@ -41,8 +40,7 @@ Feature: Configure a verbal feedback activity
       | Name        | Test verbal feedback             |
       | Description | Test verbal feedback description |
       | Template    | Default template                 |
-    And I am on "Course 1" course homepage
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I follow "Edit verbal feedback items"
     And I should see "Edit verbal feedback items"
     And I set the field "Percentage" in the "Structure" "table_row" to "0%"

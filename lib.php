@@ -625,10 +625,10 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
  * Adds verbal feedback specific settings to the settings block
  *
  * @param settings_navigation $settings The settings navigation object
- * @param navigation_node $feedbacknode The node to add module settings to
+ * @param navigation_node $navigationnode The node to add module settings to
  */
 function verbalfeedback_extend_settings_navigation(settings_navigation $settings,
-    navigation_node $feedbacknode) {
+    navigation_node $navigationnode) {
 
     global $PAGE;
 
@@ -637,9 +637,7 @@ function verbalfeedback_extend_settings_navigation(settings_navigation $settings
     }
 
     if (has_capability('mod/verbalfeedback:managetemplates', $context)) {
-        $verbalfeedbacknode = $feedbacknode->add(get_string('verbalfeedbacktemplates', 'verbalfeedback'));
-
-        $verbalfeedbacknode->add(get_string('managetemplates', 'verbalfeedback'),
+        $navigationnode->add(get_string('verbalfeedbacktemplates', 'verbalfeedback'),
             new moodle_url('/mod/verbalfeedback/template_list.php'));
     }
 }
