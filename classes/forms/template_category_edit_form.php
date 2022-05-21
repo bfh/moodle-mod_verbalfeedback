@@ -99,7 +99,7 @@ class template_category_edit_form extends \moodleform {
             $mform->setType($elementname . '[param_criterion_id]', PARAM_INT);
             $mform->setType($elementname . '[criterion_id]', PARAM_INT);
             $mform->setType($elementname . '[position]', PARAM_INT);
-            $mform->setType($elementname . '[weight]', PARAM_NUMBER);
+            $mform->setType($elementname . '[weight]', PARAM_FLOAT);
             $mform->disabledIf($elementname . '[position]', $elementname . '[selected]', 'notchecked');
             $mform->disabledIf($elementname . '[weight]', $elementname . '[selected]', 'notchecked');
             $mform->addGroup($criteriongroup, $elementname, $localizedtext, array(''), true);

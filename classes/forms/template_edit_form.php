@@ -74,7 +74,7 @@ class template_edit_form extends \moodleform {
             $mform->setType($elementname . '[param_category_id]', PARAM_INT);
             $mform->setType($elementname . '[template_category_id]', PARAM_INT);
             $mform->setType($elementname . '[position]', PARAM_INT);
-            $mform->setType($elementname . '[weight]', PARAM_NUMBER);
+            $mform->setType($elementname . '[weight]', PARAM_FLOAT);
             $mform->disabledIf($elementname . '[position]', $elementname . '[selected]', 'notchecked');
             $mform->disabledIf($elementname . '[weight]', $elementname . '[selected]', 'notchecked');
             $mform->addGroup($categoryformgroup, $elementname, $templatecategory->get_unique_name(), array(''), true);
