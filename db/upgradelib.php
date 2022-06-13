@@ -26,14 +26,26 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Helper function used by the upgrade.php file.
+ * Whether a string ends with a substring
+ *
+ * @param string $haystack The string to look up in
+ * @param string $needle The string to look up
+ * @return bool Whether it ends with that substring
  */
-function mod_verbalfeedback_helper_function() {
-    global $DB;
+function mod_verbalfeedback_ends_with($haystack, $needle) {
+    $length = strlen($needle);
+    return $length > 0 ? substr($haystack, -$length) === $needle : true;
+}
 
-    // Please note that you should always be performing any task using raw (low
-    // level) database access exclusively, avoiding any use of the Moodle APIs.
-    //
-    // For more information please read the available Moodle documentation:
-    // https://docs.moodle.org/dev/Upgrade_API.
+/**
+ * Replace null with 0
+ *
+ * @param int|null $x The int or null
+ * @return int The int
+ */
+function mod_verbalfeedback_replace_null_with_zero(?int $x) : int {
+    if ($x == null) {
+        return 0;
+    }
+    return $x;
 }

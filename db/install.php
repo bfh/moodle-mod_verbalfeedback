@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/verbalfeedback/classes/vendor/autoload.php');
+require_once($CFG->dirroot . '/mod/verbalfeedback/db/upgradelib.php');
 
 use mod_verbalfeedback\model\language;
 use mod_verbalfeedback\model\localized_string;
@@ -41,38 +42,13 @@ use Dallgoot\Yaml;
 use mod_verbalfeedback\model\subrating;
 
 /**
- * Whether a string ends with a substring
- *
- * @param string $haystack The string to look up in
- * @param string $needle The string to look up
- * @return bool Whether it ends with that substring
- */
-function ends_with($haystack, $needle) {
-    $length = strlen($needle);
-    return $length > 0 ? substr($haystack, -$length) === $needle : true;
-}
-
-/**
- * Replace null with 0
- *
- * @param int|null $x The int or null
- * @return int The int
- */
-function replace_null_with_zero(?int $x) : int {
-    if ($x == null) {
-        return 0;
-    }
-    return $x;
-}
-
-/**
  * Install the plugin.
  * @return bool
  */
 function xmldb_verbalfeedback_install() {
     global $CFG;
     $yamlpath = $CFG->dirroot . '/mod/verbalfeedback/db/default.yaml';
-    if (ends_with(getcwd(), 'admin/tool/phpunit/cli')) {
+    if (mod_verbalfeedback_ends_with(getcwd(), 'admin/tool/phpunit/cli')) {
         // Do not execute install.php for phpunit tests.
         return true;
     }
@@ -95,7 +71,7 @@ function xmldb_verbalfeedback_install() {
     }
 
     foreach ($importdata->criteria as $yamlcriterion) {
-        $yamlcriterion->id = replace_null_with_zero($yamlcriterion->id);
+        $yamlcriterion->id = mod_verbalfeedback_replace_null_with_zero($yamlcriterion->id);
         $criterion = new template_criterion($yamlcriterion->id);
         foreach ($yamlcriterion->texts as $text) {
             $localizedstring = new localized_string($text->language->id, 0, $text->text);
@@ -103,7 +79,7 @@ function xmldb_verbalfeedback_install() {
         }
         if (isset($yamlcriterion->subratings)) {
             foreach ($yamlcriterion->subratings as $yamlsubrating) {
-                $yamlsubrating->id = replace_null_with_zero($yamlsubrating->id);
+                $yamlsubrating->id = mod_verbalfeedback_replace_null_with_zero($yamlsubrating->id);
                 $subrating = new subrating($yamlsubrating->id);
                 foreach ($yamlsubrating->title as $title) {
                     $localizedstring = new localized_string($title->language->id, 0, $title->text);
@@ -143,7 +119,7 @@ function xmldb_verbalfeedback_install() {
     }
 
     foreach ($importdata->categories as $yamlcategory) {
-        $yamlcategory->id = replace_null_with_zero($yamlcategory->id);
+        $yamlcategory->id = mod_verbalfeedback_replace_null_with_zero($yamlcategory->id);
         $category = new template_category($yamlcategory->id, $yamlcategory->unique_name);
         foreach ($yamlcategory->headers as $headers) {
             $header = new localized_string($headers->language->id, 0, $headers->text);
@@ -166,7 +142,7 @@ function xmldb_verbalfeedback_install() {
     }
 
     foreach ($importdata->templates as $yamltemplate) {
-        $yamltemplate->id = replace_null_with_zero($yamltemplate->id);
+        $yamltemplate->id = mod_verbalfeedback_replace_null_with_zero($yamltemplate->id);
         $template = new template($yamltemplate->id, $yamltemplate->name, $yamltemplate->description);
         foreach ($yamltemplate->categories as $category) {
             // Use of $category->category->id because '<<' does not work with this yaml parser.
