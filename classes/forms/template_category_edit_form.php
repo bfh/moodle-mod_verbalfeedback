@@ -27,9 +27,7 @@ namespace mod_verbalfeedback\forms;
 use mod_verbalfeedback\repository\language_repository;
 use mod_verbalfeedback\repository\template_criterion_repository;
 
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.');    // It must be included from a Moodle page.
-}
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/formslib.php');
 
