@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/verbalfeedback/db" VERSION="20190530" COMMENT="XMLDB file for Moodle mod/verbalfeedback"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+<XMLDB PATH="mod/verbalfeedback/db" VERSION="20220613" COMMENT="XMLDB file for Moodle mod/verbalfeedback."
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
     <TABLE NAME="verbalfeedback_language" COMMENT="Verbalfeedback languages">
@@ -27,7 +27,7 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for language"/>
         <KEY NAME="verbalfeedback_language" TYPE="foreign" FIELDS="languageid" REFTABLE="verbalfeedback_language" REFFIELDS="id"/>
-     </KEYS>
+      </KEYS>
     </TABLE>
     <TABLE NAME="verbalfeedback_template" COMMENT="Verbalfeedback templates">
       <FIELDS>
@@ -37,13 +37,12 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for feedback_item"/>
-     </KEYS>
+      </KEYS>
     </TABLE>
     <TABLE NAME="verbalfeedback_t_category" COMMENT="Verbalfeedback template categories">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="uniquename" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
-        <!-- has localized string for category header -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
@@ -70,7 +69,6 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="placeholder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <!-- has localized string for criterion text -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
@@ -88,13 +86,12 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for feedback_item"/>
         <KEY NAME="verbalfeedback_t_category" TYPE="foreign" FIELDS="categoryid" REFTABLE="verbalfeedback_t_category" REFFIELDS="id"/>
         <KEY NAME="verbalfeedback_t_criterion" TYPE="foreign" FIELDS="criterionid" REFTABLE="verbalfeedback_t_criterion" REFFIELDS="id"/>
-     </KEYS>
+      </KEYS>
     </TABLE>
     <TABLE NAME="verbalfeedback_t_subrating" COMMENT="Verbalfeedback subrating template">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="criterionid"  TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" />
-        <!-- has localized string for title, description, verynegative, negative, positive, verypositive -->
+        <FIELD NAME="criterionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the subrating."/>
@@ -104,12 +101,12 @@
     <TABLE NAME="verbalfeedback" COMMENT="All verbal feedback instances">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="templateid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="templateid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="intro" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="grade" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Maximum grade the verbal feedback is worth" PREVIOUS="introformat" NEXT="status"/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Maximum grade the verbal feedback is worth"/>
         <FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether this verbal feedback activity is ready to be used by the participants. 0 - Not yet ready, 1 - Ready"/>
         <FIELD NAME="timeopen" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timeclose" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -132,7 +129,6 @@
         <FIELD NAME="paramtemplatecategoryid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="weight" TYPE="number" LENGTH="10" NOTNULL="false" DEFAULT="0.20" SEQUENCE="false" DECIMALS="2" COMMENT="The weight for this category within the instance"/>
-        <!-- has localized string for category header -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
@@ -147,7 +143,6 @@
         <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="weight" TYPE="number" LENGTH="10" NOTNULL="false" DEFAULT="0.20" SEQUENCE="false" DECIMALS="2" COMMENT="The weight for this category within the instance"/>
-        <!-- has localized string for criterion text -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
@@ -158,8 +153,7 @@
     <TABLE NAME="verbalfeedback_i_subrating" COMMENT="Verbalfeedback subrating">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="criterionid"  TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" />
-        <!-- has localized string for title, description, verynegative, negative, positive, verypositive -->
+        <FIELD NAME="criterionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for the criterion item."/>
