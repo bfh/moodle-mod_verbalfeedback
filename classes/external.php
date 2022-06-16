@@ -21,30 +21,15 @@
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace mod_verbalfeedback;
 
 defined('MOODLE_INTERNAL') || die();
 
-use coding_exception;
-use context_module;
-use context_user;
-use dml_exception;
-use external_api;
-use external_description;
-use external_function_parameters;
-use external_multiple_structure;
-use external_single_structure;
-use external_value;
-use external_warnings;
-use invalid_parameter_exception;
+use mod_verbalfeedback\api;
 use mod_verbalfeedback\model\submission_status;
 use mod_verbalfeedback\output\list_participants;
 use mod_verbalfeedback\repository\submission_repository;
-use moodle_exception;
-use moodle_url;
-use required_capability_exception;
-use restricted_context_exception;
-use stdClass;
+
+require_once($CFG->libdir . "/externallib.php");
 
 /**
  * Class external.
@@ -54,7 +39,30 @@ use stdClass;
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class external extends external_api {
+class mod_verbalfeedback_external extends external_api {
+
+    /**
+     * Fetches the questions assigned to a verbal feedback instance.
+     *
+     * @param int $verbalfeedbackid The verbalfeedback ID.
+     * @return array
+     * @throws coding_exception
+     * @throws dml_exception
+     * @throws invalid_parameter_exception
+     */
+    public static function get_questions($verbalfeedbackid) {
+        $warnings = [];
+        $params = external_api::validate_parameters(self::get_items_parameters(), ['verbalfeedbackid' => $verbalfeedbackid]);
+
+        $cats = api::get_categories_with_items($params['verbalfeedbackid']);
+        $preparedcats = helper::prepare_items_view($cats);
+        // Return einfügen so das er mit dem schema in external.php passt.
+        throw new moodle_exception(json_encode($preparedcats));
+        return [
+            'items' => $preparedcats,
+            'warnings' => $warnings
+        ];
+    }
 
     /**
      * Parameter description for get_questions().
@@ -238,6 +246,20 @@ class external extends external_api {
                 'warnings' => new external_warnings()
             ]
         );
+    }
+
+    /**
+     * Deletes a question in the verbal feedback question bank.
+     *
+     * @param int $id The question ID.
+     * @param int $verbalfeedbackid The verbal feedback instance ID, for capability checking.
+     * @return array
+     * @throws dml_exception
+     * @throws invalid_parameter_exception
+     * @throws required_capability_exception
+     * @throws restricted_context_exception
+     */
+    public static function delete_question($id, $verbalfeedbackid) {
     }
 
     /**
@@ -499,6 +521,13 @@ class external extends external_api {
     }
 
     /**
+     * Function get_question_types().
+     *
+     */
+    public static function get_question_types() {
+    }
+
+    /**
      * Parameter description for get_question_types().
      *
      * @return external_function_parameters
@@ -522,6 +551,13 @@ class external extends external_api {
                 'warnings' => new external_warnings()
             ]
         );
+    }
+
+    /**
+     * Function get_question_categories().
+     *
+     */
+    public static function get_question_categories($verbalfeedbackid) {
     }
 
     /**
@@ -745,6 +781,13 @@ class external extends external_api {
     }
 
     /**
+     * Function decline_feedback().
+     *
+     */
+    public static function decline_feedback($statusid, $declinereason) {
+    }
+
+    /**
      * Parameter description for decline_feedback().
      *
      * @return external_function_parameters
@@ -770,6 +813,13 @@ class external extends external_api {
                 'warnings' => new external_warnings()
             ]
         );
+    }
+
+    /**
+     * Function undo_decline().
+     *
+     */
+    public static function undo_decline($statusid) {
     }
 
     /**
