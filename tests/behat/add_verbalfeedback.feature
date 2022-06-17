@@ -24,15 +24,11 @@ Feature: Add a verbal feedback activity
       | Description           | Test verbal feedback description |
       | Template              | Default template                 |
       | Grade to pass         | 40                               |
-    And I am on "Course 1" course homepage with editing mode on
-    And I follow "Test verbal feedback"
-    And I navigate to "Edit settings" in current page administration
+    And I am on the "Test verbal feedback" "verbalfeedback activity editing" page logged in as teacher1
     And I expand all fieldsets
     And the field "Grade to pass" matches value "40"
     And I log out
-    And I log in as "student1"
-    And I am on "Course 1" course homepage
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as student1
     Then I should see "The verbal feedback activity is not yet ready. Please try again later."
 
 
@@ -57,11 +53,11 @@ Feature: Add a verbal feedback activity
       | Template              | Default template                 |
       | Grade to pass         | 40                               |
     And I am on "Course 1" course homepage with editing mode on
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I click on "Edit verbal feedback items" "link"
     And the field "Maximum grade" matches value "100.00"
     And I set the field "Maximum grade" to "50"
     And I click on "Save" "button"
-    And I follow "Test verbal feedback"
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I click on "Edit verbal feedback items" "link"
     And the field "Maximum grade" matches value "50.00"

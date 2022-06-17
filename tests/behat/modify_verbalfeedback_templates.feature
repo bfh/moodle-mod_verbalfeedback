@@ -25,9 +25,8 @@ Feature: Modify a verbal feedback activity template
       | Template              | Default template                 |
       | Grade to pass         | 40                               |
     And I am on "Course 1" course homepage with editing mode on
-    And I follow "Test verbal feedback"
-    And I click on "#region-main-settings-menu [role=button]" "css_element"
-    And I choose "Manage templates" in the open action menu
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page
+    And I navigate to "Verbal feedback templates" in current page administration
     And I click on "Edit" "link" in the "Default template" "table_row"
     And I set the field "id_name" to "Custom template"
     And I press "id_submitbutton"
@@ -43,9 +42,8 @@ Feature: Modify a verbal feedback activity template
       | Template              | Default template                 |
       | Grade to pass         | 40                               |
     And I am on "Course 1" course homepage with editing mode on
-    And I follow "Test verbal feedback"
-    And I click on "#region-main-settings-menu [role=button]" "css_element"
-    And I choose "Manage templates" in the open action menu
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page
+    And I navigate to "Verbal feedback templates" in current page administration
     And I click on "Delete" "link" in the "Default template" "table_row"
     And I press "id_submitbutton"
    Then I should not see "Default template"
@@ -60,9 +58,8 @@ Feature: Modify a verbal feedback activity template
       | Template              | Default template                 |
       | Grade to pass         | 40                               |
     And I am on "Course 1" course homepage with editing mode on
-    And I follow "Test verbal feedback"
-    And I click on "#region-main-settings-menu [role=button]" "css_element"
-    And I choose "Manage templates" in the open action menu
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page
+    And I navigate to "Verbal feedback templates" in current page administration
     And I follow "Template categories"
     And I click on "Delete" "link" in the "structure" "table_row"
     And I press "id_submitbutton"
@@ -78,9 +75,8 @@ Feature: Modify a verbal feedback activity template
       | Template              | Default template                 |
       | Grade to pass         | 40                               |
     And I am on "Course 1" course homepage with editing mode on
-    And I follow "Test verbal feedback"
-    And I click on "#region-main-settings-menu [role=button]" "css_element"
-    And I choose "Manage templates" in the open action menu
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page
+    And I navigate to "Verbal feedback templates" in current page administration
     And I follow "Template criteria"
     And I click on "Delete" "link" in the "The content is tailored to the target audience and the occasion." "table_row"
     And I press "id_submitbutton"
@@ -96,9 +92,8 @@ Feature: Modify a verbal feedback activity template
       | Template              | Default template                 |
       | Grade to pass         | 40                               |
     And I am on "Course 1" course homepage with editing mode on
-    And I follow "Test verbal feedback"
-    And I click on "#region-main-settings-menu [role=button]" "css_element"
-    And I choose "Manage templates" in the open action menu
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page
+    And I navigate to "Verbal feedback templates" in current page administration
     And I follow "Language"
     And I click on "Delete" "link" in the "fr" "table_row"
     And I press "id_submitbutton"
