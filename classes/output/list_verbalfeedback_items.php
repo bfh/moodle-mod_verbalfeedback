@@ -23,8 +23,6 @@
  */
 namespace mod_verbalfeedback\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 use dml_exception;
 use mod_verbalfeedback\helper;
 use mod_verbalfeedback\repository\instance_repository;

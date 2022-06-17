@@ -65,27 +65,31 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         // Description.
         $this->standard_intro_elements();
 
+        /*
         // Anonymous.
-        // $mform->addElement('advcheckbox', 'anonymous', get_string('anonymous', 'mod_verbalfeedback'));
+        $mform->addElement('advcheckbox', 'anonymous', get_string('anonymous', 'mod_verbalfeedback'));
 
         // Self-review.
-        // $mform->addElement('advcheckbox', 'with_self_review', get_string('enableselfreview', 'mod_verbalfeedback'));
-        // $mform->disabledIf('with_self_review', 'anonymous', 'checked');
+        $mform->addElement('advcheckbox', 'with_self_review', get_string('enableselfreview', 'mod_verbalfeedback'));
+        $mform->disabledIf('with_self_review', 'anonymous', 'checked');
 
         // Verbalfeedback participants.
-        // $context = $this->get_context();
-        // $roles = get_profile_roles($context);
-        // $roleoptions = role_fix_names($roles, $context, ROLENAME_ALIAS, true);
-        // $roleoptions[0] = get_string('allparticipants', 'mod_verbalfeedback');
-        // ksort($roleoptions);
-        // $mform->addElement('select', 'participantrole', get_string('participants'), $roleoptions);
+        $context = $this->get_context();
+        $roles = get_profile_roles($context);
+        $roleoptions = role_fix_names($roles, $context, ROLENAME_ALIAS, true);
+        $roleoptions[0] = get_string('allparticipants', 'mod_verbalfeedback');
+        ksort($roleoptions);
+        $mform->addElement('select', 'participantrole', get_string('participants'), $roleoptions);
+        */
 
         // Releasing options.
         $releasetypeoptions = [
             instance_release_type::NONE => get_string('rel_closed', 'mod_verbalfeedback'),
             instance_release_type::OPEN => get_string('rel_open', 'mod_verbalfeedback'),
-            // instance_release_type::MANUAL => get_string('rel_manual', 'mod_verbalfeedback'),
-            // instance_release_type::AFTER => get_string('rel_after', 'mod_verbalfeedback'),
+            /*
+            instance_release_type::MANUAL => get_string('rel_manual', 'mod_verbalfeedback'),
+            instance_release_type::AFTER => get_string('rel_after', 'mod_verbalfeedback'),
+            */
         ];
         $mform->addElement('select', 'releasetype', get_string('releasetype', 'mod_verbalfeedback'), $releasetypeoptions);
         $mform->addHelpButton('releasetype', 'releasetype', 'mod_verbalfeedback');
@@ -124,7 +128,9 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         $mform->disabledIf('template', 'allowchangetemplate', '0');
 
         // Allow participants to undo declined feedback submissions.
-        // $mform->addElement('advcheckbox', 'undodecline', get_string('allowundodecline', 'mod_verbalfeedback'));
+        /*
+        $mform->addElement('advcheckbox', 'undodecline', get_string('allowundodecline', 'mod_verbalfeedback'));
+        */
 
         // Availability.
         $mform->addElement('header', 'timinghdr', get_string('availability'));

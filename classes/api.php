@@ -24,8 +24,6 @@
 
 namespace mod_verbalfeedback;
 
-defined('MOODLE_INTERNAL') || die();
-
 use coding_exception;
 use context_module;
 use dml_exception;
@@ -39,9 +37,11 @@ use mod_verbalfeedback\model\submission;
 use mod_verbalfeedback\model\submission_status;
 use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\repository\submission_repository;
+use mod_verbalfeedback\repository\tables;
 use mod_verbalfeedback\utils\user;
 use mod_verbalfeedback\utils\instance;
 use mod_verbalfeedback\utils\user_utils;
+
 
 /**
  * Class for performing DB actions for the verbal feedback activity module.
@@ -96,6 +96,42 @@ class api {
         global $DB;
 
         return $DB->get_record('verbalfeedback', ['id' => $verbalfeedbackid], '*', MUST_EXIST);
+    }
+
+    /**
+     * Fetches the verbal feedback instance with given itemid.
+     *
+     * @param int $itemid The verbal feedback item ID.
+     * @return mixed
+     * @throws dml_exception
+     */
+    public static function get_instance_by_itemid($itemid) {
+        global $DB;
+        return $DB->get_record_sql("SELECT *
+                                          FROM {" . tables::INSTANCE_TABLE .
+                                      "} WHERE id = (SELECT instanceid
+                                                       FROM {" . tables::INSTANCE_CATEGORY_TABLE .
+                                                   "} WHERE id = (SELECT categoryid
+                                                                            FROM {" . tables::INSTANCE_CRITERION_TABLE .
+                                                                        "} WHERE id = ?))",
+            array($itemid), IGNORE_MISSING);
+    }
+
+    /**
+     * Fetches the verbal feedback instance with given categoryid.
+     *
+     * @param int $categoryid The verbal feedback category ID.
+     * @return mixed
+     * @throws dml_exception
+     */
+    public static function get_instance_by_categoryid($categoryid) {
+        global $DB;
+        return $DB->get_record_sql("SELECT *
+                                          FROM {" . tables::INSTANCE_TABLE .
+            "} WHERE id = (SELECT instanceid
+                                                       FROM {" . tables::INSTANCE_CATEGORY_TABLE .
+            "} WHERE id = ?)",
+            array($categoryid), IGNORE_MISSING);
     }
 
     /**

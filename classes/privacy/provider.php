@@ -35,8 +35,6 @@ use core_privacy\local\request\writer;
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\helper;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Implementation of the privacy subsystem plugin provider for the 36o-degree feedback activity module.
  *

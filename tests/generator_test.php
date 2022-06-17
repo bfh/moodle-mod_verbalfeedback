@@ -22,8 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
+namespace mod_verbalfeedback;
 
 /**
  * PHPUnit verbal feedback generator testcase.
@@ -32,7 +31,14 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2021 Luca Bösch <luca.boesch@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_verbalfeedback_generator_testcase extends advanced_testcase {
+class generator_test extends \advanced_testcase {
+    /**
+     * Test the verbalfeedback test data generator
+     *
+     * @covers \mod_verbalfeedback_generator
+     * @throws coding_exception
+     * @throws dml_exception
+     */
     public function test_generator() {
         global $DB;
 
@@ -42,7 +48,6 @@ class mod_verbalfeedback_generator_testcase extends advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
 
-        /** @var mod_verbalfeedback_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_verbalfeedback');
         $this->assertInstanceOf('mod_verbalfeedback_generator', $generator);
         $this->assertEquals('verbalfeedback', $generator->get_modulename());
@@ -57,13 +62,15 @@ class mod_verbalfeedback_generator_testcase extends advanced_testcase {
         $this->assertEquals('verbalfeedback', $cm->modname);
         $this->assertEquals($course->id, $cm->course);
 
-        $context = context_module::instance($cm->id);
+        $context = \context_module::instance($cm->id);
         $this->assertEquals($verbalfeedback->cmid, $context->instanceid);
 
         // Test gradebook integration using low level DB access - DO NOT USE IN PLUGIN CODE!
-        $verbalfeedback = $generator->create_instance(array('course' => $course->id, 'assessed' => 1, 'gradegrade' => 80));
+        $verbalfeedback = $generator->create_instance(array('course' => $course->id, 'assessed' => 1, 'grade' => 80));
+
         $gitem = $DB->get_record('grade_items', array('courseid' => $course->id, 'itemtype' => 'mod',
             'itemmodule' => 'verbalfeedback', 'iteminstance' => $verbalfeedback->id));
+
         $this->assertNotEmpty($gitem);
         $this->assertEquals(80, $gitem->grademax);
         $this->assertEquals(0, $gitem->grademin);

@@ -35,20 +35,20 @@ class language {
     /**
      * The class constructor
      *
-     * @param int|null $id
-     * @param string $language
+     * @param int|null $id The id.
+     * @param string $language The language
      */
     public function __construct(?int $id = null, string $language = '') {
-        $this->id = $id;
-        $this->language = $language;
+        $this->set_id($id);
+        $this->set_language($language);
     }
 
     /**
      * Sets the id.
      *
-     * @param int $id The id.
+     * @param int|null $id The id.
      */
-    public function set_id(int $id) {
+    public function set_id(int $id = null) {
         $this->id = $id;
     }
 

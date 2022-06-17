@@ -440,20 +440,25 @@ function verbalfeedback_reset_userdata($data) {
 
         $allverbalfeedbackcriteriasql       = "SELECT vfcri.id " .
                                                 "FROM " . tables::INSTANCE_CRITERION_TABLE . " vfcri " .
-                                                "JOIN " . tables::INSTANCE_CATEGORY_TABLE . " vfcat ON vfcri.categoryid = vfcat.id " .
+                                                "JOIN " . tables::INSTANCE_CATEGORY_TABLE .
+                                                      " vfcat ON vfcri.categoryid = vfcat.id " .
                                                 "JOIN " . tables::INSTANCE_TABLE . " vf ON vfcat.instanceid = vf.id" .
                                                "WHERE vf.course = ?";
-        $DB->delete_records_select(tables::INSTANCE_CRITERION_TABLE, "instanceid IN ($allverbalfeedbackcriteriasql)", array($data->courseid));
+        $DB->delete_records_select(tables::INSTANCE_CRITERION_TABLE, "instanceid IN ($allverbalfeedbackcriteriasql)",
+            array($data->courseid));
         $status[] = array('component' => $componentstr, 'item' => get_string('removecriteria', 'verbalfeedback'),
             'error' => false);
 
         $allverbalfeedbacksubratingssql       = "SELECT vfsub.id " .
                                                   "FROM " . tables::INSTANCE_SUBRATING_TABLE . " vfsub " .
-                                                  "JOIN " . tables::INSTANCE_CRITERION_TABLE . " vfcri ON vfcri.id = vfsub.criterionid " .
-                                                  "JOIN " . tables::INSTANCE_CATEGORY_TABLE . " vfcat ON vfcri.categoryid = vfcat.id " .
+                                                  "JOIN " . tables::INSTANCE_CRITERION_TABLE .
+                                                        " vfcri ON vfcri.id = vfsub.criterionid " .
+                                                  "JOIN " . tables::INSTANCE_CATEGORY_TABLE .
+                                                        " vfcat ON vfcri.categoryid = vfcat.id " .
                                                   "JOIN " . tables::INSTANCE_TABLE . " vf ON vfcat.instanceid = vf.id" .
                                                  "WHERE vf.course = ?";
-        $DB->delete_records_select(tables::INSTANCE_SUBRATING_TABLE, "instanceid IN ($allverbalfeedbacksubratingssql)", array($data->courseid));
+        $DB->delete_records_select(tables::INSTANCE_SUBRATING_TABLE, "instanceid IN ($allverbalfeedbacksubratingssql)",
+            array($data->courseid));
         $status[] = array('component' => $componentstr, 'item' => get_string('removesubratings', 'verbalfeedback'),
             'error' => false);
     }
