@@ -171,6 +171,8 @@ $string['releasetype_help'] = 'S\'il faut laisser les étudiant-e-s consulter le
 <li>Publication manuelle. Les étudiant-e-s peuvent consulter leur propre rapport de rétroaction lorsqu\'il est publié par un utilisateur qui a la capacité de gérer l\'activité de feedback verbal.
 <li>Publication après la fermeture de l\'activité. Les étudiant-e-s peuvent consulter leur propre rapport de feedback après la fin de l\'activité.</li>
 </ul>';
+$string['reportimage'] = 'Logo d\'en-tête rapports PDF';
+$string['reportimage_desc'] = 'L\'image à afficher comme logo d\'en-tête dans les rapports de feedback.';
 $string['responses'] = 'réponses';
 $string['responsessaved'] = 'Vos réponses ont été enregistrées';
 $string['saveandreturn'] = 'Sauvegarde et retour';

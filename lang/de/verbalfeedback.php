@@ -169,8 +169,10 @@ $string['releasetype_help'] = 'Ob die Teilnehmer/innen den Bericht über das geg
 <li>Geschlossen für Teilnehmer/innen. Die Teilnehmer/innen können ihren eigenen Feedbackbericht nicht einsehen. Nur diejenigen, die die Möglichkeit haben, die verbale Feedback-Aktivität zu verwalten (z. B. Trainer/innen, Manager/innen, Administrator/innen), können die Feedback-Berichte der Teilnehmer/innen einsehen.</li>
 <li>Offen für Teilnehmer/innen. Die Teilnehmer/innen können ihren eigenen Feedbackbericht jederzeit einsehen.</li>
 <li>Manuelle Freigabe. Teilnehmer/innen können ihren eigenen Feedbackbericht einsehen, wenn sie von einer/m Nutzer/in freigegeben werden, die/der die Fähigkeit hat, die Aktivität für verbales Feedback zu verwalten.</li>
-<li>Freigabe nach Abschluss der Aktivität. Die Teilnehmer/innen können ihren eigenen Feedback-Bericht einsehen, nachdem die Aktivität beendet wurde.</li>
+<li>Freigabe nach Abschluss der Aktivität. Die Teilnehmer/innen können ihren eigenen Feedbackbericht einsehen, nachdem die Aktivität beendet wurde.</li>
 </ul>';
+$string['reportimage'] = 'Report PDF header logo';
+$string['reportimage_desc'] = 'Das Bild, das als Header-Logo in den heruntergeladenen Feedbackberichten angezeigt werden soll.';
 $string['responses'] = 'Antworten';
 $string['responsessaved'] = 'Ihre Antworten wurden gespeichert.';
 $string['saveandreturn'] = 'Speichern und zurück';
