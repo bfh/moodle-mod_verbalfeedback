@@ -29,6 +29,9 @@ use mod_verbalfeedback\model\template\template_category;
 
 require_once(__DIR__ . '/../../config.php');
 
+// Require own locallib.php.
+require_once($CFG->dirroot . '/mod/verbalfeedback/locallib.php');
+
 require_login();
 
 $id = required_param('id', PARAM_INT);
@@ -69,17 +72,4 @@ if ($mform->is_cancelled()) {
     echo $OUTPUT->header();
     $mform->display();
     echo $OUTPUT->footer();
-}
-
-/**
- * Maps a template category according to the requirements of the template_category_delete_form.
- *
- * @param template_category $templatecategory The template category
- * @return stdClass The view model
- */
-function template_category_to_view_model(template_category $templatecategory) {
-    $model = new stdClass();
-    $model->id = $templatecategory->get_id();
-    $model->unique_name = $templatecategory->get_unique_name();
-    return $model;
 }

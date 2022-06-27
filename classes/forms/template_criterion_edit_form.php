@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class for the verbal feedback criterion edit form.
+ * Class for the verbal feedback template criterion edit form.
  *
  * @package   mod_verbalfeedback
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * The criterion edit form
+ * The template criterion edit form
  */
 class template_criterion_edit_form extends \moodleform
 {

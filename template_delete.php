@@ -28,6 +28,10 @@ use mod_verbalfeedback\repository\template_repository;
 use mod_verbalfeedback\model\template\template;
 
 require_once(__DIR__ . '/../../config.php');
+
+// Require own locallib.php.
+require_once($CFG->dirroot . '/mod/verbalfeedback/locallib.php');
+
 require_login();
 
 $id = required_param('id', PARAM_INT);
@@ -62,25 +66,11 @@ if ($mform->is_cancelled()) {
     $template = $templaterepository->get_by_id($id);
 
     // Set default data (if any).
-    $viewmodel = to_view_model_from_template($template);
+    $viewmodel = template_to_view_model($template);
     $mform->set_data($viewmodel);
 
     // Displays the form.
     echo $OUTPUT->header();
     $mform->display();
     echo $OUTPUT->footer();
-}
-
-/**
- * Maps a template according to the requirements of the template_delete_form.
- *
- * @param template $template The template
- * @return stdClass The model
- */
-function to_view_model_from_template(template $template) {
-    $model = new stdClass();
-    $model->id = $template->get_id();
-    $model->name = $template->get_name();
-    $model->description = $template->get_description();
-    return $model;
 }

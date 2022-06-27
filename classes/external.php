@@ -289,144 +289,6 @@ class mod_verbalfeedback_external extends external_api {
     }
 
     /**
-     * Fetches the questions assigned to a verbal feedback instance.
-     *
-     * @param int $verbalfeedbackid The verbalf eedback ID.
-     * @return array
-     * @throws coding_exception
-     * @throws dml_exception
-     * @throws invalid_parameter_exception
-     */
-    public static function get_items($verbalfeedbackid) {
-        $warnings = [];
-        $params = external_api::validate_parameters(self::get_items_parameters(), ['verbalfeedbackid' => $verbalfeedbackid]);
-
-        $cats = api::get_categories_with_items($params['verbalfeedbackid']);
-        $preparedcats = helper::prepare_items_view($cats);
-        // Return einfügen so das er mit dem schema in external.php passt.
-        throw new moodle_exception(json_encode($preparedcats));
-        return [
-            'items' => $preparedcats,
-            'warnings' => $warnings
-        ];
-    }
-
-    /**
-     * Parameter description for get_items().
-     *
-     * @return external_function_parameters
-     */
-    public static function get_items_parameters() {
-        return new external_function_parameters(
-            [
-                'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.')
-            ]
-        );
-    }
-
-    /**
-     * Method results description for get_items().
-     *
-     * @return external_description
-     */
-    public static function get_items_returns() {
-        return new external_single_structure(
-            [
-                'items' => new external_multiple_structure(
-                    new external_single_structure(
-                        [
-                            'category' => new external_value(PARAM_TEXT, 'The question category text value.'),
-                            'categoryposition' => new external_value(PARAM_INT, 'The item ID.'),
-                            'questions' => new external_multiple_structure(
-                                new external_single_structure(
-                                    [
-                                        'id' => new external_value(PARAM_INT, 'The item ID.'),
-                                        'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.'),
-                                        'questionid' => new external_value(PARAM_INT, 'The question ID.'),
-                                        'position' => new external_value(PARAM_INT, 'The item position'),
-                                        'question' => new external_value(PARAM_TEXT, 'The question text.'),
-                                        'type' => new external_value(PARAM_INT, 'The question type.'),
-                                        'typetext' => new external_value(PARAM_TEXT, 'The question type text value.'),
-                                        'category' => new external_value(PARAM_INT, 'The question category.'),
-                                        'categorytext' => new external_value(PARAM_TEXT, 'The question category text value.')
-                                    ]
-                                )
-                            )
-                        ]
-                    )
-                ),
-                'warnings' => new external_warnings()
-            ]
-        );
-    }
-
-    /**
-     * Sets the questions for the verbal feedback activity.
-     *
-     * @param int $verbalfeedbackid The verbal feedback instance.
-     * @param int[] $questionids The list of question IDs from the question bank being assigned to the verbal feedback instance.
-     * @return array
-     * @throws moodle_exception
-     * @throws coding_exception
-     * @throws dml_exception
-     * @throws invalid_parameter_exception
-     * @throws required_capability_exception
-     * @throws restricted_context_exception
-     */
-    public static function set_items($verbalfeedbackid, $questionids) {
-        $warnings = [];
-        $params = external_api::validate_parameters(self::set_items_parameters(), [
-            'verbalfeedbackid' => $verbalfeedbackid,
-            'questionids' => $questionids
-        ]);
-
-        // Validate context and capability.
-        $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
-        $cmid = $cm->id;
-        $context = context_module::instance($cmid);
-        self::validate_context($context);
-
-        require_capability('mod/verbalfeedback:edititems', $context);
-
-        $result = api::set_items($params['verbalfeedbackid'], $params['questionids']);
-
-        return [
-            'result' => $result,
-            'warnings' => $warnings
-        ];
-    }
-
-    /**
-     * Parameter description for set_items().
-     *
-     * @return external_function_parameters
-     */
-    public static function set_items_parameters() {
-        return new external_function_parameters(
-            [
-                'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.'),
-                'questionids' => new external_multiple_structure(
-                    new external_value(PARAM_INT, 'The question ID.')
-                )
-            ]
-        );
-    }
-
-    /**
-     * Method results description for set_items().
-     *
-     * @return external_description
-     */
-    public static function set_items_returns() {
-        return new external_single_structure(
-            [
-                'result' => new external_value(PARAM_BOOL, 'The processing result.'),
-                'warnings' => new external_warnings()
-            ]
-        );
-    }
-
-    /**
      * Parameter description for update_item_multiplier().
      *
      * @return external_function_parameters
@@ -556,6 +418,7 @@ class mod_verbalfeedback_external extends external_api {
     /**
      * Function get_question_categories().
      *
+     * @param int $verbalfeedbackid The verbal feedback ID
      */
     public static function get_question_categories($verbalfeedbackid) {
     }
@@ -783,6 +646,8 @@ class mod_verbalfeedback_external extends external_api {
     /**
      * Function decline_feedback().
      *
+     * @param int $statusid The submission ID
+     * @param string $declinereason The reason for declining the feedback request
      */
     public static function decline_feedback($statusid, $declinereason) {
     }
@@ -818,6 +683,7 @@ class mod_verbalfeedback_external extends external_api {
     /**
      * Function undo_decline().
      *
+     * @param int $statusid The submission ID
      */
     public static function undo_decline($statusid) {
     }
@@ -977,7 +843,7 @@ class mod_verbalfeedback_external extends external_api {
         $cmid = $cm->id;
         $context = context_module::instance($cmid);
         self::validate_context($context);
-        $redirecturl = new moodle_url('/mod/verbalfeedback/view.php');
+        $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
         $redirecturl->param('id', $cmid);
 
         $params = external_api::validate_parameters(self::save_responses_parameters(), [
@@ -1061,7 +927,7 @@ class mod_verbalfeedback_external extends external_api {
         $cmid = $cm->id;
         $context = context_module::instance($cmid);
         self::validate_context($context);
-        $redirecturl = new moodle_url('/mod/verbalfeedback/view.php');
+        $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
         $redirecturl->param('id', $cmid);
 
         $params = external_api::validate_parameters(self::get_responses_parameters(), [

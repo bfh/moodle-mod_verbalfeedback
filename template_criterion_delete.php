@@ -28,6 +28,10 @@ use mod_verbalfeedback\model\template\template_criterion;
 use mod_verbalfeedback\repository\template_criterion_repository;
 
 require_once(__DIR__ . '/../../config.php');
+
+// Require own locallib.php.
+require_once($CFG->dirroot . '/mod/verbalfeedback/locallib.php');
+
 require_login();
 
 $id = required_param('id', PARAM_INT);
@@ -61,27 +65,10 @@ if ($mform->is_cancelled()) {
     $templatecriterion = $templatecriterionrepository->get_by_id($id);
 
     // Set default data (if any).
-    $mform->set_data(to_template_criterion_edit_view_model($templatecriterion));
+    $mform->set_data(template_criterion_to_view_model($templatecriterion));
 
     // Displays the form.
     echo $OUTPUT->header();
     $mform->display();
     echo $OUTPUT->footer();
-}
-
-/**
- * Maps a template criterion according to the requirements by the template_criterion_edit_form.
- *
- * @param template_criterion $templatecriterion The template criterion
- * @return array The model
- */
-function to_template_criterion_edit_view_model(template_criterion $templatecriterion) {
-    $model = [];
-    $model['id'] = $templatecriterion->get_id();
-    foreach ($templatecriterion->get_descriptions() as $s) {
-        $model['localized_strings'][$s->get_language_id()]['id'] = $s->get_id();
-        $model['localized_strings'][$s->get_language_id()]['language_id'] = $s->get_language_id();
-        $model['localized_strings'][$s->get_language_id()]['string'] = $s->get_string();
-    }
-    return $model;
 }

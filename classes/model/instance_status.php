@@ -25,7 +25,7 @@
 namespace mod_verbalfeedback\model;
 
 /**
- * The instance status class
+ * The status instance class
  */
 class instance_status {
     /** Indicates that the verbal feedback instance is not yet ready to be completed by the participants. */

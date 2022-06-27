@@ -28,7 +28,7 @@ use mod_verbalfeedback\model\template\parametrized_template_category;
 use mod_verbalfeedback\model\template\template;
 
 /**
- * The instance
+ * The instance class
  */
 class instance {
     /**

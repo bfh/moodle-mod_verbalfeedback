@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * The language edit form
+ * The template edit form
  */
 class template_edit_form extends \moodleform {
 

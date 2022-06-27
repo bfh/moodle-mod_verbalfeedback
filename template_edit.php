@@ -24,11 +24,13 @@
 
 use mod_verbalfeedback\forms\template_edit_form;
 use mod_verbalfeedback\model\template\template;
-
-use mod_verbalfeedback\model\template\parametrized_template_category;
 use mod_verbalfeedback\repository\template_repository;
 
 require_once(__DIR__ . '/../../config.php');
+
+// Require own locallib.php.
+require_once($CFG->dirroot . '/mod/verbalfeedback/locallib.php');
+
 require_login();
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -60,7 +62,7 @@ if ($mform->is_cancelled()) {
         $formdata->id = 0;
     }
 
-    $template = from_view_model_to_template($formdata);
+    $template = view_model_to_template($formdata);
 
     $templaterepository->save($template);
     redirect(new moodle_url('/mod/verbalfeedback/template_list.php'));
@@ -73,7 +75,7 @@ if ($mform->is_cancelled()) {
     } else {
         $template = $templaterepository->get_by_id($id);
 
-        $model = to_view_model_from_template($template);
+        $model = template_to_view_model($template);
         $mform->set_data($model);
     }
 
@@ -81,53 +83,4 @@ if ($mform->is_cancelled()) {
     echo $OUTPUT->header();
     $mform->display();
     echo $OUTPUT->footer();
-}
-
-/**
- * Maps a template according to the requirements of the template_edit_form.
- *
- * @param template $template The verbal feedback template.
- * @return stdClass The view model
- */
-function to_view_model_from_template(template $template) {
-    $model = new stdClass();
-    $model->id = $template->get_id();
-    $model->name = $template->get_name();
-    $model->description = $template->get_description();
-    $model->headers = array();
-
-    $model->categories = array();
-    foreach ($template->get_template_categories() as $parametrizedtemplatecategory) {
-        $propertyname = 'category' . $parametrizedtemplatecategory->get_template_category_id();
-        $model->{$propertyname} = array();
-        $model->{$propertyname}['param_category_id'] = $parametrizedtemplatecategory->get_id();
-        $model->{$propertyname}['category_id'] = $parametrizedtemplatecategory->get_template_category_id();
-        $model->{$propertyname}['selected'] = 1;
-        $model->{$propertyname}['position'] = $parametrizedtemplatecategory->get_position();
-        $model->{$propertyname}['weight'] = $parametrizedtemplatecategory->get_weight();
-    }
-    return $model;
-}
-
-/**
- * Maps a template according to the requirements of the template_edit_form.
- *
- * @param object $viewmodel The view model
- * @return template The template
- */
-function from_view_model_to_template($viewmodel) : template {
-    $template = new template();
-    $template->set_id($viewmodel->id);
-    $template->set_name($viewmodel->name);
-    $template->set_description($viewmodel->description);
-
-    foreach ($viewmodel as $key => $value) {
-        if (strpos($key, 'category') === 0 && isset($value['selected'])) {
-            // Variable $value is a category.
-            $parametrizedcategory = new parametrized_template_category($value['param_category_id'],
-            $value['template_category_id'], (int)$value['position'], $value['weight']);
-            $template->add_template_category($parametrizedcategory);
-        }
-    }
-    return $template;
 }

@@ -112,7 +112,7 @@ $fs = get_file_storage();
 $logofilepath = $DB->get_field('config_plugins', 'value', array('plugin'=>'mod_verbalfeedback', 'name'=>'reportimage'));
 
 if (!$logofilepath) {
-    $imagefile = $CFG->wwwroot . '/mod/verbalfeedback/pix/reportlogo.png';
+    $imagefile = $CFG->dirroot . '/mod/verbalfeedback/pix/reportlogo.png';
 } else {
     $systemcontext = context_system::instance();
     if ($file = $fs->get_file($systemcontext->id, 'mod_verbalfeedback', 'reportbackgroundimage', 0,

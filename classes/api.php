@@ -31,7 +31,6 @@ use context_module;
 use dml_exception;
 use Exception;
 use moodle_exception;
-use moodle_url;
 use stdClass;
 use core_date;
 use mod_verbalfeedback\api\gradebook;
