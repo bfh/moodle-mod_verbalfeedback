@@ -27,7 +27,11 @@ use mod_verbalfeedback\service\report_service;
 use mod_verbalfeedback\utils\graph_utils;
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->libdir.'/pdflib.php');
+
+require_once($CFG->libdir . '/pdflib.php');
+require_once($CFG->libdir . '/filestorage/stored_file.php');
+
+global $DB;
 
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
@@ -102,13 +106,24 @@ $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // Set default header data.
 // Note: path must be relative to K_PATH_IMAGES and do not use "." or "..".
-$logo = "mod/verbalfeedback/pix/reportlogo.png";
-$logowidth = 25;
-$doctitle = "";
-$headerstring = "";
 
-$pdf->SetHeaderData($logo, $logowidth, $doctitle, $headerstring);
+$fs = get_file_storage();
 
+$logofilepath = $DB->get_field('config_plugins', 'value', array('plugin'=>'mod_verbalfeedback', 'name'=>'reportimage'));
+
+if (!$logofilepath) {
+    $imagefile = $CFG->wwwroot . '/mod/verbalfeedback/pix/reportlogo.png';
+} else {
+    $systemcontext = context_system::instance();
+    if ($file = $fs->get_file($systemcontext->id, 'mod_verbalfeedback', 'reportbackgroundimage', 0,
+        '/', $logofilepath)) {
+        $imagefile = $file->copy_content_to_temp();
+    }
+}
+
+// Print a header with the original width and height using the transparent placeholder image.
+$logoplaceholder = "mod/verbalfeedback/pix/logoplaceholder.png";
+$pdf->SetHeaderData($logoplaceholder, 25, '', '');
 
 // Set header and footer fonts.
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -131,6 +146,16 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // Add a page.
 $pdf->AddPage();
 
+// Image size from logo image.
+$image = @getimagesize($imagefile);
+
+if ($image) {
+    $imagefilewidth = $image[0];
+    $imagefileheight = $image[1];
+    $imagescaledwidth = 18 * $imagefilewidth / $imagefileheight;
+}
+
+$pdf->Image('@' . file_get_contents($imagefile), 15, 5, $imagescaledwidth, 18);
 $pdf->ImageSVG('@' . $radarimg, $x = 16, $y = 28, $w = '', $h = '', $link = '', $align = '', $palign = 'R',
     $border = 1, $fitonpage = false);
 $pdf->writeHTML($html, true, false, true, false, '');
