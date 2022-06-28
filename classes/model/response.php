@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class containing data for a verbal feedback instance response.
+ * Class containing data for a verbal feedback response.
  *
  * @package    mod_verbalfeedback
  * @copyright  2021 Kevin Tippenhauer

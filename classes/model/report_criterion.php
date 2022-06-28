@@ -23,11 +23,7 @@
  */
 namespace mod_verbalfeedback\model;
 
-use mod_verbalfeedback\model\localized_string;
-use mod_verbalfeedback\model\template\parametrized_template_criterion;
 use mod_verbalfeedback\repository\language_repository;
-use mod_verbalfeedback\repository\template_criterion_repository;
-use stdClass;
 
 /**
  * The report criterion class
@@ -90,9 +86,9 @@ class report_criterion {
      * Gets a localized criterion description for the given language string.
      *
      * @param string $languagestr The given language string
-     * @return \mod_verbalfeedback\model\localized_string
+     * @return \mod_verbalfeedback\model\localized_string|null
      */
-    public function get_description(string $languagestr) : localized_string {
+    public function get_description(string $languagestr) : ?localized_string {
         $languagerepository = new language_repository();
 
         // Select the language string matching the current language.

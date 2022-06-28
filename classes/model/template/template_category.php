@@ -26,7 +26,7 @@ namespace mod_verbalfeedback\model\template;
 use mod_verbalfeedback\model\localized_string;
 
 /**
- * The template category model
+ * The template category class
  */
 class template_category {
     /** @var int The template category id */

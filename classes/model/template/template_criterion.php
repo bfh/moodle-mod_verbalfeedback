@@ -27,7 +27,7 @@ use mod_verbalfeedback\model\localized_string;
 use mod_verbalfeedback\model\subrating;
 
 /**
- * The template criterion model
+ * The template criterion class
  */
 class template_criterion {
     /** @var int The template criterion id */

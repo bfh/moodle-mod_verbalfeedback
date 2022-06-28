@@ -211,9 +211,9 @@ class instance_criterion {
      * Gets a localized criterion description for the given language string
      *
      * @param string $languagestr The given language string
-     * @return \mod_verbalfeedback\model\localized_string
+     * @return \mod_verbalfeedback\model\localized_string|null
      */
-    public function get_description(string $languagestr) : localized_string {
+    public function get_description(string $languagestr) : ?localized_string {
         $languagerepository = new language_repository();
 
         // Select the language string matching the current language.

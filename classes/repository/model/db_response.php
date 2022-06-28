@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class containing data for users that need to be given with verbalfeedback.
+ * Class for performing DB actions for the verbal feedback activity module.
  *
  * @package    mod_verbalfeedback
  * @copyright  2021 Kevin Tippenhauer

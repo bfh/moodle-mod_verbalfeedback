@@ -27,7 +27,7 @@ use mod_verbalfeedback\model\localized_string;
 use stdClass;
 
 /**
- * The parametrized template category model
+ * The parametrized template category class
  */
 class parametrized_template_category {
     /** @var int The id */
