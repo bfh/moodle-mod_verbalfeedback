@@ -23,8 +23,6 @@
  */
 namespace mod_verbalfeedback\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 use action_link;
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\helper;

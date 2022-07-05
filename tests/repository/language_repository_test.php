@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_verbalfeedback;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -29,11 +31,12 @@ global $CFG;
 use mod_verbalfeedback\model\language;
 use mod_verbalfeedback\repository\language_repository;
 use mod_verbalfeedback\repository\mapper;
+use mod_verbalfeedback\repository\tables;
 
 /**
  * Verbal feedback language repository test class
  */
-class mod_verbalfeedback_language_repository_test extends advanced_testcase {
+class language_repository_test extends \advanced_testcase {
 
     /** @var language_repository A language repository */
     protected $repo;
@@ -48,15 +51,13 @@ class mod_verbalfeedback_language_repository_test extends advanced_testcase {
     /**
      * Test saving the language repository
      *
-     * @param int|null $testid The id to test
-     * @param string $testlanguage The language to test
+     * @covers \mod_verbalfeedback\repository\language_repository::save
      * @throws dml_exception
      */
-    public function test_save(?int $testid, string $testlanguage): void {
-        global $DB;
+    public function test_save(): void {
         $this->resetAfterTest(true);
 
-        $language = new language($testid, $testlanguage);
+        $language = new language(1, 'en');
 
         $id = $this->repo->save($language);
         $this->assertFalse($id === null, 'save method returned null or 0');
@@ -66,18 +67,11 @@ class mod_verbalfeedback_language_repository_test extends advanced_testcase {
         }
         $this->assertEquals($language->get_id(), $id, 'id does not match given id.');
 
-        $dbo = $DB->get_record('verbalfeedback_language', ["id" => $language->get_id()]);
-        $this->assertEquals($language->get_id(), $dbo->id);
-        // The stored language matches with the test string.
-        $this->assertEquals($language->get_language(), $dbo->language);
-
         // Test updating a language.
         $language->set_language('de');
         $this->repo->save($language);
 
-        $dbo = $DB->get_record('verbalfeedback_language', ["id" => $language->get_id()]);
-        $this->assertEquals($language->get_id(), $dbo->id, 'id does not match anymore after update.');
-        $this->assertEquals($language->get_language(), $dbo->language, 'language does not match anymore after update.');
+        $this->assertEquals($language->get_language(), 'de', 'language does not match given language.');
     }
 
     /**
@@ -97,14 +91,19 @@ class mod_verbalfeedback_language_repository_test extends advanced_testcase {
     /**
      * Test getting all providers for languages
      *
-     * @param array $languages
+     * @covers \mod_verbalfeedback\repository\language_repository::get_all
      * @throws coding_exception
      * @throws dml_exception
      */
-    public function test_get_all(array $languages) {
+    public function test_get_all() {
         global $DB;
         $this->resetAfterTest(true);
 
+        $languages = [
+            ['id' => 1, 'language' => 'en'],
+            ['id' => 2, 'language' => 'de'],
+            ['id' => 3, 'language' => 'fr']
+        ];
         $DB->insert_records('verbalfeedback_language', $languages);
 
         $results = $this->repo->get_all();
@@ -134,6 +133,8 @@ class mod_verbalfeedback_language_repository_test extends advanced_testcase {
 
     /**
      * Test getting by id
+     *
+     * @covers \mod_verbalfeedback\repository\language_repository::get_by_id
      */
     public function test_get_by_id() {
         global $DB;
@@ -151,19 +152,23 @@ class mod_verbalfeedback_language_repository_test extends advanced_testcase {
     /**
      * Test deleting by id
      *
-     * @param array $languages The languages
-     * @param int $deleteid The id
+     * @covers \mod_verbalfeedback\repository\language_repository::delete_by_id
      * @throws coding_exception
      * @throws dml_exception
      */
-    public function test_delete_by_id(array $languages, int $deleteid) {
+    public function test_delete_by_id() {
         global $DB;
         $this->resetAfterTest(true);
+        $languages = [
+            ['id' => 1, 'language' => 'en'],
+            ['id' => 2, 'language' => 'de'],
+            ['id' => 3, 'language' => 'fr']
+        ];
         $DB->insert_records('verbalfeedback_language', $languages);
 
-        $this->repo->delete_by_id($deleteid);
+        $this->repo->delete_by_id(1);
 
-        $this->assertFalse($DB->get_record('verbalfeedback_language', ['id' => $deleteid]));
+        $this->assertFalse($DB->get_record('verbalfeedback_language', ['id' => 1]));
     }
 
     /**

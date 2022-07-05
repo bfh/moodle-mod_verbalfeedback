@@ -23,8 +23,6 @@
  */
 namespace mod_verbalfeedback\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 use coding_exception;
 use mod_verbalfeedback\api;
 use moodle_url;

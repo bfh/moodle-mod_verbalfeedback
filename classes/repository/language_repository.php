@@ -24,8 +24,6 @@
 
 namespace mod_verbalfeedback\repository;
 
-defined('MOODLE_INTERNAL') || die();
-
 use mod_verbalfeedback\model\language;
 use mod_verbalfeedback\repository\model\db_language;
 

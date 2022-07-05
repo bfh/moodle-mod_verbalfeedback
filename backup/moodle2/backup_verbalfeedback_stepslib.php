@@ -25,8 +25,6 @@
 use mod_verbalfeedback\repository\model\localized_string_type;
 use mod_verbalfeedback\repository\tables;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Define the complete verbalfeedback structure for backup, with file and id annotations
  *

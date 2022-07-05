@@ -69,9 +69,11 @@ $instancename = format_string($instance->get_name());
 $PAGE->set_title($instancename);
 
 // Make sure that the report being viewed is for someone who can participate in the activity.
-// if (\mod_verbalfeedback\utils\user::can_respond($verbalfeedback, $touserid) !== true) {
-// throw new moodle_exception('invaliduserid', 'error', new moodle_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]));
-// }
+/*
+if (\mod_verbalfeedback\utils\user::can_respond($verbalfeedback, $touserid) !== true) {
+    throw new moodle_exception('invaliduserid', 'error', new moodle_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]));
+}
+*/
 
 // Fetch the user.
 $touser = core_user::get_user($touserid);
@@ -81,8 +83,6 @@ $userheading = [
   'user' => $touser,
   'usercontext' => context_user::instance($touserid)
 ];
-// $contextheader = $OUTPUT->context_header($userheading, 3);
-// echo html_writer::div($contextheader, 'card card-block p-1');
 
 // Get the responses to the user.
 $reportservice = new report_service();
@@ -109,7 +109,7 @@ $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 $fs = get_file_storage();
 
-$logofilepath = $DB->get_field('config_plugins', 'value', array('plugin'=>'mod_verbalfeedback', 'name'=>'reportimage'));
+$logofilepath = $DB->get_field('config_plugins', 'value', array('plugin' => 'mod_verbalfeedback', 'name' => 'reportimage'));
 
 if (!$logofilepath) {
     $imagefile = $CFG->dirroot . '/mod/verbalfeedback/pix/reportlogo.png';

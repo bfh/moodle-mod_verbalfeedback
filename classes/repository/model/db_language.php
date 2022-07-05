@@ -42,10 +42,10 @@ class db_language {
      * Return a language database object
      *
      * @param language $language
-     * @return db_template_category
+     * @return db_language
      */
-    public static function from_language(language $language) {
-        $dbo = new db_template_category();
+    public static function from_language(language $language) : db_language {
+        $dbo = new db_language();
         $dbo->id = $language->get_id();
         $dbo->language = $language->get_language();
         return $dbo;

@@ -33,8 +33,7 @@ require_once($CFG->libdir . '/formslib.php');
 /**
  * The template criterion edit form
  */
-class template_criterion_edit_form extends \moodleform
-{
+class template_criterion_edit_form extends \moodleform {
     /**
      * The class constructor
      *

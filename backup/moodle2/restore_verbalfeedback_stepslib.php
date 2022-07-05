@@ -24,8 +24,6 @@
 
 use mod_verbalfeedback\repository\tables;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Structure step to restore one verbalfeedback activity instance
  *
