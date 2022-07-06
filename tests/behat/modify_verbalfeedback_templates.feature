@@ -34,7 +34,7 @@ Feature: Modify a verbal feedback activity template
 
   @javascript
   Scenario: Delete a verbal feedback activity template
-   When I log in as "teacher1"
+    When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     And I add a "Verbal feedback" to section "1" and I fill the form with:
       | Name                  | Test verbal feedback             |
@@ -46,7 +46,7 @@ Feature: Modify a verbal feedback activity template
     And I navigate to "Verbal feedback templates" in current page administration
     And I click on "Delete" "link" in the "Default template" "table_row"
     And I press "id_submitbutton"
-   Then I should not see "Default template"
+    Then I should not see "Default template"
 
   @javascript
   Scenario: Delete a verbal feedback activity category template
@@ -63,7 +63,7 @@ Feature: Modify a verbal feedback activity template
     And I follow "Template categories"
     And I click on "Delete" "link" in the "structure" "table_row"
     And I press "id_submitbutton"
-   Then I should not see "structure"
+    Then I should not see "structure"
 
   @javascript
   Scenario: Delete a verbal feedback activity criteria template
@@ -80,7 +80,7 @@ Feature: Modify a verbal feedback activity template
     And I follow "Template criteria"
     And I click on "Delete" "link" in the "The content is tailored to the target audience and the occasion." "table_row"
     And I press "id_submitbutton"
-   Then I should not see "The content is tailored to the target audience and the occasion."
+    Then I should not see "The content is tailored to the target audience and the occasion."
 
   @javascript
   Scenario: Delete a verbal feedback activity language
@@ -97,4 +97,4 @@ Feature: Modify a verbal feedback activity template
     And I follow "Language"
     And I click on "Delete" "link" in the "fr" "table_row"
     And I press "id_submitbutton"
-   Then I should not see "fr"
+    Then I should not see "fr"
