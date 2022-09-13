@@ -75,7 +75,7 @@ class instance_category {
         $instancecategory->set_weight($paramtemplatecategory->get_weight());
 
         $templatecategoryrepo = new template_category_repository();
-        $templatecategory = $templatecategoryrepo->get_by_id($paramtemplatecategory->get_id());
+        $templatecategory = $templatecategoryrepo->get_by_id($paramtemplatecategory->get_template_category_id());
         foreach ($templatecategory->get_headers() as $localizedheader) {
             $instanceheader = new localized_string($localizedheader->get_language_id(), 0, $localizedheader->get_string());
             $instancecategory->add_header($instanceheader);
