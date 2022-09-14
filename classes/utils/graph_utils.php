@@ -85,6 +85,20 @@ class graph_utils {
         foreach ($report->get_categories() as $category) {
             if ($category->get_weight() > 0) {
                 // Don't show categories with weight 0.
+                $fulllabel = $category->get_header(current_language())->get_string();
+                // Make sure that labels are not getting too long.
+                $maxlen = 15;
+                $label = "";
+                if (strlen ($fulllabel) > $maxlen) {
+                    $testlabel = strtok($fulllabel, " ");
+                    if (strlen ($testlabel) <= $maxlen) {
+                        $label = $testlabel . ' ...';
+                    } else {
+                        $label = substr($testlabel,0,15) . '...';
+                    }
+                } else {
+                    $label = $fulllabel;
+                }
                 $label = $category->get_header(current_language())->get_string();
                 $values[$label] = $category->get_weighted_result();
             }
