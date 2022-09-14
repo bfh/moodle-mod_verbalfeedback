@@ -56,7 +56,7 @@ class instance_criterion {
      * @param array $subratings The criterion subratings
      */
     public function __construct(int $id = 0, ?int $parametrizedtemplatecriterionid = null, int $position = 0,
-    float $weight = 0.0, $descriptions = array(), $subratings = array()) {
+        float $weight = 0.0, $descriptions = array(), $subratings = array()) {
         $this->id = $id;
         $this->parametrizedtemplatecriterionid = $parametrizedtemplatecriterionid;
         $this->position = $position;
@@ -87,42 +87,26 @@ class instance_criterion {
             $instancecriterion->add_description($localizedstring);
         }
 
+        $keys = [
+            'titles',
+            'descriptions',
+            'verynegatives',
+            'negatives',
+            'positives',
+            'verypositives'
+        ];
+
         foreach ($templatecriterion->get_subratings() as $templatesubrating) {
             // Create a copy for the instance criteria.
             $subrating = new subrating();
-            foreach ($templatesubrating->get_titles() as $templatetitle) {
-                $localizedstring = new localized_string($templatetitle->get_language_id(), 0, $templatetitle->get_string());
-                $subrating->add_title($localizedstring);
+            foreach ($keys as $key) {
+                foreach ($templatesubrating->{$key} as $templateitem) {
+                    $localizedstring = new localized_string($templateitem->languageid, 0, $templateitem->string);
+                    $subrating->{$key}[] = $localizedstring;
+                }
             }
-            foreach ($templatesubrating->get_descriptions() as $templatedescription) {
-                $languageid = $templatedescription->get_language_id();
-                $localizedstring = new localized_string($languageid, 0, $templatedescription->get_string());
-                $subrating->add_description($localizedstring);
-            }
-            foreach ($templatesubrating->get_verynegatives() as $templateverynegative) {
-                $languageid = $templateverynegative->get_language_id();
-                $localizedstring = new localized_string($languageid, 0, $templateverynegative->get_string());
-                $subrating->add_verynegative($localizedstring);
-            }
-            foreach ($templatesubrating->get_negatives() as $templatenegative) {
-                $languageid = $templatenegative->get_language_id();
-                $localizedstring = new localized_string($languageid, 0, $templatenegative->get_string());
-                $subrating->add_negative($localizedstring);
-            }
-            foreach ($templatesubrating->get_positives() as $templatepositive) {
-                $languageid = $templatepositive->get_language_id();
-                $localizedstring = new localized_string($languageid, 0, $templatepositive->get_string());
-                $subrating->add_positive($localizedstring);
-            }
-            foreach ($templatesubrating->get_verypositives() as $templateverypositive) {
-                $languageid = $templateverypositive->get_language_id();
-                $localizedstring = new localized_string($languageid, 0, $templateverypositive->get_string());
-                $subrating->add_verypositive($localizedstring);
-            }
-
             $instancecriterion->add_subrating($subrating);
         }
-
         return $instancecriterion;
     }
 
