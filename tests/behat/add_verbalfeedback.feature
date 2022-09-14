@@ -31,7 +31,6 @@ Feature: Add a verbal feedback activity
     And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as student1
     Then I should see "The verbal feedback activity is not yet ready. Please try again later."
 
-
   @javascript
   Scenario: Add a verbalfeedback to a course and then release it
     Given the following "users" exist:

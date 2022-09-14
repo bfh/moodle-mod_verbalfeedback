@@ -17,6 +17,7 @@
 #page-mod-verbalfeedback-edit_items .user3.unselectedrow.border-top,
 #page-mod-verbalfeedback-view .user3.unselectedrow.border-top,
 #page-mod-verbalfeedback-report .user3.unselectedrow.border-top {
+    /* stylelint-disable-next-line declaration-no-important */
     border-top: 2px solid black !important;
 }
 
