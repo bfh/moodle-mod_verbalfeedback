@@ -54,14 +54,27 @@ class instance_repository {
         $instance = db_instance::to_instance($dboinstance);
 
         $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $id]);
+
+        $sortedstrings = [];
+        $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE);
+        foreach ($dboheaders as $dboheader) {
+            $dbo_obj = new db_localized_string;
+            $dbo_obj->id = $dboheader->id;
+            $dbo_obj->languageid = $dboheader->languageid;
+            $dbo_obj->string = $dboheader->string;
+            $dbo_obj->type = $dboheader->type;
+            $dbo_obj->foreignkey = $dboheader->foreignkey;
+
+            $sortedstrings[$dbo_obj->type][$dbo_obj->foreignkey][$dbo_obj->languageid] = $dbo_obj;
+        }
+
         foreach ($dbocategories as $dbocategory) {
             $category = db_instance_category::to_instance_category($dbocategory);
 
             // Load category headers.
-            $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-            ["type" => localized_string_type::INSTANCE_CATEGORY_HEADER, "foreignkey" => $category->get_id()]);
-            foreach ($dboheaders as $dboheader) {
-                $header = db_localized_string::to_localized_string($dboheader);
+            $dbolocalizedstrings = $sortedstrings[localized_string_type::INSTANCE_CATEGORY_HEADER][$category->get_id()] ?? [];
+            foreach ($dbolocalizedstrings as $dbo) {
+                $header = db_localized_string::to_localized_string($dbo);
                 $category->add_header($header);
             }
 
@@ -71,8 +84,7 @@ class instance_repository {
                 $criterion = db_instance_criterion::to_instance_criterion($dbocriterion);
 
                 // Load criterion description.
-                $dbodescriptions = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-                    ["type" => localized_string_type::INSTANCE_CRITERION, "foreignkey" => $criterion->get_id()]);
+                $dbodescriptions = $sortedstrings[localized_string_type::INSTANCE_CRITERION][$criterion->get_id()] ?? [];
                 foreach ($dbodescriptions as $dbodescription) {
                     $description = db_localized_string::to_localized_string($dbodescription);
                     $criterion->add_description($description);
@@ -82,13 +94,25 @@ class instance_repository {
                 $dbosubratings = $DB->get_records(tables::INSTANCE_SUBRATING_TABLE, ["criterionid" => $criterion->get_id()]);
                 foreach ($dbosubratings as $dbosubrating) {
                     $subrating = db_instance_subrating::to_subrating($dbosubrating);
-
-                    // Load subrating titles (1 title per language).
-                    $dbotitles = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_TITLE, "foreignkey" => $subrating->get_id()]);
-                    foreach ($dbotitles as $dbotitle) {
-                        $title = db_localized_string::to_localized_string($dbotitle);
-                        $subrating->add_title($title);
+                    foreach ([
+                        // Load subrating titles (1 title per language).
+                        localized_string_type::INSTANCE_SUBRATING_TITLE => 'titles',
+                        // Load subrating descriptions.
+                        localized_string_type::INSTANCE_SUBRATING_DESCRIPTION => 'descriptions',
+                        // Load subrating very negative texts.
+                        localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE => 'verynegatives',
+                        // Load subrating negative texts.
+                        localized_string_type::INSTANCE_SUBRATING_NEGATIVE => 'negatives',
+                        // Load subrating positive texts.
+                        localized_string_type::INSTANCE_SUBRATING_POSITIVE => 'positives',
+                        // Load subrating very positive texts.
+                        localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE => 'verypositives',
+                    ] as $type => $attribute) {
+                        $dbotitles = $sortedstrings[$type][$subrating->get_id()] ?? [];
+                        foreach ($dbotitles as $dbotitle) {
+                            $item = db_localized_string::to_localized_string($dbotitle);
+                            $subrating->{$attribute}[] = $item;
+                        }
                     }
 
                     // Load subrating descriptions.

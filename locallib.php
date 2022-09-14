@@ -124,35 +124,39 @@ function template_criterion_to_view_model(template_criterion $templatecriterion)
         foreach ($languagerepository->get_all() as $language) {
             $languagestring = $language->get_language();
             $title = $subratings[$i]->get_title($languagestring);
-            $description = $subratings[$i]->get_description($languagestring);
-            $verynegative = $subratings[$i]->get_verynegative($languagestring);
-            $negative = $subratings[$i]->get_negative($languagestring);
-            $positive = $subratings[$i]->get_positive($languagestring);
-            $verypositive = $subratings[$i]->get_verypositive($languagestring);
 
-            $model['subrating_title_' . $languagestring . '_language_id[' . $i . ']'] = $title->get_language_id();
-            $model['subrating_title_' . $languagestring . '_id[' . $i . ']'] = $title->get_id();
-            $model['subrating_title_' . $languagestring . '_string[' . $i . ']'] = $title->get_string();
+            // Do not continue if language is not maintained!
+            if (!is_null($title)) {
+                $description = $subratings[$i]->get_description($languagestring);
+                $verynegative = $subratings[$i]->get_verynegative($languagestring);
+                $negative = $subratings[$i]->get_negative($languagestring);
+                $positive = $subratings[$i]->get_positive($languagestring);
+                $verypositive = $subratings[$i]->get_verypositive($languagestring);
 
-            $model['subrating_description_' . $languagestring . '_language_id[' . $i . ']'] = $description->get_language_id();
-            $model['subrating_description_' . $languagestring . '_id[' . $i . ']'] = $description->get_id();
-            $model['subrating_description_' . $languagestring . '_string[' . $i . ']'] = $description->get_string();
+                $model['subrating_title_' . $languagestring . '_language_id[' . $i . ']'] = $title->get_language_id();
+                $model['subrating_title_' . $languagestring . '_id[' . $i . ']'] = $title->get_id();
+                $model['subrating_title_' . $languagestring . '_string[' . $i . ']'] = $title->get_string();
 
-            $model['subrating_verynegative_' . $languagestring . '_language_id[' . $i . ']'] = $verynegative->get_language_id();
-            $model['subrating_verynegative_' . $languagestring . '_id[' . $i . ']'] = $verynegative->get_id();
-            $model['subrating_verynegative_' . $languagestring . '_string[' . $i . ']'] = $verynegative->get_string();
+                $model['subrating_description_' . $languagestring . '_language_id[' . $i . ']'] = $description->get_language_id();
+                $model['subrating_description_' . $languagestring . '_id[' . $i . ']'] = $description->get_id();
+                $model['subrating_description_' . $languagestring . '_string[' . $i . ']'] = $description->get_string();
 
-            $model['subrating_negative_' . $languagestring . '_language_id[' . $i . ']'] = $negative->get_language_id();
-            $model['subrating_negative_' . $languagestring . '_id[' . $i . ']'] = $negative->get_id();
-            $model['subrating_negative_' . $languagestring . '_string[' . $i . ']'] = $negative->get_string();
+                $model['subrating_verynegative_' . $languagestring . '_language_id[' . $i . ']'] = $verynegative->get_language_id();
+                $model['subrating_verynegative_' . $languagestring . '_id[' . $i . ']'] = $verynegative->get_id();
+                $model['subrating_verynegative_' . $languagestring . '_string[' . $i . ']'] = $verynegative->get_string();
 
-            $model['subrating_positive_' . $languagestring . '_language_id[' . $i . ']'] = $positive->get_language_id();
-            $model['subrating_positive_' . $languagestring . '_id[' . $i . ']'] = $positive->get_id();
-            $model['subrating_positive_' . $languagestring . '_string[' . $i . ']'] = $positive->get_string();
+                $model['subrating_negative_' . $languagestring . '_language_id[' . $i . ']'] = $negative->get_language_id();
+                $model['subrating_negative_' . $languagestring . '_id[' . $i . ']'] = $negative->get_id();
+                $model['subrating_negative_' . $languagestring . '_string[' . $i . ']'] = $negative->get_string();
 
-            $model['subrating_verypositive_' . $languagestring . '_language_id[' . $i . ']'] = $verypositive->get_language_id();
-            $model['subrating_verypositive_' . $languagestring . '_id[' . $i . ']'] = $verypositive->get_id();
-            $model['subrating_verypositive_' . $languagestring . '_string[' . $i . ']'] = $verypositive->get_string();
+                $model['subrating_positive_' . $languagestring . '_language_id[' . $i . ']'] = $positive->get_language_id();
+                $model['subrating_positive_' . $languagestring . '_id[' . $i . ']'] = $positive->get_id();
+                $model['subrating_positive_' . $languagestring . '_string[' . $i . ']'] = $positive->get_string();
+
+                $model['subrating_verypositive_' . $languagestring . '_language_id[' . $i . ']'] = $verypositive->get_language_id();
+                $model['subrating_verypositive_' . $languagestring . '_id[' . $i . ']'] = $verypositive->get_id();
+                $model['subrating_verypositive_' . $languagestring . '_string[' . $i . ']'] = $verypositive->get_string();
+            }
         }
     }
     return $model;
