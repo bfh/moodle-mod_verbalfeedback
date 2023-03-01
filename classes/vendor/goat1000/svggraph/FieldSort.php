@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019 Graham Breach
+ * Copyright (C) 2019-2023 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -27,10 +27,12 @@ namespace Goat1000\SVGGraph;
 class FieldSort {
 
   private $key = null;
+  private $reverse = false;
 
-  public function __construct($key)
+  public function __construct($key, $reverse = false)
   {
     $this->key = $key;
+    $this->reverse = $reverse;
   }
 
   /**
@@ -39,13 +41,26 @@ class FieldSort {
   public function sort(&$data)
   {
     $key = $this->key;
-    usort($data, function($a, $b) use($key) {
-      // check that fields are present
-      if(!isset($a[$key]) || !isset($b[$key]))
+    $get_val = function($a, $key) {
+      return (!isset($a[$key]) || $a[$key] === null ? PHP_INT_MIN : $a[$key]);
+    };
+    $bigger = function($a, $b, $key) use($get_val) {
+      $va = $get_val($a, $key);
+      $vb = $get_val($b, $key);
+      if($va == $vb)
         return 0;
-      if($a[$key] == $b[$key])
+      return $va > $vb ? 1 : -1;
+    };
+    $smaller = function($a, $b, $key) use($get_val) {
+      $va = $get_val($a, $key);
+      $vb = $get_val($b, $key);
+      if($va == $vb)
         return 0;
-      return $a[$key] > $b[$key] ? 1 : -1;
+      return $va < $vb ? 1 : -1;
+    };
+    $fn = $this->reverse ? $smaller : $bigger;
+    usort($data, function($a, $b) use($key, $fn) {
+      return $fn($a, $b, $key);
     });
   }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019-2020 Graham Breach
+ * Copyright (C) 2019-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,7 +25,7 @@ trait StackedBarTrait {
 
   use MultiGraphTrait;
 
-  protected $bar_visibility = [];
+  private $bar_visibility = [];
 
   // used to determine where the total label should go
   protected $last_position_pos = [];
@@ -87,25 +87,18 @@ trait StackedBarTrait {
   }
 
   /**
-   * Sets whether a bar is visible or not
-   */
-  protected function setBarVisibility($dataset, DataItem $item, $top)
-  {
-    $this->bar_visibility[$dataset][$item->key] = ($item->value != 0);
-  }
-
-  /**
    * Displays the bar totals
    */
   public function barTotals(DataItem $item, $bnum, $yplus, $yminus, $dataset)
   {
     $bar_x = $this->gridPosition($item, $bnum);
-    if($this->show_bar_totals && $bar_x !== null) {
+    if($this->getOption('show_bar_totals') && $bar_x !== null) {
+      $cb = $this->getOption('bar_total_callback');
       if($yplus) {
         $bar = $this->barDimensions($item, $bnum, 0, null, $dataset);
         $this->barY($yplus, $bar);
-        if(is_callable($this->bar_total_callback)) {
-          $total = call_user_func($this->bar_total_callback, $item->key, $yplus);
+        if(is_callable($cb)) {
+          $total = call_user_func($cb, $item->key, $yplus);
         } else {
           $total = new Number($yplus);
           $total = $total->format();
@@ -116,8 +109,8 @@ trait StackedBarTrait {
       if($yminus) {
         $bar = $this->barDimensions($item, $bnum, 0, null, $dataset);
         $this->barY($yminus, $bar);
-        if(is_callable($this->bar_total_callback)) {
-          $total = call_user_func($this->bar_total_callback, $item->key, $yminus);
+        if(is_callable($cb)) {
+          $total = call_user_func($cb, $item->key, $yminus);
         } else {
           $total = new Number($yminus);
           $total = $total->format();
@@ -233,12 +226,21 @@ trait StackedBarTrait {
   }
 
   /**
+   * Sets whether a bar is visible or not
+   */
+  protected function setBarVisibility($dataset, DataItem $item, $top, $override = null)
+  {
+    $k = serialize([$dataset, $item->key]);
+    $this->bar_visibility[$k] = ($override === null ? $item->value != 0 : $override);
+  }
+
+  /**
    * Returns TRUE if the item is visible on the graph
    */
   public function isVisible($item, $dataset = 0)
   {
-    return isset($this->bar_visibility[$dataset][$item->key]) &&
-      $this->bar_visibility[$dataset][$item->key];
+    $k = serialize([$dataset, $item->key]);
+    return isset($this->bar_visibility[$k]) && $this->bar_visibility[$k];
   }
 
   /**

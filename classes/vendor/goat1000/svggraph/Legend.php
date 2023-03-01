@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2016-2021 Graham Breach
+ * Copyright (C) 2016-2023 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -48,6 +48,7 @@ class Legend {
   protected $stroke_colour;
   protected $stroke_width;
   protected $text_side;
+  protected $line_spacing;
   protected $title;
   protected $title_colour;
   protected $title_font;
@@ -317,10 +318,31 @@ class Legend {
       }
     }
 
-    // create group to contain whole legend
-    list($left, $top) = $this->graph->parsePosition($this->position,
-      $width, $height);
+    // find position for legend
+    if(is_array($this->position)) {
+      list($px, $py) = $this->position;
+      $vx = Coords::parseValue($px);
+      $vy = Coords::parseValue($py);
+      $c = new Coords($this->graph);
+      list($tx, $ty) = $c->transformCoords($px, $py);
 
+      // handle relative positions
+      switch($vx['value']) {
+      case 'c' : $left = $tx - ($width / 2); break;
+      case 'r' : $left = $tx - $width; break;
+      default : $left = $tx;
+      }
+      switch($vy['value']) {
+      case 'c' : $top = $ty - ($height / 2); break;
+      case 'b' : $top = $ty - $height; break;
+      default: $top = $ty;
+      }
+    } else {
+      list($left, $top) = $this->graph->parsePosition($this->position,
+        $width, $height);
+    }
+
+    // create group to contain whole legend
     $xform = new Transform;
     $xform->translate($left, $top);
     $group = [
@@ -350,10 +372,10 @@ class Legend {
         $o0 = 1;
         $group['opacity'] = $o1;
       }
-      $this->graph->javascript->autoHide($group, $o0, $o1);
+      $this->graph->getJavascript()->autoHide($group, $o0, $o1);
     }
     if($this->draggable)
-      $this->graph->javascript->setDraggable($group);
+      $this->graph->getJavascript()->setDraggable($group);
     return $this->graph->element('g', $group, null, $rect . $title . $parts);
   }
 
@@ -401,16 +423,18 @@ class Legend {
     }
 
     $entries = $this->entry_details;
-    if(strpos($entry_order, 'sort') !== false) {
-      usort($entries, function($a, $b) {
-        if($a->text == $b->text)
-          return 0;
-        return $a->text > $b->text ? 1 : -1;
-      });
-    }
+    if(!empty($entry_order)) {
+      if(strpos($entry_order, 'sort') !== false) {
+        usort($entries, function($a, $b) {
+          if($a->text == $b->text)
+            return 0;
+          return $a->text > $b->text ? 1 : -1;
+        });
+      }
 
-    if(strpos($entry_order, 'reverse') !== false)
-      $entries = array_reverse($entries, true);
+      if(strpos($entry_order, 'reverse') !== false)
+        $entries = array_reverse($entries, true);
+    }
 
     return $this->filterEntries($entries);
   }

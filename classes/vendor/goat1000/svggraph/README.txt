@@ -1,4 +1,4 @@
-SVGGraph Library version 3.10
+SVGGraph Library version 3.19
 =============================
 
 This library provides PHP classes and functions for easily creating SVG
@@ -58,6 +58,8 @@ At the moment these types of graph are supported by SVGGraph:
 
  Histogram - a bar graph that shows the range of values;
 
+ ParetoChart - a bar and line graph showing sorted and summed values;
+
  MultiScatterGraph - scatter graph supporting multiple data sets;
 
  HorizontalBarGraph - a bar graph with the axes swapped;
@@ -65,6 +67,12 @@ At the moment these types of graph are supported by SVGGraph:
  HorizontalStackedBarGraph - a stacked bar graph drawn horizontally;
 
  HorizontalGroupedBarGraph - a grouped bar graph drawn horizontally;
+
+ HorizontalBar3DGraph - a 3D bar graph with the axes swapped;
+
+ HorizontalStackedBar3DGraph - a stacked 3D bar graph drawn horizontally;
+
+ HorizontalGroupedBar3DGraph - a grouped 3D bar graph drawn horizontally;
 
  RadarGraph - a radar or star graph with values drawn as lines;
 
@@ -90,6 +98,10 @@ At the moment these types of graph are supported by SVGGraph:
 
  SemiDonutGraph - half of a donut graph;
 
+ Donut3DGraph - a 3D version of the donut graph;
+
+ SemiDonut3DGraph - a 3D version of the semi-donut graph;
+
  PolarAreaGraph - a pie graph where the area of the slice varies instead of
                   its angle;
 
@@ -99,12 +111,20 @@ At the moment these types of graph are supported by SVGGraph:
 
  ExplodedPie3DGraph - a 3D version of the exploded pie graph.
 
+ ExplodedDonutGraph - a donut graph with its slices exploded;
+
+ ExplodedSemiDonutGraph - a semi-donut graph with its slices exploded;
+
+ ExplodedDonut3DGraph - a 3D version of the exploded donut graph;
+
+ ExplodedSemiDonut3DGraph - a 3D version of the exploded semi-donut graph;
+
  ArrayGraph - a graph containing other graphs.
 
 There are also these graphs that are really hard to describe:
 
  FloatingBarGraph; HorizontalFloatingBarGraph; BubbleGraph;
- BoxAndWhiskerGraph; PopulationPyramid.
+ BoxAndWhiskerGraph; PopulationPyramid; CandlestickGraph; GanttChart.
 
 Using SVGGraph
 ==============
@@ -311,4 +331,4 @@ For more information about this software please contact the author,
 graham(at)goat1000.com or visit the website: http://www.goat1000.com/
 
 
-Copyright (C) 2009-2021 Graham Breach
+Copyright (C) 2009-2023 Graham Breach

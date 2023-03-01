@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019-2020 Graham Breach
+ * Copyright (C) 2019-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -70,6 +70,7 @@ trait StackedGroupedBarTrait {
           }
 
           $stack_last = count($stack) - 1;
+          $top_dataset = 0;
           foreach($stack as $b => $stack_bar) {
             list($j, $start) = $stack_bar;
             $item = $itemlist[$j];
@@ -93,14 +94,6 @@ trait StackedGroupedBarTrait {
   }
 
   /**
-   * Sets whether a bar is visible or not
-   */
-  protected function setBarVisibility($dataset, DataItem $item, $top)
-  {
-    $this->bar_visibility[$dataset][$item->key] = ($item->value != 0);
-  }
-
-  /**
    * Sets up bar details
    */
   protected function barSetup()
@@ -109,9 +102,10 @@ trait StackedGroupedBarTrait {
     $group_count = count($this->groups);
     $chunk_count = count($this->multi_graph);
     list($group_width, $bspace, $group_unit_width) =
-      $this->barPosition($this->bar_width, $this->bar_width_min,
-      $this->x_axes[$this->main_x_axis]->unit(), $group_count, $this->bar_space,
-      $this->group_space);
+      $this->barPosition($this->getOption('bar_width'),
+        $this->getOption('bar_width_min'),
+        $this->x_axes[$this->main_x_axis]->unit(), $group_count,
+        $this->getOption('bar_space'), $this->getOption('group_space'));
     $this->group_bar_spacing = $group_unit_width;
     $this->setBarWidth($group_width, $bspace);
   }

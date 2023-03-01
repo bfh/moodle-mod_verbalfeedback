@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019 Graham Breach
+ * Copyright (C) 2019-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +26,7 @@ namespace Goat1000\SVGGraph;
  */
 class PieSliceEdge {
 
-  public $x;
+  const SCALE = 2000.0;
   public $y;
   public $slice;
 
@@ -42,8 +42,9 @@ class PieSliceEdge {
    */
   public function __construct(&$graph, $type, $slice, $s_angle)
   {
-    $this->type = $type;
+    $this->type = -1;
     $this->slice = $slice;
+    $tau = M_PI * 2.0;
 
     $start_angle = $slice['angle_start'] + $s_angle;
     $end_angle = $slice['angle_end'] + $s_angle;
@@ -53,7 +54,7 @@ class PieSliceEdge {
       // if end_angle is not set, then single_slice is full pie
       $start_angle = 0.0;
       $end_angle = M_PI;
-    } elseif($graph->reverse) {
+    } elseif($graph->getOption('reverse')) {
       // apply reverse now to save thinking about it later
       $s = M_PI * 4.0 - $end_angle;
       $e = M_PI * 4.0 - $start_angle;
@@ -61,48 +62,80 @@ class PieSliceEdge {
       $end_angle = $e;
     }
 
-    $this->a1 = fmod($start_angle, M_PI * 2.0);
-    $this->a2 = fmod($end_angle, M_PI * 2.0);
+    $this->a1 = fmod($start_angle, $tau);
+    $this->a2 = fmod($end_angle, $tau);
     if($this->a2 < $this->a1)
-      $this->a2 += M_PI * 2.0;
+      $this->a2 += $tau;
 
-    // truncate curves to visible area
-    if($type == 2) {
-      if($this->a1 < M_PI && $this->a2 > M_PI)
+    switch($type) {
+    case 0:
+      // flat edge at a1
+      $this->a2 = $this->a1;
+      break;
+    case 1:
+      // flat edge at a2
+      $this->a1 = $this->a2;
+      break;
+    case 2:
+      // bottom edge
+      if($this->a1 > M_PI && $this->a2 < $tau)
+        return;
+      // truncate curves to visible area
+      if($this->a1 <= M_PI && $this->a2 >= M_PI)
         $this->a2 = M_PI;
-      elseif($this->a1 > M_PI && $this->a2 > M_PI * 2.0)
-        $this->a1 = M_PI * 2.0;
-    }
-    if($type == 3) {
-      // type 3 edges are for pie slices that show at both sides
-      if($this->a1 < M_PI && $this->a2 > M_PI * 2.0)
-        $this->a1 = M_PI * 2.0;
-      else
-        $this->type = -1;
+      elseif($this->a1 > M_PI && $this->a2 > $tau)
+        $this->a1 = $tau;
+      if($this->a2 > M_PI * 3.0)
+        $this->a2 = M_PI * 3.0;
+      break;
+    case 3:
+      // type 3 edges are where the slice starts bottom, goes through top and ends at bottom
+      if($this->a2 < $tau || $this->a2 > M_PI * 3.0 || $this->a1 >= M_PI)
+        return;
+
+      $this->a1 = $tau;
+      break;
     }
 
-    if($type == 0 || $type == 1) {
-      $angle = $type == 1 ? $this->a2 : $this->a1;
-      $this->x = 2000.0 * cos($angle);
-      $this->y = 2000.0 * sin($angle);
-    } else {
-      // if the edge crosses the bottom use full distance
-      if(($this->a1 < M_PI * 0.5 && $this->a2 > M_PI * 0.5) ||
-        ($this->a2 > M_PI * 2.5)) {
-        $this->x = 0;
-        $this->y = 2000.0;
-      } else {
-        $s1 = 2000.0 * sin($this->a1);
-        $s2 = 2000.0 * sin($this->a2);
-        if($s1 > $s2) {
-          $this->y = $s1;
-          $this->x = 2000.0 * cos($this->a1);
-        } else {
-          $this->y = $s2;
-          $this->x = 2000.0 * cos($this->a2);
-        }
-      }
+    $this->setupSort();
+    $this->type = $type;
+  }
+
+  /**
+   * Fills in $this->y, for sorting slices by layer depth
+   */
+  protected function setupSort()
+  {
+    if($this->a1 < M_PI_2 && $this->a2 > M_PI_2)
+      $ac = M_PI_2;
+    else
+      $ac = ($this->a1 + $this->a2) / 2;
+    $this->y = PieSliceEdge::SCALE * sin($ac);
+  }
+
+  /**
+   * Returns the number of edge types this class supports
+   */
+  protected static function getEdgeTypes()
+  {
+    return 3;
+  }
+
+  /**
+   * Returns a array of edges for the slice
+   */
+  public static function getEdges(&$graph, $slice, $start_angle, $flat)
+  {
+    $class = get_called_class();
+    $start = $flat ? 0 : 2;
+    $end = $class::getEdgeTypes();
+    $edges = [];
+    for($e = $start; $e <= $end; ++$e) {
+      $edge = new $class($graph, $e, $slice, $start_angle);
+      if($edge->visible())
+        $edges[] = $edge;
     }
+    return $edges;
   }
 
   /**
@@ -142,7 +175,17 @@ class PieSliceEdge {
    */
   public function curve()
   {
-    return $this->type == 2 || $this->type == 3;
+    return $this->type > 1;
+  }
+
+  /**
+   * Returns angle of flat path
+   */
+  public function angle()
+  {
+    if($this->type > 1)
+      return 0;
+    return $this->type == 1 ? $this->a2 : $this->a1;
   }
 
   /**

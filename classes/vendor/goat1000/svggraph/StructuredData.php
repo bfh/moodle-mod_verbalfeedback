@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2013-2020 Graham Breach
+ * Copyright (C) 2013-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -150,23 +150,36 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
   public static function convertFrom($values, $force_assoc, $datetime_keys,
     $int_keys)
   {
-    if(count($values) > 1 && $values instanceof Data) {
+    if($values instanceof Data) {
       $new_data = [];
       $count = count($values);
+      $structure = ['key' => 0, 'value' => []];
+
+      // set up all keys first
       for($i = 0; $i < $count; ++$i) {
         foreach($values[$i] as $item) {
-          if(!isset($new_data[$item->key])) {
-            // fill the data item with NULLs
-            $new_data[$item->key] = array_fill(0, $count + 1, null);
-            $new_data[$item->key][0] = $item->key;
-          }
-          $new_data[$item->key][$i + 1] = $item->value;
+          $new_data[$item->key] = [$item->key];
         }
       }
+
+      // sort keys if they are numeric
+      if(!$force_assoc && !$values->associativeKeys())
+        ksort($new_data);
+
+      // fill in values
+      for($i = 0; $i < $count; ++$i) {
+        $dpos = $i + 1;
+        $structure['value'][] = $dpos;
+        foreach($values[$i] as $item) {
+          $new_data[$item->key][$dpos] = $item->value;
+        }
+      }
+
+      // array keys are now superfluous
       $new_data = array_values($new_data);
 
       $new_values = new StructuredData($new_data, $force_assoc,
-        $datetime_keys, null, false, false, $int_keys, null, true);
+        $datetime_keys, $structure, false, false, $int_keys, null, true);
       return $new_values;
     }
 
@@ -211,20 +224,27 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
   {
     throw new \Exception('Cannot iterate ' . __CLASS__);
   }
+  #[\ReturnTypeWillChange]
   public function current() { $this->notIterator(); }
+  #[\ReturnTypeWillChange]
   public function key() { $this->notIterator(); }
+  #[\ReturnTypeWillChange]
   public function next() { $this->notIterator(); }
+  #[\ReturnTypeWillChange]
   public function rewind() { $this->notIterator(); }
+  #[\ReturnTypeWillChange]
   public function valid() { $this->notIterator(); }
 
   /**
    * ArrayAccess methods
    */
+  #[\ReturnTypeWillChange]
   public function offsetExists($offset)
   {
     return array_key_exists($offset, $this->dataset_fields);
   }
 
+  #[\ReturnTypeWillChange]
   public function offsetGet($offset)
   {
     return new StructuredDataIterator($this->data, $offset, $this->structure);
@@ -233,10 +253,12 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
   /**
    * Don't allow writing to the data
    */
+  #[\ReturnTypeWillChange]
   public function offsetSet($offset, $value)
   {
     throw new \Exception('Read-only');
   }
+  #[\ReturnTypeWillChange]
   public function offsetUnset($offset)
   {
     throw new \Exception('Read-only');
@@ -245,6 +267,7 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
   /**
    * Countable method
    */
+  #[\ReturnTypeWillChange]
   public function count()
   {
     return $this->datasets;
@@ -476,6 +499,20 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
   }
 
   /**
+   * Returns a structured data item
+   */
+  public function getItem($index, $dataset = 0)
+  {
+    $index = (int)round($index);
+    if(!isset($this->data[$index]))
+      return null;
+
+    $key = $this->key_field === null ? $index : null;
+    return new StructuredDataItem($this->data[$index],
+      $this->structure, $dataset, $key);
+  }
+
+  /**
    * Returns TRUE if the data field exists, setting $value
    */
   public function getData($index, $name, &$value)
@@ -548,6 +585,113 @@ class StructuredData implements \Countable, \ArrayAccess, \Iterator {
     $this->assoc = null;
     $this->key_field = $this->structure['key'] = $rekey_name;
     return true;
+  }
+
+  /**
+   * Transforms values using a callback function
+   */
+  public function revalue($datasets, $callback)
+  {
+    // $datasets is the number in the output
+    $new_values = [];
+    for($i = 0; $i < $datasets; ++$i)
+      $new_values[] = uniqid('val', false);
+
+    // call the callback for each row of values
+    foreach($this->data as $index => $item) {
+      $row = [];
+      foreach($this->dataset_fields as $field)
+        $row[] = isset($item[$field]) ? $item[$field] : null;
+
+      // get updated row
+      $new_row = call_user_func($callback, $item[$this->key_field], $row);
+      for($i = 0; $i < $datasets; ++$i)
+        $this->data[$index][$new_values[$i]] = isset($new_row[$i]) ?
+          $new_row[$i] : null;
+    }
+
+    // update structure with new value fields
+    $this->structure['value'] = $new_values;
+    $this->dataset_fields = $new_values;
+    $this->datasets = $datasets;
+
+    // forget previous min/max
+    $this->min_values = [];
+    $this->max_values = [];
+    return true;
+  }
+
+  /**
+   * Transform a row using a callback
+   */
+  public function transform($callback, $dataset = 0)
+  {
+    // build the list of fields for this dataset
+    $tstruct = [];
+    foreach($this->structure as $field => $element) {
+      if(is_array($element) && isset($element[$dataset]))
+        $tstruct[$field] = $element[$dataset];
+      else
+        $tstruct[$field] = $element;
+    }
+
+    foreach($this->data as &$row) {
+
+      // use a POD class for the data item
+      $item = new \stdClass;
+
+      foreach($tstruct as $field => $key)
+        if(isset($row[$key]))
+          $item->$field = $row[$key];
+
+      // if the callback returns null, there is no change
+      $item = $callback($item);
+      if($item === null)
+        continue;
+
+      foreach($tstruct as $field => $key)
+        if(isset($item->$field))
+          $row[$key] = $item->$field;
+    }
+  }
+
+  /**
+   * Adds a field to the structure, if it doesn't already exist
+   */
+  public function addField($name)
+  {
+    if(!array_key_exists($name, $this->structure))
+      $this->structure[$name] = uniqid($name, true);
+  }
+
+  /**
+   * Adds a row to the data at end or at $insert position
+   */
+  public function addRow(array $row, $insert = null)
+  {
+    if($insert === null || $insert >= count($this->data)) {
+      $this->data[] = $row;
+      return;
+    }
+    array_splice($this->data, $insert, 0, [$row]);
+  }
+
+  /**
+   * Returns the structure array
+   */
+  public function getStructure()
+  {
+    return $this->structure;
+  }
+
+  /**
+   * Sorts the data by the selected dataset values
+   */
+  public function sort($dataset, $reverse)
+  {
+    $key = $this->dataset_fields[$dataset];
+    $field_sort = new FieldSort($key, $reverse);
+    $field_sort->sort($this->data);
   }
 }
 

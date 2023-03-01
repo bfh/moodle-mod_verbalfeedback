@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019 Graham Breach
+ * Copyright (C) 2019-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -63,6 +63,23 @@ class StructuredDataItem extends DataItem {
   public function __get($field)
   {
     return $this->data($field);
+  }
+
+  /**
+   * Tests if a field is set
+   */
+  public function __isset($field)
+  {
+    if(!isset($this->structure[$field]))
+      return false;
+    $item_field = $this->structure[$field];
+    if(is_array($item_field)) {
+      if(!isset($item_field[$this->dataset]))
+        return false;
+      $item_field = $item_field[$this->dataset];
+    }
+
+    return isset($this->item[$item_field]);
   }
 
   /**

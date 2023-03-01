@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2012-2021 Graham Breach
+ * Copyright (C) 2012-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -83,8 +83,7 @@ class RadarGraph extends LineGraph {
 
     $graph_line .= $this->drawLine($dataset, $points, 0);
     $group = [];
-    $this->clipGrid($group);
-    if($this->semantic_classes)
+    if($this->getOption('semantic_classes'))
       $group['class'] = 'series';
     $graph_line = $this->element('g', $group, null, $graph_line);
 
@@ -127,7 +126,7 @@ class RadarGraph extends LineGraph {
     $axis = $this->x_axes[$this->main_x_axis];
     $offset = $axis->position($gkey);
     if($offset >= 0 && $offset < $this->g_width)
-      return $this->reverse ? -$offset : $offset;
+      return $this->getOption('reverse') ? -$offset : $offset;
     return null;
   }
 
@@ -178,7 +177,7 @@ class RadarGraph extends LineGraph {
   public function transformCoords($x, $y)
   {
     $angle = $x / $this->g_height;
-    if($this->grid_straight) {
+    if($this->getOption('grid_straight')) {
       // this complicates things...
 
       // get all the grid points, div and subdiv
@@ -247,7 +246,7 @@ class RadarGraph extends LineGraph {
   {
     $path = new PathData;
 
-    if($this->grid_straight) {
+    if($this->getOption('grid_straight')) {
       $grid_angles = [];
       $points = array_merge($this->getGridPointsX(0), $this->getSubDivsX(0));
       foreach($points as $point) {
@@ -307,7 +306,8 @@ class RadarGraph extends LineGraph {
   {
     $this->calcAxes();
     $this->calcGrid();
-    if(!$this->show_grid || (!$this->show_grid_h && !$this->show_grid_v))
+    if(!$this->getOption('show_grid') ||
+      (!$this->getOption('show_grid_h') && !$this->getOption('show_grid_v')))
       return '';
 
     $back = $subpath = '';
@@ -324,15 +324,15 @@ class RadarGraph extends LineGraph {
         'd' => $this->yGrid($points),
         'fill' => $back_colour
       ];
-      if($this->grid_back_opacity != 1)
-        $bpath['fill-opacity'] = $this->grid_back_opacity;
+      if($this->getOption('grid_back_opacity') != 1)
+        $bpath['fill-opacity'] = $this->getOption('grid_back_opacity');
       $back = $this->element('path', $bpath);
     }
-    if($this->grid_back_stripe) {
+    if($this->getOption('grid_back_stripe')) {
       // use array of colours if available, otherwise stripe a single colour
-      $colours = is_array($this->grid_back_stripe_colour) ?
-        $this->grid_back_stripe_colour :
-        [null, $this->grid_back_stripe_colour];
+      $colours = is_array($this->getOption('grid_back_stripe_colour')) ?
+        $this->getOption('grid_back_stripe_colour') :
+        [null, $this->getOption('grid_back_stripe_colour')];
       $c = 0;
       $num_colours = count($colours);
       $num_points = count($y_points);
@@ -349,19 +349,19 @@ class RadarGraph extends LineGraph {
             'd' => $this->yGrid($s_points),
             'fill-rule' => 'evenodd',
           ];
-          if($this->grid_back_stripe_opacity != 1)
-            $bpath['fill-opacity'] = $this->grid_back_stripe_opacity;
+          if($this->getOption('grid_back_stripe_opacity') != 1)
+            $bpath['fill-opacity'] = $this->getOption('grid_back_stripe_opacity');
           $back .= $this->element('path', $bpath);
         }
         ++$c;
       }
     }
-    if($this->show_grid_subdivisions) {
+    if($this->getOption('show_grid_subdivisions')) {
       $subpath_h = new PathData;
       $subpath_v = new PathData;
-      if($this->show_grid_h)
+      if($this->getOption('show_grid_h'))
         $subpath_h = $this->yGrid($y_subdivs);
-      if($this->show_grid_v)
+      if($this->getOption('show_grid_v'))
         $subpath_v = $this->xGrid($x_subdivs);
       if(!($subpath_h->isEmpty() && $subpath_v->isEmpty())) {
         $colour_h = $this->getOption('grid_subdivision_colour_h',
@@ -394,9 +394,9 @@ class RadarGraph extends LineGraph {
 
     $path_v = new PathData;
     $path_h = new PathData;
-    if($this->show_grid_h)
+    if($this->getOption('show_grid_h'))
       $path_v = $this->yGrid($y_points);
-    if($this->show_grid_v)
+    if($this->getOption('show_grid_v'))
       $path_h = $this->xGrid($x_points);
 
     $colour_h = $this->getOption('grid_colour_h', 'grid_colour');
@@ -441,8 +441,8 @@ class RadarGraph extends LineGraph {
    */
   protected function calcAxes()
   {
-    $this->arad = (90 + $this->start_angle) * M_PI / 180;
-    $this->axis_right = false;
+    $this->arad = (90 + $this->getOption('start_angle')) * M_PI / 180;
+    $this->setOption('axis_right', false);
     parent::calcAxes();
   }
 
@@ -463,7 +463,7 @@ class RadarGraph extends LineGraph {
   protected function getSubDivsY($axis)
   {
     $points = $this->y_axes[$axis]->getGridSubdivisions(
-      $this->minimum_subdivision,
+      $this->getOption('minimum_subdivision'),
       $this->getOption(['minimum_units_y', $axis]), 0,
       $this->getOption(['subdivision_v', $axis]));
     foreach($points as $k => $p)
@@ -536,7 +536,7 @@ class RadarGraph extends LineGraph {
       $h = 0;
 
       // round or segmented line
-      if($this->grid_straight) {
+      if($this->getOption('grid_straight')) {
         $grid_angles = [];
         $points = array_merge($this->getGridPointsX(0), $this->getSubDivsX(0));
         foreach($points as $point) {

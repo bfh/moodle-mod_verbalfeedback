@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2015-2020 Graham Breach
+ * Copyright (C) 2015-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -48,7 +48,9 @@ class BarAndLineGraph extends GroupedBarGraph {
 
     // LineGraph has not been initialised, need to copy in details
     $copy = ['colours', 'links', 'x_axes', 'y_axes', 'main_x_axis',
-      'main_y_axis', 'legend'];
+      'main_y_axis', 'legend',
+      // needed for best-fit line support
+      'g_width', 'g_height', 'pad_left', 'pad_top'];
     foreach($copy as $member)
       $this->linegraph->{$member} = $this->{$member};
 
@@ -60,6 +62,7 @@ class BarAndLineGraph extends GroupedBarGraph {
     $lines = $this->getOption('line_dataset');
     $line_breaks = [];
     $line_points = [];
+    $line_offsets = [];
     $points = [];
     if(!is_array($lines))
       $lines = [$lines];
@@ -75,8 +78,10 @@ class BarAndLineGraph extends GroupedBarGraph {
       $this->y_axes[$this->main_y_axis]->zero();
     $y_bottom = min($y_axis_pos, $this->height - $this->pad_bottom);
 
+    // set up bars, then find line offsets
     $this->barSetup();
-    $marker_offset = $this->x_axes[$this->main_x_axis]->unit() / 2;
+    foreach($lines as $k => $l)
+      $line_offsets[$k] = $this->getLineOffset($k);
 
     // draw bars, store line points
     $datasets = $this->multi_graph->getEnabledDatasets();
@@ -99,7 +104,7 @@ class BarAndLineGraph extends GroupedBarGraph {
               $line_points[$line_dataset][] = $points[$line_dataset];
               $points[$line_dataset] = [];
             } elseif($item->value !== null) {
-              $x = $bar_pos + $marker_offset;
+              $x = $bar_pos + $line_offsets[$line_dataset];
               $y = $this->gridY($item->value, $y_axis);
               $points[$line_dataset][] = [$x, $y, $item, $line_dataset, $bnum];
             }
@@ -121,15 +126,17 @@ class BarAndLineGraph extends GroupedBarGraph {
     $graph_line = '';
     foreach($line_points as $dataset => $points) {
       foreach($points as $p) {
-        $graph_line .= $this->linegraph->drawLine($dataset, $p, $y_bottom);
+        $graph_line .= $this->drawLine($dataset, $p, $y_bottom);
       }
     }
     $group = [];
     $this->clipGrid($group);
+    list($best_fit_above, $best_fit_below) = $this->linegraph->bestFitLines();
+    $bars .= $best_fit_below;
     $bars .= $this->element('g', $group, null, $graph_line);
 
     $group = [];
-    if($this->semantic_classes)
+    if($this->getOption('semantic_classes'))
       $group['class'] = 'series';
     $shadow_id = $this->defs->getShadow();
     if($shadow_id !== null)
@@ -143,6 +150,7 @@ class BarAndLineGraph extends GroupedBarGraph {
 
     // add in the markers created by line graph
     $body .= $this->linegraph->drawMarkers();
+    $body .= $best_fit_above;
 
     return $body;
   }
@@ -168,9 +176,9 @@ class BarAndLineGraph extends GroupedBarGraph {
       throw new \Exception('No bar datasets enabled');
 
     list($chunk_width, $bspace, $chunk_unit_width) =
-      $this->barPosition($this->bar_width, $this->bar_width_min,
-      $this->x_axes[$this->main_x_axis]->unit(), $chunk_count, $this->bar_space,
-      $this->group_space);
+      $this->barPosition($this->getOption('bar_width'), $this->getOption('bar_width_min'),
+      $this->x_axes[$this->main_x_axis]->unit(), $chunk_count, $this->getOption('bar_space'),
+      $this->getOption('group_space'));
     $this->group_bar_spacing = $chunk_unit_width;
     $this->setBarWidth($chunk_width, $bspace);
   }
@@ -218,6 +226,35 @@ class BarAndLineGraph extends GroupedBarGraph {
   {
     $datasets = count($this->multi_graph);
     return range(0, $datasets - 1);
+  }
+
+  /**
+   * Returns the horizontal offset of the line relative to the grid
+   */
+  public function getLineOffset($dataset)
+  {
+    if($this->getOption('datetime_keys'))
+      return 0;
+
+    $offset = 0;
+    $o = $this->getOption(['line_bar', $dataset]);
+    if(is_numeric($o) && in_array($o, $this->bar_datasets)) {
+      $offset = $this->calculated_bar_space +
+      ($this->dataset_offsets[$o] * $this->group_bar_spacing) +
+      ($this->calculated_bar_width / 2);
+    } else {
+      $g_width = $this->x_axes[$this->main_x_axis]->unit();
+      $offset = $g_width / 2;
+    }
+    return $offset;
+  }
+
+  /**
+   * Draws a single line
+   */
+  public function drawLine($dataset, $points, $y_bottom)
+  {
+    return $this->linegraph->drawLine($dataset, $points, $y_bottom);
   }
 }
 

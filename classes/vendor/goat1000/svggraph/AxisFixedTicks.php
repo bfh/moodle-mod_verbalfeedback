@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2021 Graham Breach
+ * Copyright (C) 2021-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -53,6 +53,16 @@ class AxisFixedTicks extends Axis {
       $units_after, $decimal_digits, $label_callback, $values);
 
     $this->setLength($length);
+  }
+
+  /**
+   * For bar graphs, increase length by 1 unit
+   */
+  public function bar()
+  {
+    $this->unit_length++;
+    $this->setLength($this->length);
+    parent::bar();
   }
 
   /**

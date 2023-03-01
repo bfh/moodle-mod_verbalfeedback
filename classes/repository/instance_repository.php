@@ -26,6 +26,8 @@ namespace mod_verbalfeedback\repository;
 
 defined('MOODLE_INTERNAL') || die();
 
+raise_memory_limit(MEMORY_HUGE);
+
 use Exception;
 use mod_verbalfeedback\model\instance;
 use mod_verbalfeedback\model\instance_status;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019 Graham Breach
+ * Copyright (C) 2019-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -39,8 +39,8 @@ trait StackedGrouped3DGraphTrait {
 
     $block = $x_len / $num;
     $group = count($this->groups);
-    $a = $this->bar_space;
-    $b = $this->group_space;
+    $a = $this->getOption('bar_space');
+    $b = $this->getOption('group_space');
     $c = (($block) - $a - ($group - 1) * $b) / $group;
     $d = ($a + $c) / $block;
     $this->depth = $d;
@@ -50,9 +50,9 @@ trait StackedGrouped3DGraphTrait {
   /**
    * Sets whether a bar is visible or not
    */
-  protected function setBarVisibility($dataset, DataItem $item, $top)
+  protected function setBarVisibility($dataset, DataItem $item, $top, $override = null)
   {
-    $this->bar_visibility[$dataset][$item->key] = ($top || $item->value != 0);
+    // alias set in StackedBar3DGraph or StackedCylinderGraph
+    $this->traitSetBarVis($dataset, $item, $top, $top || $item->value != 0);
   }
 }
-

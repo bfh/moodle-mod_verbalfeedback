@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2015-2021 Graham Breach
+ * Copyright (C) 2015-2023 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -39,6 +39,12 @@ abstract class Shape {
    * attributes that support coordinate transformation
    */
   protected $transform = [];
+
+  /**
+   * map attributes to be transformed to the attribute they are relative to
+   * - 'attr_relative' => 'attr_fixed'
+   */
+  protected $transform_from = [];
 
   /**
    * coordinate pairs for dependent transforns - don't include them in
@@ -119,7 +125,11 @@ abstract class Shape {
       if($value !== null) {
         $val = $value;
         if(isset($this->transform[$attr])) {
-          $val = $this->coords->transform($value, $this->transform[$attr]);
+          $measure_from = 0;
+          if(isset($this->transform_from[$attr]))
+            $measure_from = $this->attrs[$this->transform_from[$attr]];
+
+          $val = $this->coords->transform($value, $this->transform[$attr], 0, $measure_from);
         } elseif(isset($this->colour_convert[$attr])) {
           $val = new Colour($graph, $value, $this->colour_convert[$attr]);
         }
@@ -130,7 +140,7 @@ abstract class Shape {
     $this->transformCoordinates($attributes);
 
     if($this->autohide) {
-      $graph->javascript->autoHide($attributes, $this->autohide[0],
+      $graph->getJavascript()->autoHide($attributes, $this->autohide[0],
         $this->autohide[1]);
     }
 
