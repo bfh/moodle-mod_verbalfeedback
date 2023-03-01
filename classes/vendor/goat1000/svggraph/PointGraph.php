@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2010-2021 Graham Breach
+ * Copyright (C) 2010-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -31,6 +31,17 @@ abstract class PointGraph extends GridGraph {
   protected $marker_link_ids = [];
   protected $marker_types = [];
 
+  private $x_offset = null;
+
+  public function __construct($width, $height, array $settings, array $fixed_settings = [])
+  {
+    $fs = [];
+    if(isset($settings['block_position_markers']) && $settings['block_position_markers'])
+      $fs['label_centre'] = true;
+    $fs = array_merge($fs, $fixed_settings);
+    parent::__construct($width, $height, $settings, $fs);
+  }
+
   /**
    * Adds a marker to the list
    */
@@ -55,7 +66,7 @@ abstract class PointGraph extends GridGraph {
    */
   public function drawMarkers()
   {
-    if($this->marker_size == 0 || count($this->markers) == 0)
+    if($this->getOption('marker_size') == 0 || count($this->markers) == 0)
       return '';
 
     $this->createMarkers();
@@ -67,7 +78,7 @@ abstract class PointGraph extends GridGraph {
     }
 
     $group = [];
-    if($this->semantic_classes)
+    if($this->getOption('semantic_classes'))
       $group['class'] = 'series';
     $shadow_id = $this->defs->getShadow();
     if($shadow_id !== null)
@@ -99,11 +110,11 @@ abstract class PointGraph extends GridGraph {
 
     if(is_array($marker->extra))
       $use = array_merge($marker->extra, $use);
-    if($this->semantic_classes)
+    if($this->getOption('semantic_classes'))
       $use['class'] = 'series' . $set;
-    if($this->show_tooltips)
+    if($this->getOption('show_tooltips'))
       $this->setTooltip($use, $marker->item, $set, $marker->key, $marker->value);
-    if($this->show_context_menu)
+    if($this->getOption('show_context_menu'))
       $this->setContextMenu($use, $set, $marker->item);
 
     if($this->getLinkURL($marker->item, $marker->key)) {
@@ -279,7 +290,7 @@ abstract class PointGraph extends GridGraph {
   /**
    * Returns a pair of best fit lines, above and below
    */
-  protected function bestFitLines()
+  public function bestFitLines()
   {
     $bbox = new BoundingBox(0, 0, $this->g_width, $this->g_height);
     $bbox->offset($this->pad_left, $this->pad_top);
@@ -302,21 +313,21 @@ abstract class PointGraph extends GridGraph {
    */
   protected function formatTooltip(&$item, $dataset, $key, $value)
   {
-    if($this->datetime_keys) {
+    if($this->getOption('datetime_keys')) {
       $number_key = new Number($key);
       $dt = new \DateTime('@' . $number_key);
       $axis = $this->x_axes[$this->main_x_axis];
-      $text = $axis->format($dt, $this->tooltip_datetime_format);
+      $text = $axis->format($dt, $this->getOption('tooltip_datetime_format'));
     } elseif(is_numeric($key)) {
-      $num = new Number($key, $this->units_tooltip_key,
-        $this->units_before_tooltip_key);
+      $num = new Number($key, $this->getOption('units_tooltip_key'),
+        $this->getOption('units_before_tooltip_key'));
       $text = $num->format();
     } else {
       $text = $key;
     }
 
-    $num = new Number($value, $this->units_tooltip,
-      $this->units_before_tooltip);
+    $num = new Number($value, $this->getOption('units_tooltip'),
+      $this->getOption('units_before_tooltip'));
     $text .= ', ' . $num->format();
     return $text;
   }
@@ -328,6 +339,24 @@ abstract class PointGraph extends GridGraph {
   {
     // non-null values should be visible
     return ($item->value !== null);
+  }
+
+  /**
+   * Override to handle offset caused by block position option
+   */
+  protected function gridPosition($item, $index)
+  {
+    $gp = parent::gridPosition($item, $index);
+    if($gp === null)
+      return null;
+
+    if($this->x_offset === null) {
+      $this->x_offset = 0;
+      if($this->getOption('block_position_markers'))
+        $this->x_offset = parent::gridPosition(null, 1)
+          - parent::gridPosition(null, 0.5);
+    }
+    return $this->x_offset + $gp;
   }
 }
 

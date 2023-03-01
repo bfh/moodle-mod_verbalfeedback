@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2010-2020 Graham Breach
+ * Copyright (C) 2010-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,6 +23,9 @@ namespace Goat1000\SVGGraph;
 
 class Pie3DGraph extends PieGraph {
 
+  protected $edge_class = 'Goat1000\\SVGGraph\\PieSliceEdge';
+  protected $depth;
+
   public function __construct($w, $h, array $settings, array $fixed_settings = [])
   {
     $fs = [
@@ -31,6 +34,8 @@ class Pie3DGraph extends PieGraph {
     ];
     $fs = array_merge($fs, $fixed_settings);
     parent::__construct($w, $h, $settings, $fs);
+
+    $this->depth = $this->getOption('depth');
   }
 
   protected function draw()
@@ -48,7 +53,7 @@ class Pie3DGraph extends PieGraph {
     if(is_numeric($this->end_angle)) {
       $start = fmod(deg2rad($this->start_angle), M_PI * 2.0);
       $end = fmod(deg2rad($this->end_angle), M_PI * 2.0);
-      if($this->reverse) {
+      if($this->getOption('reverse')) {
         if(($end > M_PI * 0.5 && $end < M_PI * 1.5) ||
           $start < M_PI * 0.5 || $start > M_PI * 1.5)
           $this->setOption('draw_flat_sides', true);
@@ -100,15 +105,8 @@ class Pie3DGraph extends PieGraph {
    */
   protected function getEdges($slice)
   {
-    $edges = [];
-
-    $start = $this->getOption('draw_flat_sides') ? 0 : 2;
-    $end = 3;
-    for($e = $start; $e <= $end; ++$e) {
-      $edge = new PieSliceEdge($this, $e, $slice, $this->s_angle);
-      if($edge->visible())
-        $edges[] = $edge;
-    }
+    $edges = $this->edge_class::getEdges($this, $slice, $this->s_angle,
+      $this->getOption('draw_flat_sides'));
     return $edges;
   }
 
@@ -123,16 +121,16 @@ class Pie3DGraph extends PieGraph {
         $this->dataset, false, false),
       'id' => $this->newID(),
     ];
-    if($this->show_tooltips)
+    if($this->getOption('show_tooltips'))
       $this->setTooltip($attr, $item, $this->dataset, $item->key, $item->value, true);
-    if($this->show_context_menu)
+    if($this->getOption('show_context_menu'))
       $this->setContextMenu($attr, $this->dataset, $item, true);
     $this->addLabelClient($this->dataset, $edge->slice['original_position'], $attr);
 
     $content = '';
 
     // the gradient overlay uses a clip-path
-    if($overlay && $edge->curve()) {
+    if($overlay) {
       $clip_id = $this->newID();
       $this->defs->add($edge->getClipPath($this, $x_centre, $y_centre, $depth,
         $clip_id));
@@ -142,8 +140,7 @@ class Pie3DGraph extends PieGraph {
       $content = $edge->draw($this, $x_centre, $y_centre, $depth, $attr);
 
       // overlay
-      $content .= $this->getEdgeOverlay($x_centre, $y_centre, $depth, $clip_id,
-        $edge->slice['radius_x'], $edge->slice['radius_y']);
+      $content .= $this->getEdgeOverlay($x_centre, $y_centre, $depth, $clip_id, $edge);
 
       // stroke without filling
       unset($attr['stroke']);
@@ -164,33 +161,16 @@ class Pie3DGraph extends PieGraph {
   }
 
   /**
-   * Returns the gradient overlay, optionally clipped
+   * Returns the gradient overlay
    */
-  protected function getEdgeOverlay($x_centre, $y_centre, $depth,
-    $clip_path = null, $rx = 0, $ry = 0)
+  protected function getEdgeOverlay($x_centre, $y_centre, $depth, $clip_path, $edge)
   {
-    $gradient_id = $this->defs->addGradient($this->depth_shade_gradient);
-    $start = $this->reverse ? M_PI : M_PI * 2;
-    $end = $this->reverse ? M_PI * 2 : M_PI;
-
-    // use radius of whole pie unless $rx and $ry are set
+    // use radius of whole pie unless slice values are set
     $radius_x = $this->radius_x;
     $radius_y = $this->radius_y;
-    if($rx && $ry) {
-      $radius_x = $rx;
-      $radius_y = $ry;
-    }
-
-    if($clip_path === null) {
-      $slice = [
-        'angle_start' => $start,
-        'angle_end' => $end,
-        'radius_x' => $radius_x,
-        'radius_y' => $radius_y,
-        'attr' => ['fill' => 'url(#' . $gradient_id . ')'],
-      ];
-      $edge = new PieSliceEdge($this, 2, $slice, 0.0);
-      return $edge->draw($this, $x_centre, $y_centre, $depth);
+    if($edge->slice['radius_x'] && $edge->slice['radius_y']) {
+      $radius_x = $edge->slice['radius_x'];
+      $radius_y = $edge->slice['radius_y'];
     }
 
     // clip a rect to the edge shape
@@ -199,9 +179,30 @@ class Pie3DGraph extends PieGraph {
       'y' => $y_centre - $radius_y,
       'width' => $radius_x * 2.0,
       'height' => $radius_y * 2.0 + $this->depth + 2.0,
-      'fill' => 'url(#' . $gradient_id . ')',
       'clip-path' => 'url(#' . $clip_path . ')',
     ];
+
+    $gradient_id = $this->defs->addGradient($this->getOption('depth_shade_gradient'));
+    if($edge->curve()) {
+      $rect['fill'] = 'url(#' . $gradient_id . ')';
+    } else {
+      $a = $edge->angle();
+      if($a > M_PI)
+        $a -= M_PI;
+
+      $pos = 50 * cos($a);
+      if($pos < 0)
+        $pos = 100 + $pos;
+
+      $fill = $this->defs->getGradientColour($gradient_id, $pos);
+      $opacity = $fill->opacity();
+
+      if($opacity < 0.01 || $fill->isNone())
+        return '';
+      if($opacity < 0.99)
+        $rect['opacity'] = $opacity;
+      $rect['fill'] = $fill;
+    }
     return $this->element('rect', $rect);
   }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2011-2020 Graham Breach
+ * Copyright (C) 2011-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -67,15 +67,14 @@ class MultiRadarGraph extends RadarGraph {
       }
 
       $plot .= $this->drawLine($i, $points, 0);
-      if($this->semantic_classes)
+      if($this->getOption('semantic_classes'))
         $plots .= $this->element('g', ['class' => 'series'], null, $plot);
       else
         $plots .= $plot;
     }
 
     $group = [];
-    $this->clipGrid($group);
-    if($this->semantic_classes)
+    if($this->getOption('semantic_classes'))
       $group['class'] = 'series';
     $plots = $this->element('g', $group, null, $plots);
 

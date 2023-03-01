@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2021 Graham Breach
+ * Copyright (C) 2021-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -38,11 +38,11 @@ class AxisFactory {
    * $bar = bar-style axis (bool)
    * $reverse = reverse direction (bool)
    */
-  public function __construct($datetime, $settings, $fit = true, $bar = false,
+  public function __construct($datetime, &$settings, $fit = true, $bar = false,
     $reverse = false)
   {
     $this->datetime = $datetime;
-    $this->settings = $settings;
+    $this->settings =& $settings;
     $this->fit = $fit;
     $this->bar = $bar;
     $this->reverse = $reverse;
@@ -85,13 +85,26 @@ class AxisFactory {
     } elseif($log) {
 
       // logarithmic axis
-      $axis = new AxisLog($length, $max, $min, $min_unit, $min_space,
-        $this->fit, $units_before, $units_after, $decimal_digits, $log_base,
-        $grid_division, $text_callback);
+      if(is_array($ticks)) {
+        $axis = new AxisLogTicks($length, $max, $min, $min_unit, $min_space,
+          $this->fit, $units_before, $units_after, $decimal_digits, $log_base,
+          $grid_division, $text_callback, $values, $ticks);
+      } else {
+        $axis = new AxisLog($length, $max, $min, $min_unit, $min_space,
+          $this->fit, $units_before, $units_after, $decimal_digits, $log_base,
+          $grid_division, $text_callback, $values);
+      }
 
     } elseif(is_array($ticks)) {
 
       // axis with fixed ticks
+      $axis = new AxisFixedTicks($length, $max, $min, $ticks, $units_before,
+        $units_after, $decimal_digits, $text_callback, $values);
+
+    } elseif($this->tightX()) {
+
+      // create a fixed-tick axis
+      $ticks = $this->getTicks($length, $min, $max, $grid_division, $min_unit, $min_space);
       $axis = new AxisFixedTicks($length, $max, $min, $ticks, $units_before,
         $units_after, $decimal_digits, $text_callback, $values);
 
@@ -115,6 +128,63 @@ class AxisFactory {
     if($this->reverse)
       $axis->reverse();
     return $axis;
+  }
+
+  /**
+   * Returns TRUE for an X-axis with no space at end
+   */
+  private function tightX()
+  {
+    return $this->fit && isset($this->settings['axis_tightness_x']) &&
+      $this->settings['axis_tightness_x'] > 0;
+  }
+
+  /**
+   * Returns a list of ticks for axis with no space at ends
+   */
+  private function getTicks($length, $min, $max, $division, $min_unit, $min_space)
+  {
+    $start = $min;
+    $end = $max;
+    if(is_numeric($division)) {
+      $step = $division;
+    } else {
+
+      // use an axis to calculate the divisions
+      $a = new Axis($length, $max, $min, $min_unit, $min_space, true, null, null,
+        1, null, null);
+      if($this->bar)
+        $a->bar();
+      if($this->reverse)
+        $a->reverse();
+      $p = $a->getGridPoints(0);
+
+      $step = abs($p[0]->value - $p[1]->value);
+      $max_step = max(abs($start), abs($end));
+
+      // need smaller divisions
+      if(count($p) == 2 || $step > $max_step) {
+        $multipliers = [0.1, 0.2, 0.25, 0.5];
+        $mmax = count($multipliers) - 1;
+        $m = 0;
+        $mn = $min_space / $length;
+
+        for($i = $mmax; $i >= 0; --$i) {
+          $sm = $step * $multipliers[$i];
+          if($sm > $max_step)
+            continue;
+
+          if($multipliers[$i] < $mn)
+            break;
+        }
+
+        $step = $sm;
+      }
+    }
+
+    $start -= fmod($start, $step);
+    $ticks = range($start, $end, $step);
+    return $ticks;
   }
 }
 

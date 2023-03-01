@@ -1,3 +1,80 @@
+Version 3.19 (10/01/2023)
+------------
+- Added ParetoChart.
+- Added fill_under "full" option to always fill to bottom of grid.
+- Updated code to work properly under PHP 8.2.
+
+Version 3.18 (02/12/2022)
+------------
+- Added shading of flat 3D pie graph sides.
+- Added support for colouring data labels using "fill" and "fillColour".
+- Fixed axis_text structure option on multi-dataset graphs.
+- Fixed explode "all" doing nothing on pie graphs with all values equal.
+
+Version 3.17 (16/09/2022)
+------------
+- Added axis_tightness_x option for removing space at ends of X-axis.
+- Added data_label_align option for label text alignment.
+- Added tooltip_align option for tooltip text alignment.
+- Fixed missing final bar when using axis_ticks_x with bar graphs.
+- Fixed data labels from structured data not showing when filter set to "none".
+
+Version 3.16 (29/07/2022)
+------------
+- Added support for multiple task bars/milestones on Gantt chart rows.
+- Added axis_double_x and axis_double_y options for same axis both sides.
+- Added axis_pad_* options for adding space between axes and grid.
+- Added axis_extend_* options for extending ends of axes.
+- Fixed axis with levels on right side of horizontal graph.
+
+Version 3.15 (16/06/2022)
+------------
+- Added dependency arrow support to Gantt charts.
+- Added gantt_units option for tasks in hours and minutes.
+- Added grid_clip_overlap_* options for adjusting line graph clipping.
+
+Version 3.14 (02/05/2022)
+------------
+- Added Gantt chart.
+- Added automatic graph height option.
+- Added support for best-fit lines on bar and line graphs.
+- Added support for using coordinates for legend position.
+- Added block_position_markers option.
+
+Version 3.13.1 (11/03/2022)
+--------------
+- Fixed deprecation warning messages displayed by PHP 8.1.
+- Fixed problem with file encoding of Text class.
+- Improved accuracy of HSL to RGB conversion.
+
+Version 3.13 (14/02/2022)
+------------
+- Added curved line graph support with line_curve option.
+- Added horizontal 3D bar graph.
+- Added horizontal grouped 3D bar graph.
+- Added horizontal stacked 3D bar graph.
+- Added line_bar option for setting marker positions on bar and line graphs.
+- Cylinder graphs now support bar_top_overlay_* options.
+- Made conversion of multi-dataset data to structured more robust.
+
+Version 3.12 (10/12/2021)
+------------
+- Added exploded semi-donut graph.
+- Added 3D donut graph.
+- Added 3D semi-donut graph.
+- Added exploded 3D donut graph.
+- Added exploded 3D semi-donut graph.
+- Added candlestick graph.
+- Added log_axis_x and log_axis_x_base options with logarithmic X-axis support.
+
+Version 3.11 (18/11/2021)
+------------
+- Added exploded donut graph.
+- Added donut_slice_gap option.
+- Fixed problem in datetime axis labelling around DST changes.
+- Fixed incorrect shape sizes on datetime graph around DST changes.
+- Fixed positioning of axis labels on datetime bar graphs.
+
 Version 3.10 (19/07/2021)
 ------------
 - Added support for using text as a shape or figure.

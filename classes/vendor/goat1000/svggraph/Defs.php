@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019 Graham Breach
+ * Copyright (C) 2019-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -32,6 +32,7 @@ class Defs {
   private $patterns = null;
   private $symbols = null;
   private $filters = null;
+  private $elements = [];
 
   public function __construct(&$graph)
   {
@@ -44,6 +45,22 @@ class Defs {
   public function add($def)
   {
     $this->defs[] = $def;
+  }
+
+  /**
+   * Adds an element to the defs, returning its ID, or the ID
+   * of an existing def with same content
+   */
+  public function addElement($element, $attrs, $content = '')
+  {
+    $ehash = hash('md5', $element . ':' . serialize($attrs) . ':' . $content);
+    if(isset($this->elements[$ehash]))
+      return $this->elements[$ehash];
+
+    $attrs['id'] = $this->graph->newID();
+    $this->elements[$ehash] = $attrs['id'];
+    $this->add($this->graph->element($element, $attrs, null, $content));
+    return $attrs['id'];
   }
 
   /**
@@ -75,6 +92,17 @@ class Defs {
     if($this->gradients === null)
       $this->gradients = new GradientList($this->graph);
     return $this->gradients->addGradient($colours, $key, $radial);
+  }
+
+  /**
+   * Returns the colour at a point in the selected gradient
+   */
+  public function getGradientColour($key, $position)
+  {
+    if($this->gradients === null)
+      return 'none';
+
+    return $this->gradients->getColour($key, $position);
   }
 
   /**

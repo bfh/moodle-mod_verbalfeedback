@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2015-2021 Graham Breach
+ * Copyright (C) 2015-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -89,6 +89,14 @@ class DataLabels {
     'shadow_opacity' => 'data_label_shadow_opacity',
     'opacity' => 'data_label_opacity',
     'line_spacing' => 'data_label_line_spacing',
+    'align' => 'data_label_align',
+  ];
+
+  /**
+   * Options that are colours, so need translation
+   */
+  protected $colour_options = [
+    'colour', 'altcolour', 'back_colour', 'back_altcolour', 'stroke', 'fill',
   ];
 
   function __construct(&$graph)
@@ -377,9 +385,19 @@ class DataLabels {
 
     // structured styles and user defined label styles
     if($gobject['item'] !== null)
-      $this->itemStyles($style, $gobject['item']);
+      $this->itemStyles($style, $gobject['item'], $index, $dataset);
     elseif($dataset === '_user')
       $this->userStyles($style, $gobject);
+
+    // deal with fill/fillColour
+    foreach($this->colour_options as $s) {
+      if(isset($style[$s]) && is_string($style[$s]) &&
+        strpos($style[$s], 'fill') !== false) {
+        $cg = new ColourGroup($this->graph, $gobject['item'], $index, $dataset,
+          $style[$s], null, null, true);
+        $style[$s] = $cg->stroke();
+      }
+    }
     return $style;
   }
 
@@ -434,13 +452,15 @@ class DataLabels {
   protected function getColours($hpos, $vpos, $style)
   {
     // if the position is outside, use the alternative colours
-    $colour = $style['colour'];
-    $back_colour = $style['back_colour'];
+    $colour = new Colour($this->graph, $style['colour']);
+    $back_colour = new Colour($this->graph, $style['back_colour']);
     if(strpos($hpos . $vpos, 'o') !== false) {
-      if(!empty($style['altcolour']))
-        $colour = $style['altcolour'];
-      if(!empty($style['back_altcolour']))
-        $back_colour = $style['back_altcolour'];
+      $alt = new Colour($this->graph, $style['altcolour']);
+      $back_alt = new Colour($this->graph, $style['back_altcolour']);
+      if(!$alt->isNone())
+        $colour = $alt;
+      if(!$back_alt->isNone())
+        $back_colour = $back_alt;
     }
     return [$colour, $back_colour];
   }
@@ -492,7 +512,7 @@ class DataLabels {
     $text = [
       'font-family' => $style['font'],
       'font-size' => $font_size,
-      'fill' => new Colour($this->graph, $colour),
+      'fill' => $colour,
     ];
 
     $label_markup = '';
@@ -507,6 +527,23 @@ class DataLabels {
     $svg_text = new Text($this->graph, $style['font'], $style['font_adjust']);
     list($tbw, $tbh) = $svg_text->measure($content, $font_size, 0, $line_spacing);
     $text_baseline = $svg_text->baseline($font_size);
+
+    // allow overriding text alignment
+    $align_map = ['left' => 'start', 'centre' => 'middle', 'right' => 'end'];
+    if($style['align'] !== null && isset($align_map[$style['align']])) {
+      $anchor_new = $align_map[$style['align']];
+      if($anchor_new != $anchor) {
+        // adjust label position for new anchor
+        $pos_remap = [
+          'middle' => ['start' => -0.5, 'end' => 0.5],
+          'start' => ['middle' => 0.5, 'end' => 1.0],
+          'end' => ['start' => -1.0, 'middle' => -0.5],
+        ];
+
+        $x += ($label_w * $pos_remap[$anchor][$anchor_new]);
+        $anchor = $anchor_new;
+      }
+    }
 
     $text['y'] = $y + ($label_h - $tbh) / 2 + $text_baseline;
     if($style['angle'] != 0) {
@@ -585,10 +622,11 @@ class DataLabels {
       }
     }
 
-    if(!empty($back_colour)) {
+    //$back_colour = new Colour($this, $back_colour);
+    if(!$back_colour->isNone()) {
       $outline = [
         'stroke-width' => '3px',
-        'stroke' => new Colour($this->graph, $back_colour),
+        'stroke' => $back_colour,
         'stroke-linejoin' => 'round',
       ];
       $t1 = array_merge($outline, $text);
@@ -622,7 +660,7 @@ class DataLabels {
   /**
    * Individual label styles from the structured data item
    */
-  protected function itemStyles(&$style, &$item)
+  protected function itemStyles(&$style, &$item, $index, $dataset)
   {
     // overwrite any style options that the item has set
     $v = $item->data_label_padding;
@@ -656,8 +694,9 @@ class DataLabels {
    */
   protected function filter($filter, $dataset, &$label, $index)
   {
-    // non-numeric datasets are for additional labels
-    if(!is_numeric($dataset))
+    // non-numeric datasets are for additional labels,
+    // empty filter does nothing
+    if(!is_numeric($dataset) || empty($filter))
       return true;
 
     $item =& $label['item'];
@@ -667,9 +706,9 @@ class DataLabels {
     if($struct_show !== null)
       return $struct_show;
 
-    // if empty option or 'all' is in the list, others don't matter
+    // if 'all' is in the list, others don't matter
     $filters = explode(' ', $filter);
-    if(empty($filter) || in_array('all', $filters, true))
+    if(in_array('all', $filters, true))
       return true;
 
     // an array of closures for filter tests
@@ -687,6 +726,8 @@ class DataLabels {
       'troughs' => function() use ($index, $dataset) {
         return in_array($index, $this->trough_indices[$dataset], true); },
       'nonzero' => function() use (&$item) { return $item->value != 0; },
+      'none' => function() use (&$item) {
+        return $item->label !== null && $item->label !== ''; },
     ];
 
     foreach($filters as $f) {
@@ -787,8 +828,8 @@ class DataLabels {
   {
     // can't be more round than this!
     $round = min((float)$style['round'], $h / 3, $w / 3);
-    $drop = max(2, $style['tail_length']);
-    $spread = min(max(2, $style['tail_width']), $w - $round * 2);
+    $drop = max(2, (float)$style['tail_length']);
+    $spread = min(max(2, (float)$style['tail_width']), $w - $round * 2);
 
     $vert = $h - $round * 2;
     $horz = $w - $round * 2;

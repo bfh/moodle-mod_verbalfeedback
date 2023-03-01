@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2013-2019 Graham Breach
+ * Copyright (C) 2013-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,7 +23,9 @@ namespace Goat1000\SVGGraph;
 
 class StackedCylinderGraph extends CylinderGraph {
 
-  use StackedBarTrait;
+  use StackedBarTrait {
+    setBarVisibility as traitSetBarVis;
+  }
 
   public function __construct($w, $h, $settings, $fixed_settings = [])
   {
@@ -37,7 +39,6 @@ class StackedCylinderGraph extends CylinderGraph {
    */
   protected function setBarVisibility($dataset, DataItem $item, $top)
   {
-    $this->bar_visibility[$dataset][$item->key] = ($top || $item->value != 0);
+    $this->traitSetBarVis($dataset, $item, $top, $top || $item->value != 0);
   }
 }
-

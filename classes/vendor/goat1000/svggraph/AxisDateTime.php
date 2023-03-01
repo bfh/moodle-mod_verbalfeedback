@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2016-2021 Graham Breach
+ * Copyright (C) 2016-2022 Graham Breach
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,6 +30,9 @@ class AxisDateTime extends Axis {
   protected $grid_split = 0;
   protected $start = 0;
   protected $end = 0;
+  protected $duration = 1;
+  protected $grid_units;
+  protected $grid_unit_count;
   protected $label_callback;
   protected $axis_text_format = 'Y-m-d';
   protected $timezone = null;
@@ -195,8 +198,8 @@ class AxisDateTime extends Axis {
 
     // get the axis text format from the options, or use defaults
     $this->axis_text_format = AxisDateTime::$formats[$this->grid_units];
-    if(is_integer($levels) && $levels > 1) {
-      $this->levels = $levels;
+    if(is_numeric($levels) && $levels > 1) {
+      $this->levels = (int)$levels;
       $this->axis_text_format = AxisDateTime::$formats_level[$this->grid_units];
     }
 
@@ -294,10 +297,15 @@ class AxisDateTime extends Axis {
         $y = $time->format('Y');
         $y -= $y % $n;
         $datetime->setDate($y, 1, 1);
+        $datetime->setTime(0, 0);
         break;
 
       case 'month':
-        $datetime->modify($formats['month']);
+        $y = $time->format('Y');
+        $m = $time->format('n') - 1;
+        $m -= $m % $n;
+        $datetime->setDate($y, $m + 1, 1);
+        $datetime->setTime(0, 0);
         break;
 
       case 'day':
@@ -424,6 +432,49 @@ class AxisDateTime extends Axis {
   }
 
   /**
+   * Returns the distance in pixels $u takes from $pos
+   */
+  public function measureUnits($pos, $u)
+  {
+    $i = Coords::parseValue($pos);
+
+    // start with a plain date
+    $datetime = new \DateTime('@0');
+    $datetime->setTimezone($this->timezone);
+    if($i['simple']) {
+      $a = new Number($pos);
+      $datetime = new \DateTime('@' . $a);
+      $datetime->setTimezone($this->timezone);
+    } elseif($i['grid']) {
+      if($i['units']) {
+        list($units, $unit_count) = AxisDateTime::parseFixedDivisions($i['value'],
+          $this->start, $this->end, $this->length);
+        $datetime->setTimezone($this->timezone);
+        $uc = new Number($unit_count);
+        $datetime->modify('+' . $uc . ' ' . $units);
+      } else {
+        $v = Graph::dateConvert($i['value']);
+        $a = new Number($v);
+        $datetime = new \DateTime('@' . $a);
+        $datetime->setTimezone($this->timezone);
+      }
+    }
+
+    $start_value = $datetime->format('U');
+    $start_pos = $this->length * ($start_value - $this->start) / $this->duration;
+
+    list($units, $unit_count) = AxisDateTime::parseFixedDivisions($u,
+      $this->start, $this->end, $this->length);
+
+    $datetime->setTimezone($this->timezone);
+    $uc = new Number($unit_count);
+    $datetime->modify('+' . $uc . ' ' . $units);
+    $value = $datetime->format('U');
+    $end_pos = $this->length * ($value - $this->start) / $this->duration;
+    return $end_pos - $start_pos;
+  }
+
+  /**
    * Returns the position of a value on the axis
    */
   public function position($index, $item = null)
@@ -438,6 +489,7 @@ class AxisDateTime extends Axis {
 
         // initialise with 0, not the current time/date
         $datetime = new \DateTime('@0');
+        $datetime->setTimezone($this->timezone);
         $uc = new Number($unit_count);
         $datetime->modify('+' . $uc . ' ' . $units);
         $value = $datetime->format('U');
@@ -521,6 +573,7 @@ class AxisDateTime extends Axis {
       $points[] = $this->getGridPoint($position, $value);
 
       $datetime = new \DateTime('@' . $this->start);
+      $datetime->setTimezone($this->timezone);
       $offset = new Number($c * $unit_count);
       $datetime->modify('+' . $offset . ' ' . $units);
       $value = $datetime->format('U');
@@ -546,7 +599,9 @@ class AxisDateTime extends Axis {
         return $subdivs;
 
       $start_date = new \DateTime('@' . $this->start);
+      $start_date->setTimezone($this->timezone);
       $end_date = new \DateTime('@' . $this->end);
+      $end_date->setTimezone($this->timezone);
 
       $div = AxisDateTime::findBestDivision($start_date, $end_date,
         $this->length, $min_space, $this->division);
@@ -583,6 +638,7 @@ class AxisDateTime extends Axis {
         $subdivs[] = new GridPoint($position, $text, $value);
 
       $datetime = new \DateTime('@' . $this->start);
+      $datetime->setTimezone($this->timezone);
       $offset = new Number($c * $unit_count);
       $datetime->modify('+' . $offset . ' ' . $units);
       $value = $datetime->format('U');
@@ -636,6 +692,7 @@ class AxisDateTime extends Axis {
   public function dateText($f)
   {
     $dt = new \DateTime('@' . $f);
+    $dt->setTimezone($this->timezone);
 
     if(!is_array($this->axis_text_format))
       return $this->formatter->format($dt, $this->axis_text_format);
