@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/mod/verbalfeedback/externallib.php');
+require_once($CFG->dirroot . '/lib/external/externallib.php');
 
 /**
  * This class contains the test cases for webservices.
