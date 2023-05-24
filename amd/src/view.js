@@ -18,7 +18,6 @@
  *
  * @module     mod_verbalfeedback/view
  * @class      view
- * @package    core
  * @copyright  2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

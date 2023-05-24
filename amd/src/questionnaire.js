@@ -18,7 +18,6 @@
  *
  * @module     mod_verbalfeedback/questionnaire
  * @class      view
- * @package    core
  * @copyright  2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -167,10 +166,8 @@ define(['jquery',
             e.preventDefault();
 
             let row = $(this).parents('[data-region="detailed-rating"]');
-            console.log(row.html());
             let value = $(this).find('.detail-scaleoptionlabel').data("value");
             let studentComment = row.find('.student-comment.editor_atto_content');
-            console.log(studentComment.html());
             studentComment.append("<ul><li>" + value + "</li></ul>");
 
         });
@@ -275,13 +272,11 @@ define(['jquery',
      */
     function submitResponses(verbalfeedbackId, submissionId, toUser, responses, finalise) {
         let responseObjects = [];
-        for([key, value] of Object.entries(responses)) {
-          if(value !== null) {
-            responseObjects.push(value);
+        for (const tuple of Object.entries(responses)) {
+          if (tuple[1] !== null) {
+            responseObjects.push(tuple[1]);
           }
         }
-        // console.log(responseObjects);
-
 
         let promises = Ajax.call([
             {
@@ -321,9 +316,6 @@ define(['jquery',
                 Notification.addNotification(notificationData);
             }).fail(Notification.exception);
 
-            if (finalise) {
-                console.log("finalizing");
-            }
             window.location = response.redirurl;
         }).fail(Notification.exception);
     }
