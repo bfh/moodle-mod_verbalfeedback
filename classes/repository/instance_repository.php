@@ -30,6 +30,7 @@ raise_memory_limit(MEMORY_HUGE);
 
 use Exception;
 use mod_verbalfeedback\model\instance;
+use mod_verbalfeedback\model\instance_category;
 use mod_verbalfeedback\model\instance_status;
 use mod_verbalfeedback\repository\model\db_instance;
 use mod_verbalfeedback\repository\model\db_instance_category;
@@ -52,50 +53,45 @@ class instance_repository {
      */
     public static function get_by_id(int $id) : instance {
         global $DB;
+
+        // Return cached $byid instance if available and if we are not running a php unit test.
+        static $byid = [];
+        if (!PHPUNIT_TEST && isset($byid[$id])) {
+            return $byid[$id];
+        }
+
         $dboinstance = $DB->get_record(tables::INSTANCE_TABLE, ["id" => $id]);
         $instance = db_instance::to_instance($dboinstance);
 
         $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $id]);
 
-        $sortedstrings = [];
-        $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE);
-        foreach ($dboheaders as $dboheader) {
-            $dbo_obj = new db_localized_string;
-            $dbo_obj->id = $dboheader->id;
-            $dbo_obj->languageid = $dboheader->languageid;
-            $dbo_obj->string = $dboheader->string;
-            $dbo_obj->type = $dboheader->type;
-            $dbo_obj->foreignkey = $dboheader->foreignkey;
-
-            $sortedstrings[$dbo_obj->type][$dbo_obj->foreignkey][$dbo_obj->languageid] = $dbo_obj;
-        }
+        $criteriabycatid = self::get_criteria_by_category_for_instance_id($id);
+        $subratingsbycritid = self::get_subratings_by_criterion_for_instance($id);
 
         foreach ($dbocategories as $dbocategory) {
             $category = db_instance_category::to_instance_category($dbocategory);
 
             // Load category headers.
-            $dbolocalizedstrings = $sortedstrings[localized_string_type::INSTANCE_CATEGORY_HEADER][$category->get_id()] ?? [];
+            $dbolocalizedstrings = self::get_strings(localized_string_type::INSTANCE_CATEGORY_HEADER, $category->get_id());
             foreach ($dbolocalizedstrings as $dbo) {
                 $header = db_localized_string::to_localized_string($dbo);
                 $category->add_header($header);
             }
 
             // Load category criteria.
-            $dbocriteria = $DB->get_records(tables::INSTANCE_CRITERION_TABLE, ["categoryid" => $category->get_id()]);
-            foreach ($dbocriteria as $dbocriterion) {
-                $criterion = db_instance_criterion::to_instance_criterion($dbocriterion);
+            $criteria = $criteriabycatid[$category->get_id()];
+            foreach ($criteria as $criterion) {
 
                 // Load criterion description.
-                $dbodescriptions = $sortedstrings[localized_string_type::INSTANCE_CRITERION][$criterion->get_id()] ?? [];
+                $dbodescriptions = self::get_strings(localized_string_type::INSTANCE_CRITERION, $criterion->get_id());
                 foreach ($dbodescriptions as $dbodescription) {
                     $description = db_localized_string::to_localized_string($dbodescription);
                     $criterion->add_description($description);
                 }
 
                 // Load criterion subratings.
-                $dbosubratings = $DB->get_records(tables::INSTANCE_SUBRATING_TABLE, ["criterionid" => $criterion->get_id()]);
-                foreach ($dbosubratings as $dbosubrating) {
-                    $subrating = db_instance_subrating::to_subrating($dbosubrating);
+                $subratings = $subratingsbycritid[$criterion->get_id()];
+                foreach ($subratings as $subrating) {
                     foreach ([
                         // Load subrating titles (1 title per language).
                         localized_string_type::INSTANCE_SUBRATING_TITLE => 'titles',
@@ -110,7 +106,7 @@ class instance_repository {
                         // Load subrating very positive texts.
                         localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE => 'verypositives',
                     ] as $type => $attribute) {
-                        $dbotitles = $sortedstrings[$type][$subrating->get_id()] ?? [];
+                        $dbotitles = self::get_strings($type, $subrating->get_id());
                         foreach ($dbotitles as $dbotitle) {
                             $item = db_localized_string::to_localized_string($dbotitle);
                             $subrating->{$attribute}[] = $item;
@@ -118,40 +114,35 @@ class instance_repository {
                     }
 
                     // Load subrating descriptions.
-                    $dbosubratingdescriptions = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_DESCRIPTION, "foreignkey" => $subrating->get_id()]);
+                    $dbosubratingdescriptions = self::get_strings(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION, $subrating->get_id());
                     foreach ($dbosubratingdescriptions as $dbosubratingdescription) {
                         $subratingdescription = db_localized_string::to_localized_string($dbosubratingdescription);
                         $subrating->add_description($subratingdescription);
                     }
 
                     // Load subrating very negative texts.
-                    $dboverynegatives = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE, "foreignkey" => $subrating->get_id()]);
+                    $dboverynegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE, $subrating->get_id());
                     foreach ($dboverynegatives as $dboverynegative) {
                         $verynegative = db_localized_string::to_localized_string($dboverynegative);
                         $subrating->add_verynegative($verynegative);
                     }
 
                     // Load subrating negative texts.
-                    $dbonegatives = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_NEGATIVE, "foreignkey" => $subrating->get_id()]);
+                    $dbonegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_NEGATIVE, $subrating->get_id());
                     foreach ($dbonegatives as $dbonegative) {
                         $negative = db_localized_string::to_localized_string($dbonegative);
                         $subrating->add_negative($negative);
                     }
 
                     // Load subrating positive texts.
-                    $dbopositives = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_POSITIVE, "foreignkey" => $subrating->get_id()]);
+                    $dbopositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_POSITIVE, $subrating->get_id());
                     foreach ($dbopositives as $dbopositive) {
                         $positive = db_localized_string::to_localized_string($dbopositive);
                         $subrating->add_positive($positive);
                     }
 
                     // Load subrating very positive texts.
-                    $dboverypositives = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE, "foreignkey" => $subrating->get_id()]);
+                    $dboverypositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE, $subrating->get_id());
                     foreach ($dboverypositives as $dboverypositive) {
                         $verypositive = db_localized_string::to_localized_string($dboverypositive);
                         $subrating->add_verypositive($verypositive);
@@ -162,7 +153,107 @@ class instance_repository {
             }
             $instance->add_category($category);
         }
+
+        // Add to cache.
+        $byid[$id] = $instance;
         return $instance;
+    }
+
+    private static function get_strings(string $type, int $subratingid, bool $throwonerror = false): array {
+        global $DB;
+
+        static $sortedstrings = null;
+
+        if ($sortedstrings === null && !PHPUNIT_TEST) {
+            $sortedstrings = [];
+            $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE);
+            foreach ($rs as $dboheader) {
+                $dbo_obj = new db_localized_string;
+                $dbo_obj->id = $dboheader->id;
+                $dbo_obj->languageid = $dboheader->languageid;
+                $dbo_obj->string = $dboheader->string;
+                $dbo_obj->type = $dboheader->type;
+                $dbo_obj->foreignkey = $dboheader->foreignkey;
+
+                $sortedstrings[$dbo_obj->type][$dbo_obj->foreignkey][$dbo_obj->languageid] = $dbo_obj;
+            }
+            $rs->close();
+        }
+
+        if (!isset($sortedstrings[$type])) {
+            if ($throwonerror) {
+                throw new \coding_exception("Invalid type .$type");
+            }
+            return [];
+        }
+        if (!isset($sortedstrings[$type][$subratingid])) {
+            if ($throwonerror) {
+                throw new \coding_exception("Invalid subratingid $subratingid for type $type");
+            }
+            return [];
+        }
+
+        return $sortedstrings[$type][$subratingid];
+    }
+
+    /**
+     * Gets all criteria hashed by category id for a specific instance.
+     * @param int $id - instance id
+     * @return array
+     * @throws \dml_exception
+     */
+    private static function get_criteria_by_category_for_instance_id(int $id): array {
+        global $DB;
+
+        $crittab = tables::INSTANCE_CRITERION_TABLE;
+        $cattab = tables::INSTANCE_CATEGORY_TABLE;
+
+        $sql = "SELECT crit.*
+                  FROM {{$crittab}} crit
+                  JOIN {{$cattab}} cat
+                    ON crit.categoryid = cat.id 
+                 WHERE cat.instanceid = ?";
+
+        $bycat = [];
+        $rs = $DB->get_recordset_sql($sql, [$id]);
+        foreach ($rs as $dbocriterion) {
+            if (!isset($bycat[$dbocriterion->categoryid])) {
+                $bycat[$dbocriterion->categoryid] = [];
+            }
+            $bycat[$dbocriterion->categoryid][$dbocriterion->id] = db_instance_criterion::to_instance_criterion($dbocriterion);
+        }
+        $rs->close();
+        return $bycat;
+    }
+
+    /**
+     * Get subratings hashed by criterion id for an instance.
+     * @param int $id - instance id
+     * @return array
+     * @throws \dml_exception
+     */
+    private static function get_subratings_by_criterion_for_instance(int $id): array {
+        global $DB;
+        $crittab = tables::INSTANCE_CRITERION_TABLE;
+        $cattab = tables::INSTANCE_CATEGORY_TABLE;
+        $srattab = tables::INSTANCE_SUBRATING_TABLE;
+        $sql = "SELECT srat.*
+                  FROM {{$srattab}} srat
+                  JOIN {{$crittab}} crit
+                    ON srat.criterionid = crit.id
+                  JOIN {{$cattab}} mvic
+                    ON crit.categoryid = mvic.id 
+                 WHERE mvic.instanceid = ?";
+        $rs = $DB->get_recordset_sql($sql, [$id]);
+        $bycrit = [];
+        foreach ($rs as $dbosubrating) {
+            if (!isset($bycrit[$dbosubrating->criterionid])) {
+                $bycrit[$dbosubrating->criterionid] = [];
+            }
+            $bycrit[$dbosubrating->criterionid][$dbosubrating->id] = db_instance_subrating::to_subrating($dbosubrating);
+        }
+        $rs->close();
+        return $bycrit;
     }
 
     /**
