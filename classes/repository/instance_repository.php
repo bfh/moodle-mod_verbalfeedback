@@ -26,8 +26,6 @@ namespace mod_verbalfeedback\repository;
 
 defined('MOODLE_INTERNAL') || die();
 
-raise_memory_limit(MEMORY_HUGE);
-
 use Exception;
 use mod_verbalfeedback\model\instance;
 use mod_verbalfeedback\model\instance_category;
@@ -56,7 +54,7 @@ class instance_repository {
 
         // Return cached $byid instance if available and if we are not running a php unit test.
         static $byid = [];
-        if (!PHPUNIT_TEST && isset($byid[$id])) {
+        if (isset($byid[$id]) && !PHPUNIT_TEST) {
             return $byid[$id];
         }
 
@@ -164,7 +162,7 @@ class instance_repository {
 
         static $sortedstrings = null;
 
-        if ($sortedstrings === null && !PHPUNIT_TEST) {
+        if ($sortedstrings === null || PHPUNIT_TEST) {
             $sortedstrings = [];
             $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE);
             foreach ($rs as $dboheader) {

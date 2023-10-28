@@ -25,6 +25,7 @@
 namespace mod_verbalfeedback\repository;
 
 use Exception;
+use mod_verbalfeedback\model\localized_string;
 use mod_verbalfeedback\model\subrating;
 use mod_verbalfeedback\model\template\parametrized_template_criterion;
 use mod_verbalfeedback\model\template\template_criterion;
@@ -47,9 +48,9 @@ class template_criterion_repository {
         global $DB;
         $results = [];
 
-        $dbocriteria = $DB->get_records(tables::TEMPLATE_CRITERION_TABLE);
+        $rs = $DB->get_recordset(tables::TEMPLATE_CRITERION_TABLE);
 
-        foreach ($dbocriteria as $dbocriterion) {
+        foreach ($rs as $dbocriterion) {
             $templatecriterion = self::dbo_to_template_criterion($dbocriterion);
 
             $criteriondescriptions = $this->get_localized_strings($templatecriterion->get_id(),
@@ -61,7 +62,31 @@ class template_criterion_repository {
 
             $results[] = $templatecriterion;
         }
+
+        $rs->close();
         return $results;
+    }
+
+    /**
+     * Get all template criterion hashed by id.
+     * @return array
+     * @throws \dml_exception
+     */
+    private function get_all_template_criterion(): array {
+        global $DB;
+        $result = [];
+        $rs = $DB->get_recordset(tables::TEMPLATE_CRITERION_TABLE);
+        foreach ($rs as $row) {
+            $templatecriterion = db_template_criterion::to_template_criterion($row);
+            $criteriondescriptions = $this->get_localized_strings($templatecriterion->get_id(),
+                localized_string_type::TEMPLATE_CRITERION);
+            $templatecriterion->set_descriptions($criteriondescriptions);
+            $subratings = $this->get_subratings_by_criterion_id($templatecriterion->get_id());
+            $templatecriterion->set_subratings($subratings);
+            $result[$row->id] = $templatecriterion;
+        }
+        $rs->close();
+        return $result;
     }
 
     /**
@@ -69,18 +94,14 @@ class template_criterion_repository {
      * @param int $id The criteria template id.
      * @return template_criterion|null The template criterion.
      */
-    public function get_by_id(int $id) : template_criterion {
-        global $DB;
-        $dbo = $DB->get_record(tables::TEMPLATE_CRITERION_TABLE, ['id' => $id]);
-        $templatecriterion = db_template_criterion::to_template_criterion($dbo);
+    public function get_by_id(int $id) : ?template_criterion {
+        static $all = null;
 
-        $criteriondescriptions = $this->get_localized_strings($templatecriterion->get_id(),
-            localized_string_type::TEMPLATE_CRITERION);
-        $templatecriterion->set_descriptions($criteriondescriptions);
+        if ($all === null || PHPUNIT_TEST) {
+            $all = $this->get_all_template_criterion();
+        }
 
-        $subratings = $this->get_subratings_by_criterion_id($templatecriterion->get_id());
-        $templatecriterion->set_subratings($subratings);
-        return $templatecriterion;
+        return $all[$id] ?? null;
     }
 
     /**
@@ -263,6 +284,39 @@ class template_criterion_repository {
     }
 
     /**
+     * Get all localized strings for a type, hashed by foreignkey, cached in memory for speed.
+     * @TODO - evaluate this for memory usage.
+     * @param string $type
+     * @return array<localized_string[]>
+     * @throws \dml_exception
+     */
+    private function get_all_localized_strings_for_type(string $type) : array {
+        global $DB;
+
+        static $strings = [];
+
+        if (isset($strings[$type]) && !PHPUNIT_TEST) {
+            // We already have this cached, so return it.
+            return $strings[$type];
+        }
+
+        $strings[$type] = [];
+
+        $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE, ['type' => $type]);
+        foreach ($rs as $row) {
+            $type = $row->type;
+            $key = $row->foreignkey;
+            if (!isset($strings[$type][$key])) {
+                $strings[$type][$key] = [];
+            }
+            $strings[$type][$key][$row->id] = db_localized_string::to_localized_string($row);
+        }
+        $rs->close();
+
+        return $strings[$type];
+    }
+
+    /**
      * Get localized strings for a criterion
      *
      * @param int $foreignkey The foreign key
@@ -271,17 +325,16 @@ class template_criterion_repository {
      * @throws \dml_exception
      */
     private function get_localized_strings(int $foreignkey, string $type) : array {
-        global $DB;
         if (!localized_string_type::exists($type)) {
             throw new \Exception("Unknown localized string type.");
         }
 
-        $dbolocalizedstrings = $DB->get_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $foreignkey,
-                'type' => $type]);
-        $localizedstrings = [];
-        foreach ($dbolocalizedstrings as $dbo) {
-            $localizedstrings[] = db_localized_string::to_localized_string($dbo);
+        $allstrings = $this->get_all_localized_strings_for_type($type);
+        $localizedstrings = $allstrings[$foreignkey] ?? null;
+        if (!$localizedstrings) {
+            throw new coding_exception("Couldn't find localized strings by type '$type' and foreignkey '$foreignkey'");
         }
+
         return $localizedstrings;
     }
 
