@@ -88,7 +88,7 @@ class helper {
         $currentlanguage = current_language();
         $viewmodel = array();
         foreach ($categories as $category) {
-            /* @var $category instance_category */
+            /** @var instance_category $category */
             $categoryviewmodel = new stdClass();
             $categoryviewmodel->header = $category->get_header($currentlanguage)->get_string();
             $categoryviewmodel->id = $category->get_id();
