@@ -171,14 +171,14 @@ class instance_repository {
             $sortedstrings = [];
             $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE);
             foreach ($rs as $dboheader) {
-                $dbo_obj = new db_localized_string;
-                $dbo_obj->id = $dboheader->id;
-                $dbo_obj->languageid = $dboheader->languageid;
-                $dbo_obj->string = $dboheader->string;
-                $dbo_obj->type = $dboheader->type;
-                $dbo_obj->foreignkey = $dboheader->foreignkey;
+                $dbobj = new db_localized_string;
+                $dbobj->id = $dboheader->id;
+                $dbobj->languageid = $dboheader->languageid;
+                $dbobj->string = $dboheader->string;
+                $dbobj->type = $dboheader->type;
+                $dbobj->foreignkey = $dboheader->foreignkey;
 
-                $sortedstrings[$dbo_obj->type][$dbo_obj->foreignkey][$dbo_obj->languageid] = $dbo_obj;
+                $sortedstrings[$dbobj->type][$dbobj->foreignkey][$dbobj->languageid] = $dbobj;
             }
             $rs->close();
         }
@@ -214,7 +214,7 @@ class instance_repository {
         $sql = "SELECT crit.*
                   FROM {{$crittab}} crit
                   JOIN {{$cattab}} cat
-                    ON crit.categoryid = cat.id 
+                    ON crit.categoryid = cat.id
                  WHERE cat.instanceid = ?";
 
         $bycat = [];
@@ -245,7 +245,7 @@ class instance_repository {
                   JOIN {{$crittab}} crit
                     ON srat.criterionid = crit.id
                   JOIN {{$cattab}} mvic
-                    ON crit.categoryid = mvic.id 
+                    ON crit.categoryid = mvic.id
                  WHERE mvic.instanceid = ?";
         $rs = $DB->get_recordset_sql($sql, [$id]);
         $bycrit = [];
