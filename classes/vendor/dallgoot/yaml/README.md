@@ -1,6 +1,6 @@
-# Dallgoot : YAML library for PHP - Beta !!!
+# Dallgoot : YAML library for PHP - Beta
 
-[![Build Status](https://travis-ci.org/dallgoot/yaml.svg?branch=master)](https://travis-ci.org/dallgoot/yaml) [![PHP from Packagist](https://img.shields.io/packagist/php-v/dallgoot/yaml)](https://packagist.org/packages/dallgoot/yaml) [![Packagist](https://img.shields.io/packagist/dt/dallgoot/yaml)](https://packagist.org/packages/dallgoot/yaml)
+[![Build Status](https://api.travis-ci.com/dallgoot/yaml.svg?branch=master)](https://travis-ci.org/dallgoot/yaml) [![PHP from Packagist](https://img.shields.io/packagist/php-v/dallgoot/yaml)](https://packagist.org/packages/dallgoot/yaml) [![Packagist](https://img.shields.io/packagist/dt/dallgoot/yaml)](https://packagist.org/packages/dallgoot/yaml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/dfae4b8e665a1d728e3d/maintainability)](https://codeclimate.com/github/dallgoot/yaml/maintainability) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dallgoot/yaml/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dallgoot/yaml/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/dallgoot/yaml/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/dallgoot/yaml/?branch=master)
 
@@ -12,7 +12,7 @@ PHP library to load and parse YAML file to coherent PHP datatypes equivalent
 
 - Dependencies are only useful for building documentation or for code contribution, so the "--update-no-dev" prevent from downloading and managing packages that you probably won't use.
 
-You first need [Composer](https://getcomposer.org/) and PHP ^7.1.10
+You first need [Composer](https://getcomposer.org/) and PHP ^8.1.14
 
 ```bash
 composer require --update-no-dev dallgoot/yaml
@@ -20,9 +20,9 @@ composer require --update-no-dev dallgoot/yaml
 
 ## Usage
 
-See examples files in [examples folder](./examples)
+See [examples folder](./examples)
 
-## Features:
+## Features
 
 - *consistent* PHP datatypes :
   - object for mappings
@@ -30,23 +30,23 @@ See examples files in [examples folder](./examples)
   - common scalars : string, integer, float, INF, NAN
   - JSON, DateTime(option), etc.
 - specific types (objects)
-  - **YamlObject** for each Yaml content (inherits from PHP class ArrayIterator)
-  - **Compact** for compact/short YAML syntax (inherits from PHP class ArrayIterator)
+  - **YamlObject** for each Yaml content (multi-documents YAML is an array of YamlObject)
+  - **Compact** for compact/short YAML syntax
   - **Tagged** object when tag is not determinable
 - recover from some parsing errors
 - tolerant to tabulations
 - debug levels :
   - 1 : print each line Node Type class and exit
-  - 2 : print Loader global map structure and exit
+  - 2 : print Loader global tree structure and exit
   - 3 : print each document NodeList and exit
 
-## Support:
+## Support
 
 - YAML specifications [version 1.2](http://yaml.org/spec/1.2/spec.html)
 - multi-line values (simple|double quoted or not, compact mapping|sequence or JSON)
 - multiple documents in a content (file or string)
 - compact syntax for mappings and sequences
-- comments (option : enabled by default)
+- comments (not yet implemented)
 - references (option : enabled by default)
 - tags with behaviour customization (overriding for common(CoreSchema), or specifying for custom) via implementing Tag/SchemaInterface.
 
@@ -54,14 +54,14 @@ See examples files in [examples folder](./examples)
 
 |                                                                      | YAML version supported | coherent data types | multiple documents | JSON format validation | complex mapping | real reference behaviour | custom tags handling |
 | -------------------------------------------------------------------- |:----------------------:|:-------------------:|:------------------:|:----------------------:|:---------------:|:------------------------:|:--------------------:|
-| [Symfony Yaml](https://symfony.com/doc/current/components/yaml.html) | 1.2                    | ❌                   | ❌                  | ❌                      | ❌               | ❌                        | ❌                    |
-| [php-yaml](https://pecl.php.net/package/yaml)                        | 1.1                    | ❌                   | ❌                  | ❌                      | ❌               | ❌                        | ❌                    |
+| [Symfony Yaml](https://symfony.com/doc/current/components/yaml.html) | 1.2                    | ❌                   | ❌                  | ❌                      | ❌               | ❌                        | ✔️                    |
+| [php-yaml](https://pecl.php.net/package/yaml)                        | 1.1                    | ❌                   | ✔️                  | ❌                      | ❌               | ❌                        | ✔️                    |
 | [syck](http://pecl.php.net/package/syck)                             | 1.0                    | ❌                   | ❌                  | ❌                      | ❌               | ❌                        | ❌                    |
 | [spyc](https://github.com/mustangostang/spyc)                        | 1.0                    | ❌                   | ❌                  | ❌                      | ❌               | ❌                        | ❌                    |
 | **Dallgoot/Yaml**                                                    | 1.2                    | ✔️                  | ✔️                 | ✔️                     | ✔️              | ✔️                       | ✔️                   |
 
 - coherent data types (see [coherence.md](./documentation/coherence.md) for explanations)
-- JSON format validation (Option, Note: if valid as per PHP function *json_encode*)
+- JSON format validation (Option, Note: if valid as per PHP function [json_encode](https://www.php.net/manual/en/function.json-encode.php))
 - complex mapping (Note: keys are JSON formatted strings)
 - real reference behaviour : changing reference value modify other reference calls
 
@@ -87,13 +87,18 @@ See examples files in [examples folder](./examples)
 - OPTION: Force renaming key names that are not valid PHP property name
 - TAG : function for 'php/object' that provides the correct namespace to build
 - NEON compatibility???
+- make immutable YamlObject
 
 ## Performances
 
-    TBD
+    - TBD
+    - improved memory using SplFixedArray instead of regular arrays where possible
 
+
+## Sponsor
+That is greatly appreciated : <a href="https://www.buymeacoffee.com/m23aurqwP" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 ## Thanks
 
-- (https://yaml.org)
-- (https://www.json2yaml.com/convert-yaml-to-json)
+- https://yaml.org
+- https://www.json2yaml.com/convert-yaml-to-json
 - [Symfony Yaml](https://symfony.com/doc/current/components/yaml.html)

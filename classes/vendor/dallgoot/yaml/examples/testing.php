@@ -16,9 +16,9 @@ echo memory_get_usage() . "\n";
 /* USE CASE 1
 * load and parse if file exists
 */
-$content = file_get_contents($file);//var_dump($content);
+$content = file_get_contents($file);
 $yaml = Yaml::parse($content, 0, $debug);
 
 echo memory_get_usage() . "\n";
-// var_dump($yaml);
-var_dump(json_encode($yaml, JSON_OPTIONS));
+
+print_r(json_encode($yaml, JSON_OPTIONS));

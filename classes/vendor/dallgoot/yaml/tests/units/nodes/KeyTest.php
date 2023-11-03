@@ -5,19 +5,19 @@ namespace Test\Dallgoot\Yaml\Nodes;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-use Dallgoot\Yaml\Nodes\NodeGeneric;
+use Dallgoot\Yaml\Nodes\Generic\NodeGeneric;
 use Dallgoot\Yaml\Nodes\Anchor;
 use Dallgoot\Yaml\Nodes\Blank;
 use Dallgoot\Yaml\Nodes\Comment;
 use Dallgoot\Yaml\Nodes\Item;
 use Dallgoot\Yaml\Nodes\Key;
 use Dallgoot\Yaml\Nodes\Literal;
-use Dallgoot\Yaml\Nodes\Literals;
+use Dallgoot\Yaml\Nodes\Generic\Literals;
 use Dallgoot\Yaml\Nodes\Root;
 use Dallgoot\Yaml\Nodes\Scalar;
 
 use Dallgoot\Yaml\NodeFactory;
-use Dallgoot\Yaml\YamlObject;
+use Dallgoot\Yaml\Types\YamlObject;
 
 /**
  * Class KeyTest.
@@ -193,7 +193,7 @@ class KeyTest extends TestCase
         $this->assertTrue(property_exists($built, 'key'));
         $this->assertEquals('value', $built->key);
         //
-        $parent = new \StdClass;
+        $parent = new \stdClass;
         $built = $this->nodeKey->build($parent);
         $this->assertTrue(property_exists($parent, 'key'));
         $this->assertEquals('value', $parent->key);

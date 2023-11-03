@@ -2,14 +2,13 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Dallgoot\Yaml;
+use Dallgoot\Yaml\Yaml;
 
 final class DumpingTest extends TestCase
 {
-    public function dumpingCasesProvider()
+    public static function dumpingCasesProvider()
     {
         $nameResultPair = get_object_vars(Yaml::parseFile(__DIR__.'/definitions/dumping_tests.yml'));
-        // var_dump($nameResultPair);//exit();
         $generator = function() use($nameResultPair) {
             foreach ($nameResultPair as $testName => $testResult) {
                 yield [$testName, $testResult];
@@ -22,6 +21,7 @@ final class DumpingTest extends TestCase
      * @dataProvider dumpingCasesProvider
      * @param string $fileName
      * @param string $expected
+     * @coversNothing
      */
     public function test_DumpingCases(string $fileName, string $expected)
     {

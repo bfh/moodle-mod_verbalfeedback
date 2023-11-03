@@ -1,9 +1,9 @@
 <?php
 
-namespace Dallgoot\Yaml;
+use Dallgoot\Yaml\Types\Compact;
 
 
-$o = new \StdClass;
+$o = new \stdClass;
 
 $o->key1 = new Compact([1,2,3]);
 

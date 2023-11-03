@@ -6,7 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 use Dallgoot\Yaml\NodeList;
-use Dallgoot\Yaml\Nodes\NodeGeneric;
+use Dallgoot\Yaml\Nodes\Generic\NodeGeneric;
 use Dallgoot\Yaml\Nodes\Blank;
 use Dallgoot\Yaml\Nodes\DocStart;
 use Dallgoot\Yaml\Nodes\Comment;
@@ -136,7 +136,7 @@ class NodeListTest extends TestCase
     {
         $arr = [];
         $this->assertEquals($arr, $this->nodeList->buildList($arr));
-        $obj = new \StdClass;
+        $obj = new \stdClass;
         $this->assertEquals($obj, $this->nodeList->buildList($obj));
     }
 
@@ -149,12 +149,12 @@ class NodeListTest extends TestCase
         $this->assertEquals(1, $this->nodeList->count(), 'NodeList count is wrong (+1 Nodeblank on setUp)');
         $this->assertEquals('', $this->nodeList->buildMultiline(), 'buildMultiline did not return a string');
         //test with one child
-        $this->nodeList->push(new Scalar('some string', 2));//var_dump($this->nodeList);
+        $this->nodeList->push(new Scalar('some string', 2));
         $this->assertEquals(2, $this->nodeList->count(), 'NodeList does NOT contain 2 children');
         $this->assertEquals('some string', $this->nodeList->buildMultiline(), 'buildMultiline failed with 2 children');
         //test with one child AND one blank
-        $this->nodeList->push(new Blank('', 2));//var_dump($this->nodeList);
-        $this->nodeList->push(new Scalar('other string', 3));//var_dump($this->nodeList);
+        $this->nodeList->push(new Blank('', 2));
+        $this->nodeList->push(new Scalar('other string', 3));
         $this->assertEquals(4, $this->nodeList->count(), 'NodeList does NOT contain 2 children');
         $this->assertEquals("some string\nother string", $this->nodeList->buildMultiline(), 'buildMultiline failed with 2 children');
         //test with two child

@@ -1,11 +1,13 @@
 <?php
 
-namespace Dallgoot\Yaml;
+use Dallgoot\Yaml\Types\YamlObject;
+use Dallgoot\Yaml\Types\Compact;
+
 
 $yaml = new YamlObject(0);
 
 
-$o = new \StdClass;
+$o = new \stdClass;
 
 $o->key1 = 'a';
 $o->key2 = 'b';

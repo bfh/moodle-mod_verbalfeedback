@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Dallgoot\Yaml;
+use Dallgoot\Yaml\Yaml;
 
 //Getting some document as PHP variable $YamlObject
 //the document here is a PHP file used for tests
@@ -18,6 +18,6 @@ $nameResultPair = get_object_vars(Yaml::parseFile('tests/definitions/dumping_tes
 if ($nameResultPair[$testName] === $text) {
     echo 'WRITE OK !!!';
 } else {
-    var_dump('EXPECTED', $nameResultPair[$testName]);
-    var_dump('RECEIVED', $text);
+    print_r('EXPECTED', $nameResultPair[$testName]);
+    print_r('RECEIVED', $text);
 }

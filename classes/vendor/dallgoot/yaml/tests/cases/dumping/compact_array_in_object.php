@@ -1,11 +1,12 @@
 <?php
 
-namespace Dallgoot\Yaml;
+use Dallgoot\Yaml\Types\YamlObject;
+use Dallgoot\Yaml\Types\Compact;
 
 
 $yaml = new YamlObject(0);
 
-$o = new \StdClass;
+$o = new \stdClass;
 
 $o->array = [1,2,3];
 

@@ -1,11 +1,10 @@
 <?php
-require_once __DIR__.'/../../../vendor/autoload.php';
 
-use Dallgoot\Yaml\YamlObject;
+use Dallgoot\Yaml\Types\YamlObject;
 
 $yaml = new YamlObject(0);
 
-$o = new \StdClass;
+$o = new \stdClass;
 
 $o->memberOfO = 'some really really really really really really really really really very long text as a simple string';
 
