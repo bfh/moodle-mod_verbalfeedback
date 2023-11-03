@@ -67,7 +67,7 @@ class import_data_test extends \advanced_testcase {
         $templaterepo = new template_repository();
 
         // Test dallgoot/yaml.
-        $importdata = Yaml::parseFile('./mod/verbalfeedback/db/default.yaml');
+        $importdata = Yaml\Yaml::parseFile('./mod/verbalfeedback/db/default.yaml');
         foreach ($importdata->languages as $yamllang) {
             if ($yamllang->id == null) {
                 $lang = new language(null, $yamllang->language);
