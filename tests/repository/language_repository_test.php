@@ -55,13 +55,13 @@ class language_repository_test extends \advanced_testcase {
      * @throws dml_exception
      */
     public function test_save(): void {
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
 
         $language = new language(1, 'en');
 
         $id = $this->repo->save($language);
         $this->assertFalse($id === null, 'save method returned null or 0');
-        if ($language->get_id() === null || $language->get_id() == 0) {
+        if (empty($language->get_id())) {
             // Set the id to $id if the language was stored without a given id.
             $language->set_id($id);
         }
@@ -97,7 +97,7 @@ class language_repository_test extends \advanced_testcase {
      */
     public function test_get_all() {
         global $DB;
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
 
         $languages = [
             ['id' => 1, 'language' => 'en'],
@@ -137,10 +137,9 @@ class language_repository_test extends \advanced_testcase {
      * @covers \mod_verbalfeedback\repository\language_repository::get_by_id
      */
     public function test_get_by_id() {
-        global $DB;
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
 
-        $language = new language($id = null, $language = 'en');
+        $language = new language(null, 'en');
 
         $id = $this->repo->save($language);
 
@@ -158,7 +157,7 @@ class language_repository_test extends \advanced_testcase {
      */
     public function test_delete_by_id() {
         global $DB;
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
         $languages = [
             ['id' => 1, 'language' => 'en'],
             ['id' => 2, 'language' => 'de'],
