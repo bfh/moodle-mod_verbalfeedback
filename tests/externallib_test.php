@@ -36,7 +36,7 @@ require_once($CFG->dirroot . '/lib/external/externallib.php');
  * @copyright  2022 Luca Bösch <luca.boesch@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_verbalfeedback_external_testcase extends externallib_advanced_testcase {
+class externallib_test extends externallib_advanced_testcase {
     /** @var core_course_category */
     protected $category;
     /** @var stdClass */
@@ -50,11 +50,9 @@ class mod_verbalfeedback_external_testcase extends externallib_advanced_testcase
      * Setup verbalfeedback.
      */
     public function setUp(): void {
-        global $DB;
         $this->category = $this->getDataGenerator()->create_category();
         $this->course = $this->getDataGenerator()->create_course(array('category' => $this->category->id));
-        $att = $this->getDataGenerator()->create_module('verbalfeedback', array('course' => $this->course->id));
-        $cm = $DB->get_record('course_modules', array('id' => $att->cmid), '*', MUST_EXIST);
+        $this->getDataGenerator()->create_module('verbalfeedback', array('course' => $this->course->id));
 
         $this->create_and_enrol_users();
 
@@ -69,5 +67,12 @@ class mod_verbalfeedback_external_testcase extends externallib_advanced_testcase
         }
 
         $this->teacher = $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher');
+    }
+
+    public function test_mod_verbalfeedback_view_model_to_instance() {
+        $this->resetAfterTest();
+
+        $instance = mod_verbalfeedback_view_model_to_instance((object)['course' => $this->course->id]);
+        $this->assertInstanceOf('mod_verbalfeedback\model\instance', $instance);
     }
 }

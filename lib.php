@@ -54,9 +54,7 @@ function mod_verbalfeedback_view_model_to_instance(stdClass $object) : instance 
         throw new InvalidArgumentException("stdClass object must have a course property of type int.");
     }
 
-    $instance = null;
-
-    if (!isset($object->template) || $object->template === null || $object->template == '') {
+    if (empty($object->template)) {
         // If we enter here, it's mostly $object->template == ''.
         $instance = new instance((int) $object->course);
 

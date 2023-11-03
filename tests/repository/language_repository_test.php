@@ -145,7 +145,7 @@ class language_repository_test extends \advanced_testcase {
 
         $language = $this->repo->get_by_id($id);
         $this->assertInstanceOf(language::class, $language);
-        $this->assertEquals($language->get_language(), $language->get_language());
+        $this->assertEquals('en', $language->get_language());
     }
 
     /**

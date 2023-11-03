@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core_analytics\model;
 use mod_verbalfeedback\model\instance;
 
 global $CFG;
@@ -104,10 +103,10 @@ class verbalfeedback_test extends \advanced_testcase {
     /**
      * Test a verbalfeedback instance
      *
-     * @covers ::instance
+     * @covers mod_verbalfeedback\model\instance
      */
     public function test_verbalfeedback() {
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
         $this->assertEquals('Verbal feedback 1', $this->verbalfeedback->name);
     }
 
@@ -119,7 +118,7 @@ class verbalfeedback_test extends \advanced_testcase {
      * @throws dml_exception
      */
     public function test_verbalfeedback_get_user_grade() {
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
         $this->assertEquals([], verbalfeedback_get_user_grades($this->verbalfeedback));
     }
 }
