@@ -65,7 +65,7 @@ class template_category_repository {
         foreach ($templatecategories as $catid => $templatecategory) {
             $headers = $headersbycatids[$catid];
             $templatecategory->set_headers($headers);
-            $parametrizedcriteria = $parametrizedcriteriabycatid[$catid];
+            $parametrizedcriteria = $parametrizedcriteriabycatid[$catid] ?? [];
             $templatecategory->set_template_criteria($parametrizedcriteria);
 
             $results[$catid] = $templatecategory;
