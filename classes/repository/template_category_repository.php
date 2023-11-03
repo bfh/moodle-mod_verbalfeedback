@@ -25,6 +25,7 @@
 namespace mod_verbalfeedback\repository;
 
 use Exception;
+use mod_verbalfeedback\model\localized_string;
 use mod_verbalfeedback\model\template\template_category;
 use mod_verbalfeedback\repository\model\db_localized_string;
 use mod_verbalfeedback\repository\model\db_parametrized_criterion;
@@ -43,19 +44,31 @@ class template_category_repository {
      */
     public function get_all() : array {
         global $DB;
+
+        static $results = null;
+        if ($results !== null && !PHPUNIT_TEST) {
+            return $results;
+        }
+
         $results = [];
-        $dbcategories = $DB->get_records("verbalfeedback_t_category");
-
-        foreach ($dbcategories as $dbocategory) {
+        $rs = $DB->get_recordset("verbalfeedback_t_category");
+        $templatecategories = [];
+        foreach ($rs as $dbocategory) {
             $templatecategory = db_template_category::to_template_category($dbocategory);
+            $templatecategories[$templatecategory->get_id()] = $templatecategory;
+        }
+        $rs->close();
 
-            $headers = $this->get_headers($templatecategory->get_id());
+        $headersbycatids = $this->get_headers_by_category_ids();
+        $parametrizedcriteriabycatid = $this->get_parameterized_criteria_by_categoryid();
+
+        foreach ($templatecategories as $catid => $templatecategory) {
+            $headers = $headersbycatids[$catid];
             $templatecategory->set_headers($headers);
-
-            $parametrizedcriteria = $this->get_parametrized_criteria($templatecategory->get_id());
+            $parametrizedcriteria = $parametrizedcriteriabycatid[$catid];
             $templatecategory->set_template_criteria($parametrizedcriteria);
 
-            $results[] = $templatecategory;
+            $results[$catid] = $templatecategory;
         }
         return $results;
     }
@@ -66,18 +79,9 @@ class template_category_repository {
      * @param int $id The category template id.
      * @return template_category|null The template categories.
      */
-    public function get_by_id(int $id) : template_category {
-        global $DB;
-        $dbo = $DB->get_record('verbalfeedback_t_category', ['id' => $id]);
-        $templatecategory = db_template_category::to_template_category($dbo);
-
-        $headers = $this->get_headers($templatecategory->get_id());
-        $templatecategory->set_headers($headers);
-
-        $parametrizedcriteria = $this->get_parametrized_criteria($templatecategory->get_id());
-        $templatecategory->set_template_criteria($parametrizedcriteria);
-
-        return $templatecategory;
+    public function get_by_id(int $id) : ?template_category {
+        $all = $this->get_all();
+        return $all[$id] ?? null;
     }
 
     /**
@@ -169,6 +173,27 @@ class template_category_repository {
     }
 
     /**
+     * Get all category headers hashed by category id.
+     *
+     * @return array
+     * @throws \dml_exception
+     */
+    private function get_headers_by_category_ids() : array {
+        global $DB;
+
+        $headers = [];
+        $rs = $DB->get_recordset('verbalfeedback_local_string', ['type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+        foreach ($rs as $row) {
+            if (!isset($dboheaders[$row->foreignkey])) {
+                $headers[$row->foreignkey] = [];
+            }
+            $headers[$row->foreignkey][] = new localized_string($row->languageid, $row->id, $row->string);
+        }
+        $rs->close();
+        return $headers;
+    }
+
+    /**
      * Gets the parametrized criteria of a category
      *
      * @param int $categoryid The category id
@@ -184,5 +209,25 @@ class template_category_repository {
             $parametrizedcriteria[] = db_parametrized_criterion::to_parametrized_criterion($dboparametrizedcriterion);
         }
         return $parametrizedcriteria;
+    }
+
+    /**
+     * Get all parameterized criteria hashed by category id
+     * @return array The paramterized criteria in an array hashed by category id
+     * @throws \dml_exception
+     */
+    private function get_parameterized_criteria_by_categoryid() : array {
+        global $DB;
+
+        $critbycatid = [];
+        $rs = $DB->get_recordset('verbalfeedback_t_param_crit');
+        foreach ($rs as $row) {
+            if (!isset($critbycatid[$row->categoryid])) {
+                $critbycatid[$row->categoryid] = [];
+            }
+            $critbycatid[$row->categoryid][] = db_parametrized_criterion::to_parametrized_criterion($row);
+        }
+        $rs->close();
+        return $critbycatid;
     }
 }
