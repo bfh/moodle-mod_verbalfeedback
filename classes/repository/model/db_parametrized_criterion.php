@@ -29,19 +29,20 @@ use mod_verbalfeedback\model\template\parametrized_template_criterion;
  * The database parametrized criterion class
  */
 class db_parametrized_criterion {
-    /**
-     * @var
-     */
+
+    /** @var int Primary key. */
+    public $id;
+
+    /** @var int Foreign key category id. */
     public $categoryid;
-    /** @var int The criterion id */
+
+    /** @var int The criterion id. */
     public $criterionid;
-    /**
-     * @var
-     */
+
+    /** @var int The position of the criterion. */
     public $position;
-    /**
-     * @var
-     */
+
+    /** @var float The weight of the criterion  */
     public $weight;
 
     /**
