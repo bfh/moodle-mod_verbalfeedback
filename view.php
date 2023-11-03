@@ -85,7 +85,8 @@ echo $OUTPUT->box(groups_print_activity_menu($cm, $PAGE->url, true, $hideallpart
 if ($canedit) {
     $edititemsurl = new moodle_url('edit_instance.php');
     $edititemsurl->param('id', $cm->id);
-    echo html_writer::link($edititemsurl, get_string('edititems', 'verbalfeedback'), ['class' => 'btn btn-primary']);
+    echo html_writer::link($edititemsurl, get_string('edititems', 'verbalfeedback'),
+        ['class' => 'btn btn-primary mr-1']);
     /*
     if (!$instanceready) {
         // TODO: do something.
