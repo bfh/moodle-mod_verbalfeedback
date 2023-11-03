@@ -144,7 +144,7 @@ class user_utils {
             return false;
         }
         // User can't participate if not enrolled in the course.
-        if ((!self::is_enrolled($context, $userid)) AND (!has_capability('moodle/site:config', $context))) {
+        if ((!self::is_enrolled($context, $userid)) && (!has_capability('moodle/site:config', $context))) {
             return get_string('errornotenrolled', 'mod_verbalfeedback');
         }
         if (has_capability('mod/verbalfeedback:can_participate', $context)) {

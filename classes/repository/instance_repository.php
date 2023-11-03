@@ -112,35 +112,40 @@ class instance_repository {
                     }
 
                     // Load subrating descriptions.
-                    $dbosubratingdescriptions = self::get_strings(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION, $subrating->get_id());
+                    $dbosubratingdescriptions = self::get_strings(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION,
+                        $subrating->get_id());
                     foreach ($dbosubratingdescriptions as $dbosubratingdescription) {
                         $subratingdescription = db_localized_string::to_localized_string($dbosubratingdescription);
                         $subrating->add_description($subratingdescription);
                     }
 
                     // Load subrating very negative texts.
-                    $dboverynegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE, $subrating->get_id());
+                    $dboverynegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE,
+                        $subrating->get_id());
                     foreach ($dboverynegatives as $dboverynegative) {
                         $verynegative = db_localized_string::to_localized_string($dboverynegative);
                         $subrating->add_verynegative($verynegative);
                     }
 
                     // Load subrating negative texts.
-                    $dbonegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_NEGATIVE, $subrating->get_id());
+                    $dbonegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_NEGATIVE,
+                        $subrating->get_id());
                     foreach ($dbonegatives as $dbonegative) {
                         $negative = db_localized_string::to_localized_string($dbonegative);
                         $subrating->add_negative($negative);
                     }
 
                     // Load subrating positive texts.
-                    $dbopositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_POSITIVE, $subrating->get_id());
+                    $dbopositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_POSITIVE,
+                        $subrating->get_id());
                     foreach ($dbopositives as $dbopositive) {
                         $positive = db_localized_string::to_localized_string($dbopositive);
                         $subrating->add_positive($positive);
                     }
 
                     // Load subrating very positive texts.
-                    $dboverypositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE, $subrating->get_id());
+                    $dboverypositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE,
+                        $subrating->get_id());
                     foreach ($dboverypositives as $dboverypositive) {
                         $verypositive = db_localized_string::to_localized_string($dboverypositive);
                         $subrating->add_verypositive($verypositive);

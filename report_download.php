@@ -68,13 +68,6 @@ $PAGE->set_heading($course->fullname);
 $instancename = format_string($instance->get_name());
 $PAGE->set_title($instancename);
 
-// Make sure that the report being viewed is for someone who can participate in the activity.
-/*
-if (\mod_verbalfeedback\utils\user::can_respond($verbalfeedback, $touserid) !== true) {
-    throw new moodle_exception('invaliduserid', 'error', new moodle_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]));
-}
-*/
-
 // Fetch the user.
 $touser = core_user::get_user($touserid);
 // Render user heading.

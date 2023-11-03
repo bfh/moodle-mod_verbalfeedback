@@ -183,7 +183,7 @@ function verbalfeedback_delete_instance($id) {
  */
 function verbalfeedback_supports($feature) {
     if (defined('FEATURE_MOD_PURPOSE') && defined('MOD_PURPOSE_ASSESSMENT')) {
-    // Moodle ≥ 4.0.
+        // Moodle ≥ 4.0.
         switch ($feature) {
             case FEATURE_MOD_INTRO:
                 return true;
@@ -209,7 +209,7 @@ function verbalfeedback_supports($feature) {
                 return null;
         }
     } else {
-    // Moodle ≤ 3.11.
+        // Moodle ≤ 3.11.
         switch ($feature) {
             case FEATURE_MOD_INTRO:
                 return true;

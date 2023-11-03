@@ -66,13 +66,6 @@ if ($touserid != 0) {
     // Result of a given user.
     echo $OUTPUT->heading(get_string('viewfeedbackforuser', 'mod_verbalfeedback'), 3);
 
-    // Make sure that the report being viewed is for someone who can participate in the activity.
-    /*
-    if (\mod_verbalfeedback\utils\user::can_respond($verbalfeedback, $touserid) !== true) {
-    throw new moodle_exception('invaliduserid', 'error', new moodle_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]));
-    }
-    */
-
     $touser = core_user::get_user($touserid);
     // Render user heading.
     $userheading = [
@@ -103,7 +96,5 @@ if ($touserid != 0) {
     $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 
     echo $renderer->render($templatedata);
-} else {
-    // Reports of all users.
 }
 echo $OUTPUT->footer();

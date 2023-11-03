@@ -87,11 +87,6 @@ if ($canedit) {
     $edititemsurl->param('id', $cm->id);
     echo html_writer::link($edititemsurl, get_string('edititems', 'verbalfeedback'),
         ['class' => 'btn btn-primary mr-1']);
-    /*
-    if (!$instanceready) {
-        // TODO: do something.
-    }
-    */
 }
 
 // If the user has edit capabilities and the instance is not ready, create the "make available"
@@ -123,7 +118,7 @@ if ($canedit && !$instanceready && $makeavailable) {
 if ($instanceready) {
     // Whether to include self in the participants list.
     $includeself = false;
-    if (($canrespond === true) OR (has_capability('moodle/site:config', $context))) {
+    if (($canrespond === true) || (has_capability('moodle/site:config', $context))) {
         try {
             $participantslistrenderer = $PAGE->get_renderer('mod_verbalfeedback');
             draw_participants_list($instance, $USER->id, $canparticipate, $canviewallreports, $participantslistrenderer);
@@ -142,7 +137,7 @@ if ($instanceready) {
 } else {
     // Show error to respondents that indicate that the activity is not yet ready.
     if ($canparticipate === true) {
-        if (($canrespond === true) AND ($canedit === true)) {
+        if (($canrespond === true) && ($canedit === true)) {
             // A person who can grade, e.g. a teacher.
             \core\notification::error(get_string('instancenotready', 'mod_verbalfeedback'));
         } else {
