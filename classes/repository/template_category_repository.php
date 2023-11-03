@@ -141,7 +141,7 @@ class template_category_repository {
         try {
             $transaction = $DB->start_delegated_transaction();
             $DB->delete_records('verbalfeedback_local_string', ['foreignkey' => $id,
-            'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+                'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
             $DB->delete_records('verbalfeedback_t_param_crit', ['categoryid' => $id]);
             $DB->delete_records('verbalfeedback_t_category', ['id' => $id]);
 
@@ -162,8 +162,8 @@ class template_category_repository {
     private function get_headers($foreignkey) : array {
         global $DB;
 
-        $dboheaders = $DB->get_records('verbalfeedback_local_string', ['foreignkey' => $foreignkey,
-        'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+        $dboheaders = $DB->get_records('verbalfeedback_local_string',
+            ['foreignkey' => $foreignkey, 'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
         $headers = [];
         foreach ($dboheaders as $dboheader) {
             $headers[] = db_localized_string::to_localized_string($dboheader);
@@ -184,7 +184,7 @@ class template_category_repository {
         $headers = [];
         $rs = $DB->get_recordset('verbalfeedback_local_string', ['type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
         foreach ($rs as $row) {
-            if (!isset($dboheaders[$row->foreignkey])) {
+            if (!\array_key_exists($row->foreignkey, $headers)) {
                 $headers[$row->foreignkey] = [];
             }
             $headers[$row->foreignkey][] = new localized_string($row->languageid, $row->id, $row->string);
@@ -222,7 +222,7 @@ class template_category_repository {
         $critbycatid = [];
         $rs = $DB->get_recordset('verbalfeedback_t_param_crit');
         foreach ($rs as $row) {
-            if (!isset($critbycatid[$row->categoryid])) {
+            if (!\array_key_exists($row->categoryid, $critbycatid)) {
                 $critbycatid[$row->categoryid] = [];
             }
             $critbycatid[$row->categoryid][] = db_parametrized_criterion::to_parametrized_criterion($row);
