@@ -150,7 +150,7 @@ class instance_utils {
 
         // Check if event exists.
         $event->id = $DB->get_field('event', 'id', ['modulename' => 'verbalfeedback', 'instance' => $id,
-            'eventtype' => $eventtype]);
+            'eventtype' => $eventtype, ]);
         if ($event->id) {
             $calendarevent = calendar_event::load($event->id);
             if ($timestamp) {
@@ -194,7 +194,7 @@ class instance_utils {
         $transaction = $DB->start_delegated_transaction();
 
         // Update the verbal feedback table.
-        $DB->set_field('verbalfeedback', 'grade', $newgrade, array('id' => $verbalfeedback->id));
+        $DB->set_field('verbalfeedback', 'grade', $newgrade, ['id' => $verbalfeedback->id]);
 
         $transaction->allow_commit();
         return true;

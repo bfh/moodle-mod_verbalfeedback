@@ -272,7 +272,7 @@ class instance_repository {
                 $id = $DB->insert_record(tables::INSTANCE_TABLE, $dboinstance);
                 $instance->set_id($id);
                 // Set the grade.
-                $DB->set_field('verbalfeedback', 'grade', $instance->grade, array('id' => $id));
+                $DB->set_field('verbalfeedback', 'grade', $instance->grade, ['id' => $id]);
             } else {
                 $DB->update_record(tables::INSTANCE_TABLE, $dboinstance);
             }

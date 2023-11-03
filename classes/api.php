@@ -114,7 +114,7 @@ class api {
                                                    "} WHERE id = (SELECT categoryid
                                                                             FROM {" . tables::INSTANCE_CRITERION_TABLE .
                                                                         "} WHERE id = ?))",
-            array($itemid), IGNORE_MISSING);
+            [$itemid], IGNORE_MISSING);
     }
 
     /**
@@ -131,7 +131,7 @@ class api {
             "} WHERE id = (SELECT instanceid
                                                        FROM {" . tables::INSTANCE_CATEGORY_TABLE .
             "} WHERE id = ?)",
-            array($categoryid), IGNORE_MISSING);
+            [$categoryid], IGNORE_MISSING);
     }
 
     /**
@@ -224,11 +224,11 @@ class api {
                   FROM {verbalfeedback_submission} fs
                  WHERE fs.instanceid = f.id
                        AND fs.fromuserid = :fromuser2
-            )'
+            )',
         ];
         $params = [
             'verbalfeedbackid' => $verbalfeedbackid,
-            'fromuser2' => $fromuserid
+            'fromuser2' => $fromuserid,
         ];
 
         if (!$includeself) {

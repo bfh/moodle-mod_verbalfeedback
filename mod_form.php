@@ -57,7 +57,7 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Name.
-        $mform->addElement('text', 'name', get_string('name'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('name'), ['size' => '64']);
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
@@ -74,7 +74,7 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         $mform->addHelpButton('releasetype', 'releasetype', 'mod_verbalfeedback');
 
         if ($this->_instance) {
-            if ($DB->count_records(tables::SUBMISSION_TABLE, array('instanceid' => $this->_instance)) > 0) {
+            if ($DB->count_records(tables::SUBMISSION_TABLE, ['instanceid' => $this->_instance]) > 0) {
                 // Prevent user from toggeling the template once there are submissions.
                 $mform->addElement('hidden', 'allowchangetemplate', 0);
                 $mform->setType('allowchangetemplate', PARAM_INT);
@@ -82,7 +82,7 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         }
 
         $templates = [
-          null => get_string('notemplate', 'mod_verbalfeedback')
+          null => get_string('notemplate', 'mod_verbalfeedback'),
         ];
         foreach ($templaterepository->get_all() as $t) {
             $templates[$t->get_id()] = format_text($t->get_name());
@@ -100,7 +100,7 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
 
         $mform->addElement('select', 'template', get_string('template', 'mod_verbalfeedback'), $templates);
         if ($this->_instance) {
-            $defaulttemplate = $DB->get_field(tables::INSTANCE_TABLE, 'templateid', array('id' => $this->_instance));
+            $defaulttemplate = $DB->get_field(tables::INSTANCE_TABLE, 'templateid', ['id' => $this->_instance]);
             $mform->setDefault('template', $defaulttemplate);
         }
 
@@ -109,9 +109,9 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         // Availability.
         $mform->addElement('header', 'timinghdr', get_string('availability'));
         $mform->addElement('date_time_selector', 'timeopen', get_string('feedbackopen', 'feedback'),
-            array('optional' => true));
+            ['optional' => true]);
         $mform->addElement('date_time_selector', 'timeclose', get_string('feedbackclose', 'feedback'),
-            array('optional' => true));
+            ['optional' => true]);
 
         // Grade.
         $this->standard_grading_coursemodule_elements();

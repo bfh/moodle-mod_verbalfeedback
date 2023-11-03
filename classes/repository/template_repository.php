@@ -48,7 +48,7 @@ class template_repository {
 
             $dboparametrizedcategories =
                 $DB->get_records(tables::PARAMETRIZED_TEMPLATE_CATEGORY_TABLE, ['templateid' => $template->get_id()]);
-            $parametrizedcategories = array();
+            $parametrizedcategories = [];
             foreach ($dboparametrizedcategories as $o) {
                 $parametrizedcategories[] = db_parametrized_category::to_parametrized_category($o);
             }
@@ -72,7 +72,7 @@ class template_repository {
         $dboparametrizedcategories =
             $DB->get_records(tables::PARAMETRIZED_TEMPLATE_CATEGORY_TABLE, ['templateid' => $template->get_id()]);
 
-        $parametrizedcategories = array();
+        $parametrizedcategories = [];
         foreach ($dboparametrizedcategories as $o) {
             $parametrizedcategories[] = db_parametrized_category::to_parametrized_category($o);
         }

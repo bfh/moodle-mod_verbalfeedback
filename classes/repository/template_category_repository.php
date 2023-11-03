@@ -141,7 +141,7 @@ class template_category_repository {
         try {
             $transaction = $DB->start_delegated_transaction();
             $DB->delete_records('verbalfeedback_local_string', ['foreignkey' => $id,
-                'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+                'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER, ]);
             $DB->delete_records('verbalfeedback_t_param_crit', ['categoryid' => $id]);
             $DB->delete_records('verbalfeedback_t_category', ['id' => $id]);
 

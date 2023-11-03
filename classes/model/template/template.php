@@ -42,7 +42,7 @@ class template {
     /**
      * @var array
      */
-    public $templatecategories = array();
+    public $templatecategories = [];
 
     /**
      * The template class constructor

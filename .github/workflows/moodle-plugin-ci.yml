@@ -85,7 +85,7 @@ jobs:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
           IGNORE_PATHS: moodle/tests/fixtures,moodle/Sniffs
-          CODECHECKER_IGNORE_PATHS: /^classes\/vendor/
+          PHPCS_IGNORE_PATHS: /^classes\/vendor/
           PHPDOCCHECKER_IGNORE_PATHS: /^classes\/vendor/
           MUSTACHE_IGNORE_NAMES: 'report.mustache,questionnaire.mustache'
 

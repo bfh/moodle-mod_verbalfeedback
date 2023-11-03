@@ -60,7 +60,7 @@ class template_edit_form extends \moodleform {
         $mform->addElement('static', 'text', null, $statictext);
         $templatecategories = $templatecategoryrepo->get_all();
         foreach ($templatecategories as $templatecategory) {
-            $categoryformgroup = array();
+            $categoryformgroup = [];
 
             $categoryformgroup[] = $mform->createElement('hidden', 'param_category_id', 0); // Parametrized category id.
             $categoryformgroup[] = $mform->createElement('hidden', 'template_category_id', $templatecategory->get_id());
@@ -75,7 +75,7 @@ class template_edit_form extends \moodleform {
             $mform->setType($elementname . '[weight]', PARAM_FLOAT);
             $mform->disabledIf($elementname . '[position]', $elementname . '[selected]', 'notchecked');
             $mform->disabledIf($elementname . '[weight]', $elementname . '[selected]', 'notchecked');
-            $mform->addGroup($categoryformgroup, $elementname, $templatecategory->get_unique_name(), array(''), true);
+            $mform->addGroup($categoryformgroup, $elementname, $templatecategory->get_unique_name(), [''], true);
         }
 
         $this->add_action_buttons($cancel = true);
@@ -89,6 +89,6 @@ class template_edit_form extends \moodleform {
      * @return array
      */
     public function validation($data, $files) {
-        return array();
+        return [];
     }
 }

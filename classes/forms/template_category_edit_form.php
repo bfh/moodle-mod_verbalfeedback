@@ -61,7 +61,7 @@ class template_category_edit_form extends \moodleform {
             $headers[] =& $mform->createElement('hidden', 'language_id', $l->get_id());
             $categoryheader = get_string('categoryheader', 'verbalfeedback') . ' - ' . $l->get_language();
             $headers[] =& $mform->createElement('text', 'string', $categoryheader);
-            $mform->addGroup($headers, 'headers[' . $l->get_id() .']', $categoryheader, array(''), true);
+            $mform->addGroup($headers, 'headers[' . $l->get_id() .']', $categoryheader, [''], true);
 
             $mform->setType('headers[' . $l->get_id() .'][id]', PARAM_INT);
             $mform->setType('headers[' . $l->get_id() .'][language_id]', PARAM_INT);
@@ -73,7 +73,7 @@ class template_category_edit_form extends \moodleform {
             'Second textbox: weight within this category.');
         $criteria = $templatecriteriarepo->get_all();
         foreach ($criteria as $criterion) {
-            $criteriongroup = array();
+            $criteriongroup = [];
             $currentlanguage = current_language();
             $localizedtext = '';
 
@@ -100,7 +100,7 @@ class template_category_edit_form extends \moodleform {
             $mform->setType($elementname . '[weight]', PARAM_FLOAT);
             $mform->disabledIf($elementname . '[position]', $elementname . '[selected]', 'notchecked');
             $mform->disabledIf($elementname . '[weight]', $elementname . '[selected]', 'notchecked');
-            $mform->addGroup($criteriongroup, $elementname, $localizedtext, array(''), true);
+            $mform->addGroup($criteriongroup, $elementname, $localizedtext, [''], true);
         }
 
         $this->add_action_buttons($cancel = true);
@@ -114,6 +114,6 @@ class template_category_edit_form extends \moodleform {
      * @return array
      */
     public function validation($data, $files) {
-        return array();
+        return [];
     }
 }

@@ -24,116 +24,113 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
+$capabilities = [
 
-    'mod/verbalfeedback:addinstance' => array(
+    'mod/verbalfeedback:addinstance' => [
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/course:manageactivities',
+    ],
 
-    'mod/verbalfeedback:edititems' => array(
+    'mod/verbalfeedback:edititems' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/verbalfeedback:editquestions' => array(
+    'mod/verbalfeedback:editquestions' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/verbalfeedback:view' => array(
+    'mod/verbalfeedback:view' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'guest' => CAP_ALLOW,
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/verbalfeedback:view_all_reports' => array(
+    'mod/verbalfeedback:view_all_reports' => [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-            'student' => CAP_PROHIBIT
-        )
-    ),
+            'student' => CAP_PROHIBIT,
+        ],
+    ],
 
-    'mod/verbalfeedback:can_participate' => array(
-      'riskbitmask' => RISK_PERSONAL,
-      'captype' => 'read',
-      'contextlevel' => CONTEXT_MODULE,
-      'archetypes' => array(
-          'teacher' => CAP_ALLOW,
-          'editingteacher' => CAP_ALLOW,
-          'manager' => CAP_ALLOW,
-          'student' => CAP_ALLOW
-      )
-    ),
-
-    'mod/verbalfeedback:can_respond' => array(
-      'riskbitmask' => RISK_PERSONAL,
-      'captype' => 'read',
-      'contextlevel' => CONTEXT_MODULE,
-      'archetypes' => array(
-          'teacher' => CAP_ALLOW,
-          'editingteacher' => CAP_ALLOW,
-          'manager' => CAP_ALLOW,
-          'student' => CAP_PROHIBIT
-      )
-    ),
-
-    'mod/verbalfeedback:receive_rating' => array(
-      'riskbitmask' => RISK_PERSONAL,
-      'captype' => 'read',
-      'contextlevel' => CONTEXT_MODULE,
-      'archetypes' => array(
-          'student' => CAP_ALLOW
-      )
-  ),
-
-    'mod/verbalfeedback:receivemail' => array(
+    'mod/verbalfeedback:can_participate' => [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW
-        )
-    ),
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/verbalfeedback:managetemplates' => array(
-      'riskbitmask' => RISK_PERSONAL,
-      'captype' => 'write',
-      'contextlevel' => CONTEXT_MODULE,
-      'archetypes' => array(
-          'teacher' => CAP_ALLOW,
-          'editingteacher' => CAP_ALLOW
-      )
-  ),
+    'mod/verbalfeedback:can_respond' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'student' => CAP_PROHIBIT,
+        ],
+    ],
 
-);
+    'mod/verbalfeedback:receive_rating' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'student' => CAP_ALLOW,
+        ],
+    ],
 
+    'mod/verbalfeedback:receivemail' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ],
+    ],
 
+    'mod/verbalfeedback:managetemplates' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ],
+    ],
+];

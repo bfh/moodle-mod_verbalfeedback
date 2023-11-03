@@ -22,7 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_verbalfeedback;
+
 use mod_verbalfeedback\model\instance;
+
+defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
@@ -80,19 +84,19 @@ class verbalfeedback_test extends \advanced_testcase {
     public function setUp(): void {
         global $DB;
         $this->category = $this->getDataGenerator()->create_category();
-        $this->course = $this->getDataGenerator()->create_course(array('category' => $this->category->id));
+        $this->course = $this->getDataGenerator()->create_course(['category' => $this->category->id]);
         $this->courseid = $this->course->id;
-        $this->verbalfeedback = $this->getDataGenerator()->create_module('verbalfeedback', array('course' => $this->course->id));
+        $this->verbalfeedback = $this->getDataGenerator()->create_module('verbalfeedback', ['course' => $this->course->id]);
         $this->verbalfeedbackid = $this->verbalfeedback->id;
         $this->verbalfeedbackname = $this->verbalfeedback->name;
-        $cm = $DB->get_record('course_modules', array('id' => $this->verbalfeedback->cmid), '*', MUST_EXIST);
+        $cm = $DB->get_record('course_modules', ['id' => $this->verbalfeedback->cmid], '*', MUST_EXIST);
 
         $this->create_and_enrol_users();
     }
 
     /** Creating 10 students and 1 teacher. */
     protected function create_and_enrol_users() {
-        $this->students = array();
+        $this->students = [];
         for ($i = 0; $i < 10; $i++) {
             $this->students[] = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
         }
@@ -103,7 +107,7 @@ class verbalfeedback_test extends \advanced_testcase {
     /**
      * Test a verbalfeedback instance
      *
-     * @covers mod_verbalfeedback\model\instance
+     * @covers \mod_verbalfeedback\model\instance
      */
     public function test_verbalfeedback() {
         $this->resetAfterTest();
@@ -113,7 +117,7 @@ class verbalfeedback_test extends \advanced_testcase {
     /**
      * Test the verbalfeedback verbalfeedback_get_user_grades function
      *
-     * @covers verbalfeedback_get_user_grades
+     * @covers ::verbalfeedback_get_user_grades
      * @throws coding_exception
      * @throws dml_exception
      */

@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_verbalfeedback;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -36,7 +38,7 @@ require_once($CFG->dirroot . '/lib/external/externallib.php');
  * @copyright  2022 Luca Bösch <luca.boesch@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class externallib_test extends externallib_advanced_testcase {
+class externallib_test extends \externallib_advanced_testcase {
     /** @var core_course_category */
     protected $category;
     /** @var stdClass */
@@ -51,8 +53,8 @@ class externallib_test extends externallib_advanced_testcase {
      */
     public function setUp(): void {
         $this->category = $this->getDataGenerator()->create_category();
-        $this->course = $this->getDataGenerator()->create_course(array('category' => $this->category->id));
-        $this->getDataGenerator()->create_module('verbalfeedback', array('course' => $this->course->id));
+        $this->course = $this->getDataGenerator()->create_course(['category' => $this->category->id]);
+        $this->getDataGenerator()->create_module('verbalfeedback', ['course' => $this->course->id]);
 
         $this->create_and_enrol_users();
 
@@ -61,7 +63,7 @@ class externallib_test extends externallib_advanced_testcase {
 
     /** Creating 10 students and 1 teacher. */
     protected function create_and_enrol_users() {
-        $this->students = array();
+        $this->students = [];
         for ($i = 0; $i < 10; $i++) {
             $this->students[] = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
         }
@@ -69,6 +71,11 @@ class externallib_test extends externallib_advanced_testcase {
         $this->teacher = $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher');
     }
 
+    /**
+     * Test the function to match a model to its verbal feedback instance.
+     *
+     * @covers ::mod_verbalfeedback_view_model_to_instance
+     */
     public function test_mod_verbalfeedback_view_model_to_instance() {
         $this->resetAfterTest();
 

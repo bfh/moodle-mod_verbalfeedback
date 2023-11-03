@@ -35,6 +35,6 @@ $itemnumber = optional_param('itemnumber', 0, PARAM_INT); // Item number, may be
     // more than one grade per user.
 
 $cm = get_coursemodule_from_id('verbalfeedback', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 
-redirect(new moodle_url('/mod/verbalfeedback/report.php', array('touser' => $userid, 'instance' => $cm->instance)));
+redirect(new moodle_url('/mod/verbalfeedback/report.php', ['touser' => $userid, 'instance' => $cm->instance]));

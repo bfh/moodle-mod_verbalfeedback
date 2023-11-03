@@ -98,7 +98,7 @@ class instance {
     /**
      * @var array The categories.
      */
-    public $categories = array();
+    public $categories = [];
 
     /**
      * Class constructor
@@ -291,7 +291,7 @@ class instance {
      */
     public function get_grade() : int {
         global $DB;
-        return $DB->get_field('verbalfeedback', 'grade', array('id' => $this->id));
+        return $DB->get_field('verbalfeedback', 'grade', ['id' => $this->id]);
     }
 
     /**

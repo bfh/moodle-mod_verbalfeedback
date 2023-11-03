@@ -50,7 +50,7 @@ $PAGE->set_pagelayout('incourse');
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
 
-$PAGE->set_url('/mod/verbalfeedback/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]);
 $title = format_string($instance->get_name());
 $PAGE->set_title($title);
 $PAGE->set_heading($course->fullname);

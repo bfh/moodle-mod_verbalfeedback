@@ -84,7 +84,7 @@ class language_repository_test extends \advanced_testcase {
         // Updating entries is also tested with these two tests.
         return [
             'with id = null' => [null, 'en'],
-            'with id = 0' => [0, 'en']
+            'with id = 0' => [0, 'en'],
         ];
     }
 
@@ -102,7 +102,7 @@ class language_repository_test extends \advanced_testcase {
         $languages = [
             ['id' => 1, 'language' => 'en'],
             ['id' => 2, 'language' => 'de'],
-            ['id' => 3, 'language' => 'fr']
+            ['id' => 3, 'language' => 'fr'],
         ];
         $DB->insert_records('verbalfeedback_language', $languages);
 
@@ -121,13 +121,13 @@ class language_repository_test extends \advanced_testcase {
         return [
             'with empty table' => [[]],
             'with 1 entry' => [[
-                ['id' => 1, 'language' => 'en']
-            ]],
+                ['id' => 1, 'language' => 'en'],
+            ], ],
             'with 3 entries' => [[
                 ['id' => 1, 'language' => 'en'],
                 ['id' => 2, 'language' => 'de'],
-                ['id' => 3, 'language' => 'fr']
-            ]]
+                ['id' => 3, 'language' => 'fr'],
+            ], ],
         ];
     }
 
@@ -161,7 +161,7 @@ class language_repository_test extends \advanced_testcase {
         $languages = [
             ['id' => 1, 'language' => 'en'],
             ['id' => 2, 'language' => 'de'],
-            ['id' => 3, 'language' => 'fr']
+            ['id' => 3, 'language' => 'fr'],
         ];
         $DB->insert_records('verbalfeedback_language', $languages);
 
@@ -182,8 +182,8 @@ class language_repository_test extends \advanced_testcase {
             'with existing entries' => ['languages' => [
                 ['id' => 1, 'language' => 'en'],
                 ['id' => 2, 'language' => 'de'],
-                ['id' => 3, 'language' => 'fr']
-            ], 'delete_id' => 1]
+                ['id' => 3, 'language' => 'fr'],
+            ], 'delete_id' => 1, ],
         ];
     }
 }
