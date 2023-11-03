@@ -84,7 +84,6 @@ jobs:
           IGNORE_PATHS: moodle/tests/fixtures,moodle/Sniffs
           CODECHECKER_IGNORE_PATHS: /^classes\/vendor/
           PHPDOCCHECKER_IGNORE_PATHS: /^classes\/vendor/
-
       - name: PHP Lint
         if: ${{ always() }}
         run: moodle-plugin-ci phplint
