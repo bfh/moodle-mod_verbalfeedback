@@ -40,7 +40,7 @@ class submission {
     /** @var string The submission remarks */
     public $remarks;
     /** @var array The submission responses */
-    public $responses = array();
+    public $responses = [];
 
     /**
      * The submission class constructor

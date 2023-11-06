@@ -36,7 +36,7 @@ class report_category_view_model {
     /** @var \lang_string|string The percentage */
     public $percentage;
     /** @var array The criteria */
-    public $criteria = array();
+    public $criteria = [];
 
     /**
      * The report category view model class constructor

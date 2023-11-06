@@ -116,7 +116,7 @@ class calendar_utils {
 
         // Check if event exists.
         $event->id = $DB->get_field('event', 'id', ['modulename' => 'verbalfeedback', 'instance' => $id,
-            'eventtype' => $eventtype]);
+            'eventtype' => $eventtype, ]);
         if ($event->id) {
             $calendarevent = calendar_event::load($event->id);
             if ($timestamp) {

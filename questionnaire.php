@@ -78,7 +78,7 @@ if ($preview) {
     $userheading = [
         'heading' => 'Max Muster',
         'user' => null,
-        'usercontext' => null
+        'usercontext' => null,
     ];
     $contextheader = $OUTPUT->context_header($userheading, 3);
     $container = html_writer::div($contextheader, 'card-body');
@@ -136,7 +136,7 @@ if ($preview) {
             $userheading = [
                 'heading' => fullname($touser),
                 'user' => $touser,
-                'usercontext' => context_user::instance($submission->get_to_user_id())
+                'usercontext' => context_user::instance($submission->get_to_user_id()),
             ];
 
             $contextheader = $OUTPUT->context_header($userheading, 3);

@@ -214,7 +214,7 @@ class instance_repository {
         $sql = "SELECT crit.*
                   FROM {{$crittab}} crit
                   JOIN {{$cattab}} cat
-                    ON crit.categoryid = cat.id 
+                    ON crit.categoryid = cat.id
                  WHERE cat.instanceid = ?";
 
         $bycat = [];
@@ -245,7 +245,7 @@ class instance_repository {
                   JOIN {{$crittab}} crit
                     ON srat.criterionid = crit.id
                   JOIN {{$cattab}} mvic
-                    ON crit.categoryid = mvic.id 
+                    ON crit.categoryid = mvic.id
                  WHERE mvic.instanceid = ?";
         $rs = $DB->get_recordset_sql($sql, [$id]);
         $bycrit = [];
@@ -272,7 +272,7 @@ class instance_repository {
                 $id = $DB->insert_record(tables::INSTANCE_TABLE, $dboinstance);
                 $instance->set_id($id);
                 // Set the grade.
-                $DB->set_field('verbalfeedback', 'grade', $instance->grade, array('id' => $id));
+                $DB->set_field('verbalfeedback', 'grade', $instance->grade, ['id' => $id]);
             } else {
                 $DB->update_record(tables::INSTANCE_TABLE, $dboinstance);
             }

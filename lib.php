@@ -280,7 +280,7 @@ function verbalfeedback_core_calendar_provide_event_action(calendar_event $event
 
     return $factory->create_instance(
         get_string('providefeedback', 'verbalfeedback'),
-        new moodle_url('/mod/verbalfeedback/view.php', array('id' => $cm->id)),
+        new moodle_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]),
         $pendingcount,
         $actionable
     );
@@ -315,14 +315,14 @@ function verbalfeedback_core_calendar_get_valid_event_timestart_range(calendar_e
         if (!empty($verbalfeedback->timeclose)) {
             $maxdate = [
                 $verbalfeedback->timeclose,
-                get_string('openafterclose', 'verbalfeedback')
+                get_string('openafterclose', 'verbalfeedback'),
             ];
         }
     } else if ($event->eventtype == api::VERBALFEEDBACK_EVENT_TYPE_CLOSE) {
         if (!empty($verbalfeedback->timeopen)) {
             $mindate = [
                 $verbalfeedback->timeopen,
-                get_string('closebeforeopen', 'verbalfeedback')
+                get_string('closebeforeopen', 'verbalfeedback'),
             ];
         }
     }
@@ -429,7 +429,7 @@ function verbalfeedback_reset_gradebook($courseid, $type='') {
               FROM {verbalfeedback} v, {course_modules} cm, {modules} m
              WHERE m.name='verbalfeedback' AND m.id=cm.module AND cm.instance=v.id AND v.course=?";
 
-    if ($verbalfeedbacks = $DB->get_records_sql($sql, array($courseid))) {
+    if ($verbalfeedbacks = $DB->get_records_sql($sql, [$courseid])) {
         foreach ($verbalfeedbacks as $verbalfeedback) {
             verbalfeedback_grade_item_update($verbalfeedback, 'reset');
         }
@@ -446,24 +446,24 @@ function verbalfeedback_reset_gradebook($courseid, $type='') {
 function verbalfeedback_reset_userdata($data) {
     global $CFG, $DB;
 
-    $status = array();
+    $status = [];
 
     if (!empty($data->reset_verbalfeedback)) {
         $verbalfeedbackssql = "SELECT vf.id " .
                        "FROM " . tables::INSTANCE_TABLE . " vf " .
                        "WHERE vf.course=?";
 
-        $DB->delete_records_select(tables::RESPONSE_TABLE, "instanceid IN ($verbalfeedbackssql)", array($data->courseid));
-        $status[] = array('component' => $componentstr, 'item' => get_string('removeresponses', 'verbalfeedback'),
-            'error' => false);
+        $DB->delete_records_select(tables::RESPONSE_TABLE, "instanceid IN ($verbalfeedbackssql)", [$data->courseid]);
+        $status[] = ['component' => $componentstr, 'item' => get_string('removeresponses', 'verbalfeedback'),
+            'error' => false, ];
 
-        $DB->delete_records_select(tables::SUBMISSION_TABLE, "instanceid IN ($verbalfeedbackssql)", array($data->courseid));
-        $status[] = array('component' => $componentstr, 'item' => get_string('removesubmissions', 'verbalfeedback'),
-            'error' => false);
+        $DB->delete_records_select(tables::SUBMISSION_TABLE, "instanceid IN ($verbalfeedbackssql)", [$data->courseid]);
+        $status[] = ['component' => $componentstr, 'item' => get_string('removesubmissions', 'verbalfeedback'),
+            'error' => false, ];
 
-        $DB->delete_records_select(tables::INSTANCE_CATEGORY_TABLE, "instanceid IN ($verbalfeedbackssql)", array($data->courseid));
-        $status[] = array('component' => $componentstr, 'item' => get_string('removecategories', 'verbalfeedback'),
-            'error' => false);
+        $DB->delete_records_select(tables::INSTANCE_CATEGORY_TABLE, "instanceid IN ($verbalfeedbackssql)", [$data->courseid]);
+        $status[] = ['component' => $componentstr, 'item' => get_string('removecategories', 'verbalfeedback'),
+            'error' => false, ];
 
         $allverbalfeedbackcriteriasql       = "SELECT vfcri.id " .
                                                 "FROM " . tables::INSTANCE_CRITERION_TABLE . " vfcri " .
@@ -472,9 +472,9 @@ function verbalfeedback_reset_userdata($data) {
                                                 "JOIN " . tables::INSTANCE_TABLE . " vf ON vfcat.instanceid = vf.id" .
                                                "WHERE vf.course = ?";
         $DB->delete_records_select(tables::INSTANCE_CRITERION_TABLE, "instanceid IN ($allverbalfeedbackcriteriasql)",
-            array($data->courseid));
-        $status[] = array('component' => $componentstr, 'item' => get_string('removecriteria', 'verbalfeedback'),
-            'error' => false);
+            [$data->courseid]);
+        $status[] = ['component' => $componentstr, 'item' => get_string('removecriteria', 'verbalfeedback'),
+            'error' => false, ];
 
         $allverbalfeedbacksubratingssql       = "SELECT vfsub.id " .
                                                   "FROM " . tables::INSTANCE_SUBRATING_TABLE . " vfsub " .
@@ -485,9 +485,9 @@ function verbalfeedback_reset_userdata($data) {
                                                   "JOIN " . tables::INSTANCE_TABLE . " vf ON vfcat.instanceid = vf.id" .
                                                  "WHERE vf.course = ?";
         $DB->delete_records_select(tables::INSTANCE_SUBRATING_TABLE, "instanceid IN ($allverbalfeedbacksubratingssql)",
-            array($data->courseid));
-        $status[] = array('component' => $componentstr, 'item' => get_string('removesubratings', 'verbalfeedback'),
-            'error' => false);
+            [$data->courseid]);
+        $status[] = ['component' => $componentstr, 'item' => get_string('removesubratings', 'verbalfeedback'),
+            'error' => false, ];
     }
 
     return $status;
@@ -511,7 +511,7 @@ function verbalfeedback_grade_item_update($verbalfeedback, $grades = null) {
     // Update the grade.
     $params = [
         'itemname' => $verbalfeedback->name,
-        'idnumber' => $verbalfeedback->id
+        'idnumber' => $verbalfeedback->id,
     ];
 
     if ($verbalfeedback->grade > 0) {

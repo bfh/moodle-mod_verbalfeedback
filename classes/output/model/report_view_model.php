@@ -35,7 +35,7 @@ class report_view_model {
     /** @var string The radar code */
     public $radar;
     /** @var array The categories */
-    public $categories = array();
+    public $categories = [];
 
     /**
      * The report view model class constructor

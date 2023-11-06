@@ -61,7 +61,7 @@ $PAGE->set_pagelayout('incourse');
 $urlparams = [
     'instance' => $instanceid,
     'touser' => $touserid,
-    'forcedownload' => 1
+    'forcedownload' => 1,
 ];
 $PAGE->set_url('/mod/verbalfeedback/report_download.php', $urlparams);
 $PAGE->set_heading($course->fullname);
@@ -74,7 +74,7 @@ $touser = core_user::get_user($touserid);
 $userheading = [
   'heading' => fullname($touser),
   'user' => $touser,
-  'usercontext' => context_user::instance($touserid)
+  'usercontext' => context_user::instance($touserid),
 ];
 
 // Get the responses to the user.
@@ -102,7 +102,7 @@ $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 $fs = get_file_storage();
 
-$logofilepath = $DB->get_field('config_plugins', 'value', array('plugin' => 'mod_verbalfeedback', 'name' => 'reportimage'));
+$logofilepath = $DB->get_field('config_plugins', 'value', ['plugin' => 'mod_verbalfeedback', 'name' => 'reportimage']);
 
 if (!$logofilepath) {
     $imagefile = $CFG->dirroot . '/mod/verbalfeedback/pix/reportlogo.png';
@@ -119,8 +119,8 @@ $logoplaceholder = "mod/verbalfeedback/pix/logoplaceholder.png";
 $pdf->SetHeaderData($logoplaceholder, 25, '', '');
 
 // Set header and footer fonts.
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+$pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
 
 // Set default monospaced font.
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);

@@ -54,9 +54,9 @@ class restore_verbalfeedback_activity_task extends restore_activity_task {
      * Define the contents in the activity that must be processed by the link decoder
      */
     public static function define_decode_contents() {
-        $contents = array();
+        $contents = [];
 
-        $contents[] = new restore_decode_content('verbalfeedback', array('intro'), 'verbalfeedback');
+        $contents[] = new restore_decode_content('verbalfeedback', ['intro'], 'verbalfeedback');
 
         return $contents;
     }
@@ -65,7 +65,7 @@ class restore_verbalfeedback_activity_task extends restore_activity_task {
      * Define the decoding rules for links belonging to the activity to be executed by the link decoder
      */
     public static function define_decode_rules() {
-        $rules = array();
+        $rules = [];
 
         $rules[] = new restore_decode_rule('VERBALFEEDBACKVIEWBYID', '/mod/verbalfeedback/view.php?id=$1', 'course_module');
         $rules[] = new restore_decode_rule('VERBALFEEDBACKINDEX', '/mod/verbalfeedback/index.php?id=$1', 'course');
@@ -81,7 +81,7 @@ class restore_verbalfeedback_activity_task extends restore_activity_task {
      * of {@see restore_log_rule} objects
      */
     public static function define_restore_log_rules() {
-        $rules = array();
+        $rules = [];
 
         $rules[] = new restore_log_rule('verbalfeedback', 'add', 'view.php?id={course_module}', '{verbalfeedback}');
         $rules[] = new restore_log_rule('verbalfeedback', 'update', 'view.php?id={course_module}', '{verbalfeedback}');
@@ -104,7 +104,7 @@ class restore_verbalfeedback_activity_task extends restore_activity_task {
      * activity level. All them are rules not linked to any module instance (cmid = 0)
      */
     public static function define_restore_log_rules_for_course() {
-        $rules = array();
+        $rules = [];
 
         // Fix old wrong uses (missing extension).
         $rules[] = new restore_log_rule('verbalfeedback', 'view all', 'index?id={course}', null,

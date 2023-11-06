@@ -61,7 +61,7 @@ class template_criterion_delete_form extends \moodleform {
             $localizedstring[] =& $mform->createElement('textarea', 'string', $textfieldname, $style);
 
             $groupname = 'localized_strings[' . $l->get_id() .']';
-            $mform->addGroup($localizedstring, $groupname, $textfieldname, array(''), true, 'disabled="disabled"');
+            $mform->addGroup($localizedstring, $groupname, $textfieldname, [''], true, 'disabled="disabled"');
 
             $mform->setType('localized_strings[' . $l->get_id() .'][id]', PARAM_INT);
             $mform->setType('localized_strings[' . $l->get_id() .'][language_id]', PARAM_INT);
@@ -79,6 +79,6 @@ class template_criterion_delete_form extends \moodleform {
      * @return array
      */
     public function validation($data, $files) {
-        return array();
+        return [];
     }
 }

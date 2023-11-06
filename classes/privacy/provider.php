@@ -192,7 +192,7 @@ class provider implements
             $options = ['context' => $context];
             if (!isset($submissionsdata[$submission->cmid])) {
                 $submissionsdata[$submission->cmid] = [
-                    'name' => $submission->verbalfeedbackname
+                    'name' => $submission->verbalfeedbackname,
                 ];
             }
             if ($respondent) {
@@ -212,7 +212,7 @@ class provider implements
             $context = context_module::instance($cmid);
             $subcontext = [
                 $parent,
-                get_string('submissions', 'mod_verbalfeedback')
+                get_string('submissions', 'mod_verbalfeedback'),
             ];
             writer::with_context($context)->export_data($subcontext, (object)$data);
         }
@@ -280,7 +280,7 @@ class provider implements
             $options = ['context' => $context];
             if (!isset($responsesdata[$response->cmid])) {
                 $responsesdata[$response->cmid] = [
-                    'name' => $response->verbalfeedbackname
+                    'name' => $response->verbalfeedbackname,
                 ];
             }
             $question = format_string($response->question, true, $options);
@@ -314,7 +314,7 @@ class provider implements
             $context = context_module::instance($cmid);
             $subcontext = [
                 $parent,
-                get_string('responses', 'mod_verbalfeedback')
+                get_string('responses', 'mod_verbalfeedback'),
             ];
             writer::with_context($context)->export_data($subcontext, (object)$data);
         }

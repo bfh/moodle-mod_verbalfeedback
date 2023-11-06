@@ -33,17 +33,17 @@ class subrating {
     /** @var int The id */
     public $id = 0;
     /** @var array The titles */
-    public $titles = array();
+    public $titles = [];
     /** @var array The descriptions */
-    public $descriptions = array();
+    public $descriptions = [];
     /** @var array The very negative subratings */
-    public $verynegatives = array();
+    public $verynegatives = [];
     /** @var array The negative subratings */
-    public $negatives = array();
+    public $negatives = [];
     /** @var array The positive subratings */
-    public $positives = array();
+    public $positives = [];
     /** @var array The very positive subratings */
-    public $verypositives = array();
+    public $verypositives = [];
 
     /**
      * The subrating class constructor

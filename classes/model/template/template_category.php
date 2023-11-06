@@ -36,7 +36,7 @@ class template_category {
     /** @var array The template category headers */
     public $headers = [];
     /** @var array The template category criteria */
-    public $templatecriteria = array();
+    public $templatecriteria = [];
 
     /**
      * The template category model constructor

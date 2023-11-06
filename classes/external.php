@@ -67,7 +67,7 @@ class mod_verbalfeedback_external extends external_api {
         throw new moodle_exception(json_encode($preparedcats));
         return [
             'items' => $preparedcats,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -98,11 +98,11 @@ class mod_verbalfeedback_external extends external_api {
                             'type' => new external_value(PARAM_INT, 'The question type.'),
                             'typeName' => new external_value(PARAM_TEXT, 'The question type text value.'),
                             'category' => new external_value(PARAM_INT, 'The question category.'),
-                            'categoryName' => new external_value(PARAM_TEXT, 'The question category text value.')
+                            'categoryName' => new external_value(PARAM_TEXT, 'The question category text value.'),
                         ]
                     )
                 ),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -146,7 +146,7 @@ class mod_verbalfeedback_external extends external_api {
 
         return [
             'questionid' => $questionid,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -173,7 +173,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'questionid' => new external_value(PARAM_INT, 'The question ID of the added question.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -222,7 +222,7 @@ class mod_verbalfeedback_external extends external_api {
 
         return [
             'result' => $result,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -250,7 +250,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The question update processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -291,17 +291,15 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The question update processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Fetches the questions assigned to a verbal feedback instance.
      *
-     * @param int $verbalfeedbackid The verbalf eedback ID.
+     * @param int $verbalfeedbackid The verbalfeedback ID.
      * @return array
      * @throws coding_exception
      * @throws dml_exception
@@ -323,7 +321,7 @@ class mod_verbalfeedback_external extends external_api {
         require_capability('mod/verbalfeedback:can_respond', $context);
         return [
             'items' => $preparedcats,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -335,7 +333,7 @@ class mod_verbalfeedback_external extends external_api {
     public static function get_items_parameters() {
         return new external_function_parameters(
             [
-                'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.')
+                'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.'),
             ]
         );
     }
@@ -364,14 +362,14 @@ class mod_verbalfeedback_external extends external_api {
                                         'type' => new external_value(PARAM_INT, 'The question type.'),
                                         'typetext' => new external_value(PARAM_TEXT, 'The question type text value.'),
                                         'category' => new external_value(PARAM_INT, 'The question category.'),
-                                        'categorytext' => new external_value(PARAM_TEXT, 'The question category text value.')
+                                        'categorytext' => new external_value(PARAM_TEXT, 'The question category text value.'),
                                     ]
                                 )
-                            )
+                            ),
                         ]
                     )
                 ),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -393,7 +391,7 @@ class mod_verbalfeedback_external extends external_api {
         $warnings = [];
         $params = external_api::validate_parameters(self::set_items_parameters(), [
             'verbalfeedbackid' => $verbalfeedbackid,
-            'questionids' => $questionids
+            'questionids' => $questionids,
         ]);
 
         // Validate context and capability.
@@ -408,7 +406,7 @@ class mod_verbalfeedback_external extends external_api {
 
         return [
             'result' => $result,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -423,7 +421,7 @@ class mod_verbalfeedback_external extends external_api {
                 'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.'),
                 'questionids' => new external_multiple_structure(
                     new external_value(PARAM_INT, 'The question ID.')
-                )
+                ),
             ]
         );
     }
@@ -437,13 +435,12 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
 
     /**
->>>>>>> 6b7e2bb (Adding capabilities check in external.php fixes #4.)
      * Parameter description for update_item_multiplier().
      *
      * @return external_function_parameters
@@ -451,7 +448,7 @@ class mod_verbalfeedback_external extends external_api {
     public static function update_item_multiplier_parameters() {
         return new external_function_parameters([
             'itemid' => new external_value(PARAM_INT, 'The id of the item.'),
-            'multiplier' => new external_value(PARAM_FLOAT, 'The new multiplier value.')
+            'multiplier' => new external_value(PARAM_FLOAT, 'The new multiplier value.'),
         ]);
     }
 
@@ -466,7 +463,7 @@ class mod_verbalfeedback_external extends external_api {
         $warnings = [];
         $params = external_api::validate_parameters(self::update_item_multiplier_parameters(), [
             'itemid' => $itemid,
-            'multiplier' => $multiplier
+            'multiplier' => $multiplier,
         ]);
 
         // Validate context and capability.
@@ -481,7 +478,7 @@ class mod_verbalfeedback_external extends external_api {
 
         return [
             'success' => $result,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -494,7 +491,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'success' => new external_value(PARAM_BOOL, 'The success of the operation.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -507,7 +504,7 @@ class mod_verbalfeedback_external extends external_api {
     public static function update_category_percentage_parameters() {
         return new external_function_parameters([
             'categoryid' => new external_value(PARAM_INT, 'The id of the item.'),
-            'percentage' => new external_value(PARAM_FLOAT, 'The new percentage value.')
+            'percentage' => new external_value(PARAM_FLOAT, 'The new percentage value.'),
         ]);
     }
 
@@ -523,7 +520,7 @@ class mod_verbalfeedback_external extends external_api {
         $warnings = [];
         $params = external_api::validate_parameters(self::update_category_percentage_parameters(), [
             'categoryid' => $categoryid,
-            'percentage' => $percentage
+            'percentage' => $percentage,
         ]);
 
         // Validate context and capability.
@@ -538,7 +535,7 @@ class mod_verbalfeedback_external extends external_api {
         $result = api::update_category_percentage($params['categoryid'], $params['percentage']);
         return [
             'success' => $result,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -551,7 +548,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'success' => new external_value(PARAM_BOOL, 'The success of the operation.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -584,7 +581,7 @@ class mod_verbalfeedback_external extends external_api {
                     new external_value(PARAM_TEXT, 'Question type.'),
                     'List of question types.'
                 ),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -604,7 +601,7 @@ class mod_verbalfeedback_external extends external_api {
      */
     public static function get_question_categories_parameters() {
         return new external_function_parameters([
-            'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.')
+            'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.'),
         ]);
     }
 
@@ -620,7 +617,7 @@ class mod_verbalfeedback_external extends external_api {
                     new external_value(PARAM_TEXT, 'Question category.'),
                     'List of question categories.'
                 ),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -656,7 +653,7 @@ class mod_verbalfeedback_external extends external_api {
 
         return [
             'result' => $result,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -668,7 +665,7 @@ class mod_verbalfeedback_external extends external_api {
     public static function delete_item_parameters() {
         return new external_function_parameters(
             [
-                'itemid' => new external_value(PARAM_INT, 'The item ID.')
+                'itemid' => new external_value(PARAM_INT, 'The item ID.'),
             ]
         );
     }
@@ -682,7 +679,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The item deletion processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -721,7 +718,7 @@ class mod_verbalfeedback_external extends external_api {
 
         return [
             'result' => $result,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -733,7 +730,7 @@ class mod_verbalfeedback_external extends external_api {
     public static function move_item_up_parameters() {
         return new external_function_parameters(
             [
-                'itemid' => new external_value(PARAM_INT, 'The item ID.')
+                'itemid' => new external_value(PARAM_INT, 'The item ID.'),
             ]
         );
     }
@@ -747,7 +744,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The item deletion processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -786,7 +783,7 @@ class mod_verbalfeedback_external extends external_api {
 
         return [
             'result' => $result,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -798,7 +795,7 @@ class mod_verbalfeedback_external extends external_api {
     public static function move_item_down_parameters() {
         return new external_function_parameters(
             [
-                'itemid' => new external_value(PARAM_INT, 'The item ID.')
+                'itemid' => new external_value(PARAM_INT, 'The item ID.'),
             ]
         );
     }
@@ -812,7 +809,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The item deletion processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -835,7 +832,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_function_parameters(
             [
                 'statusid' => new external_value(PARAM_INT, 'The submission ID.'),
-                'declinereason' => new external_value(PARAM_TEXT, 'The reason for declining the feedback request.', VALUE_DEFAULT)
+                'declinereason' => new external_value(PARAM_TEXT, 'The reason for declining the feedback request.', VALUE_DEFAULT),
             ]
         );
     }
@@ -849,7 +846,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The item deletion processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -884,7 +881,7 @@ class mod_verbalfeedback_external extends external_api {
         return new external_single_structure(
             [
                 'result' => new external_value(PARAM_BOOL, 'The processing result.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -904,7 +901,7 @@ class mod_verbalfeedback_external extends external_api {
         global $PAGE, $USER;
         $warnings = [];
         $params = external_api::validate_parameters(self::data_for_participant_list_parameters(), [
-            'verbalfeedbackid' => $verbalfeedbackid
+            'verbalfeedbackid' => $verbalfeedbackid,
         ]);
 
         $verbalfeedbackid = $params['verbalfeedbackid'];
@@ -922,7 +919,7 @@ class mod_verbalfeedback_external extends external_api {
         return [
             'verbalfeedbackid' => $data->verbalfeedbackid,
             'participants' => $data->participants,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -966,7 +963,7 @@ class mod_verbalfeedback_external extends external_api {
                         ]
                     )
                 ),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -988,7 +985,7 @@ class mod_verbalfeedback_external extends external_api {
                             'criterionid' => new external_value(PARAM_INT, 'The criterion ID.'),
                             'value' => new external_value(PARAM_INT, 'The response value.', VALUE_OPTIONAL, null),
                             'studentcomment' => new external_value(PARAM_RAW, 'The response public comment.', VALUE_OPTIONAL, ''),
-                            'privatecomment' => new external_value(PARAM_RAW, 'The response private comment.', VALUE_OPTIONAL, '')
+                            'privatecomment' => new external_value(PARAM_RAW, 'The response private comment.', VALUE_OPTIONAL, ''),
                         ], 'item to save', VALUE_OPTIONAL
                     ), 'item collection to save', VALUE_OPTIONAL, null
                 ),
@@ -1030,7 +1027,7 @@ class mod_verbalfeedback_external extends external_api {
             'submissionid' => $submissionid,
             'touserid' => $touserid,
             'responses' => $responses,
-            'complete' => $complete
+            'complete' => $complete,
         ]);
 
         $verbalfeedbackid = $params['verbalfeedbackid'];
@@ -1051,7 +1048,7 @@ class mod_verbalfeedback_external extends external_api {
         return [
             'result' => $result,
             'redirurl' => $redirecturl->out(),
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
     }
 
@@ -1065,7 +1062,7 @@ class mod_verbalfeedback_external extends external_api {
             [
                 'result' => new external_value(PARAM_BOOL, 'The item deletion processing result.'),
                 'redirurl' => new external_value(PARAM_URL, 'The redirect URL.'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }
@@ -1141,7 +1138,7 @@ class mod_verbalfeedback_external extends external_api {
             return [
                 'responses' => $responses,
                 'redirurl' => $redirecturl->out(),
-                'warnings' => $warnings
+                'warnings' => $warnings,
             ];
         }
     }
@@ -1161,11 +1158,11 @@ class mod_verbalfeedback_external extends external_api {
                             'criterionid' => new external_value(PARAM_INT, 'The item ID for the response.'),
                             'value' => new external_value(PARAM_INT, 'The the value for the response.', VALUE_OPTIONAL, null),
                             'studentcomment' => new external_value(PARAM_RAW, 'The response public comment.'),
-                            'privatecomment' => new external_value(PARAM_RAW, 'The response private comment.')
+                            'privatecomment' => new external_value(PARAM_RAW, 'The response private comment.'),
                         ]
                     )
                 ),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             ]
         );
     }

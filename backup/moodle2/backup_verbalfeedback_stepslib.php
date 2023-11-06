@@ -49,7 +49,7 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
         $instance = new backup_nested_element('instance', ['id'], [
             'templateid', 'course', 'name', 'intro',
             'introformat', 'grade', 'status', 'timeopen',
-            'timeclose', 'timemodified', 'releasetype', 'released']);
+            'timeclose', 'timemodified', 'releasetype', 'released', ]);
 
         $languages = new backup_nested_element('languages');
         $language = new backup_nested_element('language', ['id'], ['language']);
@@ -90,11 +90,11 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
 
         $submissions = new backup_nested_element('submissions');
         $submission = new backup_nested_element('submission', ['id'], ['instanceid', 'fromuserid', 'touserid', 'status',
-            'remarks']);
+            'remarks', ]);
 
         $responses = new backup_nested_element('responses');
         $response = new backup_nested_element('response', ['id'], ['instanceid', 'submissionid', 'criterionid',
-            'fromuserid', 'touserid', 'value', 'studentcomment', 'privatecomment']);
+            'fromuserid', 'touserid', 'value', 'studentcomment', 'privatecomment', ]);
 
         // Build the tree.
 
@@ -145,25 +145,25 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
 
         $category->set_source_table(tables::INSTANCE_CATEGORY_TABLE, ['instanceid' => backup::VAR_PARENTID], 'id ASC');
         $categoryheader->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_CATEGORY_HEADER)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_CATEGORY_HEADER), ]);
 
         $criterion->set_source_table(tables::INSTANCE_CRITERION_TABLE, ['categoryid' => backup::VAR_PARENTID], 'id ASC');
         $criteriontext->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_CRITERION)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_CRITERION), ]);
 
         $subrating->set_source_table(tables::INSTANCE_SUBRATING_TABLE, ['criterionid' => backup::VAR_PARENTID], 'id ASC');
         $subratingtitle->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_TITLE)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_TITLE), ]);
         $subratingdescription->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION), ]);
         $subratingverynegative->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE), ]);
         $subratingnegative->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_NEGATIVE)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_NEGATIVE), ]);
         $subratingpositive->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_POSITIVE)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_POSITIVE), ]);
         $subratingverypositive->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE)]);
+            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE), ]);
 
         // All the rest of elements only happen if we are including user info.
         if ($userinfo) {

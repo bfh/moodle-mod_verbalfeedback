@@ -86,12 +86,13 @@ class helper {
      */
     public static function prepare_items_view($categories) {
         $currentlanguage = current_language();
-        $viewmodel = array();
-        foreach ($categories as $category) { /** @var instance_category $category */
+        $viewmodel = [];
+        /** @var instance_category $category */
+        foreach ($categories as $category) {
             $categoryviewmodel = new stdClass();
             $categoryviewmodel->header = $category->get_header($currentlanguage)->get_string();
             $categoryviewmodel->id = $category->get_id();
-            $categoryviewmodel->criteria = array();
+            $categoryviewmodel->criteria = [];
             $categoryviewmodel->position = $category->get_position();
             $categoryviewmodel->weight = number_format($category->get_weight(), 2);
 

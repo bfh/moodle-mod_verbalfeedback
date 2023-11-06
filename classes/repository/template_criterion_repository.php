@@ -243,23 +243,23 @@ class template_criterion_repository {
             $dbosubratings = $DB->get_records(tables::TEMPLATE_SUBRATINGS_TABLE, ['criterionid' => $id]);
             foreach ($dbosubratings as $dbosubrating) {
                 $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $dbosubrating->id,
-                'type' => localized_string_type::TEMPLATE_SUBRATING_TITLE]);
+                'type' => localized_string_type::TEMPLATE_SUBRATING_TITLE, ], );
                 $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $dbosubrating->id,
-                'type' => localized_string_type::TEMPLATE_SUBRATING_DESCRIPTION]);
+                'type' => localized_string_type::TEMPLATE_SUBRATING_DESCRIPTION, ], );
                 $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $dbosubrating->id,
-                'type' => localized_string_type::TEMPLATE_SUBRATING_VERY_NEGATIVE]);
+                'type' => localized_string_type::TEMPLATE_SUBRATING_VERY_NEGATIVE, ], );
                 $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $dbosubrating->id,
-                'type' => localized_string_type::TEMPLATE_SUBRATING_NEGATIVE]);
+                'type' => localized_string_type::TEMPLATE_SUBRATING_NEGATIVE, ], );
                 $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $dbosubrating->id,
-                'type' => localized_string_type::TEMPLATE_SUBRATING_POSITIVE]);
+                'type' => localized_string_type::TEMPLATE_SUBRATING_POSITIVE, ], );
                 $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $dbosubrating->id,
-                'type' => localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE]);
+                'type' => localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE, ], );
             }
             $DB->delete_records(tables::TEMPLATE_SUBRATINGS_TABLE, ['criterionid' => $id]);
 
             // Delete localized strings.
             $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $id,
-            'type' => localized_string_type::TEMPLATE_CRITERION]);
+            'type' => localized_string_type::TEMPLATE_CRITERION, ], );
 
             // Delete criterion.
             $DB->delete_records(tables::TEMPLATE_CRITERION_TABLE, ['id' => $id]);
