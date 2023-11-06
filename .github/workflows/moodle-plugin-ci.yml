@@ -87,9 +87,7 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
-          IGNORE_PATHS: moodle/tests/fixtures,moodle/Sniffs
-          CODECHECKER_IGNORE_PATHS: classes/vendor
-          PHPDOCCHECKER_IGNORE_PATHS: classes/vendor
+          IGNORE_PATHS: 'moodle/tests/fixtures,moodle/Sniffs,classes/vendor'
 
       - name: PHP Lint
         if: ${{ always() }}
