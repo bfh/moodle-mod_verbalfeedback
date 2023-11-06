@@ -22,6 +22,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_verbalfeedback;
+
+use externallib_advanced_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -69,6 +73,11 @@ class externallib_test extends externallib_advanced_testcase {
         $this->teacher = $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher');
     }
 
+    /**
+     * Test the function whether from a course a verbal feedback instance can be initialized.
+     * @covers ::mod_verbalfeedback_view_model_to_instance
+     * @return void
+     */
     public function test_mod_verbalfeedback_view_model_to_instance() {
         $this->resetAfterTest();
 

@@ -22,6 +22,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_verbalfeedback;
+
+defined('MOODLE_INTERNAL') || die();
+
 use mod_verbalfeedback\model\instance;
 
 global $CFG;
@@ -103,7 +107,7 @@ class verbalfeedback_test extends \advanced_testcase {
     /**
      * Test a verbalfeedback instance
      *
-     * @covers mod_verbalfeedback\model\instance
+     * @covers \mod_verbalfeedback\model\instance
      */
     public function test_verbalfeedback() {
         $this->resetAfterTest();
@@ -113,7 +117,7 @@ class verbalfeedback_test extends \advanced_testcase {
     /**
      * Test the verbalfeedback verbalfeedback_get_user_grades function
      *
-     * @covers verbalfeedback_get_user_grades
+     * @covers ::verbalfeedback_get_user_grades
      * @throws coding_exception
      * @throws dml_exception
      */

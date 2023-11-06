@@ -87,8 +87,7 @@ class helper {
     public static function prepare_items_view($categories) {
         $currentlanguage = current_language();
         $viewmodel = array();
-        foreach ($categories as $category) {
-            /** @var instance_category $category */
+        foreach ($categories as $category) { /** @var instance_category $category */
             $categoryviewmodel = new stdClass();
             $categoryviewmodel->header = $category->get_header($currentlanguage)->get_string();
             $categoryviewmodel->id = $category->get_id();
