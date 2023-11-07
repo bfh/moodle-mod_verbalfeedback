@@ -27,10 +27,8 @@ namespace mod_verbalfeedback\utils;
 defined('MOODLE_INTERNAL') || die();
 
 
-use Goat1000\SVGGraph\SVGGraph;
 use mod_verbalfeedback\model\report;
 
-require_once('./classes/vendor/autoload.php');
 
 /**
  * Class for creating graphs. For example, to display on the report.
@@ -92,11 +90,29 @@ class graph_utils {
             }
         }
 
-        $graph = new SVGGraph($width, $height, $settings);
+        $graph = self::getSvgGraph($width, $height, $settings);
 
         $graph->values($values);
 
         return $graph->fetch($type, true);
     }
 
+    /**
+     * Wrapper for creating a new SVGGraph instance.
+     * @param $w
+     * @param $h
+     * @param $settings
+     * @param $subgraph
+     * @return \Goat1000\SVGGraph\SVGGraph
+     */
+    public static function getSvgGraph($w, $h, $settings = null, $subgraph = false) {
+        $dir = (version_compare(PHP_VERSION, '8.1.14') >= 0)
+            ? '81x'
+            : '74x';
+
+        require_once implode(DIRECTORY_SEPARATOR,
+            [dirname(__FILE__), '..', 'vendor', $dir, 'autoload.php']);
+
+        return new \Goat1000\SVGGraph\SVGGraph($w, $h, $settings, $subgraph);
+    }
 }
