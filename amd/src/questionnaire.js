@@ -31,6 +31,72 @@ define(['jquery',
 ], function($, Templates, Notification, Ajax, Str, ModalFactory, ModalEvents) {
 
     var responses = [];
+
+    let editor;
+    const getEditor = function() {
+        if (editor) {
+            return editor;
+        }
+        if ($('.editor_atto').length > 0) {
+            editor = 'atto';
+        } else if (window.tinyMCE) {
+            editor = 'tiny';
+        } else {
+            editor = 'textarea';
+        }
+        return editor;
+    };
+
+    const setComment = function(row, classSelector, comment, append = false) {
+        if (getEditor() === 'atto') {
+            const editorcontent = row.find(classSelector + '.editor_atto_content');
+            if (append) {
+                editorcontent.append("<ul><li>" + comment + "</li></ul>");
+                return;
+            }
+            editorcontent.html(comment);
+            return;
+        }
+        const commentId = row.find(classSelector).attr('id');
+        if (commentId) {
+            const $input = $('#' + commentId);
+            if (getEditor() === 'tiny') {
+                if (append) {
+                    window.tinyMCE.get(commentId).insertContent('<ul><li>' + comment + '</li></ul><br/>');
+                    return;
+                }
+                window.tinyMCE.get(commentId).setContent(comment);
+                return;
+            }
+            if (append) {
+                const oldComment = $input.val();
+                if (oldComment.trim() !== '') {
+                    $input.val(oldComment + "\n\n" + comment);
+                    return;
+                }
+            }
+            $input.val(comment);
+        }
+    };
+
+    const getComment = function (row, classSel) {
+        if (getEditor() === 'atto') {
+            let comment = row.find(classSel + '.editor_atto_content').html();
+            return comment.replace(/<[^>]+>/g,'').trim() === '' ? '' : comment; // drop empty comments
+        }
+        const commentId = row.find(classSel).attr('id');
+        if (commentId) {
+            let comment = '';
+            if (getEditor() === 'tiny') {
+                comment = window.tinyMCE.get(commentId).getContent();
+            } else {
+                comment = $('#' + commentId).val();
+            }
+            return comment.replace(/<[^>]+>/g,'').trim() === '' ? '' : comment; // drop empty comments
+        }
+        return '';
+    };
+
     var questionnaire = function() {
         this.registerEvents();
 
@@ -94,13 +160,11 @@ define(['jquery',
                                 }
                             });
                         }
-                        let studentcomment = $(this).find('.student-comment.editor_atto_content');
-                        if (studentcomment && response.studentcomment !== '') {
-                            studentcomment.html(response.studentcomment);
+                        if (response.studentcomment !== '') {
+                            setComment($(this), '.student-comment', response.studentcomment);
                         }
-                        let privatecomment = $(this).find('.private-comment.editor_atto_content');
-                        if (privatecomment && response.privatecomment !== '') {
-                            privatecomment.html(response.privatecomment);
+                        if (response.privatecomment !== '') {
+                            setComment($(this), '.private-comment', response.privatecomment);
                         }
                     }
                 });
@@ -138,8 +202,6 @@ define(['jquery',
             radio.attr('checked', 'checked');
             let criterionid = row.data('criterionid');
 
-
-
             // Add this selected value to the array of responses.
             if (selected.data('value') === "") { // === is necessary because == "0" equals true;
                 responses[criterionid]['value'] = null;
@@ -167,9 +229,7 @@ define(['jquery',
 
             let row = $(this).parents('[data-region="detailed-rating"]');
             let value = $(this).find('.detail-scaleoptionlabel').data("value");
-            let studentComment = row.find('.student-comment.editor_atto_content');
-            studentComment.append("<ul><li>" + value + "</li></ul>");
-
+            setComment(row, '.student-comment', value, true);
         });
 
         $('.detail-scaleoptionlabel').hover(function(e) {
@@ -218,15 +278,11 @@ define(['jquery',
 
         $('.student-comment').each(function() {
             let row = $(this).parents('[data-region="question-row"]');
-            let comment = row.find('.student-comment.editor_atto_content').html();
-            comment = (comment == "<p dir=\"ltr\" style=\"text-align: left;\"><br></p>" ? "": comment); // drop empty comments
-            responses[row.data('criterionid')]['studentcomment'] = comment;
+            responses[row.data('criterionid')]['studentcomment'] = getComment(row,'.student-comment');
         });
         $('.private-comment').each(function() {
             let row = $(this).parents('[data-region="question-row"]');
-            let comment = row.find('.private-comment.editor_atto_content').html();
-            comment = (comment == "<p dir=\"ltr\" style=\"text-align: left;\"><br></p>" ? "": comment); // drop empty comments
-            responses[row.data('criterionid')]['privatecomment'] = comment;
+            responses[row.data('criterionid')]['privatecomment'] = getComment(row, '.private-comment');
         });
 
         let questionnaireTable = $('[data-region="questionnaire"]');
