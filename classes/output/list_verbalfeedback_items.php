@@ -102,7 +102,7 @@ class list_verbalfeedback_items implements \renderable, \templatable {
         global $CFG;
 
         $data = new stdClass();
-        $data->categories = array();
+        $data->categories = [];
         $data->verbalfeedbackid = $this->verbalfeedbackid;
         $data->viewurl = $this->viewurl;
         $data->makeavailableurl = $this->makeavailableurl;

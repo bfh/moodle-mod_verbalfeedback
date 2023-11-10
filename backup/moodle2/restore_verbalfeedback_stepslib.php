@@ -41,7 +41,7 @@ class restore_verbalfeedback_activity_structure_step extends restore_activity_st
      */
     protected function define_structure() {
 
-        $paths = array();
+        $paths = [];
         $userinfo = $this->get_setting_value('userinfo');
 
         // Using 'instance' instead of 'verbalfeedback' does not work here.

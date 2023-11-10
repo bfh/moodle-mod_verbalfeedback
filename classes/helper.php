@@ -86,12 +86,13 @@ class helper {
      */
     public static function prepare_items_view($categories) {
         $currentlanguage = current_language();
-        $viewmodel = array();
+        $viewmodel = [];
+        /** @var instance_category $category */
         foreach ($categories as $category) {
             $categoryviewmodel = new stdClass();
             $categoryviewmodel->header = $category->get_header($currentlanguage)->get_string();
             $categoryviewmodel->id = $category->get_id();
-            $categoryviewmodel->criteria = array();
+            $categoryviewmodel->criteria = [];
             $categoryviewmodel->position = $category->get_position();
             $categoryviewmodel->weight = number_format($category->get_weight(), 2);
 
@@ -123,5 +124,23 @@ class helper {
             $viewmodel[] = $categoryviewmodel;
         }
         return $viewmodel;
+    }
+
+    /**
+     * Wrapper for the Yaml::parseFile() function.
+     * @param string $someYaml
+     * @param int|null $options
+     * @param int|null $debug
+     * @return array|\Dallgoot\Yaml\Types\YamlObject|\Dallgoot\Yaml\YamlObject|null
+     * @throws Exception
+     */
+    public static function parseYamlFile(string $someYaml, ?int $options = null, ?int $debug = null)
+    {
+        if (version_compare(PHP_VERSION, '8.1.14') >= 0) {
+            require_once implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '81x', 'autoload.php']);
+            return \Dallgoot\Yaml\Yaml::parseFile($someYaml, $options, $debug);
+        }
+        require_once implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '74x', 'autoload.php']);
+        return \Dallgoot\Yaml::parseFile($someYaml, $options, $debug);
     }
 }

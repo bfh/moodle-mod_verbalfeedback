@@ -34,9 +34,9 @@ class report {
     /** @var int The recipient of the feedback responses. */
     private $touserid;
     /** @var array The ids of the rating users */
-    private $fromuserids = array();
+    private $fromuserids = [];
     /** @var array The categories this report has */
-    private $reportcategories = array();
+    private $reportcategories = [];
     /** @var null The result */
     private $result = null;
 
@@ -145,7 +145,7 @@ class report {
      */
     public function get_max_points() : int {
         global $DB;
-        return $DB->get_field('verbalfeedback', 'grade', array('id' => $this->instanceid));
+        return $DB->get_field('verbalfeedback', 'grade', ['id' => $this->instanceid]);
     }
 
     /**

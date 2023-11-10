@@ -60,6 +60,6 @@ class language_delete_form extends \moodleform {
      * @return array
      */
     public function validation($data, $files) {
-        return array();
+        return [];
     }
 }

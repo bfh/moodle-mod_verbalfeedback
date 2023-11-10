@@ -64,9 +64,9 @@ class report_criterion_view_model {
             if ($addfirstelement) {
                 // This is a nasty hack to allow mustache to decide whether to display the "comments" label.
                 $addfirstelement = false;
-                $this->comments = array();
+                $this->comments = [];
                 $this->comments[0] = new \stdClass();
-                $this->comments[0]->texts = array();
+                $this->comments[0]->texts = [];
             }
             $this->comments[0]->texts[] = $comment;
         }

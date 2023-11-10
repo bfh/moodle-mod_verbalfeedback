@@ -24,7 +24,6 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/verbalfeedback/classes/vendor/autoload.php');
 require_once($CFG->dirroot . '/mod/verbalfeedback/db/upgradelib.php');
 
 use mod_verbalfeedback\model\language;
@@ -38,8 +37,8 @@ use mod_verbalfeedback\repository\language_repository;
 use mod_verbalfeedback\repository\template_category_repository;
 use mod_verbalfeedback\repository\template_criterion_repository;
 use mod_verbalfeedback\repository\template_repository;
-use Dallgoot\Yaml;
 use mod_verbalfeedback\model\subrating;
+use mod_verbalfeedback\helper;
 
 /**
  * Install the plugin.
@@ -58,7 +57,7 @@ function xmldb_verbalfeedback_install() {
     $categoryrepository = new template_category_repository();
     $templaterepository = new template_repository();
 
-    $importdata = Yaml::parseFile($yamlpath);
+    $importdata = helper::parseYamlFile($yamlpath);
     foreach ($importdata->languages as $yamllang) {
         if ($yamllang->id == null) {
             $lang = new language(0, $yamllang->language);

@@ -79,9 +79,9 @@ class template_criterion_edit_form extends \moodleform {
 
         $mform->addElement('header', 'ratingsheader', 'Edit ratings');
 
-        $repeateloptions = array();
+        $repeateloptions = [];
 
-        $repeatarray = array();
+        $repeatarray = [];
         $repeatarray[] = $mform->createElement('html', '<hr>');
         $repeatarray[] = $mform->createElement('static', 'header', '<h4>' . get_string('subrating', 'verbalfeedback') .
             ' - {no}</h4>', '');
@@ -178,6 +178,6 @@ class template_criterion_edit_form extends \moodleform {
      * @return array
      */
     public function validation($data, $files) {
-        return array();
+        return [];
     }
 }

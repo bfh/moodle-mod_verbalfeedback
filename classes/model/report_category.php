@@ -160,7 +160,7 @@ class report_category {
         foreach ($this->reportcriteria as $criterion) {
             $values[] = $criterion->get_avg();
         }
-        $values = array_filter($values, 'strlen');
+        $values = array_filter($values, fn($n) => $n !== null && $n !== false && $n !== '');
         if (count($values) == 0) {
             $this->avg = null;
         } else {

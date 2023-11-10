@@ -41,17 +41,17 @@ function template_category_to_view_model(template_category $templatecategory) {
     $model = new stdClass();
     $model->id = $templatecategory->get_id();
     $model->unique_name = $templatecategory->get_unique_name();
-    $model->headers = array();
+    $model->headers = [];
     foreach ($templatecategory->get_headers() as $header) {
         $model->headers[$header->get_language_id()]['id'] = $header->get_id();
         $model->headers[$header->get_language_id()]['language_id'] = $header->get_language_id();
         $model->headers[$header->get_language_id()]['string'] = $header->get_string();
     }
 
-    $model->criteria = array();
+    $model->criteria = [];
     foreach ($templatecategory->get_template_criteria() as $parametrizedtemplatecriterion) {
         $propertyname = 'criterion' . $parametrizedtemplatecriterion->get_template_criterion_id();
-        $model->{$propertyname} = array();
+        $model->{$propertyname} = [];
         $model->{$propertyname}['param_criterion_id'] = $parametrizedtemplatecriterion->get_id();
         $model->{$propertyname}['criterion_id'] = $parametrizedtemplatecriterion->get_template_criterion_id();
         $model->{$propertyname}['selected'] = 1;
@@ -275,12 +275,12 @@ function template_to_view_model(template $template) {
     $model->id = $template->get_id();
     $model->name = $template->get_name();
     $model->description = $template->get_description();
-    $model->headers = array();
+    $model->headers = [];
 
-    $model->categories = array();
+    $model->categories = [];
     foreach ($template->get_template_categories() as $parametrizedtemplatecategory) {
         $propertyname = 'category' . $parametrizedtemplatecategory->get_template_category_id();
-        $model->{$propertyname} = array();
+        $model->{$propertyname} = [];
         $model->{$propertyname}['param_category_id'] = $parametrizedtemplatecategory->get_id();
         $model->{$propertyname}['category_id'] = $parametrizedtemplatecategory->get_template_category_id();
         $model->{$propertyname}['selected'] = 1;

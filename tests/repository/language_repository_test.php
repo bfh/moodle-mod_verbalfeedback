@@ -55,13 +55,13 @@ class language_repository_test extends \advanced_testcase {
      * @throws dml_exception
      */
     public function test_save(): void {
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
 
         $language = new language(1, 'en');
 
         $id = $this->repo->save($language);
         $this->assertFalse($id === null, 'save method returned null or 0');
-        if ($language->get_id() === null || $language->get_id() == 0) {
+        if (empty($language->get_id())) {
             // Set the id to $id if the language was stored without a given id.
             $language->set_id($id);
         }
@@ -84,7 +84,7 @@ class language_repository_test extends \advanced_testcase {
         // Updating entries is also tested with these two tests.
         return [
             'with id = null' => [null, 'en'],
-            'with id = 0' => [0, 'en']
+            'with id = 0' => [0, 'en'],
         ];
     }
 
@@ -97,12 +97,12 @@ class language_repository_test extends \advanced_testcase {
      */
     public function test_get_all() {
         global $DB;
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
 
         $languages = [
             ['id' => 1, 'language' => 'en'],
             ['id' => 2, 'language' => 'de'],
-            ['id' => 3, 'language' => 'fr']
+            ['id' => 3, 'language' => 'fr'],
         ];
         $DB->insert_records('verbalfeedback_language', $languages);
 
@@ -121,13 +121,13 @@ class language_repository_test extends \advanced_testcase {
         return [
             'with empty table' => [[]],
             'with 1 entry' => [[
-                ['id' => 1, 'language' => 'en']
-            ]],
+                ['id' => 1, 'language' => 'en'],
+            ], ],
             'with 3 entries' => [[
                 ['id' => 1, 'language' => 'en'],
                 ['id' => 2, 'language' => 'de'],
-                ['id' => 3, 'language' => 'fr']
-            ]]
+                ['id' => 3, 'language' => 'fr'],
+            ], ],
         ];
     }
 
@@ -137,16 +137,15 @@ class language_repository_test extends \advanced_testcase {
      * @covers \mod_verbalfeedback\repository\language_repository::get_by_id
      */
     public function test_get_by_id() {
-        global $DB;
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
 
-        $language = new language($id = null, $language = 'en');
+        $language = new language(null, 'en');
 
         $id = $this->repo->save($language);
 
         $language = $this->repo->get_by_id($id);
         $this->assertInstanceOf(language::class, $language);
-        $this->assertEquals($language->get_language(), $language->get_language());
+        $this->assertEquals('en', $language->get_language());
     }
 
     /**
@@ -158,11 +157,11 @@ class language_repository_test extends \advanced_testcase {
      */
     public function test_delete_by_id() {
         global $DB;
-        $this->resetAfterTest(true);
+        $this->resetAfterTest();
         $languages = [
             ['id' => 1, 'language' => 'en'],
             ['id' => 2, 'language' => 'de'],
-            ['id' => 3, 'language' => 'fr']
+            ['id' => 3, 'language' => 'fr'],
         ];
         $DB->insert_records('verbalfeedback_language', $languages);
 
@@ -183,8 +182,8 @@ class language_repository_test extends \advanced_testcase {
             'with existing entries' => ['languages' => [
                 ['id' => 1, 'language' => 'en'],
                 ['id' => 2, 'language' => 'de'],
-                ['id' => 3, 'language' => 'fr']
-            ], 'delete_id' => 1]
+                ['id' => 3, 'language' => 'fr'],
+            ], 'delete_id' => 1, ],
         ];
     }
 }

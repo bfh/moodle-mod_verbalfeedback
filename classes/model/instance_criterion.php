@@ -41,9 +41,9 @@ class instance_criterion {
     /** @var float The criterion weight */
     public $weight;
     /** @var array|mixed The criterion descriptions */
-    public $descriptions = array();
+    public $descriptions = [];
     /** @var array|mixed The criterion subratings */
-    public $subratings = array();
+    public $subratings = [];
 
     /**
      * The criterion instance class constructor
@@ -56,7 +56,7 @@ class instance_criterion {
      * @param array $subratings The criterion subratings
      */
     public function __construct(int $id = 0, ?int $parametrizedtemplatecriterionid = null, int $position = 0,
-        float $weight = 0.0, $descriptions = array(), $subratings = array()) {
+        float $weight = 0.0, $descriptions = [], $subratings = []) {
         $this->id = $id;
         $this->parametrizedtemplatecriterionid = $parametrizedtemplatecriterionid;
         $this->position = $position;
@@ -93,7 +93,7 @@ class instance_criterion {
             'verynegatives',
             'negatives',
             'positives',
-            'verypositives'
+            'verypositives',
         ];
 
         foreach ($templatecriterion->get_subratings() as $templatesubrating) {

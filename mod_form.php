@@ -57,7 +57,7 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Name.
-        $mform->addElement('text', 'name', get_string('name'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('name'), ['size' => '64']);
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
@@ -65,37 +65,16 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         // Description.
         $this->standard_intro_elements();
 
-        /*
-        // Anonymous.
-        $mform->addElement('advcheckbox', 'anonymous', get_string('anonymous', 'mod_verbalfeedback'));
-
-        // Self-review.
-        $mform->addElement('advcheckbox', 'with_self_review', get_string('enableselfreview', 'mod_verbalfeedback'));
-        $mform->disabledIf('with_self_review', 'anonymous', 'checked');
-
-        // Verbalfeedback participants.
-        $context = $this->get_context();
-        $roles = get_profile_roles($context);
-        $roleoptions = role_fix_names($roles, $context, ROLENAME_ALIAS, true);
-        $roleoptions[0] = get_string('allparticipants', 'mod_verbalfeedback');
-        ksort($roleoptions);
-        $mform->addElement('select', 'participantrole', get_string('participants'), $roleoptions);
-        */
-
         // Releasing options.
         $releasetypeoptions = [
             instance_release_type::NONE => get_string('rel_closed', 'mod_verbalfeedback'),
             instance_release_type::OPEN => get_string('rel_open', 'mod_verbalfeedback'),
-            /*
-            instance_release_type::MANUAL => get_string('rel_manual', 'mod_verbalfeedback'),
-            instance_release_type::AFTER => get_string('rel_after', 'mod_verbalfeedback'),
-            */
         ];
         $mform->addElement('select', 'releasetype', get_string('releasetype', 'mod_verbalfeedback'), $releasetypeoptions);
         $mform->addHelpButton('releasetype', 'releasetype', 'mod_verbalfeedback');
 
         if ($this->_instance) {
-            if ($DB->count_records(tables::SUBMISSION_TABLE, array('instanceid' => $this->_instance)) > 0) {
+            if ($DB->count_records(tables::SUBMISSION_TABLE, ['instanceid' => $this->_instance]) > 0) {
                 // Prevent user from toggeling the template once there are submissions.
                 $mform->addElement('hidden', 'allowchangetemplate', 0);
                 $mform->setType('allowchangetemplate', PARAM_INT);
@@ -103,7 +82,7 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         }
 
         $templates = [
-          null => get_string('notemplate', 'mod_verbalfeedback')
+          null => get_string('notemplate', 'mod_verbalfeedback'),
         ];
         foreach ($templaterepository->get_all() as $t) {
             $templates[$t->get_id()] = format_text($t->get_name());
@@ -121,23 +100,18 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
 
         $mform->addElement('select', 'template', get_string('template', 'mod_verbalfeedback'), $templates);
         if ($this->_instance) {
-            $defaulttemplate = $DB->get_field(tables::INSTANCE_TABLE, 'templateid', array('id' => $this->_instance));
+            $defaulttemplate = $DB->get_field(tables::INSTANCE_TABLE, 'templateid', ['id' => $this->_instance]);
             $mform->setDefault('template', $defaulttemplate);
         }
 
         $mform->disabledIf('template', 'allowchangetemplate', '0');
 
-        // Allow participants to undo declined feedback submissions.
-        /*
-        $mform->addElement('advcheckbox', 'undodecline', get_string('allowundodecline', 'mod_verbalfeedback'));
-        */
-
         // Availability.
         $mform->addElement('header', 'timinghdr', get_string('availability'));
         $mform->addElement('date_time_selector', 'timeopen', get_string('feedbackopen', 'feedback'),
-            array('optional' => true));
+            ['optional' => true]);
         $mform->addElement('date_time_selector', 'timeclose', get_string('feedbackclose', 'feedback'),
-            array('optional' => true));
+            ['optional' => true]);
 
         // Grade.
         $this->standard_grading_coursemodule_elements();

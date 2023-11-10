@@ -33,9 +33,9 @@ class template_criterion {
     /** @var int The template criterion id */
     public $id = 0;
     /** @var array|mixed The template criterion descriptions */
-    public $descriptions = array();
+    public $descriptions = [];
     /** @var array|mixed The template criterion subratings */
-    public $subratings = array();
+    public $subratings = [];
 
     /**
      * The template criterion model constructor
@@ -44,7 +44,7 @@ class template_criterion {
      * @param array $descriptions
      * @param array $subratings
      */
-    public function __construct(int $id = 0, $descriptions = array(), $subratings = array()) {
+    public function __construct(int $id = 0, $descriptions = [], $subratings = []) {
         $this->id = $id;
         $this->descriptions = $descriptions;
         $this->subratings = $subratings;

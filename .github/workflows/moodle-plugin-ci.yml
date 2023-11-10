@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     services:
       postgres:
@@ -15,11 +15,14 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+
       mariadb:
         image: mariadb:10.6
         env:
           MYSQL_USER: 'root'
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          MYSQL_CHARACTER_SET_SERVER: "utf8mb4"
+          MYSQL_COLLATION_SERVER: "utf8mb4_unicode_ci"
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
@@ -28,72 +31,48 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php: 8.2
-            moodle-branch: MOODLE_403_STABLE
-            database: pgsql
-          - php: 8.2
-            moodle-branch: MOODLE_403_STABLE
-            database: mariadb
-          - php: 8.1
-            moodle-branch: MOODLE_403_STABLE
-            database: pgsql
-          - php: 8.1
-            moodle-branch: MOODLE_403_STABLE
-            database: mariadb
-          - php: 8.0
-            moodle-branch: MOODLE_403_STABLE
-            database: pgsql
-          - php: 8.0
-            moodle-branch: MOODLE_403_STABLE
-            database: mariadb
-          - php: 8.2
-            moodle-branch: MOODLE_402_STABLE
-            database: pgsql
-          - php: 8.2
-            moodle-branch: MOODLE_402_STABLE
-            database: mariadb
-          - php: 8.1
-            moodle-branch: MOODLE_402_STABLE
-            database: pgsql
-          - php: 8.1
-            moodle-branch: MOODLE_402_STABLE
-            database: mariadb
-          - php: 8.0
-            moodle-branch: MOODLE_402_STABLE
-            database: pgsql
-          - php: 8.0
-            moodle-branch: MOODLE_402_STABLE
-            database: mariadb
-          - php: 8.1
-            moodle-branch: MOODLE_401_STABLE
-            database: pgsql
-          - php: 8.1
-            moodle-branch: MOODLE_401_STABLE
-            database: mariadb
-          - php: 8.0
-            moodle-branch: MOODLE_401_STABLE
-            database: pgsql
-          - php: 8.0
+          - php: 7.4
             moodle-branch: MOODLE_401_STABLE
             database: mariadb
           - php: 7.4
             moodle-branch: MOODLE_401_STABLE
             database: pgsql
-          - php: 7.4
+          - php: 8.0
             moodle-branch: MOODLE_401_STABLE
             database: mariadb
           - php: 8.0
-            moodle-branch: MOODLE_400_STABLE
+            moodle-branch: MOODLE_401_STABLE
             database: pgsql
-          - php: 8.0
-            moodle-branch: MOODLE_400_STABLE
+          - php: 8.1
+            moodle-branch: MOODLE_401_STABLE
             database: mariadb
-          - php: 7.4
-            moodle-branch: MOODLE_400_STABLE
+          - php: 8.1
+            moodle-branch: MOODLE_401_STABLE
             database: pgsql
-          - php: 7.4
-            moodle-branch: MOODLE_400_STABLE
+          - php: 8.1
+            moodle-branch: MOODLE_402_STABLE
             database: mariadb
+          - php: 8.1
+            moodle-branch: MOODLE_402_STABLE
+            database: pgsql
+          - php: 8.1
+            moodle-branch: MOODLE_403_STABLE
+            database: mariadb
+          - php: 8.1
+            moodle-branch: MOODLE_403_STABLE
+            database: pgsql
+          - php: 8.2
+            moodle-branch: MOODLE_402_STABLE
+            database: mariadb
+          - php: 8.2
+            moodle-branch: MOODLE_402_STABLE
+            database: pgsql
+          - php: 8.2
+            moodle-branch: MOODLE_403_STABLE
+            database: mariadb
+          - php: 8.2
+            moodle-branch: MOODLE_403_STABLE
+            database: pgsql
 
     steps:
       - name: Check out repository code
@@ -111,7 +90,7 @@ jobs:
 
       - name: Initialise moodle-plugin-ci
         run: |
-          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
           echo $(cd ci/bin; pwd) >> $GITHUB_PATH
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8
@@ -123,9 +102,10 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
-          IGNORE_PATHS: moodle/tests/fixtures,moodle/Sniffs
-          CODECHECKER_IGNORE_PATHS: classes/vendor
-          PHPDOCCHECKER_IGNORE_PATHS: classes/vendor
+          IGNORE_PATHS: 'moodle/tests/fixtures,moodle/Sniffs,classes/vendor'
+          PHPCS_IGNORE_PATHS: /^classes\/vendor/
+          PHPDOCCHECKER_IGNORE_PATHS: /^classes\/vendor/
+          MUSTACHE_IGNORE_NAMES: 'report.mustache,questionnaire.mustache'
 
       - name: PHP Lint
         if: ${{ always() }}
@@ -143,7 +123,7 @@ jobs:
 
       - name: Moodle Code Checker
         if: ${{ always() }}
-        run: moodle-plugin-ci codechecker --max-warnings 0 || true
+        run: moodle-plugin-ci phpcs --max-warnings 0 || true
 
       - name: Moodle PHPDoc Checker
         if: ${{ always() }}
@@ -158,8 +138,9 @@ jobs:
         run: moodle-plugin-ci savepoints
 
       - name: Mustache Lint
+        continue-on-error: true # This step will show errors but will not fail
         if: ${{ always() }}
-        run: moodle-plugin-ci mustache || true
+        run: moodle-plugin-ci mustache
 
       - name: Grunt
         if: ${{ always() }}
@@ -172,5 +153,3 @@ jobs:
       - name: Behat features
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
-
-

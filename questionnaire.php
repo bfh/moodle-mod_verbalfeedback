@@ -78,7 +78,7 @@ if ($preview) {
     $userheading = [
         'heading' => 'Max Muster',
         'user' => null,
-        'usercontext' => null
+        'usercontext' => null,
     ];
     $contextheader = $OUTPUT->context_header($userheading, 3);
     $container = html_writer::div($contextheader, 'card-body');
@@ -124,7 +124,7 @@ if ($preview) {
     $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 
     echo $renderer->render($questionnairedata);
-    add_atto_editors_for_comments($questionnairedata, $context);
+    add_editors_for_comments($questionnairedata, $context);
 } else {
     // Check if instance is already open.
     $openmessage = $instance->is_open(true);
@@ -136,7 +136,7 @@ if ($preview) {
             $userheading = [
                 'heading' => fullname($touser),
                 'user' => $touser,
-                'usercontext' => context_user::instance($submission->get_to_user_id())
+                'usercontext' => context_user::instance($submission->get_to_user_id()),
             ];
 
             $contextheader = $OUTPUT->context_header($userheading, 3);
@@ -188,7 +188,7 @@ if ($preview) {
         $renderer = $PAGE->get_renderer('mod_verbalfeedback');
         echo $renderer->render($questionnairedata);
 
-        add_atto_editors_for_comments($questionnairedata, $context);
+        add_editors_for_comments($questionnairedata, $context);
 
     } else {
         if ($isready) {
@@ -210,7 +210,7 @@ echo $OUTPUT->footer();
  * @param array $questionnairedata The questionnaire data
  * @param object $context The context
  */
-function add_atto_editors_for_comments($questionnairedata, $context) {
+function add_editors_for_comments($questionnairedata, $context) {
     $fromuserid = "";
     $touserid = "";
 
@@ -226,11 +226,11 @@ function add_atto_editors_for_comments($questionnairedata, $context) {
             $criteriaid = $criteria->id;
 
             $studentcommentelementid = "student-comment-{$criteriaid}-{$fromuserid}-{$touserid}";
-            $editor = editors_get_preferred_editor(FORMAT_HTML);
+            $editor = editors_get_preferred_editor();
             $editor->use_editor($studentcommentelementid, ['context' => $context, 'autosave' => false]);
 
             $privatecommentelementid = "private-comment-{$criteriaid}-{$fromuserid}-{$touserid}";
-            $editor = editors_get_preferred_editor(FORMAT_HTML);
+            $editor = editors_get_preferred_editor();
             $editor->use_editor($privatecommentelementid, ['context' => $context, 'autosave' => false]);
         }
     }

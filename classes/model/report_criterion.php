@@ -32,7 +32,7 @@ class report_criterion {
     /** @var instance_criterion The instance criterion */
     private $instancecriterion;
     /** @var array The criterion responses */
-    private $responses = array();
+    private $responses = [];
     /** @var float The average of the response values */
     private $avg;
 
@@ -148,11 +148,11 @@ class report_criterion {
      * Updates the average value
      */
     private function update_avg() {
-        $values = array();
+        $values = [];
         foreach ($this->responses as $response) {
             $values[] = $response->get_value();
         }
-        $values = array_filter($values, 'strlen');
+        $values = array_filter($values, fn($n) => $n !== null && $n !== false && $n !== '');
         if (count($values) == 0) {
             $this->avg = null;
         } else {

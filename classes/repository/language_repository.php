@@ -68,7 +68,7 @@ class language_repository {
      */
     public function get_all() : array {
         global $DB;
-        $languages = array();
+        $languages = [];
 
         $dbo = $DB->get_records(tables::LANGUAGE_TABLE);
         foreach ($dbo as $o) {

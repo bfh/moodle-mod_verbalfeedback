@@ -112,35 +112,40 @@ class instance_repository {
                     }
 
                     // Load subrating descriptions.
-                    $dbosubratingdescriptions = self::get_strings(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION, $subrating->get_id());
+                    $dbosubratingdescriptions = self::get_strings(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION,
+                        $subrating->get_id());
                     foreach ($dbosubratingdescriptions as $dbosubratingdescription) {
                         $subratingdescription = db_localized_string::to_localized_string($dbosubratingdescription);
                         $subrating->add_description($subratingdescription);
                     }
 
                     // Load subrating very negative texts.
-                    $dboverynegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE, $subrating->get_id());
+                    $dboverynegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE,
+                        $subrating->get_id());
                     foreach ($dboverynegatives as $dboverynegative) {
                         $verynegative = db_localized_string::to_localized_string($dboverynegative);
                         $subrating->add_verynegative($verynegative);
                     }
 
                     // Load subrating negative texts.
-                    $dbonegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_NEGATIVE, $subrating->get_id());
+                    $dbonegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_NEGATIVE,
+                        $subrating->get_id());
                     foreach ($dbonegatives as $dbonegative) {
                         $negative = db_localized_string::to_localized_string($dbonegative);
                         $subrating->add_negative($negative);
                     }
 
                     // Load subrating positive texts.
-                    $dbopositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_POSITIVE, $subrating->get_id());
+                    $dbopositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_POSITIVE,
+                        $subrating->get_id());
                     foreach ($dbopositives as $dbopositive) {
                         $positive = db_localized_string::to_localized_string($dbopositive);
                         $subrating->add_positive($positive);
                     }
 
                     // Load subrating very positive texts.
-                    $dboverypositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE, $subrating->get_id());
+                    $dboverypositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE,
+                        $subrating->get_id());
                     foreach ($dboverypositives as $dboverypositive) {
                         $verypositive = db_localized_string::to_localized_string($dboverypositive);
                         $subrating->add_verypositive($verypositive);
@@ -166,14 +171,14 @@ class instance_repository {
             $sortedstrings = [];
             $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE);
             foreach ($rs as $dboheader) {
-                $dbo_obj = new db_localized_string;
-                $dbo_obj->id = $dboheader->id;
-                $dbo_obj->languageid = $dboheader->languageid;
-                $dbo_obj->string = $dboheader->string;
-                $dbo_obj->type = $dboheader->type;
-                $dbo_obj->foreignkey = $dboheader->foreignkey;
+                $dbobj = new db_localized_string;
+                $dbobj->id = $dboheader->id;
+                $dbobj->languageid = $dboheader->languageid;
+                $dbobj->string = $dboheader->string;
+                $dbobj->type = $dboheader->type;
+                $dbobj->foreignkey = $dboheader->foreignkey;
 
-                $sortedstrings[$dbo_obj->type][$dbo_obj->foreignkey][$dbo_obj->languageid] = $dbo_obj;
+                $sortedstrings[$dbobj->type][$dbobj->foreignkey][$dbobj->languageid] = $dbobj;
             }
             $rs->close();
         }
@@ -209,7 +214,7 @@ class instance_repository {
         $sql = "SELECT crit.*
                   FROM {{$crittab}} crit
                   JOIN {{$cattab}} cat
-                    ON crit.categoryid = cat.id 
+                    ON crit.categoryid = cat.id
                  WHERE cat.instanceid = ?";
 
         $bycat = [];
@@ -240,7 +245,7 @@ class instance_repository {
                   JOIN {{$crittab}} crit
                     ON srat.criterionid = crit.id
                   JOIN {{$cattab}} mvic
-                    ON crit.categoryid = mvic.id 
+                    ON crit.categoryid = mvic.id
                  WHERE mvic.instanceid = ?";
         $rs = $DB->get_recordset_sql($sql, [$id]);
         $bycrit = [];
@@ -267,7 +272,7 @@ class instance_repository {
                 $id = $DB->insert_record(tables::INSTANCE_TABLE, $dboinstance);
                 $instance->set_id($id);
                 // Set the grade.
-                $DB->set_field('verbalfeedback', 'grade', $instance->grade, array('id' => $id));
+                $DB->set_field('verbalfeedback', 'grade', $instance->grade, ['id' => $id]);
             } else {
                 $DB->update_record(tables::INSTANCE_TABLE, $dboinstance);
             }

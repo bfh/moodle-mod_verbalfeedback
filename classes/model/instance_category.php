@@ -39,13 +39,13 @@ class instance_category {
     /** @var int|null The parametrized template category id */
     public $paramtemplatecategoryid;
     /** @var array The localized headers */
-    public $localizedheaders = array();
+    public $localizedheaders = [];
     /** @var int The category position */
     private $position;
     /** @var float The category weight */
     private $weight;
     /** @var array The category instance criteria */
-    public $instancecriteria = array();
+    public $instancecriteria = [];
 
     /**
      * The category instance class constructor

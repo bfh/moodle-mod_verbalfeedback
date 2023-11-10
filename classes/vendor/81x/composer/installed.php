@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => 'bfh/verbalfeedback',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => NULL,
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../../../dependency_81x',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        'bfh/verbalfeedback' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => NULL,
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../../../dependency_81x',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'dallgoot/yaml' => array(
+            'pretty_version' => '0.9.1.1',
+            'version' => '0.9.1.1',
+            'reference' => '7e7ce911ad626ae35a6ea2086c000f5ee492607f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../dallgoot/yaml',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'goat1000/svggraph' => array(
+            'pretty_version' => '3.20.0',
+            'version' => '3.20.0.0',
+            'reference' => '99576c9ad38763b8f10e6b03a9cff1ce32604869',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../goat1000/svggraph',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);
