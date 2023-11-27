@@ -42,22 +42,11 @@ class template_criterion_list implements renderable, templatable {
      * @var array
      */
     protected $templatecriteria = [];
+
     /**
      * @var
      */
-    protected $templatelisturl;
-    /**
-     * @var
-     */
-    protected $templatecategorylisturl;
-    /**
-     * @var
-     */
-    protected $templatecriterialisturl;
-    /**
-     * @var
-     */
-    protected $newtemplatecriteriaurl;
+    protected $newtemplatecriterionurl;
 
     /**
      * Verbal feedback admin settings constructor.
@@ -114,6 +103,9 @@ class template_criterion_view_model {
      * @var
      */
     public $deleteurl;
+
+    /** @var int */
+    public $subratingcount;
 
     /**
      * The template criterion view model class constructor

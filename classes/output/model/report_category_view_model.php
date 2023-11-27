@@ -37,6 +37,8 @@ class report_category_view_model {
     public $percentage;
     /** @var array The criteria */
     public $criteria = [];
+    /** @var float */
+    public $weight;
 
     /**
      * The report category view model class constructor

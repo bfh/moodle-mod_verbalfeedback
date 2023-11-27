@@ -94,10 +94,14 @@ class template_view_model {
     public $name;
     /** @var string The description */
     public $description;
+    /** @var int Number of categories */
+    public $categorycount;
     /** @var string The edit url */
     public $editurl;
     /** @var string The delete url */
     public $deleteurl;
+    /** @var string The download url */
+    public $downloadurl;
 
     /**
      * The template view model class constructor
