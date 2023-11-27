@@ -1,5 +1,11 @@
-# verbalfeedback
+# <img alt="" src="https://raw.githubusercontent.com/bfh/moodle-mod_verbalfeedback/main/pix/monologo.svg" width="64" style="max-width: 64px; vertical-align: middle;"> Verbal Feedback
 [![Moodle Plugin CI](https://github.com/bfh/moodle-mod_verbalfeedback/workflows/Moodle%20Plugin%20CI/badge.svg?branch=main)](https://github.com/bfh/moodle-mod_verbalfeedback/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3Amain)
+[![GitHub
+Release](https://img.shields.io/github/release/bfh/moodle-mod_verbalfeedback.svg)](https://github.com/bfh/moodle-mod_verbalfeedback/releases)
+[![PHP Support](https://img.shields.io/badge/php-7.4--8.2-blue)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
+[![Moodle Support](https://img.shields.io/badge/Moodle-4.1--4.3-orange)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
+[![License GPL-3.0](https://img.shields.io/github/license/bfh/moodle-mod_verbalfeedback?color=lightgrey)](https://github.com/bfh/moodle-mod_verbalfeedback/blob/main/LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/bfh/moodle-mod_verbalfeedback)](https://github.com/bfh/moodle-mod_verbalfeedback/graphs/contributors)
 
 Verbal Feedback allows structured feedback of student's presentations by one or several persons.
 
