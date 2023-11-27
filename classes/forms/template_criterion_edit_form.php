@@ -34,6 +34,10 @@ require_once($CFG->libdir . '/formslib.php');
  * The template criterion edit form
  */
 class template_criterion_edit_form extends \moodleform {
+
+    /** @var int */
+    public $subratingcount;
+
     /**
      * The class constructor
      *
@@ -51,7 +55,6 @@ class template_criterion_edit_form extends \moodleform {
      * @throws \coding_exception
      */
     public function definition() {
-        global $CFG;
         $languagerepo = new language_repository();
 
         $mform = $this->_form; // Don't forget the underscore!

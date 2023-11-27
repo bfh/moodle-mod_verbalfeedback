@@ -39,6 +39,8 @@ class report {
     private $reportcategories = [];
     /** @var null The result */
     private $result = null;
+    /** @var int The instance id */
+    public $instanceid = 0;
 
     /**
      * The report class constructor

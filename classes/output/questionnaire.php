@@ -28,6 +28,7 @@ use core_user;
 use dml_exception;
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\helper;
+use mod_verbalfeedback\model\instance;
 use mod_verbalfeedback\model\submission;
 use mod_verbalfeedback\model\submission_status;
 use mod_verbalfeedback\repository\instance_repository;
@@ -49,6 +50,21 @@ class questionnaire implements renderable, templatable {
 
     /** @var bool True, if the questionnaire is rendered for preview. */
     private $preview;
+
+    /** @var int $contextid */
+    public $contextid;
+
+    /** @var instance|null Instance of language  */
+    public $instance;
+
+    /** @var array List of categories */
+    public $categories;
+
+    /** @var int The id of the student */
+    public $touserid;
+
+    /** @var int The id of the teacher */
+    public $fromuserid;
 
     /**
      * questionnaire constructor.

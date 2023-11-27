@@ -96,6 +96,11 @@ class instance_utils {
 
         $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedback->get_id(), $verbalfeedback->get_course());
 
+        // Get CMID if not sent as part of $verbalfeedback.
+        if (!isset($instance->coursemodule)) {
+            $verbalfeedback->coursemodule = $cm->id;
+        }
+
         // Common event parameters.
         $instanceid = $verbalfeedback->get_id();
         $courseid = $verbalfeedback->get_course();

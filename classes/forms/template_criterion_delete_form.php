@@ -53,22 +53,22 @@ class template_criterion_delete_form extends \moodleform {
 
         foreach ($languages as $l) {
             $localizedstring = [];
-            $localizedstring[] =& $mform->createElement('hidden', 'id', 0);
-            $localizedstring[] =& $mform->createElement('hidden', 'language_id', $l->get_id());
+            $localizedstring[] = $mform->createElement('hidden', 'id', 0);
+            $localizedstring[] = $mform->createElement('hidden', 'language_id', $l->get_id());
             $textfieldname = get_string('text', 'verbalfeedback') . ' - ' . $l->get_language();
 
             $style = 'disabled="disabled" wrap="virtual" rows="5" cols="50"';
-            $localizedstring[] =& $mform->createElement('textarea', 'string', $textfieldname, $style);
+            $localizedstring[] = $mform->createElement('textarea', 'string', $textfieldname, ['style' => $style]);
 
             $groupname = 'localized_strings[' . $l->get_id() .']';
-            $mform->addGroup($localizedstring, $groupname, $textfieldname, [''], true, 'disabled="disabled"');
+            $mform->addGroup($localizedstring, $groupname, $textfieldname, [''], true, ['disabled' => 'disabled']);
 
             $mform->setType('localized_strings[' . $l->get_id() .'][id]', PARAM_INT);
             $mform->setType('localized_strings[' . $l->get_id() .'][language_id]', PARAM_INT);
             $mform->setType('localized_strings[' . $l->get_id() .'][string]', PARAM_TEXT);
         }
 
-        $this->add_action_buttons($cancel = true, $submitlabel = get_string('delete'));
+        $this->add_action_buttons(true, get_string('delete'));
     }
 
     /**

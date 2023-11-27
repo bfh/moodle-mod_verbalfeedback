@@ -36,6 +36,8 @@ class report_view_model {
     public $radar;
     /** @var array The categories */
     public $categories = [];
+    /** @var \lang_string|string */
+    public $resultvsmax;
 
     /**
      * The report view model class constructor

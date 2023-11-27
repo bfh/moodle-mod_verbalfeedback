@@ -62,6 +62,12 @@ class report implements renderable, templatable {
     /** @var string $reportdownloadurl The report download url. */
     protected $reportdownloadurl;
 
+    /** @var ModelReport */
+    public $report;
+
+    /** @var int */
+    public $touser;
+
     /**
      * report constructor.
      *

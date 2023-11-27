@@ -91,12 +91,14 @@ class template_category_list implements renderable, templatable {
 class template_category_view_model {
     /** @var int The category id */
     public $id;
-    /** @var string The category name */
-    public $name;
     /** @var string The category edit url */
     public $editurl;
     /** @var string The category delete url */
     public $deleteurl;
+    /** @var string */
+    public $uniquename;
+    /** @var int|null Nomber of criterias. */
+    public $criteriacount;
 
     /**
      * The template category view model class constructor
