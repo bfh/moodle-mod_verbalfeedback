@@ -24,7 +24,7 @@ Feature: Configure a verbal feedback activity
   Scenario: Add a verbal feedback to a course without questions
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I add a "Verbal feedback" to section "1" and I fill the form with:
+    And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
       | Name        | Test verbal feedback             |
       | Description | Test verbal feedback description |
       | Template    | Default template                 |
@@ -36,7 +36,7 @@ Feature: Configure a verbal feedback activity
   Scenario: Add a verbal feedback to a course using the default template and weight one category with 0 and one criteria with 0
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I add a "Verbal feedback" to section "1" and I fill the form with:
+    And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
       | Name        | Test verbal feedback             |
       | Description | Test verbal feedback description |
       | Template    | Default template                 |
