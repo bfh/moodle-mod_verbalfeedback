@@ -30,51 +30,51 @@ use mod_verbalfeedback\model\instance;
  */
 class db_instance {
     /**
-     * @var int
+     * @var int The id
      */
     public $id = 0;
     /**
-     * @var
+     * @var int The template id
      */
     public $templateid;
     /**
-     * @var
+     * @var string The name
      */
     public $name;
     /**
-     * @var
+     * @var int The course
      */
     public $course;
     /**
-     * @var
+     * @var string The intro
      */
     public $intro;
     /**
-     * @var
+     * @var int The intro format
      */
     public $introformat;
     /**
-     * @var
+     * @var int The status
      */
     public $status;
     /**
-     * @var
+     * @var int The time open
      */
     public $timeopen;
     /**
-     * @var
+     * @var int The time close
      */
     public $timeclose;
     /**
-     * @var
+     * @var int The time modified
      */
     public $timemodified;
     /**
-     * @var
+     * @var string The release type
      */
     public $releasetype;
     /**
-     * @var
+     * @var bool Whether the instance is released
      */
     public $released;
 
@@ -108,7 +108,7 @@ class db_instance {
      * @return instance
      * @throws \Exception
      */
-    public static function to_instance($dbo) : instance {
+    public static function to_instance($dbo): instance {
         if (!isset($dbo->course) || $dbo->course == null) {
             throw new \Exception('Missing $dbo->course.');
         }

@@ -71,7 +71,7 @@ class template {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -89,7 +89,7 @@ class template {
      *
      * @return string The template name.
      */
-    public function get_name() : string {
+    public function get_name(): string {
         return $this->name;
     }
 
@@ -107,7 +107,7 @@ class template {
      *
      * @return string The template description
      */
-    public function get_description() : string {
+    public function get_description(): string {
         return $this->description;
     }
 
@@ -134,7 +134,7 @@ class template {
      *
      * @return parametrized_template_category[] The parametrized template categories
      */
-    public function get_template_categories() : array {
+    public function get_template_categories(): array {
         return $this->templatecategories;
     }
 }

@@ -57,7 +57,7 @@ class db_template_criterion {
      * @param object $dbo The database object
      * @return template_criterion The template criterion
      */
-    public static function to_template_criterion($dbo) : template_criterion {
+    public static function to_template_criterion($dbo): template_criterion {
         $templatecriterion = new template_criterion();
         if (isset($dbo->id)) {
             $templatecriterion->set_id($dbo->id);

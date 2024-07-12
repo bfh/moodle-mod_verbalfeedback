@@ -30,15 +30,15 @@ use mod_verbalfeedback\model\response;
  */
 class db_response {
     /**
-     * @var int
+     * @var int The id
      */
     public $id = 0;
     /**
-     * @var
+     * @var int The submission id
      */
     public $submissionid;
     /**
-     * @var
+     * @var int The instance id
      */
     public $instanceid;
     /** @var int The criterion id */
@@ -81,7 +81,7 @@ class db_response {
      * @param object $dbo The database object
      * @return response
      */
-    public static function to_response($dbo) : response {
+    public static function to_response($dbo): response {
         $response = new response();
         if (isset($dbo->id)) {
             $response->set_id($dbo->id);

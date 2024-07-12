@@ -42,7 +42,7 @@ class template_category_repository {
      *
      * @return array<int, template_category> The resulting categories.
      */
-    public function get_all() : array {
+    public function get_all(): array {
         global $DB;
 
         static $results = null;
@@ -79,7 +79,7 @@ class template_category_repository {
      * @param int $id The category template id.
      * @return template_category|null The template categories.
      */
-    public function get_by_id(int $id) : ?template_category {
+    public function get_by_id(int $id): ?template_category {
         $all = $this->get_all();
         return $all[$id] ?? null;
     }
@@ -136,7 +136,7 @@ class template_category_repository {
      * @param int $id The id of the category template.
      * @return bool True, if successful
      */
-    public function delete_by_id(int $id) : bool {
+    public function delete_by_id(int $id): bool {
         global $DB;
         try {
             $transaction = $DB->start_delegated_transaction();
@@ -159,7 +159,7 @@ class template_category_repository {
      * @return array The category headers
      * @throws \dml_exception
      */
-    private function get_headers($foreignkey) : array {
+    private function get_headers($foreignkey): array {
         global $DB;
 
         $dboheaders = $DB->get_records('verbalfeedback_local_string',
@@ -178,7 +178,7 @@ class template_category_repository {
      * @return array
      * @throws \dml_exception
      */
-    private function get_headers_by_category_ids() : array {
+    private function get_headers_by_category_ids(): array {
         global $DB;
 
         $headers = [];
@@ -200,7 +200,7 @@ class template_category_repository {
      * @return array The parametrized criteria
      * @throws \dml_exception
      */
-    private function get_parametrized_criteria($categoryid) : array {
+    private function get_parametrized_criteria($categoryid): array {
         global $DB;
 
         $dboparametrizedcriteria = $DB->get_records('verbalfeedback_t_param_crit', ['categoryid' => $categoryid]);
@@ -216,7 +216,7 @@ class template_category_repository {
      * @return array The paramterized criteria in an array hashed by category id
      * @throws \dml_exception
      */
-    private function get_parameterized_criteria_by_categoryid() : array {
+    private function get_parameterized_criteria_by_categoryid(): array {
         global $DB;
 
         $critbycatid = [];

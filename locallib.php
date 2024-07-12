@@ -68,7 +68,7 @@ function template_category_to_view_model(template_category $templatecategory) {
  * @return template_category The template category
  * @throws Exception
  */
-function view_model_to_template_category($viewmodel) : template_category {
+function view_model_to_template_category($viewmodel): template_category {
     $templatecategory = new template_category();
     if ($viewmodel->id == null) {
         $viewmodel->id = 0;
@@ -169,7 +169,7 @@ function template_criterion_to_view_model(template_criterion $templatecriterion)
  * @return template_criterion The template criterion
  * @throws Exception
  */
-function view_model_to_template_criterion($viewmodel) : template_criterion {
+function view_model_to_template_criterion($viewmodel): template_criterion {
     $languagerepository = new language_repository();
     $templatecriterionmodel = new template_criterion();
     if (isset($viewmodel->id)) {
@@ -296,7 +296,7 @@ function template_to_view_model(template $template) {
  * @param object $viewmodel The view model
  * @return template The template
  */
-function view_model_to_template($viewmodel) : template {
+function view_model_to_template($viewmodel): template {
     $template = new template();
     $template->set_id($viewmodel->id);
     $template->set_name($viewmodel->name);

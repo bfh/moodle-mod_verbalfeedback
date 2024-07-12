@@ -81,7 +81,7 @@ class subrating {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -89,7 +89,7 @@ class subrating {
      * Gets the localized titles.
      * @return array<int, localized_string> The localized strings.
      */
-    public function get_titles() : array {
+    public function get_titles(): array {
         return $this->titles;
     }
 
@@ -99,7 +99,7 @@ class subrating {
      * @param string $languagestr The given language string
      * @return localized_string|null The localized title.
      */
-    public function get_title(string $languagestr) : ?localized_string {
+    public function get_title(string $languagestr): ?localized_string {
         $languagerepository = new language_repository();
 
         foreach ($this->get_titles() as $title) {
@@ -124,7 +124,7 @@ class subrating {
      *
      * @return array<int, localized_string> The localized subrating descriptions.
      */
-    public function get_descriptions() : array {
+    public function get_descriptions(): array {
         return $this->descriptions;
     }
 
@@ -134,7 +134,7 @@ class subrating {
      * @param string $languagestr The given language string
      * @return localized_string|null The localized description.
      */
-    public function get_description(string $languagestr) : ?localized_string {
+    public function get_description(string $languagestr): ?localized_string {
         $languagerepository = new language_repository();
 
         foreach ($this->get_descriptions() as $description) {
@@ -159,7 +159,7 @@ class subrating {
      * Gets the localized verynegatives.
      * @return array<int, localized_string> The localized verynegative.
      */
-    public function get_verynegatives() : array {
+    public function get_verynegatives(): array {
         return $this->verynegatives;
     }
 
@@ -169,7 +169,7 @@ class subrating {
      * @param string $languagestr The given language string
      * @return localized_string|null The localized verynegative.
      */
-    public function get_verynegative(string $languagestr) : ?localized_string {
+    public function get_verynegative(string $languagestr): ?localized_string {
         $languagerepository = new language_repository();
 
         foreach ($this->get_verynegatives() as $verynegative) {
@@ -193,7 +193,7 @@ class subrating {
      * Gets the localized negatives.
      * @return array<int, localized_string> The localized negative.
      */
-    public function get_negatives() : array {
+    public function get_negatives(): array {
         return $this->negatives;
     }
 
@@ -203,7 +203,7 @@ class subrating {
      * @param string $languagestr The given language string
      * @return localized_string|null The localized negative.
      */
-    public function get_negative(string $languagestr) : ?localized_string {
+    public function get_negative(string $languagestr): ?localized_string {
         $languagerepository = new language_repository();
 
         foreach ($this->get_negatives() as $negative) {
@@ -228,7 +228,7 @@ class subrating {
      * Gets the localized positives.
      * @return array<int, localized_string> The localized positive.
      */
-    public function get_positives() : array {
+    public function get_positives(): array {
         return $this->positives;
     }
 
@@ -238,7 +238,7 @@ class subrating {
      * @param string $languagestr The given language string
      * @return localized_string|null The localized positive.
      */
-    public function get_positive(string $languagestr) : ?localized_string {
+    public function get_positive(string $languagestr): ?localized_string {
         $languagerepository = new language_repository();
 
         foreach ($this->get_positives() as $positive) {
@@ -262,7 +262,7 @@ class subrating {
      * Gets the localized verypositives.
      * @return array<int, localized_string> The localized verypositive.
      */
-    public function get_verypositives() : array {
+    public function get_verypositives(): array {
         return $this->verypositives;
     }
 
@@ -272,7 +272,7 @@ class subrating {
      * @param string $languagestr The given language string
      * @return localized_string|null The localized verypositive.
      */
-    public function get_verypositive(string $languagestr) : ?localized_string {
+    public function get_verypositive(string $languagestr): ?localized_string {
         $languagerepository = new language_repository();
 
         foreach ($this->get_verypositives() as $verypositive) {

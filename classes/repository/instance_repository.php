@@ -49,7 +49,7 @@ class instance_repository {
      * @param int $id The language id.
      * @return instance|null The language.
      */
-    public static function get_by_id(int $id) : instance {
+    public static function get_by_id(int $id): instance {
         global $DB;
 
         // Return cached $byid instance if available and if we are not running a php unit test.
@@ -162,6 +162,16 @@ class instance_repository {
         return $instance;
     }
 
+    /**
+     * Get all strings.
+     *
+     * @param string $type
+     * @param int $subratingid
+     * @param bool $throwonerror
+     * @return array
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
     private static function get_strings(string $type, int $subratingid, bool $throwonerror = false): array {
         global $DB;
 

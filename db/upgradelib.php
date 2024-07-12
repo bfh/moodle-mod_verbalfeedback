@@ -41,7 +41,7 @@ function mod_verbalfeedback_ends_with($haystack, $needle) {
  * @param int|null $x The int or null
  * @return int The int
  */
-function mod_verbalfeedback_replace_null_with_zero(?int $x) : int {
+function mod_verbalfeedback_replace_null_with_zero(?int $x): int {
     if ($x == null) {
         return 0;
     }

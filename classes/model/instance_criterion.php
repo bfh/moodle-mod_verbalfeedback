@@ -124,7 +124,7 @@ class instance_criterion {
      *
      * @return int
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -142,7 +142,7 @@ class instance_criterion {
      *
      * @return int|null
      */
-    public function get_parametrized_template_criterion_id() : ?int {
+    public function get_parametrized_template_criterion_id(): ?int {
         return $this->parametrizedtemplatecriterionid;
     }
 
@@ -160,7 +160,7 @@ class instance_criterion {
      *
      * @return int The instance criterion position
      */
-    public function get_position() : int {
+    public function get_position(): int {
         return $this->position;
     }
 
@@ -178,7 +178,7 @@ class instance_criterion {
      *
      * @return float
      */
-    public function get_weight() : float {
+    public function get_weight(): float {
         return $this->weight;
     }
 
@@ -187,7 +187,7 @@ class instance_criterion {
      *
      * @return array<int, localized_string> The localized strings.
      */
-    public function get_descriptions() : array {
+    public function get_descriptions(): array {
         return $this->descriptions;
     }
 
@@ -197,7 +197,7 @@ class instance_criterion {
      * @param string $languagestr The given language string
      * @return \mod_verbalfeedback\model\localized_string|null
      */
-    public function get_description(string $languagestr) : ?localized_string {
+    public function get_description(string $languagestr): ?localized_string {
         $languagerepository = new language_repository();
 
         // Select the language string matching the current language.
@@ -242,7 +242,7 @@ class instance_criterion {
      *
      * @return array
      */
-    public function get_subratings() : array {
+    public function get_subratings(): array {
         return $this->subratings;
     }
 }

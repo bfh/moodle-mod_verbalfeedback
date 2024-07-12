@@ -79,7 +79,7 @@ class submission_repository {
      * @param int $id The submission id
      * @return bool True, if successful
      */
-    public function delete_by_id(int $id) : bool {
+    public function delete_by_id(int $id): bool {
         global $DB;
         return $DB->delete_records('verbalfeedback_language', ['id' => $id]);
     }
@@ -89,7 +89,7 @@ class submission_repository {
      * @param int $id The submission id
      * @return submission|null The submission
      */
-    public function get_by_id(int $id) : submission {
+    public function get_by_id(int $id): submission {
         global $DB;
         $dbo = $DB->get_record(tables::SUBMISSION_TABLE, ["id" => $id]);
         $submission = db_submission::to_submission($dbo);
@@ -109,7 +109,7 @@ class submission_repository {
      * @param int $touserid The id of the rated user.
      * @return submission|null The submission.
      */
-    public function get_by_instance_and_fromuser_and_touser(int $instanceid, int $fromuserid, int $touserid) : submission {
+    public function get_by_instance_and_fromuser_and_touser(int $instanceid, int $fromuserid, int $touserid): submission {
         global $DB;
         $dbo = $DB->get_record(tables::SUBMISSION_TABLE, ["instanceid" => $instanceid, "fromuserid" => $fromuserid,
             "touserid" => $touserid, ], );
@@ -129,7 +129,7 @@ class submission_repository {
      * @param int $touserid The id of the rated user.
      * @return array<submission>|null The submission.
      */
-    public function get_by_instance_and_touser(int $instanceid, int $touserid) : array {
+    public function get_by_instance_and_touser(int $instanceid, int $touserid): array {
         global $DB;
         $dbos = $DB->get_records(tables::SUBMISSION_TABLE, ["instanceid" => $instanceid, "touserid" => $touserid]);
 

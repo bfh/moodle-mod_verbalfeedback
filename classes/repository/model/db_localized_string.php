@@ -80,7 +80,7 @@ class db_localized_string {
      * @return localized_string The localized string
      * @throws \Exception
      */
-    public static function to_localized_string($dbo) : localized_string {
+    public static function to_localized_string($dbo): localized_string {
         if (isset($dbo->languageid) && isset($dbo->id) && isset($dbo->string)) {
             return new localized_string($dbo->languageid, $dbo->id, $dbo->string);
         } else {

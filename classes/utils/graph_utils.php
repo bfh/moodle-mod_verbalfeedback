@@ -24,11 +24,7 @@
 
 namespace mod_verbalfeedback\utils;
 
-defined('MOODLE_INTERNAL') || die();
-
-
 use mod_verbalfeedback\model\report;
-
 
 /**
  * Class for creating graphs. For example, to display on the report.
@@ -45,7 +41,7 @@ class graph_utils {
      * @param report $report The report, for which the graph shall be created.
      * @return string The SVG image as XML string.
      */
-    public static function create_radar_graph(report $report) : string {
+    public static function create_radar_graph(report $report): string {
         $settings = [
         'back_colour' => '#eee',
         'back_stroke_width' => 0,
@@ -94,7 +90,7 @@ class graph_utils {
                     if (strlen ($testlabel) <= $maxlen) {
                         $label = $testlabel . ' ...';
                     } else {
-                        $label = substr($testlabel,0,15) . '...';
+                        $label = substr($testlabel, 0, 15) . '...';
                     }
                 } else {
                     $label = $fulllabel;
@@ -104,7 +100,7 @@ class graph_utils {
             }
         }
 
-        $graph = self::getSvgGraph($width, $height, $settings);
+        $graph = self::getsvggraph($width, $height, $settings);
 
         $graph->values($values);
 
@@ -113,19 +109,19 @@ class graph_utils {
 
     /**
      * Wrapper for creating a new SVGGraph instance.
-     * @param $w
-     * @param $h
-     * @param $settings
-     * @param $subgraph
+     * @param int $w The width of the graph.
+     * @param int $h The height of the graph.
+     * @param array $settings The settings for the graph.
+     * @param bool $subgraph Whether the graph is a subgraph.
      * @return \Goat1000\SVGGraph\SVGGraph
      */
-    public static function getSvgGraph($w, $h, $settings = null, $subgraph = false) {
+    public static function getsvggraph($w, $h, $settings = null, $subgraph = false) {
         $dir = (version_compare(PHP_VERSION, '8.1.14') >= 0)
             ? '81x'
             : '74x';
 
-        require_once implode(DIRECTORY_SEPARATOR,
-            [dirname(__FILE__), '..', 'vendor', $dir, 'autoload.php']);
+        require_once(implode(DIRECTORY_SEPARATOR,
+            [dirname(__FILE__), '..', 'vendor', $dir, 'autoload.php']));
 
         return new \Goat1000\SVGGraph\SVGGraph($w, $h, $settings, $subgraph);
     }
