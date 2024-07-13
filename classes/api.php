@@ -137,10 +137,10 @@ class api {
     /**
      * Check whether only active users in course should be shown.
      *
-     * @param context_module $context context the verbal feedback belongs to.
+     * @param ?context_module $context context the verbal feedback belongs to.
      * @return bool true if only active users should be shown.
      */
-    public static function show_only_active_users(context_module $context = null) {
+    public static function show_only_active_users(?context_module $context = null) {
         global $CFG;
 
         $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);

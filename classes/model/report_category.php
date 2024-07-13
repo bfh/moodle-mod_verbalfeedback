@@ -52,7 +52,7 @@ class report_category {
      *
      * @return int The report category position
      */
-    public function get_position() : int {
+    public function get_position(): int {
         return $this->instancecategory->get_position();
     }
 
@@ -61,7 +61,7 @@ class report_category {
      *
      * @return float
      */
-    public function get_weight() : float {
+    public function get_weight(): float {
         return $this->instancecategory->get_weight();
     }
 
@@ -70,7 +70,7 @@ class report_category {
      *
      * @return array<int, localized_string> The localized category headers.
      */
-    public function get_headers() : array {
+    public function get_headers(): array {
         return $this->instancecategory->get_headers();
     }
 
@@ -80,7 +80,7 @@ class report_category {
      * @param string $languagestr The given language string
      * @return localized_string
      */
-    public function get_header(string $languagestr) : localized_string {
+    public function get_header(string $languagestr): localized_string {
         $langrepo = new language_repository();
 
         // Select the language string matching the current language.
@@ -97,7 +97,7 @@ class report_category {
      * Gets the report criteria within the category.
      * @return array<int, report_criterion> The criteria.
      */
-    public function get_criteria() : array {
+    public function get_criteria(): array {
         return $this->reportcriteria;
     }
 
@@ -117,7 +117,7 @@ class report_category {
      *
      * @return float|null The response value average or null.
      */
-    public function get_avg() : ?float {
+    public function get_avg(): ?float {
         return $this->avg;
     }
 
@@ -126,7 +126,7 @@ class report_category {
      *
      * @return float|null The weighted result or null.
      */
-    public function get_weighted_result() : ?float {
+    public function get_weighted_result(): ?float {
         return $this->weightedresult;
     }
 

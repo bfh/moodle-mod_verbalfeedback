@@ -57,7 +57,7 @@ function xmldb_verbalfeedback_install() {
     $categoryrepository = new template_category_repository();
     $templaterepository = new template_repository();
 
-    $importdata = helper::parseYamlFile($yamlpath);
+    $importdata = helper::parseyamlfile($yamlpath);
     foreach ($importdata->languages as $yamllang) {
         if ($yamllang->id == null) {
             $lang = new language(0, $yamllang->language);

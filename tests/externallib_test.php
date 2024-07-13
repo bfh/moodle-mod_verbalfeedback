@@ -38,7 +38,7 @@ require_once($CFG->dirroot . '/lib/external/externallib.php');
  * @copyright  2022 Luca Bösch <luca.boesch@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class externallib_test extends \externallib_advanced_testcase {
+final class externallib_test extends \externallib_advanced_testcase {
     /** @var core_course_category */
     protected $category;
     /** @var stdClass */
@@ -61,7 +61,9 @@ class externallib_test extends \externallib_advanced_testcase {
         $this->setUser($this->teacher);
     }
 
-    /** Creating 10 students and 1 teacher. */
+    /**
+     * Creating 10 students and 1 teacher.
+     */
     protected function create_and_enrol_users() {
         $this->students = [];
         for ($i = 0; $i < 10; $i++) {
@@ -76,7 +78,7 @@ class externallib_test extends \externallib_advanced_testcase {
      *
      * @covers ::mod_verbalfeedback_view_model_to_instance
      */
-    public function test_mod_verbalfeedback_view_model_to_instance() {
+    public function test_mod_verbalfeedback_view_model_to_instance(): void {
         $this->resetAfterTest();
 
         $instance = mod_verbalfeedback_view_model_to_instance((object)['course' => $this->course->id]);

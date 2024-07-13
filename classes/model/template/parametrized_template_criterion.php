@@ -68,7 +68,7 @@ class parametrized_template_criterion {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -86,7 +86,7 @@ class parametrized_template_criterion {
      *
      * @return int The template criterion id
      */
-    public function get_template_criterion_id() : int {
+    public function get_template_criterion_id(): int {
         return $this->criterionid;
     }
 
@@ -104,7 +104,7 @@ class parametrized_template_criterion {
      *
      * @return int The template criterion position
      */
-    public function get_position() : int {
+    public function get_position(): int {
         return $this->position;
     }
 
@@ -122,7 +122,7 @@ class parametrized_template_criterion {
      *
      * @return float
      */
-    public function get_weight() : float {
+    public function get_weight(): float {
         return $this->weight;
     }
 }

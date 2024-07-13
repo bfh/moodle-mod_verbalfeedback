@@ -46,9 +46,9 @@ class language {
     /**
      * Sets the id.
      *
-     * @param int|null $id The id.
+     * @param ?int|null $id The id.
      */
-    public function set_id(int $id = null) {
+    public function set_id(?int $id = null) {
         $this->id = $id;
     }
 
@@ -57,7 +57,7 @@ class language {
      *
      * @return int The id.
      */
-    public function get_id() : ?int {
+    public function get_id(): ?int {
         return $this->id;
     }
 
@@ -75,7 +75,7 @@ class language {
      *
      * @return string The language
      */
-    public function get_language() : string {
+    public function get_language(): string {
         return $this->language;
     }
 }

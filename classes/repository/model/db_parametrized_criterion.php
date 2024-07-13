@@ -68,7 +68,7 @@ class db_parametrized_criterion {
      * @param object $dbo The database object
      * @return parametrized_template_criterion
      */
-    public static function to_parametrized_criterion($dbo) : parametrized_template_criterion {
+    public static function to_parametrized_criterion($dbo): parametrized_template_criterion {
         $paramcriterion = new parametrized_template_criterion();
         if (isset($dbo->id)) {
             $paramcriterion->set_id($dbo->id);

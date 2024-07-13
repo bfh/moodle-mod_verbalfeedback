@@ -47,7 +47,7 @@ require_once($CFG->libdir . '/formslib.php');
  * @param stdClass $object
  * @return instance The verbal feedback instance
  */
-function mod_verbalfeedback_view_model_to_instance(stdClass $object) : instance {
+function mod_verbalfeedback_view_model_to_instance(stdClass $object): instance {
     $templaterepository = new template_repository();
 
     if (!isset($object->course) || !is_numeric($object->course)) {

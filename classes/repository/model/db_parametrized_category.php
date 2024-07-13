@@ -30,23 +30,23 @@ use mod_verbalfeedback\model\template\parametrized_template_category;
  */
 class db_parametrized_category {
     /**
-     * @var
+     * @var int $id The id
      */
     public $id;
     /**
-     * @var
+     * @var int $templateid The category template id
      */
     public $templateid;
     /**
-     * @var
+     * @var int $categoryid The category id
      */
     public $categoryid;
     /**
-     * @var
+     * @var int The category position
      */
     public $position;
     /**
-     * @var
+     * @var float The category weight
      */
     public $weight;
 
@@ -73,7 +73,7 @@ class db_parametrized_category {
      * @param object $dbo The database object
      * @return parametrized_template_category
      */
-    public static function to_parametrized_category($dbo) : parametrized_template_category {
+    public static function to_parametrized_category($dbo): parametrized_template_category {
         $category = new parametrized_template_category();
         if (isset($dbo->id)) {
             $category->set_id($dbo->id);

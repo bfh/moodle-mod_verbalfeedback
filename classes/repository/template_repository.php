@@ -38,7 +38,7 @@ class template_repository {
      * Gets all the templates within the database.
      * @return array<int, template> The resulting templates.
      */
-    public function get_all() : array {
+    public function get_all(): array {
         global $DB;
         $results = [];
         $dbotemplates = $DB->get_records(tables::TEMPLATE_TABLE);
@@ -64,7 +64,7 @@ class template_repository {
      * @param int $id The template id.
      * @return template|null The template.
      */
-    public function get_by_id(int $id) : template {
+    public function get_by_id(int $id): template {
         global $DB;
         $dbo = $DB->get_record(tables::TEMPLATE_TABLE, ['id' => $id]);
         $template = db_template::to_template($dbo);
@@ -118,7 +118,7 @@ class template_repository {
      * @param int $id The id of the template.
      * @return bool true
      */
-    public function delete_by_id(int $id) : bool {
+    public function delete_by_id(int $id): bool {
         global $DB;
         try {
             $transaction = $DB->start_delegated_transaction();

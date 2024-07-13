@@ -44,7 +44,7 @@ class template_criterion_repository {
      * Gets the category templates
      * @return array<int, template_criterion>.
      */
-    public function get_all() : array {
+    public function get_all(): array {
         global $DB;
         $results = [];
 
@@ -94,7 +94,7 @@ class template_criterion_repository {
      * @param int $id The criteria template id.
      * @return template_criterion|null The template criterion.
      */
-    public function get_by_id(int $id) : ?template_criterion {
+    public function get_by_id(int $id): ?template_criterion {
         static $all = null;
 
         if ($all === null || PHPUNIT_TEST) {
@@ -109,7 +109,7 @@ class template_criterion_repository {
      * @param int $id the template category id.
      * @return array<int, parametrized_template_criterion>.
      */
-    public function get_by_template_category_id(int $id) : array {
+    public function get_by_template_category_id(int $id): array {
         global $DB;
         $results = [];
         $dboparamcriteria = $DB->get_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['categoryid' => $id]);
@@ -285,12 +285,14 @@ class template_criterion_repository {
 
     /**
      * Get all localized strings for a type, hashed by foreignkey, cached in memory for speed.
+     *
+     * // phpcs:ignore moodle.Commenting.ValidTags.Invalid
      * @TODO - evaluate this for memory usage.
      * @param string $type
      * @return array<localized_string[]>
      * @throws \dml_exception
      */
-    private function get_all_localized_strings_for_type(string $type) : array {
+    private function get_all_localized_strings_for_type(string $type): array {
         global $DB;
 
         static $strings = [];
@@ -324,7 +326,7 @@ class template_criterion_repository {
      * @return array Localized strings
      * @throws \dml_exception
      */
-    private function get_localized_strings(int $foreignkey, string $type) : array {
+    private function get_localized_strings(int $foreignkey, string $type): array {
         if (!localized_string_type::exists($type)) {
             throw new \Exception("Unknown localized string type.");
         }

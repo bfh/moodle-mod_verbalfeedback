@@ -71,7 +71,7 @@ class report {
      *
      * @return int The id of the rated user.
      */
-    public function get_to_user_id() : int {
+    public function get_to_user_id(): int {
         return $this->touserid;
     }
 
@@ -80,7 +80,7 @@ class report {
      *
      * @return array<int> The ids of the rating users.
      */
-    public function get_from_user_ids() : array {
+    public function get_from_user_ids(): array {
         return $this->fromuserids;
     }
 
@@ -98,7 +98,7 @@ class report {
      *
      * @return array
      */
-    public function get_categories() : array {
+    public function get_categories(): array {
         return $this->reportcategories;
     }
 
@@ -117,7 +117,7 @@ class report {
      *
      * @return float|null
      */
-    public function get_result() : ?float {
+    public function get_result(): ?float {
         return $this->result;
     }
 
@@ -126,7 +126,7 @@ class report {
      *
      * @return float
      */
-    public function get_result_percentage() : float {
+    public function get_result_percentage(): float {
         return 100 * ($this->result / self::MAX_POINTS);
     }
 
@@ -135,7 +135,7 @@ class report {
      *
      * @return float
      */
-    public function get_result_part() : float {
+    public function get_result_part(): float {
         return $this->result / self::MAX_POINTS;
     }
 
@@ -145,7 +145,7 @@ class report {
      * @return int
      * @throws \dml_exception
      */
-    public function get_max_points() : int {
+    public function get_max_points(): int {
         global $DB;
         return $DB->get_field('verbalfeedback', 'grade', ['id' => $this->instanceid]);
     }
