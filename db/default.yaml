@@ -5938,7 +5938,7 @@ categories:
       - text: "Gorputz-hizkuntza"
         language: *lang_eu
       - text: "Lenguaje corporal"
-        language: *lang_en
+        language: *lang_es
     criteria:
       - position: 1
         weight: 1
