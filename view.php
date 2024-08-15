@@ -39,6 +39,9 @@ require_login($course, true, $cm);
 
 $instancerepository = new instance_repository();
 
+// Quick hack for issue #43.
+ini_set('memory_limit', '256M');
+
 $context = context_module::instance($cm->id);
 
 $instance = $instancerepository->get_by_id($cm->instance);
