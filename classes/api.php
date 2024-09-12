@@ -85,6 +85,9 @@ class api {
     /** Activity close event type. */
     const VERBALFEEDBACK_EVENT_TYPE_CLOSE = 'close';
 
+    /** Cache for verbalfeedback instances */
+    private static $instances = [];
+
     /**
      * Fetches the verbal feedback instance.
      *
@@ -95,7 +98,22 @@ class api {
     public static function get_instance($verbalfeedbackid) {
         global $DB;
 
-        return $DB->get_record('verbalfeedback', ['id' => $verbalfeedbackid], '*', MUST_EXIST);
+        $id = (int)$verbalfeedbackid;
+        if (!array_key_exists($id, static::$instances)) {
+            static::$instances[$id] = $DB->get_record('verbalfeedback', ['id' => $id], '*', MUST_EXIST);
+        } 
+        return static::$instances[$id];
+    }
+
+    /**
+     * Check if for a given instance id we actually have an object instance in the database.
+     *
+     * @param int $verbalfeedbackid The verbal feedback ID.
+     * @return bool
+     */
+    public static function is_ready($verbalfeedbackid) {
+        $id = (int)$verbalfeedbackid;
+        return !empty(static::$instances[$id]);
     }
 
     /**
