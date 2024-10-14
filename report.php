@@ -36,6 +36,9 @@ list ($course, $cm) = get_course_and_cm_from_instance($instanceid, 'verbalfeedba
 
 require_login($course, true, $cm);
 
+// Quick hack for issue #43.
+ini_set('memory_limit', '256M');
+
 $context = context_module::instance($cm->id);
 
 $instancerepo = new instance_repository();
@@ -50,9 +53,6 @@ if (!$viewownreport) {
 } else if (!$instance->reports_are_released($instance) && (!has_capability('mod/verbalfeedback:view_all_reports', $context))) {
     throw new moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
 }
-
-// Quick hack for issue #43.
-ini_set('memory_limit', '256M');
 
 $PAGE->set_context($context);
 $PAGE->set_cm($cm, $course);

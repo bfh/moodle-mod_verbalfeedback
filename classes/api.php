@@ -42,6 +42,8 @@ use mod_verbalfeedback\utils\user;
 use mod_verbalfeedback\utils\instance;
 use mod_verbalfeedback\utils\user_utils;
 
+// Quick hack for issue #43.
+ini_set('memory_limit', '256M');
 
 /**
  * Class for performing DB actions for the verbal feedback activity module.
