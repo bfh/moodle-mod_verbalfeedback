@@ -27,6 +27,7 @@ namespace mod_verbalfeedback\repository;
 defined('MOODLE_INTERNAL') || die();
 
 use Exception;
+use mod_verbalfeedback\api;
 use mod_verbalfeedback\model\instance;
 use mod_verbalfeedback\model\instance_category;
 use mod_verbalfeedback\model\instance_status;
@@ -46,7 +47,7 @@ class instance_repository {
 
     /**
      * Gets the instance with the given id
-     * @param int $id The language id.
+     * @param int $id The verbal feedback id.
      * @return instance|null The language.
      */
     public static function get_by_id(int $id): instance {
@@ -58,7 +59,7 @@ class instance_repository {
             return $byid[$id];
         }
 
-        $dboinstance = $DB->get_record(tables::INSTANCE_TABLE, ["id" => $id]);
+        $dboinstance = api::get_instance($id);
         $instance = db_instance::to_instance($dboinstance);
 
         $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $id]);
