@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 use Exception;
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\model\instance;
-use mod_verbalfeedback\model\instance_category;
 use mod_verbalfeedback\model\instance_status;
 use mod_verbalfeedback\repository\model\db_instance;
 use mod_verbalfeedback\repository\model\db_instance_category;
@@ -176,11 +175,12 @@ class instance_repository {
     private static function get_strings(string $type, int $subratingid, bool $throwonerror = false): array {
         global $DB;
 
-        static $sortedstrings = null;
+        static $sortedstrings = [];
+        $cachekey = $type . '~~' . $subratingid;
 
-        if ($sortedstrings === null || PHPUNIT_TEST) {
-            $sortedstrings = [];
-            $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE);
+        if (!array_key_exists($cachekey, $sortedstrings) || PHPUNIT_TEST) {
+            $sortedstrings[$cachekey] = [];
+            $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE, ['type' => $type, 'foreignkey' => $subratingid]);
             foreach ($rs as $dboheader) {
                 $dbobj = new db_localized_string;
                 $dbobj->id = $dboheader->id;
@@ -189,25 +189,19 @@ class instance_repository {
                 $dbobj->type = $dboheader->type;
                 $dbobj->foreignkey = $dboheader->foreignkey;
 
-                $sortedstrings[$dbobj->type][$dbobj->foreignkey][$dbobj->languageid] = $dbobj;
+                $sortedstrings[$cachekey][$dbobj->languageid] = $dbobj;
             }
             $rs->close();
         }
 
-        if (!isset($sortedstrings[$type])) {
+        if (empty($sortedstrings[$cachekey])) {
             if ($throwonerror) {
-                throw new \coding_exception("Invalid type .$type");
-            }
-            return [];
-        }
-        if (!isset($sortedstrings[$type][$subratingid])) {
-            if ($throwonerror) {
-                throw new \coding_exception("Invalid subratingid $subratingid for type $type");
+                throw new \coding_exception("No strings for type $type and subratingid $subratingid");
             }
             return [];
         }
 
-        return $sortedstrings[$type][$subratingid];
+        return $sortedstrings[$cachekey];
     }
 
     /**
