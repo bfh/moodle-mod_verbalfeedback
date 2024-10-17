@@ -45,9 +45,6 @@ list ($course, $cm) = get_course_and_cm_from_instance($id, 'verbalfeedback');
 
 require_login($course, true, $cm);
 
-// Quick hack for issue #43.
-ini_set('memory_limit', '256M');
-
 $context = context_module::instance($cm->id);
 $instancerepository = new instance_repository();
 $submissionrepository = new submission_repository();

@@ -49,9 +49,6 @@ if (!$course = $DB->get_record("course", ["id" => $cm->course])) {
 
 require_login($course, true, $cm);
 
-// Quick hack for issue #43.
-ini_set('memory_limit', '256M');
-
 $instancerepository = new instance_repository();
 
 if (!$instance = $instancerepository->get_by_id($cm->instance)) {

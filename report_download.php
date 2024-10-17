@@ -54,9 +54,6 @@ if (!$viewownreport) {
     throw new moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
 }
 
-// Quick hack for issue #43.
-ini_set('memory_limit', '256M');
-
 $PAGE->set_context($context);
 $PAGE->set_cm($cm, $course);
 $PAGE->set_pagelayout('incourse');
