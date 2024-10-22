@@ -140,8 +140,10 @@ class template_category_repository {
         global $DB;
         try {
             $transaction = $DB->start_delegated_transaction();
-            $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => $id,
-                'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER, ]);
+            $DB->delete_records(tables::LOCALIZED_STRING_TABLE, [
+                'foreignkey' => $id,
+                'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER),
+            ]);
             $DB->delete_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['categoryid' => $id]);
             $DB->delete_records(tables::TEMPLATE_CATEGORY_TABLE, ['id' => $id]);
 
@@ -163,7 +165,7 @@ class template_category_repository {
         global $DB;
 
         $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-            ['foreignkey' => $foreignkey, 'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+            ['foreignkey' => $foreignkey, 'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER)]);
         $headers = [];
         foreach ($dboheaders as $dboheader) {
             $headers[] = db_localized_string::to_localized_string($dboheader);
@@ -182,7 +184,10 @@ class template_category_repository {
         global $DB;
 
         $headers = [];
-        $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE, ['type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+        $rs = $DB->get_recordset(
+            tables::LOCALIZED_STRING_TABLE,
+            ['typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER)]
+        );
         foreach ($rs as $row) {
             if (!\array_key_exists($row->foreignkey, $headers)) {
                 $headers[$row->foreignkey] = [];

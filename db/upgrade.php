@@ -82,5 +82,29 @@ function xmldb_verbalfeedback_upgrade($oldversion) {
         upgrade_main_savepoint(true, 2021100103);
     }
 
+    if ($oldversion < 2024101700) {
+        require_once($CFG->dirroot . '/mod/verbalfeedback/classes/repository/model/localized_string_type.php');
+        $table = new xmldb_table('verbalfeedback_local_string');
+        $field = new xmldb_field('typeid', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0);
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Convert all strings to ids.
+        $offset = 0;
+        while ($records = $DB->get_records('verbalfeedback_local_string', null, 'id', 'id, type, typeid', $offset, 100)) {
+            foreach ($records as $record) {
+                $record->typeid = \mod_verbalfeedback\repository\model\localized_string_type::str2id($record->type);
+                $DB->update_record('verbalfeedback_local_string', $record);
+            }
+            $offset += 100;
+        }
+        $dbman->drop_field($table, new xmldb_field('type'));
+        $table->add_index('subitemtype', XMLDB_INDEX_NOTUNIQUE, ['foreignkey', 'typeid']);
+
+        upgrade_mod_savepoint(true, 2024101700, 'verbalfeedback');
+    }
+
     return true;
 }

@@ -34,9 +34,9 @@ class db_localized_string {
      */
     public $id;
     /**
-     * @var string The type
+     * @var int The type
      */
-    public $type;
+    public $typeid;
     /**
      * @var int The foreign key
      */
@@ -66,7 +66,7 @@ class db_localized_string {
         }
         $dbo = new db_localized_string();
         $dbo->id = $localizedstring->get_id();
-        $dbo->type = $type;
+        $dbo->typeid = localized_string_type::str2id($type);
         $dbo->foreignkey = $foreignkey;
         $dbo->languageid = $localizedstring->get_language_id();
         $dbo->string = $localizedstring->get_string();

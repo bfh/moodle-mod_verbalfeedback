@@ -180,13 +180,16 @@ class instance_repository {
 
         if (!array_key_exists($cachekey, $sortedstrings) || PHPUNIT_TEST) {
             $sortedstrings[$cachekey] = [];
-            $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE, ['type' => $type, 'foreignkey' => $subratingid]);
+            $rs = $DB->get_recordset(
+                tables::LOCALIZED_STRING_TABLE,
+                ['typeid' => localized_string_type::str2id($type), 'foreignkey' => $subratingid]
+            );
             foreach ($rs as $dboheader) {
                 $dbobj = new db_localized_string;
                 $dbobj->id = $dboheader->id;
                 $dbobj->languageid = $dboheader->languageid;
                 $dbobj->string = $dboheader->string;
-                $dbobj->type = $dboheader->type;
+                $dbobj->typeid = $dboheader->typeid;
                 $dbobj->foreignkey = $dboheader->foreignkey;
 
                 $sortedstrings[$cachekey][$dbobj->languageid] = $dbobj;
@@ -277,7 +280,7 @@ class instance_repository {
                 $id = $DB->insert_record(tables::INSTANCE_TABLE, $dboinstance);
                 $instance->set_id($id);
                 // Set the grade.
-                $DB->set_field('verbalfeedback', 'grade', $instance->grade, ['id' => $id]);
+                $DB->set_field(tables::INSTANCE_TABLE, 'grade', $instance->grade, ['id' => $id]);
             } else {
                 $DB->update_record(tables::INSTANCE_TABLE, $dboinstance);
             }
@@ -408,7 +411,7 @@ class instance_repository {
         foreach ($dbocategories as $dbocategory) {
             // Delete category headers.
             $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-            ["type" => localized_string_type::INSTANCE_CATEGORY_HEADER, "foreignkey" => $dbocategory->id]);
+            ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_CATEGORY_HEADER), "foreignkey" => $dbocategory->id]);
 
             // Delete category criteria.
             $dbocriteria = $DB->get_records(tables::INSTANCE_CRITERION_TABLE, ["categoryid" => $dbocategory->id]);
@@ -416,7 +419,7 @@ class instance_repository {
 
                 // Delete criterion description.
                 $dbodescriptions = $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                    ["type" => localized_string_type::INSTANCE_CRITERION, "foreignkey" => $dbocriterion->id]);
+                    ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_CRITERION), "foreignkey" => $dbocriterion->id]);
 
                 // Delete criterion subratings.
                 $dbosubratings = $DB->get_records(tables::INSTANCE_SUBRATING_TABLE, ["criterionid" => $dbocriterion->id]);
@@ -424,27 +427,27 @@ class instance_repository {
 
                     // Delete subrating titles.
                     $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_TITLE, "foreignkey" => $dbosubrating->id]);
+                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_TITLE), "foreignkey" => $dbosubrating->id]);
 
                     // Delete subrating descriptions.
                     $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_DESCRIPTION, "foreignkey" => $dbosubrating->id]);
+                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION), "foreignkey" => $dbosubrating->id]);
 
                     // Delete subrating very negative texts.
                     $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE, "foreignkey" => $dbosubrating->id]);
+                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE), "foreignkey" => $dbosubrating->id]);
 
                     // Delete subrating negative texts.
                     $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_NEGATIVE, "foreignkey" => $dbosubrating->id]);
+                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_NEGATIVE), "foreignkey" => $dbosubrating->id]);
 
                     // Delete subrating positive texts.
                     $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_POSITIVE, "foreignkey" => $dbosubrating->id]);
+                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_POSITIVE), "foreignkey" => $dbosubrating->id]);
 
                     // Delete subrating very positive texts.
                     $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["type" => localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE, "foreignkey" => $dbosubrating->id]);
+                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE), "foreignkey" => $dbosubrating->id]);
                 }
 
                 // Delete subratings.
