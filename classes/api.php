@@ -120,7 +120,7 @@ class api {
             return $instances[$id];
         }
         $instances[$id] = $DB->get_record_sql("
-            SELECT * FROM {{$vftable} vf
+            SELECT vf.* FROM {{$vftable} vf
             INNER JOIN {{$cattable}} cat ON cat.instanceid = vf.id
             INNER JOIN {{$crittable}} crit ON crit.categoryid = cat.id
             WHERE crit.id = ?",
@@ -144,7 +144,7 @@ class api {
             return $instances[$id];
         }
         $instances[$id] = $DB->get_record_sql("
-            SELECT * FROM {{$vftable}} vf
+            SELECT vf.* FROM {{$vftable}} vf
             INNER JOIN {{$cattable}} cat ON cat.instanceid = vf.id
             WHERE cat.id = ?",
             [$id], IGNORE_MISSING);
