@@ -20,7 +20,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="foreignkey" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="type" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="typeid" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="languageid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="string" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
@@ -28,6 +28,9 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for language"/>
         <KEY NAME="verbalfeedback_language" TYPE="foreign" FIELDS="languageid" REFTABLE="verbalfeedback_language" REFFIELDS="id"/>
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="subitemtype" UNIQUE="false" FIELDS="foreignkey, typeid"/>
+      </INDEXES>
     </TABLE>
     <TABLE NAME="verbalfeedback_template" COMMENT="Verbalfeedback templates">
       <FIELDS>
