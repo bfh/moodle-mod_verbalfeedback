@@ -911,9 +911,9 @@
             "weight": "0.20"
           }],
         "verbalfeedbackid": 21,
-        "viewurl": {},
-        "makeavailableurl": {},
-        "previewurl": {},
+        "viewurl": "http://example.org/mod/verbalfeedback/view.php?id=1073",
+        "makeavailableurl": "http://example.org/mod/verbalfeedback/view.php?id=1073&makeavailable=1",
+        "previewurl": "http://example.org/mod/verbalfeedback/questionnaire.php?instance=2&preview=1",
         "maxgrade": "15.00",
         "cmid": 465,
         "sesskey": "BABEgbUslM"
@@ -959,88 +959,74 @@
                 {{/previewurl}}
             </div>
             <div id="percentage-total" class="pt-1 font-weight-bold">
-              <span>{{#str}}totalpercentage, mod_verbalfeedback{{/str}}</span>
-              <span id="percentage-total-value"></span>
-              <span>%</span>
+                <span>{{#str}}totalpercentage, mod_verbalfeedback{{/str}}</span>
+                <span id="percentage-total-value"></span>
+                <span>%</span>
             </div>
         </div>
         <div class="row ml-0 mr-0 mt-3">
             <!-- classes: flexible generaltable generalbox -->
-            <table class="table table-sm table-striped">
-                {{# categories }}
-                    <thead>
-                    <tr class="user3 unselectedrow border-top">
-                        <th class="span4 align-middle"><span class="pl-2"><b>{{ header }}</b></span></th>
-                        <th class="span4 align-middle">
-                            <b>{{#str}}percentage, mod_verbalfeedback{{/str}}:&nbsp;</b>
-                            <div class="input-group">
-                                <label for="category-{{id}}-percentage" class="sr-only">{{#str}}percentage, mod_verbalfeedback{{/str}}</label>
-                                <select class="category-percentage custom-select" id="category-{{id}}-percentage"
-                                        data-action="change-category-percentage" data-categoryid="{{id}}" size="1">
-                                    <option value="0.00">0%</option>
-                                    <option value="0.05">5%</option>
-                                    <option value="0.10">10%</option>
-                                    <option value="0.15">15%</option>
-                                    <option value="0.20">20%</option>
-                                    <option value="0.25">25%</option>
-                                    <option value="0.30">30%</option>
-                                    <option value="0.35">35%</option>
-                                    <option value="0.40">40%</option>
-                                    <option value="0.45">45%</option>
-                                    <option value="0.50">50%</option>
-                                </select>
-                                {{#js}}
-                                    require(['jquery'], function($) {
-                                        $('#category-{{id}}-percentage option[value="{{weight}}"]').prop('selected', true);
-                                    });
-                                {{/js}}
+            {{# categories }}
+                <div class="row w-100 mb-3 border-bottom">
+                    <div class="col col-xs-8 col-sm-10 pt-3"><span class="pl-2 bold">{{ header }}</span></div>
+                    <div class="col col-xs-4 col-sm-2 align-middle">
+                        <b>{{#str}}percentage, mod_verbalfeedback{{/str}}:&nbsp;</b>
+                        <div class="input-group mb-2">
+                            <label for="category-{{id}}-percentage" class="sr-only">{{#str}}percentage, mod_verbalfeedback{{/str}}</label>
+                            <select class="category-percentage custom-select" id="category-{{id}}-percentage"
+                                    data-action="change-category-percentage" data-categoryid="{{id}}">
+                                <option value="0.00">0%</option>
+                                <option value="0.05">5%</option>
+                                <option value="0.10">10%</option>
+                                <option value="0.15">15%</option>
+                                <option value="0.20">20%</option>
+                                <option value="0.25">25%</option>
+                                <option value="0.30">30%</option>
+                                <option value="0.35">35%</option>
+                                <option value="0.40">40%</option>
+                                <option value="0.45">45%</option>
+                                <option value="0.50">50%</option>
+                            </select>
+                            {{#js}}
+                                require(['jquery'], function($) {
+                                    $('#category-{{id}}-percentage option[value="{{weight}}"]').prop('selected', true);
+                                });
+                            {{/js}}
+                            <span class="text-success" style="display: none;">{{#pix }} e/save, core, {{/pix }}</span>
+                            <!-- do not use 'd-none' class, because of jquery .show() method -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row unselectedrow w-100 mb-2">
+                    <div class="col col-xs-8 col-sm-10"> </div>
+                    <div class="col col-xs-4 col-sm-2 align-middle"><b>{{#str}}multiplier, mod_verbalfeedback{{/str}}</b></div>
+                </div>
+                {{# criteria }}
+                    <div class="row unselectedrow w-100 mb-2 border-bottom">
+                        <div class="col col-xs-8 col-sm-10">
+                            <span class="pl-2">{{ text }}</span>
+                        </div>
+                        <div class="col col-xs-4 col-sm-2">
+                            <div class="input-group mb-2">
+                                <label for="item-{{id}}-multiplier" class="sr-only">{{#str}}multiplier, mod_verbalfeedback{{/str}}</label>
+                                <!-- lang "en" is required because we don't want diffrent floating point separators. -->
+                                <input lang="en" class="form-control w-40 pl-1 pr-1" type="number"
+                                        data-action="change-item-multiplier" id="item-{{id}}-multiplier" data-itemid="{{id}}"
+                                        step="0.50" value="{{weight}}" min="0" max="5">
                                 <span class="text-success" style="display: none;">{{#pix }} e/save, core, {{/pix }}</span>
                                 <!-- do not use 'd-none' class, because of jquery .show() method -->
                             </div>
-                        </th>
-                        <th class="span4"></th>
-                        <th class="span4"></th>
-                    </tr>
-                    <tr class="user3 unselectedrow">
-                        <th class="span4 align-middle">&nbsp;</th>
-                        <th class="span4 align-middle"><b>{{#str}}multiplier, mod_verbalfeedback{{/str}}</b></th>
-                        <th class="span4 align-middle">&nbsp;</th>
-                        <th class="span4 align-middle">&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{# criteria }}
-                        <tr class="user3 unselectedrow">
-                            <td class="border-bottom">
-                                <span class="pl-2">{{ text }}</span>
-                            </td>
-                            <td class="border-bottom">
-                                <div class="input-group" style="min-width:80px;">
-                                    <label for="item-{{id}}-multiplier" class="sr-only">{{#str}}multiplier, mod_verbalfeedback{{/str}}</label>
-                                    <!-- lang "en" is required because we don't want diffrent floating point separators. -->
-                                    <input lang="en" class="form-control w-40 pl-1 pr-1" type="number"
-                                           data-action="change-item-multiplier" id="item-{{id}}-multiplier" data-itemid="{{id}}"
-                                           step="0.50" value="{{weight}}" min="0" max="5" size="4">
-                                    <span class="text-success" style="display: none;">{{#pix }} e/save, core, {{/pix }}</span>
-                                    <!-- do not use 'd-none' class, because of jquery .show() method -->
-                                </div>
-                            </td>
-                            <td class="border-bottom">
-                            </td>
-                            <td class="border-bottom">
-                            </td>
-                        </tr>
-                    {{/ criteria }}
-                    </tbody>
-                {{/ categories }}
-            </table>
+                        </div>
+                    </div>
+                {{/ criteria }}
+            {{/ categories }}
         </div>
     </div>
 </div>
 
 
 {{#js}}
-  require(['jquery', 'mod_verbalfeedback/edit_items'], function($, EditItems) {
+  require(['mod_verbalfeedback/edit_items'], function(EditItems) {
         let editItems = new EditItems({{verbalfeedbackid}});
         editItems.updatePercentageSum();
     });
