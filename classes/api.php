@@ -113,17 +113,17 @@ class api {
      */
     public static function get_instance_by_itemid($itemid) {
         global $DB;
-        [$vftable, $cattable, $crittable] = [tables::INSTANCE_TABLE, tables::INSTANCE_CATEGORY_TABLE, tables::INSTANCE_CRITERION_TABLE];
         $id = (int)$itemid;
         static $instances = [];
         if (isset($instances[$id])) {
             return $instances[$id];
         }
-        $instances[$id] = $DB->get_record_sql("
-            SELECT vf.* FROM {{$vftable} vf
-            INNER JOIN {{$cattable}} cat ON cat.instanceid = vf.id
-            INNER JOIN {{$crittable}} crit ON crit.categoryid = cat.id
-            WHERE crit.id = ?",
+        $instances[$id] = $DB->get_record_sql(sprintf('
+            SELECT vf.* FROM {%s} vf
+            INNER JOIN {%s} cat ON cat.instanceid = vf.id
+            INNER JOIN {%s} crit ON crit.categoryid = cat.id
+            WHERE crit.id = ?',
+            tables::INSTANCE_TABLE, tables::INSTANCE_CATEGORY_TABLE, tables::INSTANCE_CRITERION_TABLE),
             [$id], IGNORE_MISSING);
         return $instances[$id];
     }
@@ -137,16 +137,16 @@ class api {
      */
     public static function get_instance_by_categoryid($categoryid) {
         global $DB;
-        [$vftable, $cattable] = [tables::INSTANCE_TABLE, tables::INSTANCE_CATEGORY_TABLE];
         $id = (int)$categoryid;
         static $instances = [];
         if (isset($instances[$id])) {
             return $instances[$id];
         }
-        $instances[$id] = $DB->get_record_sql("
-            SELECT vf.* FROM {{$vftable}} vf
-            INNER JOIN {{$cattable}} cat ON cat.instanceid = vf.id
-            WHERE cat.id = ?",
+        $instances[$id] = $DB->get_record_sql(sprintf('
+            SELECT vf.* FROM {%s} vf
+            INNER JOIN {%s} cat ON cat.instanceid = vf.id
+            WHERE cat.id = ?',
+            tables::INSTANCE_TABLE, tables::INSTANCE_CATEGORY_TABLE),
             [$id], IGNORE_MISSING);
         return $instances[$id];
     }
