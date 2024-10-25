@@ -42,6 +42,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_verbalfeedback\repository\model\localized_string_type;
+
 /**
  * Upgrade code for the verbalfeedback activity plugin.
  *
@@ -83,7 +85,6 @@ function xmldb_verbalfeedback_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024101700) {
-        require_once($CFG->dirroot . '/mod/verbalfeedback/classes/repository/model/localized_string_type.php');
         $table = new xmldb_table('verbalfeedback_local_string');
         $field = new xmldb_field('typeid', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0);
 
@@ -92,13 +93,11 @@ function xmldb_verbalfeedback_upgrade($oldversion) {
         }
 
         // Convert all strings to ids.
-        $offset = 0;
-        while ($records = $DB->get_records('verbalfeedback_local_string', null, 'id', 'id, type, typeid', $offset, 100)) {
-            foreach ($records as $record) {
-                $record->typeid = \mod_verbalfeedback\repository\model\localized_string_type::str2id($record->type);
-                $DB->update_record('verbalfeedback_local_string', $record);
-            }
-            $offset += 100;
+        foreach (localized_string_type::getStringTypes() as $type) {
+            $DB->execute(
+                'UPDATE {verbalfeedback_local_string} SET typeid = ? WHERE type = ?',
+                [localized_string_type::str2id($type), $type]
+            );
         }
         $dbman->drop_field($table, new xmldb_field('type'));
         $table->add_index('subitemtype', XMLDB_INDEX_NOTUNIQUE, ['foreignkey', 'typeid']);
