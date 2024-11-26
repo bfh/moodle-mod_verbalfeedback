@@ -216,25 +216,30 @@ class instance_repository {
     private static function get_criteria_by_category_for_instance_id(int $id): array {
         global $DB;
 
-        $crittab = tables::INSTANCE_CRITERION_TABLE;
-        $cattab = tables::INSTANCE_CATEGORY_TABLE;
+        static $bycats = [];
 
-        $sql = "SELECT crit.*
-                  FROM {{$crittab}} crit
-                  JOIN {{$cattab}} cat
-                    ON crit.categoryid = cat.id
-                 WHERE cat.instanceid = ?";
+        if (!array_key_exists($id, $bycats) || PHPUNIT_TEST) {
+            $crittab = tables::INSTANCE_CRITERION_TABLE;
+            $cattab = tables::INSTANCE_CATEGORY_TABLE;
 
-        $bycat = [];
-        $rs = $DB->get_recordset_sql($sql, [$id]);
-        foreach ($rs as $dbocriterion) {
-            if (!isset($bycat[$dbocriterion->categoryid])) {
-                $bycat[$dbocriterion->categoryid] = [];
+            $sql = "SELECT crit.*
+                    FROM {{$crittab}} crit
+                    JOIN {{$cattab}} cat
+                        ON crit.categoryid = cat.id
+                    WHERE cat.instanceid = ?";
+
+            $bycat = [];
+            $rs = $DB->get_recordset_sql($sql, [$id]);
+            foreach ($rs as $dbocriterion) {
+                if (!isset($bycat[$dbocriterion->categoryid])) {
+                    $bycat[$dbocriterion->categoryid] = [];
+                }
+                $bycat[$dbocriterion->categoryid][$dbocriterion->id] = db_instance_criterion::to_instance_criterion($dbocriterion);
             }
-            $bycat[$dbocriterion->categoryid][$dbocriterion->id] = db_instance_criterion::to_instance_criterion($dbocriterion);
+            $rs->close();
+            $bycats[$id] = $bycat;
         }
-        $rs->close();
-        return $bycat;
+        return $bycats[$id];
     }
 
     /**
@@ -245,26 +250,32 @@ class instance_repository {
      */
     private static function get_subratings_by_criterion_for_instance(int $id): array {
         global $DB;
-        $crittab = tables::INSTANCE_CRITERION_TABLE;
-        $cattab = tables::INSTANCE_CATEGORY_TABLE;
-        $srattab = tables::INSTANCE_SUBRATING_TABLE;
-        $sql = "SELECT srat.*
-                  FROM {{$srattab}} srat
-                  JOIN {{$crittab}} crit
-                    ON srat.criterionid = crit.id
-                  JOIN {{$cattab}} mvic
-                    ON crit.categoryid = mvic.id
-                 WHERE mvic.instanceid = ?";
-        $rs = $DB->get_recordset_sql($sql, [$id]);
-        $bycrit = [];
-        foreach ($rs as $dbosubrating) {
-            if (!isset($bycrit[$dbosubrating->criterionid])) {
-                $bycrit[$dbosubrating->criterionid] = [];
+
+        static $bycrits = [];
+
+        if (!array_key_exists($id, $bycrits) || PHPUNIT_TEST) {
+            $crittab = tables::INSTANCE_CRITERION_TABLE;
+            $cattab = tables::INSTANCE_CATEGORY_TABLE;
+            $srattab = tables::INSTANCE_SUBRATING_TABLE;
+            $sql = "SELECT srat.*
+                    FROM {{$srattab}} srat
+                    JOIN {{$crittab}} crit
+                        ON srat.criterionid = crit.id
+                    JOIN {{$cattab}} mvic
+                        ON crit.categoryid = mvic.id
+                    WHERE mvic.instanceid = ?";
+            $rs = $DB->get_recordset_sql($sql, [$id]);
+            $bycrit = [];
+            foreach ($rs as $dbosubrating) {
+                if (!isset($bycrit[$dbosubrating->criterionid])) {
+                    $bycrit[$dbosubrating->criterionid] = [];
+                }
+                $bycrit[$dbosubrating->criterionid][$dbosubrating->id] = db_instance_subrating::to_subrating($dbosubrating);
             }
-            $bycrit[$dbosubrating->criterionid][$dbosubrating->id] = db_instance_subrating::to_subrating($dbosubrating);
+            $rs->close();
+            $bycrits[$id] = $bycrit;
         }
-        $rs->close();
-        return $bycrit;
+        return $bycrits[$id];
     }
 
     /**
