@@ -135,13 +135,12 @@ function add_instance_to_localized_string() {
     // Category header.
     $sql = sprintf('
         UPDATE {%2$s} SET instanceid = {%1$s}.instanceid FROM {%1$s}
-        WHERE {%1$s}.id = {%2$s}.foreignkey AND {%2$s}.typeid IN (?, ?)',
+        WHERE {%1$s}.id = {%2$s}.foreignkey AND {%2$s}.typeid = ?',
         tables::INSTANCE_CATEGORY_TABLE,
         tables::LOCALIZED_STRING_TABLE,
     );
     $DB->execute($sql, [
         localized_string_type::str2id(localized_string_type::INSTANCE_CATEGORY_HEADER),
-        localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER),
     ]);
 
     // Category criterion.
