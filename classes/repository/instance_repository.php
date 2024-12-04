@@ -70,7 +70,7 @@ class instance_repository {
             $category = db_instance_category::to_instance_category($dbocategory);
 
             // Load category headers.
-            $dbolocalizedstrings = self::get_strings(localized_string_type::INSTANCE_CATEGORY_HEADER, $category->get_id());
+            $dbolocalizedstrings = self::get_strings(localized_string_type::INSTANCE_CATEGORY_HEADER, $category->get_id(), $id);
             foreach ($dbolocalizedstrings as $dbo) {
                 $header = db_localized_string::to_localized_string($dbo);
                 $category->add_header($header);
@@ -81,7 +81,7 @@ class instance_repository {
             foreach ($criteria as $criterion) {
 
                 // Load criterion description.
-                $dbodescriptions = self::get_strings(localized_string_type::INSTANCE_CRITERION, $criterion->get_id());
+                $dbodescriptions = self::get_strings(localized_string_type::INSTANCE_CRITERION, $criterion->get_id(), $id);
                 foreach ($dbodescriptions as $dbodescription) {
                     $description = db_localized_string::to_localized_string($dbodescription);
                     $criterion->add_description($description);
@@ -104,7 +104,7 @@ class instance_repository {
                         // Load subrating very positive texts.
                         localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE => 'verypositives',
                     ] as $type => $attribute) {
-                        $dbotitles = self::get_strings($type, $subrating->get_id());
+                        $dbotitles = self::get_strings($type, $subrating->get_id(), $id);
                         foreach ($dbotitles as $dbotitle) {
                             $item = db_localized_string::to_localized_string($dbotitle);
                             $subrating->{$attribute}[] = $item;
@@ -113,7 +113,7 @@ class instance_repository {
 
                     // Load subrating descriptions.
                     $dbosubratingdescriptions = self::get_strings(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION,
-                        $subrating->get_id());
+                        $subrating->get_id(), $id);
                     foreach ($dbosubratingdescriptions as $dbosubratingdescription) {
                         $subratingdescription = db_localized_string::to_localized_string($dbosubratingdescription);
                         $subrating->add_description($subratingdescription);
@@ -121,7 +121,7 @@ class instance_repository {
 
                     // Load subrating very negative texts.
                     $dboverynegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE,
-                        $subrating->get_id());
+                        $subrating->get_id(), $id);
                     foreach ($dboverynegatives as $dboverynegative) {
                         $verynegative = db_localized_string::to_localized_string($dboverynegative);
                         $subrating->add_verynegative($verynegative);
@@ -129,7 +129,7 @@ class instance_repository {
 
                     // Load subrating negative texts.
                     $dbonegatives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_NEGATIVE,
-                        $subrating->get_id());
+                        $subrating->get_id(), $id);
                     foreach ($dbonegatives as $dbonegative) {
                         $negative = db_localized_string::to_localized_string($dbonegative);
                         $subrating->add_negative($negative);
@@ -137,7 +137,7 @@ class instance_repository {
 
                     // Load subrating positive texts.
                     $dbopositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_POSITIVE,
-                        $subrating->get_id());
+                        $subrating->get_id(), $id);
                     foreach ($dbopositives as $dbopositive) {
                         $positive = db_localized_string::to_localized_string($dbopositive);
                         $subrating->add_positive($positive);
@@ -145,7 +145,7 @@ class instance_repository {
 
                     // Load subrating very positive texts.
                     $dboverypositives = self::get_strings(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE,
-                        $subrating->get_id());
+                        $subrating->get_id(), $id);
                     foreach ($dboverypositives as $dboverypositive) {
                         $verypositive = db_localized_string::to_localized_string($dboverypositive);
                         $subrating->add_verypositive($verypositive);
@@ -167,22 +167,35 @@ class instance_repository {
      *
      * @param string $type
      * @param int $subratingid
+     * @param int $instanceid
      * @param bool $throwonerror
      * @return array
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    private static function get_strings(string $type, int $subratingid, bool $throwonerror = false): array {
+    private static function get_strings(string $type, int $subratingid, int $instanceid = 0, bool $throwonerror = false): array {
         global $DB;
 
         static $sortedstrings = [];
+        $typeid = localized_string_type::str2id($type);
+
+        if ($instanceid > 0) {
+            $strings = self::get_strings_for_instance($instanceid);
+            if (array_key_exists($typeid, $strings) && array_key_exists($subratingid, $strings[$typeid])) {
+                return $strings[$typeid][$subratingid];
+            }
+            if ($throwonerror) {
+                throw new \coding_exception("No strings for type $type and subratingid $subratingid");
+            }
+            return [];
+        }
         $cachekey = $type . '~~' . $subratingid;
 
         if (!array_key_exists($cachekey, $sortedstrings) || PHPUNIT_TEST) {
             $sortedstrings[$cachekey] = [];
             $rs = $DB->get_recordset(
                 tables::LOCALIZED_STRING_TABLE,
-                ['typeid' => localized_string_type::str2id($type), 'foreignkey' => $subratingid]
+                ['typeid' => $typeid, 'foreignkey' => $subratingid]
             );
             foreach ($rs as $dboheader) {
                 $dbobj = new db_localized_string;
@@ -205,6 +218,44 @@ class instance_repository {
         }
 
         return $sortedstrings[$cachekey];
+    }
+
+    /**
+     * Same as get_strings but for a specific instance, load the string all at once.
+     *
+     * @param int $id - instance id of the verbal feedback activity.
+     * @return array
+     */
+    private static function get_strings_for_instance(int $id): array {
+        global $DB;
+
+        static $byinstance = [];
+
+        if (!array_key_exists($id, $byinstance) || PHPUNIT_TEST) {
+            $byinstance[$id] = [];
+            $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE, ['instanceid' => $id]);
+            foreach ($rs as $dboheader) {
+                $dbobj = new db_localized_string;
+                $dbobj->id = $dboheader->id;
+                $dbobj->languageid = $dboheader->languageid;
+                $dbobj->string = $dboheader->string;
+                $dbobj->typeid = $dboheader->typeid;
+                $dbobj->foreignkey = $dboheader->foreignkey;
+                $dbobj->instanceid = $dboheader->instanceid;
+
+                if (!array_key_exists($dbobj->typeid, $byinstance[$id])) {
+                    $byinstance[$id][$dbobj->typeid] = [];
+                }
+                if (!array_key_exists($dbobj->foreignkey, $byinstance[$id][$dbobj->typeid])) {
+                    $byinstance[$id][$dbobj->typeid][$dbobj->foreignkey] = [];
+                }
+                // Store the localized string by instanceid, typeid, foreignkey, languageid.
+                $byinstance[$id][$dbobj->typeid][$dbobj->foreignkey][$dbobj->languageid] = $dbobj;
+            }
+            $rs->close();
+        }
+
+        return $byinstance[$id];
     }
 
     /**
