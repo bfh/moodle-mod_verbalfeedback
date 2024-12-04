@@ -358,7 +358,7 @@ class instance_repository {
 
                 foreach ($category->get_headers() as $header) {
                     $dbolocalizedstring = db_localized_string::from_localized_string($header,
-                        localized_string_type::INSTANCE_CATEGORY_HEADER, $category->get_id());
+                        localized_string_type::INSTANCE_CATEGORY_HEADER, $category->get_id(), $instance->get_id());
                     if ($header->get_id() == 0) {
                         $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dbolocalizedstring);
                     } else {
@@ -377,7 +377,7 @@ class instance_repository {
 
                     foreach ($criterion->get_descriptions() as $localizedstring) {
                         $dbolocalizedstring = db_localized_string::from_localized_string($localizedstring,
-                            localized_string_type::INSTANCE_CRITERION, $criterion->get_id());
+                            localized_string_type::INSTANCE_CRITERION, $criterion->get_id(), $instance->get_id());
                         if ($localizedstring->get_id() == 0) {
                             $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dbolocalizedstring);
                         } else {
@@ -396,7 +396,7 @@ class instance_repository {
 
                         foreach ($subrating->get_titles() as $title) {
                             $dbotitle = db_localized_string::from_localized_string($title,
-                                localized_string_type::INSTANCE_SUBRATING_TITLE, $subrating->get_id());
+                                localized_string_type::INSTANCE_SUBRATING_TITLE, $subrating->get_id(), $instance->get_id());
                             if ($title->get_id() == 0) {
                                 $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dbotitle);
                             } else {
@@ -407,7 +407,7 @@ class instance_repository {
                         // Subrating description.
                         foreach ($subrating->get_descriptions() as $description) {
                             $dbodescription = db_localized_string::from_localized_string($description,
-                                localized_string_type::INSTANCE_SUBRATING_DESCRIPTION, $subrating->get_id());
+                                localized_string_type::INSTANCE_SUBRATING_DESCRIPTION, $subrating->get_id(), $instance->get_id());
                             if ($description->get_id() == 0) {
                                 $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dbodescription);
                             } else {
@@ -417,7 +417,7 @@ class instance_repository {
 
                         foreach ($subrating->get_verynegatives() as $verynegative) {
                             $dboverynegative = db_localized_string::from_localized_string($verynegative,
-                                localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE, $subrating->get_id());
+                                localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE, $subrating->get_id(), $instance->get_id());
                             if ($verynegative->get_id() == 0) {
                                 $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dboverynegative);
                             } else {
@@ -426,7 +426,7 @@ class instance_repository {
                         }
                         foreach ($subrating->get_negatives() as $negative) {
                             $dbonegative = db_localized_string::from_localized_string($negative,
-                                localized_string_type::INSTANCE_SUBRATING_NEGATIVE, $subrating->get_id());
+                                localized_string_type::INSTANCE_SUBRATING_NEGATIVE, $subrating->get_id(), $instance->get_id());
                             if ($negative->get_id() == 0) {
                                 $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dbonegative);
                             } else {
@@ -435,7 +435,7 @@ class instance_repository {
                         }
                         foreach ($subrating->get_positives() as $positive) {
                             $dbopositive = db_localized_string::from_localized_string($positive,
-                                localized_string_type::INSTANCE_SUBRATING_POSITIVE, $subrating->get_id());
+                                localized_string_type::INSTANCE_SUBRATING_POSITIVE, $subrating->get_id(), $instance->get_id());
                             if ($positive->get_id() == 0) {
                                 $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dbopositive);
                             } else {
@@ -444,7 +444,7 @@ class instance_repository {
                         }
                         foreach ($subrating->get_verypositives() as $verypositive) {
                             $dboverypositive = db_localized_string::from_localized_string($verypositive,
-                                localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE, $subrating->get_id());
+                                localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE, $subrating->get_id(), $instance->get_id());
                             if ($verypositive->get_id() == 0) {
                                 $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dboverypositive);
                             } else {
@@ -471,47 +471,12 @@ class instance_repository {
 
         $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $instanceid]);
         foreach ($dbocategories as $dbocategory) {
-            // Delete category headers.
-            $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-            ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_CATEGORY_HEADER), "foreignkey" => $dbocategory->id]);
+            // Delete all strings.
+            $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ["instanceid" => $instanceid]);
 
             // Delete category criteria.
             $dbocriteria = $DB->get_records(tables::INSTANCE_CRITERION_TABLE, ["categoryid" => $dbocategory->id]);
             foreach ($dbocriteria as $dbocriterion) {
-
-                // Delete criterion description.
-                $dbodescriptions = $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                    ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_CRITERION), "foreignkey" => $dbocriterion->id]);
-
-                // Delete criterion subratings.
-                $dbosubratings = $DB->get_records(tables::INSTANCE_SUBRATING_TABLE, ["criterionid" => $dbocriterion->id]);
-                foreach ($dbosubratings as $dbosubrating) {
-
-                    // Delete subrating titles.
-                    $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_TITLE), "foreignkey" => $dbosubrating->id]);
-
-                    // Delete subrating descriptions.
-                    $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION), "foreignkey" => $dbosubrating->id]);
-
-                    // Delete subrating very negative texts.
-                    $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE), "foreignkey" => $dbosubrating->id]);
-
-                    // Delete subrating negative texts.
-                    $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_NEGATIVE), "foreignkey" => $dbosubrating->id]);
-
-                    // Delete subrating positive texts.
-                    $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_POSITIVE), "foreignkey" => $dbosubrating->id]);
-
-                    // Delete subrating very positive texts.
-                    $DB->delete_records(tables::LOCALIZED_STRING_TABLE,
-                        ["typeid" => localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE), "foreignkey" => $dbosubrating->id]);
-                }
-
                 // Delete subratings.
                 $dbosubratings = $DB->delete_records(tables::INSTANCE_SUBRATING_TABLE, ["criterionid" => $dbocriterion->id]);
             }

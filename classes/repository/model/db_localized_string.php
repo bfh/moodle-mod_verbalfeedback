@@ -72,7 +72,7 @@ class db_localized_string {
      * @throws \Exception
      */
     public static function from_localized_string(localized_string $localizedstring, string $type,
-    int $foreignkey, int $instanceid): db_localized_string {
+    int $foreignkey, int $instanceid = 0): db_localized_string {
         if (!localized_string_type::exists($type)) {
             throw new \Exception("unknown localized_string_type");
         }
