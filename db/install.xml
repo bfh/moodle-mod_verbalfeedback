@@ -21,6 +21,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="foreignkey" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="typeid" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="languageid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="string" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
@@ -30,6 +31,7 @@
       </KEYS>
       <INDEXES>
         <INDEX NAME="subitemtype" UNIQUE="false" FIELDS="foreignkey, typeid"/>
+        <INDEX NAME="instanceidx" UNIQUE="false" FIELDS="instanceid"/>
       </INDEXES>
     </TABLE>
     <TABLE NAME="verbalfeedback_template" COMMENT="Verbalfeedback templates">
