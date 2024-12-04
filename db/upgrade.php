@@ -155,12 +155,11 @@ function add_instance_to_localized_string() {
     foreach ($results as $result) {
         $DB->execute(
             sprintf('UPDATE {%s} SET instanceid = ?
-            WHERE foreignkey = ? AND typeid IN (?, ?)', tables::LOCALIZED_STRING_TABLE),
+            WHERE foreignkey = ? AND typeid = ?', tables::LOCALIZED_STRING_TABLE),
             [
                 $result->instanceid,
                 $result->id,
                 localized_string_type::str2id(localized_string_type::INSTANCE_CRITERION),
-                localized_string_type::str2id(localized_string_type::TEMPLATE_CRITERION),
             ]
         );
     }
