@@ -58,35 +58,35 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
         $category = new backup_nested_element('category', ['id'], ['instanceid', 'paramtemplatecategoryid', 'position', 'weight']);
 
         $categoryheaders = new backup_nested_element('categoryheaders');
-        $categoryheader = new backup_nested_element('categoryheader', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $categoryheader = new backup_nested_element('categoryheader', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $criteria = new backup_nested_element('criteria');
         $criterion = new backup_nested_element('criterion', ['id'],
             ['paramtemplatecriterionid', 'categoryid', 'position', 'weight']);
 
         $criteriontexts = new backup_nested_element('criteriontexts');
-        $criteriontext = new backup_nested_element('criteriontext', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $criteriontext = new backup_nested_element('criteriontext', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratings = new backup_nested_element('subratings');
         $subrating = new backup_nested_element('subrating', ['id'], ['criterionid']);
 
         $subratingtitles = new backup_nested_element('titles');
-        $subratingtitle = new backup_nested_element('title', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $subratingtitle = new backup_nested_element('title', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratingdescriptions = new backup_nested_element('descriptions');
-        $subratingdescription = new backup_nested_element('description', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $subratingdescription = new backup_nested_element('description', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratingverynegatives = new backup_nested_element('verynegatives');
-        $subratingverynegative = new backup_nested_element('verynegative', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $subratingverynegative = new backup_nested_element('verynegative', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratingnegatives = new backup_nested_element('negatives');
-        $subratingnegative = new backup_nested_element('negative', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $subratingnegative = new backup_nested_element('negative', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratingpositives = new backup_nested_element('positives');
-        $subratingpositive = new backup_nested_element('positive', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $subratingpositive = new backup_nested_element('positive', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratingverypositives = new backup_nested_element('verypositives');
-        $subratingverypositive = new backup_nested_element('verypositive', ['id'], ['foreignkey', 'type', 'languageid', 'string']);
+        $subratingverypositive = new backup_nested_element('verypositive', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $submissions = new backup_nested_element('submissions');
         $submission = new backup_nested_element('submission', ['id'], ['instanceid', 'fromuserid', 'touserid', 'status',
