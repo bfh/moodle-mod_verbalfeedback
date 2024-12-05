@@ -126,4 +126,23 @@ class localized_string_type {
         }
         return $constants[$id - 1];
     }
+
+    /**
+     * Return whether a type is a template type.
+     *
+     * @param string $type
+     * @return bool
+     */
+    public static function is_template_type(string $type): bool {
+        return in_array($type, [
+            self::TEMPLATE_CRITERION,
+            self::TEMPLATE_CATEGORY_HEADER,
+            self::TEMPLATE_SUBRATING_TITLE,
+            self::TEMPLATE_SUBRATING_DESCRIPTION,
+            self::TEMPLATE_SUBRATING_VERY_NEGATIVE,
+            self::TEMPLATE_SUBRATING_NEGATIVE,
+            self::TEMPLATE_SUBRATING_POSITIVE,
+            self::TEMPLATE_SUBRATING_VERY_POSITIVE,
+        ]);
+    }
 }

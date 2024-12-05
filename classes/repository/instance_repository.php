@@ -179,7 +179,7 @@ class instance_repository {
         static $sortedstrings = [];
         $typeid = localized_string_type::str2id($type);
 
-        if ($instanceid > 0) {
+        if ($instanceid > 0 || localized_string_type::is_template_type($type)) {
             $strings = self::get_strings_for_instance($instanceid);
             if (array_key_exists($typeid, $strings) && array_key_exists($subratingid, $strings[$typeid])) {
                 return $strings[$typeid][$subratingid];
