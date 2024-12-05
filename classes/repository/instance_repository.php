@@ -204,6 +204,7 @@ class instance_repository {
                 $dbobj->string = $dboheader->string;
                 $dbobj->typeid = $dboheader->typeid;
                 $dbobj->foreignkey = $dboheader->foreignkey;
+                $dbobj->instanceid = $dboheader->instanceid;
 
                 $sortedstrings[$cachekey][$dbobj->languageid] = $dbobj;
             }
@@ -471,19 +472,20 @@ class instance_repository {
 
         $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $instanceid]);
         foreach ($dbocategories as $dbocategory) {
-            // Delete all strings.
-            $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ["instanceid" => $instanceid]);
-
             // Delete category criteria.
             $dbocriteria = $DB->get_records(tables::INSTANCE_CRITERION_TABLE, ["categoryid" => $dbocategory->id]);
             foreach ($dbocriteria as $dbocriterion) {
                 // Delete subratings.
-                $dbosubratings = $DB->delete_records(tables::INSTANCE_SUBRATING_TABLE, ["criterionid" => $dbocriterion->id]);
+                $DB->delete_records(tables::INSTANCE_SUBRATING_TABLE, ["criterionid" => $dbocriterion->id]);
             }
             $DB->delete_records(tables::INSTANCE_CRITERION_TABLE, ["categoryid" => $dbocategory->id]);
         }
 
+        // Delete all strings.
+        $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ["instanceid" => $instanceid]);
+        // Delete categories.
         $DB->delete_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $instanceid]);
+        // Delete the instance itself.
         return $DB->delete_records(tables::INSTANCE_TABLE, ["id" => $instanceid]);
     }
 
