@@ -335,7 +335,6 @@ class restore_verbalfeedback_activity_structure_step extends restore_activity_st
         $data = (object) $data;
         $data->foreignkey = $this->get_mappingid($foreigenkeymapping, $data->foreignkey);
         $data->languageid = $this->get_mappingid('language', $data->languageid);
-        $data->typeid = $this->get_mappingid('typeid', $data->typeid);
         $data->instanceid = $this->instanceid;
         $DB->insert_record('verbalfeedback_local_string', $data);
     }
