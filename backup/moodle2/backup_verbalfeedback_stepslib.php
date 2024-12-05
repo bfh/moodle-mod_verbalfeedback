@@ -144,26 +144,50 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
         $language->set_source_table(tables::LANGUAGE_TABLE, []);
 
         $category->set_source_table(tables::INSTANCE_CATEGORY_TABLE, ['instanceid' => backup::VAR_PARENTID], 'id ASC');
-        $categoryheader->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_CATEGORY_HEADER), ]);
+        $categoryheader->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_CATEGORY_HEADER)
+            ), ]);
 
         $criterion->set_source_table(tables::INSTANCE_CRITERION_TABLE, ['categoryid' => backup::VAR_PARENTID], 'id ASC');
-        $criteriontext->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_CRITERION), ]);
+        $criteriontext->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_CRITERION)
+            ), ]);
 
         $subrating->set_source_table(tables::INSTANCE_SUBRATING_TABLE, ['criterionid' => backup::VAR_PARENTID], 'id ASC');
-        $subratingtitle->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_TITLE), ]);
-        $subratingdescription->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION), ]);
-        $subratingverynegative->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE), ]);
-        $subratingnegative->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_NEGATIVE), ]);
-        $subratingpositive->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_POSITIVE), ]);
-        $subratingverypositive->set_source_table(tables::LOCALIZED_STRING_TABLE, ['foreignkey' => backup::VAR_PARENTID,
-            'type' => backup_helper::is_sqlparam(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE), ]);
+        $subratingtitle->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_TITLE)
+            ), ]);
+        $subratingdescription->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION)
+            ), ]);
+        $subratingverynegative->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE)
+            ), ]);
+        $subratingnegative->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_NEGATIVE)
+            ), ]);
+        $subratingpositive->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_POSITIVE)
+            ), ]);
+        $subratingverypositive->set_source_table(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => backup::VAR_PARENTID,
+            'typeid' => backup_helper::is_sqlparam(
+                localized_string_type::str2id(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE)
+            ), ]);
 
         // All the rest of elements only happen if we are including user info.
         if ($userinfo) {
