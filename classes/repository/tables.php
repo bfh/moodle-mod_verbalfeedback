@@ -57,6 +57,10 @@ class tables {
      */
     const TEMPLATE_TABLE = 'verbalfeedback_template';
     /**
+     * Template category table name.
+     */
+    const TEMPLATE_CATEGORY_TABLE = 'verbalfeedback_t_category';
+    /**
      *
      */
     const TEMPLATE_CRITERION_TABLE = 'verbalfeedback_t_criterion';

@@ -25,9 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_verbalfeedback';
-$plugin->version = 2024071300;
+$plugin->version = 2024120400;
 $plugin->requires = 2022112800;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->cron      = 0;
-$plugin->supported = [401, 404];
-$plugin->release   = 'v4.4-r2';
+$plugin->supported = [401, 405];
+$plugin->release   = 'v4.4-r3';

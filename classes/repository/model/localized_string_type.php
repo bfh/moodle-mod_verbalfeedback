@@ -62,48 +62,87 @@ class localized_string_type {
     public const TEMPLATE_SUBRATING_VERY_POSITIVE = 'template_subrating_verypositive';
 
     /**
-     * Return whether a type exists
+     * Return all existing types in a order, so that the numeric value + 1 can
+     * be used as a string.
+     *
+     * @return string[] 
+     */
+    public static function getStringTypes(): array {
+        return [
+            self::INSTANCE_CRITERION,
+            self::INSTANCE_CATEGORY_HEADER,
+            self::INSTANCE_SUBRATING_TITLE,
+            self::INSTANCE_SUBRATING_DESCRIPTION,
+            self::INSTANCE_SUBRATING_VERY_NEGATIVE,
+            self::INSTANCE_SUBRATING_NEGATIVE,
+            self::INSTANCE_SUBRATING_POSITIVE,
+            self::INSTANCE_SUBRATING_VERY_POSITIVE,
+            self::TEMPLATE_CRITERION,
+            self::TEMPLATE_CATEGORY_HEADER,
+            self::TEMPLATE_SUBRATING_TITLE,
+            self::TEMPLATE_SUBRATING_DESCRIPTION,
+            self::TEMPLATE_SUBRATING_VERY_NEGATIVE,
+            self::TEMPLATE_SUBRATING_NEGATIVE,
+            self::TEMPLATE_SUBRATING_POSITIVE,
+            self::TEMPLATE_SUBRATING_VERY_POSITIVE,
+        ];
+    }
+    /**
+     * Return whether a type string exists.
+     *
      * @param string $type A string type
      * @return bool If a string type exists
      */
     public static function exists(string $type) {
-        switch($type) {
-            case self::INSTANCE_CRITERION:
-                return true;
-            case self::INSTANCE_CATEGORY_HEADER:
-                return true;
-            case self::INSTANCE_SUBRATING_TITLE:
-                return true;
-            case self::INSTANCE_SUBRATING_DESCRIPTION:
-                return true;
-            case self::INSTANCE_SUBRATING_VERY_NEGATIVE:
-                return true;
-            case self::INSTANCE_SUBRATING_NEGATIVE:
-                return true;
-            case self::INSTANCE_SUBRATING_POSITIVE:
-                return true;
-            case self::INSTANCE_SUBRATING_VERY_POSITIVE:
-                return true;
+        return in_array($type, self::getStringTypes());
+    }
 
-            case self::TEMPLATE_CRITERION:
-                return true;
-            case self::TEMPLATE_CATEGORY_HEADER:
-                return true;
-            case self::TEMPLATE_SUBRATING_TITLE:
-                return true;
-            case self::TEMPLATE_SUBRATING_DESCRIPTION:
-                return true;
-            case self::TEMPLATE_SUBRATING_VERY_NEGATIVE:
-                return true;
-            case self::TEMPLATE_SUBRATING_NEGATIVE:
-                return true;
-            case self::TEMPLATE_SUBRATING_POSITIVE:
-                return true;
-            case self::TEMPLATE_SUBRATING_VERY_POSITIVE:
-                return true;
-
-            default:
-                return false;
+    /**
+     * Convert string constant to id.
+     *
+     * @param string $type
+     * @return int
+     * @throws \InvalidArgumentException
+     */
+    public static function str2id(string $type):int {
+        $key = array_search($type, self::getStringTypes());
+        if ($key === false) {
+            throw new \InvalidArgumentException("Invalid str: $type");
         }
+        return $key + 1;
+    }
+
+    /**
+     * Convert id to string contant.
+     *
+     * @param int $id
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public static function id2str(int $id):string {
+        $constants = self::getStringTypes();
+        if ($id < 1 || $id > count($constants)) {
+            throw new \InvalidArgumentException("Invalid id: $id");
+        }
+        return $constants[$id - 1];
+    }
+
+    /**
+     * Return whether a type is a template type.
+     *
+     * @param string $type
+     * @return bool
+     */
+    public static function is_template_type(string $type): bool {
+        return in_array($type, [
+            self::TEMPLATE_CRITERION,
+            self::TEMPLATE_CATEGORY_HEADER,
+            self::TEMPLATE_SUBRATING_TITLE,
+            self::TEMPLATE_SUBRATING_DESCRIPTION,
+            self::TEMPLATE_SUBRATING_VERY_NEGATIVE,
+            self::TEMPLATE_SUBRATING_NEGATIVE,
+            self::TEMPLATE_SUBRATING_POSITIVE,
+            self::TEMPLATE_SUBRATING_VERY_POSITIVE,
+        ]);
     }
 }

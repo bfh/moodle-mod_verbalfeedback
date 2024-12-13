@@ -25,8 +25,6 @@
 use mod_verbalfeedback\forms\template_delete_form;
 use mod_verbalfeedback\repository\template_repository;
 
-use mod_verbalfeedback\model\template\template;
-
 require_once(__DIR__ . '/../../config.php');
 
 // Require own locallib.php.

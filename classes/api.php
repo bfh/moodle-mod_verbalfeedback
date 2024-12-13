@@ -29,21 +29,14 @@ use context_module;
 use dml_exception;
 use Exception;
 use moodle_exception;
-use stdClass;
-use core_date;
-use mod_verbalfeedback\api\gradebook;
 use mod_verbalfeedback\model\response;
 use mod_verbalfeedback\model\submission;
 use mod_verbalfeedback\model\submission_status;
 use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\repository\submission_repository;
 use mod_verbalfeedback\repository\tables;
-use mod_verbalfeedback\utils\user;
-use mod_verbalfeedback\utils\instance;
 use mod_verbalfeedback\utils\user_utils;
 
-// Quick hack for issue #43.
-ini_set('memory_limit', '256M');
 
 /**
  * Class for performing DB actions for the verbal feedback activity module.
@@ -52,13 +45,6 @@ ini_set('memory_limit', '256M');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class api {
-
-    /** The instance database table. */
-    const DB_INSTANCE = "verbalfeedback";
-    /** The response database table. */
-    const DB_RESPONSE = "verbalfeedback_response";
-    /** The submission database table. */
-    const DB_SUBMISSION = "verbalfeedback_submission";
 
     /** Status when a user has not yet provided feedback to another user. */
     const STATUS_PENDING = 0;
@@ -101,8 +87,8 @@ class api {
         global $DB;
 
         $id = (int)$verbalfeedbackid;
-        if (!array_key_exists($id, static::$instances)) {
-            static::$instances[$id] = $DB->get_record('verbalfeedback', ['id' => $id], '*', MUST_EXIST);
+        if (!array_key_exists($id, static::$instances) && !PHPUNIT_TEST) {
+            static::$instances[$id] = $DB->get_record(tables::INSTANCE_TABLE, ['id' => $id], '*', MUST_EXIST);
         } 
         return static::$instances[$id];
     }
@@ -127,14 +113,19 @@ class api {
      */
     public static function get_instance_by_itemid($itemid) {
         global $DB;
-        return $DB->get_record_sql("SELECT *
-                                          FROM {" . tables::INSTANCE_TABLE .
-                                      "} WHERE id = (SELECT instanceid
-                                                       FROM {" . tables::INSTANCE_CATEGORY_TABLE .
-                                                   "} WHERE id = (SELECT categoryid
-                                                                            FROM {" . tables::INSTANCE_CRITERION_TABLE .
-                                                                        "} WHERE id = ?))",
-            [$itemid], IGNORE_MISSING);
+        $id = (int)$itemid;
+        static $instances = [];
+        if (isset($instances[$id])) {
+            return $instances[$id];
+        }
+        $instances[$id] = $DB->get_record_sql(sprintf('
+            SELECT vf.* FROM {%s} vf
+            INNER JOIN {%s} cat ON cat.instanceid = vf.id
+            INNER JOIN {%s} crit ON crit.categoryid = cat.id
+            WHERE crit.id = ?',
+            tables::INSTANCE_TABLE, tables::INSTANCE_CATEGORY_TABLE, tables::INSTANCE_CRITERION_TABLE),
+            [$id], IGNORE_MISSING);
+        return $instances[$id];
     }
 
     /**
@@ -146,12 +137,18 @@ class api {
      */
     public static function get_instance_by_categoryid($categoryid) {
         global $DB;
-        return $DB->get_record_sql("SELECT *
-                                          FROM {" . tables::INSTANCE_TABLE .
-            "} WHERE id = (SELECT instanceid
-                                                       FROM {" . tables::INSTANCE_CATEGORY_TABLE .
-            "} WHERE id = ?)",
-            [$categoryid], IGNORE_MISSING);
+        $id = (int)$categoryid;
+        static $instances = [];
+        if (isset($instances[$id])) {
+            return $instances[$id];
+        }
+        $instances[$id] = $DB->get_record_sql(sprintf('
+            SELECT vf.* FROM {%s} vf
+            INNER JOIN {%s} cat ON cat.instanceid = vf.id
+            WHERE cat.id = ?',
+            tables::INSTANCE_TABLE, tables::INSTANCE_CATEGORY_TABLE),
+            [$id], IGNORE_MISSING);
+        return $instances[$id];
     }
 
     /**
@@ -237,7 +234,7 @@ class api {
         global $DB;
         $submissionrepo = new submission_repository();
 
-        $verbalfeedback = $DB->get_record(self::DB_INSTANCE, ['id' => $verbalfeedbackid], '*', MUST_EXIST);
+        $verbalfeedback = self::get_instance($verbalfeedbackid);
         $wheres = [
             'u.id NOT IN (
                 SELECT fs.touserid
@@ -309,42 +306,29 @@ class api {
      */
     public static function get_scales() {
 
-        $s0 = new stdClass();
-        $s0->scale = null;
-        $s0->scalelabel = get_string('notapplicableabbr', 'verbalfeedback');
-        $s0->description = get_string('scalenotapplicable', 'mod_verbalfeedback');
+        $wordscale = [
+            'scalestronglydisagree',
+            'scaledisagree',
+            'scalesomewhatdisagree',
+            'scalesomewhatagree',
+            'scaleagree',
+            'scalestronglyagree',
+        ];
+        $scales = [];
+        for ($i = 0; $i <= 5; $i++) {
+            $scales[] = (object)[
+                'scale' => $i,
+                'scalelabel' => '' . $i,
+                'description' => get_string($wordscale[$i], 'mod_verbalfeedback'),
+            ];
+        }
+        $scales[] = (object)[
+            'scale' => null,
+            'scalelabel' => get_string('notapplicableabbr', 'verbalfeedback'),
+            'description' => get_string('scalenotapplicable', 'mod_verbalfeedback'),
+        ];
 
-        $s1 = new stdClass();
-        $s1->scale = 0;
-        $s1->scalelabel = '0';
-        $s1->description = get_string('scalestronglydisagree', 'mod_verbalfeedback');
-
-        $s2 = new stdClass();
-        $s2->scale = 1;
-        $s2->scalelabel = '1';
-        $s2->description = get_string('scaledisagree', 'mod_verbalfeedback');
-
-        $s3 = new stdClass();
-        $s3->scale = 2;
-        $s3->scalelabel = '2';
-        $s3->description = get_string('scalesomewhatdisagree', 'mod_verbalfeedback');
-
-        $s4 = new stdClass();
-        $s4->scale = 3;
-        $s4->scalelabel = '3';
-        $s4->description = get_string('scalesomewhatagree', 'mod_verbalfeedback');
-
-        $s5 = new stdClass();
-        $s5->scale = 4;
-        $s5->scalelabel = '4';
-        $s5->description = get_string('scaleagree', 'mod_verbalfeedback');
-
-        $s6 = new stdClass();
-        $s6->scale = 5;
-        $s6->scalelabel = '5';
-        $s6->description = get_string('scalestronglyagree', 'mod_verbalfeedback');
-
-        return [$s1, $s2, $s3, $s4, $s5, $s6, $s0];
+        return $scales;
     }
 
     /**
@@ -463,7 +447,7 @@ class api {
 
         // Check first if the user can write feedback to other participants.
         if (user_utils::can_respond($verbalfeedback, $user) === true) {
-            if (!$DB->record_exists(self::DB_SUBMISSION, ['instance' => $verbalfeedback->id, 'fromuser' => $user])) {
+            if (!$DB->record_exists(tables::SUBMISSION_TABLE, ['instance' => $verbalfeedback->id, 'fromuser' => $user])) {
                 // Generate submission records if there are no submission records yet.
                 self::generate_verbalfeedback_feedback_states($verbalfeedback->id, $user, $verbalfeedback->with_self_review);
             }
@@ -473,7 +457,7 @@ class api {
             $select = "instance = :verbalfeedback AND fromuser = :fromuser AND status $insql";
             $params['verbalfeedback'] = $verbalfeedbackid;
             $params['fromuser'] = $user;
-            return $DB->count_records_select(self::DB_SUBMISSION, $select, $params);
+            return $DB->count_records_select(tables::SUBMISSION_TABLE, $select, $params);
         }
 
         return 0;

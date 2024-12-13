@@ -81,7 +81,7 @@ class submission_repository {
      */
     public function delete_by_id(int $id): bool {
         global $DB;
-        return $DB->delete_records('verbalfeedback_language', ['id' => $id]);
+        return $DB->delete_records(tables::LANGUAGE_TABLE, ['id' => $id]);
     }
 
     /**
