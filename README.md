@@ -3,7 +3,7 @@
 [![GitHub
 Release](https://img.shields.io/github/release/bfh/moodle-mod_verbalfeedback.svg)](https://github.com/bfh/moodle-mod_verbalfeedback/releases)
 [![PHP Support](https://img.shields.io/badge/php-7.4--8.3-blue)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
-[![Moodle Support](https://img.shields.io/badge/Moodle-4.1--4.4-orange)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
+[![Moodle Support](https://img.shields.io/badge/Moodle-4.1--4.5-orange)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
 [![License GPL-3.0](https://img.shields.io/github/license/bfh/moodle-mod_verbalfeedback?color=lightgrey)](https://github.com/bfh/moodle-mod_verbalfeedback/blob/main/LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/bfh/moodle-mod_verbalfeedback)](https://github.com/bfh/moodle-mod_verbalfeedback/graphs/contributors)
 
@@ -53,6 +53,11 @@ https://github.com/bfh/moodle-mod_verbalfeedback
 The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
 the latest suppored Moodle version and Z is an incresing number for newer versions
 of the plugin whithin the same Moodle version.
+
+### v4.5-r2
+
+- Fix [issue #47](https://github.com/bfh/moodle-mod_verbalfeedback/issues/47)
+error when upgrading to 4.5 while using MySQL/MariaDB.
 
 ### v4.5-r1
 
