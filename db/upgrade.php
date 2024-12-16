@@ -133,13 +133,13 @@ function add_instance_to_localized_string() {
     global $DB;
 
     // Category header.
-    $sql = sprintf('
-        UPDATE {%2$s} SET instanceid = {%1$s}.instanceid FROM {%1$s}
-        WHERE {%1$s}.id = {%2$s}.foreignkey AND {%2$s}.typeid = ?',
-        tables::INSTANCE_CATEGORY_TABLE,
-        tables::LOCALIZED_STRING_TABLE,
-    );
-    $DB->execute($sql, [
+    $sql = $DB->get_dbfamily() === 'postgres'
+        ? 'UPDATE {%2$s} SET instanceid = {%1$s}.instanceid FROM {%1$s}
+           WHERE {%1$s}.id = {%2$s}.foreignkey AND {%2$s}.typeid = ?'
+        : 'UPDATE {%2$s} JOIN {%1$s} ON {%1$s}.id = {%2$s}.foreignkey
+           SET {%2$s}.instanceid = {%1$s}.instanceid
+           WHERE {%2$s}.typeid = ?';
+    $DB->execute(sprintf($sql, tables::INSTANCE_CATEGORY_TABLE, tables::LOCALIZED_STRING_TABLE), [
         localized_string_type::str2id(localized_string_type::INSTANCE_CATEGORY_HEADER),
     ]);
 
