@@ -23,18 +23,13 @@
  */
 namespace mod_verbalfeedback\output;
 
-use action_link;
 use mod_verbalfeedback\api;
-use mod_verbalfeedback\helper;
 use mod_verbalfeedback\model\report as ModelReport;
 use mod_verbalfeedback\output\model\report_view_model;
-use moodle_url;
 use renderable;
 use renderer_base;
-use single_select;
 use stdClass;
 use templatable;
-use url_select;
 
 /**
  * Class containing data for rendering the verbal feedback report page for a participant.
@@ -44,8 +39,20 @@ use url_select;
  */
 class report_download implements renderable, templatable {
 
-    /** @var int The verbal feedback instance ID. */
-    protected $instanceid;
+    /** @var ModelReport The model class with the data. */
+    protected $report;
+
+    /** @var string The course title. */
+    protected $coursename;
+
+    /** @var int The course start date. */
+    protected $coursestart;
+
+    /** @var int The course end date. */
+    protected $courseend;
+
+    /** @var int The verbal feedback instance name. */
+    protected $instancename;
 
     /** @var array List of items with the average rating/comments given to the user. */
     protected $categories;
@@ -86,6 +93,7 @@ class report_download implements renderable, templatable {
 
         $data->scales = api::get_scales();
         $data->report = new report_view_model($this->report);
+        $data->lang = current_language();
 
         // Iterate and drop criteria with weight 0.
         // First, let's filter our set of criteria inside the categories.

@@ -27,7 +27,6 @@ use mod_verbalfeedback\service\report_service;
 use mod_verbalfeedback\utils\graph_utils;
 
 require_once(__DIR__ . '/../../config.php');
-
 require_once($CFG->libdir . '/pdflib.php');
 require_once($CFG->libdir . '/filestorage/stored_file.php');
 
@@ -36,7 +35,7 @@ global $DB;
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
 
-list ($course, $cm) = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
+list($course, $cm) = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 
 require_login($course, true, $cm);
 
@@ -138,6 +137,14 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // Add a page.
 $pdf->AddPage();
+
+// Set font.
+$fontdir = $CFG->dirroot . '/mod/verbalfeedback/fonts/';
+$pdf->AddFont('CustomFont', '', $fontdir . 'notosans.php');
+$pdf->AddFont('CustomFont', 'B', $fontdir . 'notosansb.php');
+$pdf->AddFont('CustomFont', 'I', $fontdir . 'notosansi.php');
+$pdf->AddFont('CustomFont', 'BI', $fontdir . 'notosansbi.php');
+$pdf->SetFont('CustomFont', '', 12);
 
 // Image size from logo image.
 $image = @getimagesize($imagefile);
