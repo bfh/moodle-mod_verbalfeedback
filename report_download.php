@@ -24,6 +24,7 @@
 
 use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\service\report_service;
+use mod_verbalfeedback\utils\font;
 use mod_verbalfeedback\utils\graph_utils;
 
 require_once(__DIR__ . '/../../config.php');
@@ -80,8 +81,10 @@ $userheading = [
 $reportservice = new report_service();
 $report = $reportservice->create_report($instanceid, $touserid);
 
+$fonthandler = new font($report, $touser);
+
 $templatedata = new mod_verbalfeedback\output\report_download($report, $course->fullname, $course->startdate, $course->enddate,
-    $instancename, $touser);
+    $instancename, $touser, $fonthandler);
 
 $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 $html = $renderer->render($templatedata);
@@ -139,12 +142,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->AddPage();
 
 // Set font.
-$fontdir = $CFG->dirroot . '/mod/verbalfeedback/fonts/';
-$pdf->AddFont('CustomFont', '', $fontdir . 'notosans.php');
-$pdf->AddFont('CustomFont', 'B', $fontdir . 'notosansb.php');
-$pdf->AddFont('CustomFont', 'I', $fontdir . 'notosansi.php');
-$pdf->AddFont('CustomFont', 'BI', $fontdir . 'notosansbi.php');
-$pdf->SetFont('CustomFont', '', 12);
+$fonthandler->set_font_for_pdf($pdf);
 
 // Image size from logo image.
 $image = @getimagesize($imagefile);

@@ -26,6 +26,7 @@ namespace mod_verbalfeedback\output;
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\model\report as ModelReport;
 use mod_verbalfeedback\output\model\report_view_model;
+use mod_verbalfeedback\utils\font;
 use renderable;
 use renderer_base;
 use stdClass;
@@ -60,6 +61,9 @@ class report_download implements renderable, templatable {
     /** @var object Moodle user object of the assessed user. */
     protected $touser;
 
+    /** @var font The font object. */
+    protected $font;
+
     /**
      * The report constructor.
      *
@@ -68,15 +72,17 @@ class report_download implements renderable, templatable {
      * @param int $coursestart The course start date
      * @param int $courseend The course end date
      * @param string $instancename The verbal feedback instance name.
+     * @param font $font The font object.
      * @param int $touser The user this report is being generated for.
      */
-    public function __construct(ModelReport $report, $coursename, $coursestart, $courseend, $instancename, $touser) {
+    public function __construct(ModelReport $report, $coursename, $coursestart, $courseend, $instancename, $touser, font $font) {
         $this->report = $report;
         $this->coursename = $coursename;
         $this->coursestart = $coursestart;
         $this->courseend = $courseend;
         $this->instancename = $instancename;
         $this->touser = $touser;
+        $this->font = $font;
     }
 
     /**
@@ -94,6 +100,9 @@ class report_download implements renderable, templatable {
         $data->scales = api::get_scales();
         $data->report = new report_view_model($this->report);
         $data->lang = current_language();
+        $data->font_base = $this->font->get_font_base();
+        $data->font_student = $this->font->get_font_student();
+        $data->font_teacher = $this->font->get_font_teacher();
 
         // Iterate and drop criteria with weight 0.
         // First, let's filter our set of criteria inside the categories.
