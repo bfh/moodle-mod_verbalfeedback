@@ -24,6 +24,7 @@
 
 namespace mod_verbalfeedback\utils;
 
+use mod_verbalfeedback\model\report;
 
 
 /**
@@ -49,8 +50,6 @@ class font {
 
     /** @var object The report object. */
     protected $report;
-    /** @var object The user object where the report is printed for. */
-    protected $touser;
 
     /** @var string The selected font for the entire document. */
     protected $font_base;
@@ -62,12 +61,10 @@ class font {
     /**
      * Constructor.
      *
-     * @param object $course The report object.
-     * @param object $touser The user object where the report is printed for.
+     * @param report $course The report object.
      */
-    public function __construct($report, $touser) {
+    public function __construct(report $report) {
         $this->report = $report;
-        $this->touser = $touser;
     }
 
     /**
@@ -98,8 +95,9 @@ class font {
      */
     public function get_font_student() {
         if (!$this->font_student) {
-            $font = $this->eval_string(fullname($this->touser));
-            $this->font_student = $font === static::FONT_BASE ? 'inherit' : $font;
+            $touser = \core_user::get_user($this->report->get_to_user_id());
+            $font = $this->eval_string(fullname($touser));
+            $this->font_student = $font === $this->get_font_base() ? 'inherit' : $font;
         }
         return $this->font_student;
     }
@@ -115,7 +113,7 @@ class font {
             foreach ($this->report->get_from_user_ids() as $fromuserid) {
                 $fromuser = \core_user::get_user($fromuserid);
                 $font = $this->eval_string(fullname($fromuser));
-                $this->font_teacher = $font === static::FONT_BASE ? 'inherit' : $font;
+                $this->font_teacher = $font === $this->get_font_base() ? 'inherit' : $font;
                 break;
             }
         }
@@ -155,10 +153,10 @@ class font {
         global $CFG;
 
         $toload = [$this->get_font_base()];
-        if ($this->get_font_student() !== 'inherit' && $this->get_font_student() !== $this->get_font_base()) {
+        if ($this->get_font_student() !== 'inherit') {
             $toload[] = $this->get_font_student();
         }
-        if ($this->get_font_teacher() !== 'inherit' && $this->get_font_teacher() !== $this->get_font_base()) {
+        if ($this->get_font_teacher() !== 'inherit') {
             $toload[] = $this->get_font_teacher();
         }
         foreach ($toload as $font) {
@@ -182,7 +180,7 @@ class font {
     }
 
     /**
-     * Helper function to set the font for the PDF that only has regular and bold.
+     * Helper function to set the font for the PDF that only supports regular and bold style.
      *
      * @param \pdf $pdf The pdf object.
      * @param string $name The name of the font.

@@ -81,7 +81,7 @@ $userheading = [
 $reportservice = new report_service();
 $report = $reportservice->create_report($instanceid, $touserid);
 
-$fonthandler = new font($report, $touser);
+$fonthandler = new font($report);
 
 $templatedata = new mod_verbalfeedback\output\report_download($report, $course->fullname, $course->startdate, $course->enddate,
     $instancename, $touser, $fonthandler);

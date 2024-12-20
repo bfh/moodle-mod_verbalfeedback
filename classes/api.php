@@ -87,7 +87,7 @@ class api {
         global $DB;
 
         $id = (int)$verbalfeedbackid;
-        if (!array_key_exists($id, static::$instances) && !PHPUNIT_TEST) {
+        if (!array_key_exists($id, static::$instances) || PHPUNIT_TEST) {
             static::$instances[$id] = $DB->get_record(tables::INSTANCE_TABLE, ['id' => $id], '*', MUST_EXIST);
         } 
         return static::$instances[$id];
