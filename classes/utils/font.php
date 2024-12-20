@@ -52,16 +52,16 @@ class font {
     protected $report;
 
     /** @var string The selected font for the entire document. */
-    protected $font_base;
+    protected $fontbase;
     /** @var string The selected font for the students name. */
-    protected $font_student;
+    protected $fontstudent;
     /** @var string The selected font for the teachers name. */
-    protected $font_teacher;
+    protected $fontteacher;
 
     /**
      * Constructor.
      *
-     * @param report $course The report object.
+     * @param report $report The report object.
      */
     public function __construct(report $report) {
         $this->report = $report;
@@ -71,21 +71,21 @@ class font {
      * Get the base font for the PDF.
      */
     public function get_font_base() {
-        if (!$this->font_base) {
+        if (!$this->fontbase) {
             $lang = substr(current_language(), 0, 2);
             if ($lang === 'ar') {
-                $this->font_base = static::FONT_ARABIC;
+                $this->fontbase = static::FONT_ARABIC;
             } else if ($lang === 'he') {
-                $this->font_base = static::FONT_HEBREW;
+                $this->fontbase = static::FONT_HEBREW;
             } else if ($lang === 'ja') {
-                $this->font_base = static::FONT_JAPANESE;
+                $this->fontbase = static::FONT_JAPANESE;
             } else if ($lang === 'zh') {
-                $this->font_base = static::FONT_CHINESE;
+                $this->fontbase = static::FONT_CHINESE;
             } else {
-                $this->font_base = static::FONT_BASE;  
+                $this->fontbase = static::FONT_BASE;
             }
         }
-        return $this->font_base;
+        return $this->fontbase;
     }
 
     /**
@@ -94,12 +94,12 @@ class font {
      * @return string The font name (one of the class constants)
      */
     public function get_font_student() {
-        if (!$this->font_student) {
+        if (!$this->fontstudent) {
             $touser = \core_user::get_user($this->report->get_to_user_id());
             $font = $this->eval_string(fullname($touser));
-            $this->font_student = $font === $this->get_font_base() ? 'inherit' : $font;
+            $this->fontstudent = $font === $this->get_font_base() ? 'inherit' : $font;
         }
-        return $this->font_student;
+        return $this->fontstudent;
     }
 
     /**
@@ -108,16 +108,16 @@ class font {
      * @return string The font name (one of the class constants)
      */
     public function get_font_teacher() {
-        if (!$this->font_teacher) {
-            $this->font_teacher = 'inherit';
+        if (!$this->fontteacher) {
+            $this->fontteacher = 'inherit';
             foreach ($this->report->get_from_user_ids() as $fromuserid) {
                 $fromuser = \core_user::get_user($fromuserid);
                 $font = $this->eval_string(fullname($fromuser));
-                $this->font_teacher = $font === $this->get_font_base() ? 'inherit' : $font;
+                $this->fontteacher = $font === $this->get_font_base() ? 'inherit' : $font;
                 break;
             }
         }
-        return $this->font_teacher;
+        return $this->fontteacher;
     }
 
     /**
@@ -127,7 +127,7 @@ class font {
      * @return string The font name (one of the class constants)
      */
     protected function eval_string(string $input): string {
-        
+
         $n = mb_ord(mb_substr($input, 0, 1));
         if ($n >= 0x600 && $n <= 0x6ff) {
             return static::FONT_ARABIC;
@@ -167,7 +167,7 @@ class font {
                 $pdf->AddFont($font, 'I', $file . 'i.php');
                 $pdf->AddFont($font, 'BI', $file . 'bi.php');
                 $pdf->SetFont($font, '', 12);
-            } elseif ($font === static::FONT_ARABIC) {
+            } else if ($font === static::FONT_ARABIC) {
                 $this->set_font_two($pdf, $font, 'notonaskharabic');
             } else if ($font === static::FONT_HEBREW) {
                 $this->set_font_two($pdf, $font, 'notosanshebrew');

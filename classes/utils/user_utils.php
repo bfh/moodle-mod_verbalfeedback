@@ -78,11 +78,11 @@ class user_utils {
      * Whether the user can view their own report.
      *
      * @param instance $instance The verbal feedback instance data.
-     * @param ?context_module|null $context The context the verbal feedback belongs to
+     * @param context_module|null $context The context the verbal feedback belongs to
      * @return bool
      * @throws coding_exception
      */
-    public static function can_view_own_report(instance $instance, ?context_module $context = null) {
+    public static function can_view_own_report(instance $instance, ?context_module $context = null): bool {
         $isreleased = $instance->reports_are_released();
         // Get context if not provided.
         if (empty($context)) {

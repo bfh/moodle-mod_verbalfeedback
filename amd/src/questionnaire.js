@@ -79,10 +79,10 @@ define(['jquery',
         }
     };
 
-    const getComment = function (row, classSel) {
+    const getComment = function(row, classSel) {
         if (getEditor() === 'atto') {
             let comment = row.find(classSel + '.editor_atto_content').html();
-            return comment.replace(/<[^>]+>/g,'').trim() === '' ? '' : comment; // drop empty comments
+            return comment.replace(/<[^>]+>/g, '').trim() === '' ? '' : comment; // Drop empty comments.
         }
         const commentId = row.find(classSel).attr('id');
         if (commentId) {
@@ -92,7 +92,7 @@ define(['jquery',
             } else {
                 comment = $('#' + commentId).val();
             }
-            return comment.replace(/<[^>]+>/g,'').trim() === '' ? '' : comment; // drop empty comments
+            return comment.replace(/<[^>]+>/g, '').trim() === '' ? '' : comment; // Drop empty comments.
         }
         return '';
     };
@@ -112,8 +112,8 @@ define(['jquery',
 
         let questionnaireTable = $('[data-region="questionnaire"]');
 
-        if(questionnaireTable.data('preview') == true) { // dont use '===' as $preview is '1'  not 'true'.
-          // do not look for existing submission on preview page
+        if (questionnaireTable.data('preview') == true) { // Dont use '===' as $preview is '1'  not 'true'.
+          // Do not look for existing submission on preview page.
           return;
         }
 
@@ -137,10 +137,10 @@ define(['jquery',
         promises[0].done(function(result) {
             $.each(result.responses, function() {
               let response = this;
-                responses[response.criterionid]['criterionid'] = response.criterionid;
-                responses[response.criterionid]['value'] = response.value;
-                responses[response.criterionid]['studentcomment'] = response.studentcomment;
-                responses[response.criterionid]['privatecomment'] = response.privatecomment;
+                responses[response.criterionid].criterionid = response.criterionid;
+                responses[response.criterionid].value = response.value;
+                responses[response.criterionid].studentcomment = response.studentcomment;
+                responses[response.criterionid].privatecomment = response.privatecomment;
 
                 $('[data-region="question-row"]').each(function() {
                     if ($(this).data('criterionid') === response.criterionid) {
@@ -204,9 +204,9 @@ define(['jquery',
 
             // Add this selected value to the array of responses.
             if (selected.data('value') === "") { // === is necessary because == "0" equals true;
-                responses[criterionid]['value'] = null;
+                responses[criterionid].value = null;
             } else {
-                responses[criterionid]['value'] = selected.data('value');
+                responses[criterionid].value = selected.data('value');
             }
         });
 
@@ -258,7 +258,7 @@ define(['jquery',
             e.preventDefault();
             let row = $(this).parents('[data-region="question-row"]');
             let detailedRating = row.find(".detailed-rating");
-            if(detailedRating.hasClass("hidden")) {
+            if (detailedRating.hasClass("hidden")) {
                 detailedRating.removeClass("hidden");
                 $(this).html("−");
             } else {
@@ -278,11 +278,11 @@ define(['jquery',
 
         $('.student-comment').each(function() {
             let row = $(this).parents('[data-region="question-row"]');
-            responses[row.data('criterionid')]['studentcomment'] = getComment(row,'.student-comment');
+            responses[row.data('criterionid')].studentcomment = getComment(row, '.student-comment');
         });
         $('.private-comment').each(function() {
             let row = $(this).parents('[data-region="question-row"]');
-            responses[row.data('criterionid')]['privatecomment'] = getComment(row, '.private-comment');
+            responses[row.data('criterionid')].privatecomment = getComment(row, '.private-comment');
         });
 
         let questionnaireTable = $('[data-region="questionnaire"]');
@@ -348,7 +348,6 @@ define(['jquery',
         ]);
 
         promises[0].done(function(response) {
-          // console.log(response);
           let messageStrings = [
                 {
                     key: 'responsessaved',

@@ -164,8 +164,10 @@ class template_category_repository {
     private function get_headers($foreignkey): array {
         global $DB;
 
-        $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE,
-            ['foreignkey' => $foreignkey, 'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER)]);
+        $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => $foreignkey,
+            'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER),
+        ]);
         $headers = [];
         foreach ($dboheaders as $dboheader) {
             $headers[] = db_localized_string::to_localized_string($dboheader);

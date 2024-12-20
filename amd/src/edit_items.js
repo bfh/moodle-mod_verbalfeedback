@@ -50,7 +50,7 @@ define([
             sum += parseFloat($(this).val());
         });
 
-        if(sum != 1) {
+        if (sum != 1) {
             $('.category-percentage').addClass('is-invalid');
             $('#percentage-total').addClass('text-danger');
             $('#percentage-total-value').text(parseFloat(sum * 100).toFixed(2));
@@ -113,7 +113,7 @@ define([
 
         $(ACTIONS.ITEM_MULTIPLIER_CHANGED).change(function(e) {
             e.preventDefault();
-            if(this.value > 5) {
+            if (this.value > 5) {
               this.value = 5.00;
             }
             this.value = parseFloat(this.value).toFixed(2);

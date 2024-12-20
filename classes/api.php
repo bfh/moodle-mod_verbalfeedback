@@ -73,7 +73,7 @@ class api {
     /** Activity close event type. */
     const VERBALFEEDBACK_EVENT_TYPE_CLOSE = 'close';
 
-    /** Cache for verbalfeedback instances */
+    /** @var array Cache for verbalfeedback instances. */
     private static $instances = [];
 
     /**
@@ -89,7 +89,7 @@ class api {
         $id = (int)$verbalfeedbackid;
         if (!array_key_exists($id, static::$instances) || PHPUNIT_TEST) {
             static::$instances[$id] = $DB->get_record(tables::INSTANCE_TABLE, ['id' => $id], '*', MUST_EXIST);
-        } 
+        }
         return static::$instances[$id];
     }
 

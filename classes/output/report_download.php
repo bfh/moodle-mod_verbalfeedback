@@ -72,8 +72,8 @@ class report_download implements renderable, templatable {
      * @param int $coursestart The course start date
      * @param int $courseend The course end date
      * @param string $instancename The verbal feedback instance name.
-     * @param font $font The font object.
      * @param int $touser The user this report is being generated for.
+     * @param font $font The font object.
      */
     public function __construct(ModelReport $report, $coursename, $coursestart, $courseend, $instancename, $touser, font $font) {
         $this->report = $report;

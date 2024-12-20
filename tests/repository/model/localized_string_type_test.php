@@ -115,7 +115,7 @@ final class localized_string_type_test extends \advanced_testcase {
      * @covers \mod_verbalfeedback\repository\model\localized_string_type::getStringTypes
      */
     public function test_getStringTypes(): void {
-        $this->assertEquals($this->stringConstants, localized_string_type::getStringTypes());
+        $this->assertEquals($this->stringConstants, localized_string_type::get_string_types());
     }
 
     /**

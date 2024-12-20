@@ -47,7 +47,7 @@ class font_test extends \advanced_testcase {
         $this->cm = $this->getDataGenerator()->create_module('verbalfeedback', ['course' => $this->course->id]);
 
         $this->students = [];
-        foreach ($this->getStudents() as $name) {
+        foreach ($this->get_students() as $name) {
             $this->students[] = $this->getDataGenerator()->create_and_enrol($this->course, 'student', $name);
         }
     }
@@ -57,7 +57,7 @@ class font_test extends \advanced_testcase {
      *
      * @return array
      */
-    protected function getTeachers(): array {
+    protected function get_teachers(): array {
         return [
             ['firstname' => 'John', 'lastname' => 'White'],
             ['firstname' => 'Eliška', 'lastname' => 'Němcová'],
@@ -74,7 +74,7 @@ class font_test extends \advanced_testcase {
      *
      * @return array
      */
-    protected function getStudents(): array {
+    protected function get_students(): array {
         return [
             ['firstname' => 'John', 'lastname' => 'Doe'],
             ['firstname' => 'Matěj', 'lastname' => 'Černý'],
@@ -91,7 +91,7 @@ class font_test extends \advanced_testcase {
     /**
      * Test get_font_base().
      *
-     * @covers font::get_font_base
+     * @covers \mod_verbalfeedback\font::get_font_base
      */
     public function test_get_font_base() {
         global $SESSION;
@@ -119,7 +119,7 @@ class font_test extends \advanced_testcase {
     /**
      * Test get_font_student().
      *
-     * @covers font::get_font_student
+     * @covers \mod_verbalfeedback\font::get_font_student
      */
     public function test_get_font_student() {
         $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher', $this->getTeachers()[0]);
@@ -146,7 +146,7 @@ class font_test extends \advanced_testcase {
     /**
      * Test get_font_teacher.
      *
-     * @covers font::get_font_teacher
+     * @covers \mod_verbalfeedback\font::get_font_teacher
      */
     public function test_get_font_teacher() {
         $this->resetAfterTest();
@@ -157,10 +157,10 @@ class font_test extends \advanced_testcase {
             font::FONT_HEBREW,
             font::FONT_ARABIC,
             font::FONT_CHINESE,
-            font::FONT_JAPANESE,  
+            font::FONT_JAPANESE,
         ];
         $enroledTeachers = [];
-        foreach ($this->getTeachers() as $key => $teacher) {
+        foreach ($this->get_teachers() as $key => $teacher) {
             $enroledTeachers[] = $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher', $teacher);
             api::generate_verbalfeedback_feedback_states($this->cm->id, $enroledTeachers[$key]->id);
             $reportservice = new report_service();
@@ -172,12 +172,12 @@ class font_test extends \advanced_testcase {
         // Now delete all submissions skeletons from teachers.
         (new submission_repository())->delete_by_instance($this->cm->id);
 
-        foreach ($this->getTeachers() as $key => $teacher) {
+        foreach ($this->get_teachers() as $key => $teacher) {
             api::generate_verbalfeedback_feedback_states($this->cm->id, $enroledTeachers[$key]->id);
             $reportservice = new report_service();
             $report = $reportservice->create_report($this->cm->id, $this->students[3]->id);
             $font = new font($report);
-            $this->assertEquals($expected[$key], $font->get_font_teacher(), "Did not get font {$expected[$key]} for teacher {$key}.");
+            $this->assertEquals($expected[$key], $font->get_font_teacher(), "Wrong font {$expected[$key]} for teacher {$key}.");
             // Remove submission skeletons by current teacher.
             (new submission_repository())->delete_by_instance($this->cm->id);
         }
@@ -186,7 +186,7 @@ class font_test extends \advanced_testcase {
     /**
      * Test set_font_for_pdf.
      *
-     * @covers font::set_font_for_pdf
+     * @covers \mod_verbalfeedback\font::set_font_for_pdf
      */
     public function test_set_font_for_pdf() {
         global $CFG;
@@ -194,7 +194,7 @@ class font_test extends \advanced_testcase {
         require_once($CFG->libdir . '/pdflib.php');
 
         $this->resetAfterTest();
-        
+
         foreach ($this->students as $student) {
             $pdf = new pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
             $font = new font((new report_service())->create_report($this->cm->id, $student->id));

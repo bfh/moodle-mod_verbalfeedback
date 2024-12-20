@@ -46,7 +46,7 @@ class language {
     /**
      * Sets the id.
      *
-     * @param ?int|null $id The id.
+     * @param int|null $id The id.
      */
     public function set_id(?int $id = null) {
         $this->id = $id;
