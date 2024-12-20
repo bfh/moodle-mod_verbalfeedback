@@ -77,7 +77,11 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
         $subratingdescription = new backup_nested_element('description', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratingverynegatives = new backup_nested_element('verynegatives');
-        $subratingverynegative = new backup_nested_element('verynegative', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
+        $subratingverynegative = new backup_nested_element(
+            'verynegative',
+            ['id'],
+            ['foreignkey', 'typeid', 'languageid', 'string']
+        );
 
         $subratingnegatives = new backup_nested_element('negatives');
         $subratingnegative = new backup_nested_element('negative', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
@@ -86,7 +90,11 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
         $subratingpositive = new backup_nested_element('positive', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $subratingverypositives = new backup_nested_element('verypositives');
-        $subratingverypositive = new backup_nested_element('verypositive', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
+        $subratingverypositive = new backup_nested_element(
+            'verypositive',
+            ['id'],
+            ['foreignkey', 'typeid', 'languageid', 'string']
+        );
 
         $submissions = new backup_nested_element('submissions');
         $submission = new backup_nested_element('submission', ['id'], ['instanceid', 'fromuserid', 'touserid', 'status',

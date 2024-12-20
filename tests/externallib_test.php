@@ -52,6 +52,7 @@ final class externallib_test extends \externallib_advanced_testcase {
      * Setup verbalfeedback.
      */
     public function setUp(): void {
+        parent::setUp();
         $this->category = $this->getDataGenerator()->create_category();
         $this->course = $this->getDataGenerator()->create_course(['category' => $this->category->id]);
         $this->getDataGenerator()->create_module('verbalfeedback', ['course' => $this->course->id]);

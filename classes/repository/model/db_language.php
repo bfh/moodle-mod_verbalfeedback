@@ -32,7 +32,7 @@ class db_language {
     /**
      * @var int The language id
      */
-    public $id = 0;
+    public $id;
     /**
      * @var string The language
      */
@@ -59,10 +59,10 @@ class db_language {
      */
     public static function to_language($dbo): language {
         $language = new language();
-        if (isset($dbo->id)) {
+        if (isset($dbo->id) && !empty($dbo->id)) {
             $language->set_id($dbo->id);
         }
-        if (isset($dbo->language)) {
+        if (isset($dbo->language) && !empty($dbo->language)) {
             $language->set_language($dbo->language);
         }
         return $language;

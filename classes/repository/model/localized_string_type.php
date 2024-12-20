@@ -65,9 +65,9 @@ class localized_string_type {
      * Return all existing types in a order, so that the numeric value + 1 can
      * be used as a string.
      *
-     * @return string[] 
+     * @return string[]
      */
-    public static function getStringTypes(): array {
+    public static function get_string_types(): array {
         return [
             self::INSTANCE_CRITERION,
             self::INSTANCE_CATEGORY_HEADER,
@@ -94,7 +94,7 @@ class localized_string_type {
      * @return bool If a string type exists
      */
     public static function exists(string $type) {
-        return in_array($type, self::getStringTypes());
+        return in_array($type, self::get_string_types());
     }
 
     /**
@@ -104,8 +104,8 @@ class localized_string_type {
      * @return int
      * @throws \InvalidArgumentException
      */
-    public static function str2id(string $type):int {
-        $key = array_search($type, self::getStringTypes());
+    public static function str2id(string $type): int {
+        $key = array_search($type, self::get_string_types());
         if ($key === false) {
             throw new \InvalidArgumentException("Invalid str: $type");
         }
@@ -119,8 +119,8 @@ class localized_string_type {
      * @return string
      * @throws \InvalidArgumentException
      */
-    public static function id2str(int $id):string {
-        $constants = self::getStringTypes();
+    public static function id2str(int $id): string {
+        $constants = self::get_string_types();
         if ($id < 1 || $id > count($constants)) {
             throw new \InvalidArgumentException("Invalid id: $id");
         }

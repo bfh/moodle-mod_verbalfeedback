@@ -94,7 +94,7 @@ function xmldb_verbalfeedback_upgrade($oldversion) {
         }
 
         // Convert all strings to ids.
-        foreach (localized_string_type::getStringTypes() as $type) {
+        foreach (localized_string_type::get_string_types() as $type) {
             $DB->execute(
                 'UPDATE {verbalfeedback_local_string} SET typeid = ? WHERE type = ?',
                 [localized_string_type::str2id($type), $type]

@@ -43,7 +43,7 @@ class language_repository {
     public function save(language $language) {
         global $DB;
         $dbolanguage = db_language::from_language($language);
-        if ($language->get_id() == 0) {
+        if ((int)$language->get_id() === 0) {
             $id = $DB->insert_record(tables::LANGUAGE_TABLE, $dbolanguage);
             $language->set_id($id);
         } else {

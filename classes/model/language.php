@@ -28,8 +28,8 @@ namespace mod_verbalfeedback\model;
  */
 class language {
     /** @var int|null The language id */
-    private $id = null;
-    /** @var string The language string */
+    private $id;
+    /** @var string|null The language string */
     private $language;
 
     /**
@@ -46,7 +46,7 @@ class language {
     /**
      * Sets the id.
      *
-     * @param ?int|null $id The id.
+     * @param int|null $id The id.
      */
     public function set_id(?int $id = null) {
         $this->id = $id;

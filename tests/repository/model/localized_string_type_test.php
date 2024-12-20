@@ -32,13 +32,30 @@ use mod_verbalfeedback\repository\model\localized_string_type;
 
 /**
  * Verbal feedback language repository test class
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_CRITERION
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_CATEGORY_HEADER
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_SUBRATING_TITLE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_SUBRATING_DESCRIPTION
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_SUBRATING_NEGATIVE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_SUBRATING_POSITIVE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_CRITERION
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_CATEGORY_HEADER
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_SUBRATING_TITLE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_SUBRATING_DESCRIPTION
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_SUBRATING_VERY_NEGATIVE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_SUBRATING_NEGATIVE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_SUBRATING_POSITIVE
+ * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE
  */
 final class localized_string_type_test extends \advanced_testcase {
 
     /**
      * The string constants that are used in the verbal feedback module but are stored as ids in the database.
+     * @var string[]
      */
-    private $stringConstants = [
+    private $stringconstants = [
         'instance_criterion',
         'instance_category_header',
         'instance_subrating_title',
@@ -86,7 +103,7 @@ final class localized_string_type_test extends \advanced_testcase {
      */
     public function test_str2id(): void {
         $i = 1;
-        foreach ($this->stringConstants as $string) {
+        foreach ($this->stringconstants as $string) {
             $this->assertEquals($i, localized_string_type::str2id($string));
             $i++;
         }
@@ -99,7 +116,7 @@ final class localized_string_type_test extends \advanced_testcase {
      */
     public function test_id2str(): void {
         $i = 1;
-        foreach ($this->stringConstants as $string) {
+        foreach ($this->stringconstants as $string) {
             $this->assertEquals($string, localized_string_type::id2str($i));
             $i++;
         }
@@ -112,10 +129,10 @@ final class localized_string_type_test extends \advanced_testcase {
     /**
      * Test the getStringTypes method.
      *
-     * @covers \mod_verbalfeedback\repository\model\localized_string_type::getStringTypes
+     * @covers \mod_verbalfeedback\repository\model\localized_string_type::get_string_types
      */
-    public function test_getStringTypes(): void {
-        $this->assertEquals($this->stringConstants, localized_string_type::getStringTypes());
+    public function test_get_string_types(): void {
+        $this->assertEquals($this->stringconstants, localized_string_type::get_string_types());
     }
 
     /**
@@ -124,11 +141,35 @@ final class localized_string_type_test extends \advanced_testcase {
      * @covers \mod_verbalfeedback\repository\model\localized_string_type::exists
      */
     public function test_exists(): void {
-        foreach ($this->stringConstants as $string) {
+        foreach ($this->stringconstants as $string) {
             $this->assertTrue(localized_string_type::exists($string));
             $this->assertFalse(localized_string_type::exists(strtoupper($string)));
             $this->assertFalse(localized_string_type::exists(ucfirst($string)));
         }
         $this->assertFalse(localized_string_type::exists('nonexisting'));
+    }
+
+    /**
+     * Test the is_template_type method.
+     *
+     * @covers \mod_verbalfeedback\repository\model\localized_string_type::is_template_type
+     */
+    public function test_is_template_type(): void {
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_CRITERION));
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_CATEGORY_HEADER));
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_SUBRATING_TITLE));
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_SUBRATING_DESCRIPTION));
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_SUBRATING_VERY_NEGATIVE));
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_SUBRATING_NEGATIVE));
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_SUBRATING_POSITIVE));
+        $this->assertTrue(localized_string_type::is_template_type(localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_CRITERION));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_CATEGORY_HEADER));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_SUBRATING_TITLE));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_SUBRATING_DESCRIPTION));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_SUBRATING_VERY_NEGATIVE));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_SUBRATING_NEGATIVE));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_SUBRATING_POSITIVE));
+        $this->assertFalse(localized_string_type::is_template_type(localized_string_type::INSTANCE_SUBRATING_VERY_POSITIVE));
     }
 }

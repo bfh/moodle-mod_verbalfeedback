@@ -52,11 +52,6 @@ final class verbalfeedback_test extends \advanced_testcase {
     protected $course;
 
     /**
-     * @var int Course id used for testing
-     */
-    protected $courseid;
-
-    /**
      * @var \core_user Teacher used for testing
      */
     protected $teacher;
@@ -65,31 +60,22 @@ final class verbalfeedback_test extends \advanced_testcase {
      * @var array<\core_user> Array of students used for testion
      */
     protected $students;
+
     /**
      * @var instance Verbal feedback used for testing
      */
     protected $verbalfeedback;
-    /**
-     * @var int Verbal feedback id used for testing
-     */
-    protected $verbalfeedbackid;
-    /**
-     * @var string Verbal feedback name used for testing
-     */
-    protected $verbalfeedbackname;
 
     /**
      * Setup verbalfeedback.
      */
     public function setUp(): void {
         global $DB;
+        parent::setUp();
         $this->category = $this->getDataGenerator()->create_category();
         $this->course = $this->getDataGenerator()->create_course(['category' => $this->category->id]);
-        $this->courseid = $this->course->id;
         $this->verbalfeedback = $this->getDataGenerator()->create_module('verbalfeedback', ['course' => $this->course->id]);
-        $this->verbalfeedbackid = $this->verbalfeedback->id;
-        $this->verbalfeedbackname = $this->verbalfeedback->name;
-        $cm = $DB->get_record('course_modules', ['id' => $this->verbalfeedback->cmid], '*', MUST_EXIST);
+        $DB->get_record('course_modules', ['id' => $this->verbalfeedback->cmid], '*', MUST_EXIST);
 
         $this->create_and_enrol_users();
     }
