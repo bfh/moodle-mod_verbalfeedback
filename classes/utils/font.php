@@ -96,8 +96,7 @@ class font {
     public function get_font_student() {
         if (!$this->fontstudent) {
             $touser = \core_user::get_user($this->report->get_to_user_id());
-            $font = $this->eval_string(fullname($touser));
-            $this->fontstudent = $font === $this->get_font_base() ? 'inherit' : $font;
+            $this->fontstudent = $this->eval_string(fullname($touser));
         }
         return $this->fontstudent;
     }
@@ -112,8 +111,7 @@ class font {
             $this->fontteacher = 'inherit';
             foreach ($this->report->get_from_user_ids() as $fromuserid) {
                 $fromuser = \core_user::get_user($fromuserid);
-                $font = $this->eval_string(fullname($fromuser));
-                $this->fontteacher = $font === $this->get_font_base() ? 'inherit' : $font;
+                $this->fontteacher = $this->eval_string(fullname($fromuser));
                 break;
             }
         }
