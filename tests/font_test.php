@@ -126,12 +126,12 @@ final class font_test extends \advanced_testcase {
         $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher', $this->get_teachers()[0]);
         $this->resetAfterTest();
         $expected = [
-            'inherit',
-            'inherit',
-            'inherit',
+            font::FONT_BASE,
+            font::FONT_BASE,
+            font::FONT_BASE,
             font::FONT_ARABIC,
             font::FONT_HEBREW,
-            'inherit',
+            font::FONT_BASE,
             font::FONT_CHINESE,
             font::FONT_CHINESE,
             font::FONT_JAPANESE,
@@ -152,9 +152,9 @@ final class font_test extends \advanced_testcase {
     public function test_get_font_teacher(): void {
         $this->resetAfterTest();
         $expected = [
-            'inherit',
-            'inherit',
-            'inherit',
+            font::FONT_BASE,
+            font::FONT_BASE,
+            font::FONT_BASE,
             font::FONT_HEBREW,
             font::FONT_ARABIC,
             font::FONT_CHINESE,
@@ -168,7 +168,7 @@ final class font_test extends \advanced_testcase {
             $report = $reportservice->create_report($this->cm->id, $this->students[0]->id);
             $font = new font($report);
             // Because looking at the first teacher only, the result here is always the same.
-            $this->assertEquals('inherit', $font->get_font_teacher(), "Font for teacher {$key} is not inherit.");
+            $this->assertEquals(font::FONT_BASE, $font->get_font_teacher(), "Font for teacher {$key} is not Noto_Sans.");
         }
         // Now delete all submissions skeletons from teachers.
         (new submission_repository())->delete_by_instance($this->cm->id);
