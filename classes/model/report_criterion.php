@@ -86,9 +86,9 @@ class report_criterion {
      * Gets a localized criterion description for the given language string.
      *
      * @param string $languagestr The given language string
-     * @return \mod_verbalfeedback\model\localized_string|null
+     * @return \mod_verbalfeedback\model\localized_string
      */
-    public function get_description(string $languagestr): ?localized_string {
+    public function get_description(string $languagestr): localized_string {
         $languagerepository = new language_repository();
 
         // Select the language string matching the current language.
@@ -98,7 +98,7 @@ class report_criterion {
                 return $localizedstring;
             }
         }
-        return null;
+        return new localized_string(0, 0);
     }
 
     /**
