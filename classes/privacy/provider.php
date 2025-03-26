@@ -100,8 +100,8 @@ class provider implements
             INNER JOIN {verbalfeedback} t
                     ON t.id = cm.instance
             INNER JOIN {verbalfeedback_submission} ts
-                    ON ts.verbalfeedback = t.id
-                 WHERE ts.fromuser = :fromuser OR ts.touser = :touser";
+                    ON ts.instanceid = t.id
+                 WHERE ts.fromuserid = :fromuser OR ts.touserid = :touser";
 
         $params = [
             'modname'       => 'verbalfeedback',
