@@ -60,9 +60,9 @@ class provider implements
         $items->add_database_table(
             'verbalfeedback_submission',
             [
-                'verbalfeedback' => 'privacy:metadata:verbalfeedback',
-                'fromuser' => 'privacy:metadata:verbalfeedback_submission:fromuser',
-                'touser' => 'privacy:metadata:verbalfeedback_submission:touser',
+                'instanceid' => 'privacy:metadata:instanceid',
+                'fromuserid' => 'privacy:metadata:verbalfeedback_submission:fromuserid',
+                'touserid' => 'privacy:metadata:verbalfeedback_submission:touserid',
                 'status' => 'privacy:metadata:verbalfeedback_submission:status',
                 'remarks' => 'privacy:metadata:verbalfeedback_submission:remarks',
             ],
@@ -71,10 +71,10 @@ class provider implements
         $items->add_database_table(
             'verbalfeedback_response',
             [
-                'verbalfeedback' => 'privacy:metadata:verbalfeedback',
+                'instanceid' => 'privacy:metadata:instanceid',
                 'item' => 'privacy:metadata:verbalfeedback_item',
-                'fromuser' => 'privacy:metadata:verbalfeedback_submission:fromuser',
-                'touser' => 'privacy:metadata:verbalfeedback_submission:touser',
+                'fromuserid' => 'privacy:metadata:verbalfeedback_submission:fromuserid',
+                'touserid' => 'privacy:metadata:verbalfeedback_submission:touserid',
                 'value' => 'privacy:metadata:verbalfeedback_response:value',
             ],
             'privacy:metadata:verbalfeedback_response'
@@ -101,13 +101,13 @@ class provider implements
                     ON t.id = cm.instance
             INNER JOIN {verbalfeedback_submission} ts
                     ON ts.instanceid = t.id
-                 WHERE ts.fromuserid = :fromuser OR ts.touserid = :touser";
+                 WHERE ts.fromuserid = :fromuserid OR ts.touserid = :touserid";
 
         $params = [
             'modname'       => 'verbalfeedback',
             'contextlevel'  => CONTEXT_MODULE,
-            'fromuser'      => $userid,
-            'touser'        => $userid,
+            'fromuserid'      => $userid,
+            'touserid'        => $userid,
         ];
         $contextlist = new contextlist();
         $contextlist->add_from_sql($sql, $params);
@@ -159,8 +159,8 @@ class provider implements
                        t.name as verbalfeedbackname,
                        ts.status,
                        ts.remarks,
-                       ts.fromuser,
-                       ts.touser
+                       ts.fromuserid,
+                       ts.touserid
                   FROM {context} ctx
                   JOIN {course_modules} cm
                     ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextlevel
@@ -169,16 +169,16 @@ class provider implements
                   JOIN {verbalfeedback} t
                     ON t.id = cm.instance
                   JOIN {verbalfeedback_submission} ts
-                    ON ts.verbalfeedback = t.id
+                    ON ts.instanceid = t.id
                  WHERE ctx.id {$contextsql} %s
               ORDER BY cmid ASC";
 
         if ($respondent) {
-            $sqluser = 'fromuser';
+            $sqluser = 'fromuserid';
             $userkey = 'recipient';
             $parent = get_string('feedbackgiven', 'mod_verbalfeedback');
         } else {
-            $sqluser = 'touser';
+            $sqluser = 'touserid';
             $userkey = 'respondent';
             $parent = get_string('feedbackreceived', 'mod_verbalfeedback');
         }
@@ -196,9 +196,9 @@ class provider implements
                 ];
             }
             if ($respondent) {
-                $relateduser = transform::user($submission->touser);
+                $relateduser = transform::user($submission->touserid);
             } else {
-                $relateduser = transform::user($submission->fromuser);
+                $relateduser = transform::user($submission->fromuserid);
             }
             $submissionsdata[$submission->cmid]['submissions'][$submission->id] = [
                 $userkey => $relateduser,
@@ -241,8 +241,8 @@ class provider implements
                        tq.type,
                        tq.category,
                        tr.value,
-                       tr.fromuser,
-                       tr.touser
+                       tr.fromuserid,
+                       tr.touserid
                   FROM {context} ctx
                   JOIN {course_modules} cm
                     ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextlevel
@@ -250,12 +250,12 @@ class provider implements
                     ON m.id = cm.module AND m.name = :modname
                   JOIN {verbalfeedback} t
                     ON t.id = cm.instance
-                  JOIN {verbalfeedback_item} ti
+                  JOIN {verbalfeedback_i_criterion} ti
                     ON ti.verbalfeedback = t.id
                   JOIN {verbalfeedback_question} tq
                     ON tq.id = ti.question
                   JOIN {verbalfeedback_response} tr
-                    ON tr.verbalfeedback = t.id AND tr.item = ti.id
+                    ON tr.instanceid = t.id AND tr.item = ti.id
                  WHERE ctx.id {$contextsql} %s
               ORDER BY cmid ASC,
                        ti.position ASC,
@@ -264,11 +264,11 @@ class provider implements
         $params = ['modname' => 'verbalfeedback', 'contextlevel' => CONTEXT_MODULE, 'userid' => $user] + $contextparams;
 
         if ($respondent) {
-            $sqluser = 'fromuser';
+            $sqluser = 'fromuserid';
             $userkey = 'recipient';
             $parent = get_string('feedbackgiven', 'mod_verbalfeedback');
         } else {
-            $sqluser = 'touser';
+            $sqluser = 'touserid';
             $userkey = 'respondent';
             $parent = get_string('feedbackreceived', 'mod_verbalfeedback');
         }
@@ -357,8 +357,8 @@ class provider implements
                 continue;
             }
             $instanceid = $DB->get_field('course_modules', 'instance', ['id' => $context->instanceid], MUST_EXIST);
-            $select = 'verbalfeedback = :verbalfeedback AND (fromuser = :fromuser OR touser = :touser)';
-            $params = ['verbalfeedback' => $instanceid, 'fromuser' => $userid, 'touser' => $userid];
+            $select = 'verbalfeedback = :verbalfeedback AND (fromuser = :fromuserid OR touser = :touserid)';
+            $params = ['verbalfeedback' => $instanceid, 'fromuserid' => $userid, 'touserid' => $userid];
             $DB->delete_records_select('verbalfeedback_response', $select, $params);
             $DB->delete_records_select('verbalfeedback_submission', $select, $params);
         }
@@ -383,53 +383,53 @@ class provider implements
 
         // Fetch all users who gave non-anonymous feedback to other users.
         $fromsql = "
-            SELECT DISTINCT ts.fromuser
+            SELECT DISTINCT ts.fromuserid
                        FROM {course_modules} cm
                        JOIN {modules} m
                          ON m.id = cm.module AND m.name = :modname
                        JOIN {verbalfeedback} t
                          ON t.id = cm.instance
                        JOIN {verbalfeedback_submission} ts
-                         ON ts.verbalfeedback = t.id
+                         ON ts.instanceid = t.id
                       WHERE cm.id = :cmid";
-        $userlist->add_from_sql('fromuser', $fromsql, $params);
+        $userlist->add_from_sql('fromuserid', $fromsql, $params);
 
         $fromsql = "
-            SELECT DISTINCT tr.fromuser
+            SELECT DISTINCT tr.fromuserid
                        FROM {course_modules} cm
                        JOIN {modules} m
                          ON m.id = cm.module AND m.name = :modname
                        JOIN {verbalfeedback} t
                          ON t.id = cm.instance
                        JOIN {verbalfeedback_response} tr
-                         ON tr.verbalfeedback = t.id
-                      WHERE cm.id = :cmid AND tr.fromuser <> 0";
-        $userlist->add_from_sql('fromuser', $fromsql, $params);
+                         ON tr.instanceid = t.id
+                      WHERE cm.id = :cmid AND tr.fromuserid <> 0";
+        $userlist->add_from_sql('fromuserid', $fromsql, $params);
 
         // Fetch all users who received feedback from other users.
         $tosql = "
-           SELECT DISTINCT ts.touser
+           SELECT DISTINCT ts.touserid
                       FROM {course_modules} cm
                       JOIN {modules} m
                         ON m.id = cm.module AND m.name = :modname
                       JOIN {verbalfeedback} t
                         ON t.id = cm.instance
                       JOIN {verbalfeedback_submission} ts
-                        ON ts.verbalfeedback = t.id
+                        ON ts.instanceid = t.id
                      WHERE cm.id = :cmid";
-        $userlist->add_from_sql('touser', $tosql, $params);
+        $userlist->add_from_sql('touserid', $tosql, $params);
 
         $tosql = "
-           SELECT DISTINCT tr.touser
+           SELECT DISTINCT tr.touserid
                       FROM {course_modules} cm
                       JOIN {modules} m
                         ON m.id = cm.module AND m.name = :modname
                       JOIN {verbalfeedback} t
                         ON t.id = cm.instance
                       JOIN {verbalfeedback_response} tr
-                        ON tr.verbalfeedback = t.id
+                        ON tr.instanceid = t.id
                      WHERE cm.id = :cmid";
-        $userlist->add_from_sql('touser', $tosql, $params);
+        $userlist->add_from_sql('touserid', $tosql, $params);
     }
 
     /**
@@ -456,8 +456,8 @@ class provider implements
         $userids = $userlist->get_userids();
         list($usersql, $userparams) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
 
-        $fromselect = "verbalfeedback = :verbalfeedback AND fromuser $usersql";
-        $toselect = "verbalfeedback = :verbalfeedback AND touser $usersql";
+        $fromselect = "verbalfeedback = :verbalfeedback AND fromuserid $usersql";
+        $toselect = "verbalfeedback = :verbalfeedback AND touserid $usersql";
         $params = ['verbalfeedback' => $cm->instance] + $userparams;
         $DB->delete_records_select('verbalfeedback_submission', $fromselect, $params);
         $DB->delete_records_select('verbalfeedback_submission', $toselect, $params);
