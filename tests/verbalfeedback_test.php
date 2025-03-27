@@ -39,7 +39,7 @@ require_once($CFG->dirroot . '/mod/verbalfeedback/lib.php');
  * @copyright  2021 Luca Bösch <luca.boesch@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class verbalfeedback_test extends \advanced_testcase {
+final class verbalfeedback_test extends \advanced_testcase {
 
     /**
      * @var core_course_category Course category used for testing
@@ -52,11 +52,6 @@ class verbalfeedback_test extends \advanced_testcase {
     protected $course;
 
     /**
-     * @var int Course id used for testing
-     */
-    protected $courseid;
-
-    /**
      * @var \core_user Teacher used for testing
      */
     protected $teacher;
@@ -65,37 +60,30 @@ class verbalfeedback_test extends \advanced_testcase {
      * @var array<\core_user> Array of students used for testion
      */
     protected $students;
+
     /**
      * @var instance Verbal feedback used for testing
      */
     protected $verbalfeedback;
-    /**
-     * @var int Verbal feedback id used for testing
-     */
-    protected $verbalfeedbackid;
-    /**
-     * @var string Verbal feedback name used for testing
-     */
-    protected $verbalfeedbackname;
 
     /**
      * Setup verbalfeedback.
      */
     public function setUp(): void {
         global $DB;
+        parent::setUp();
         $this->category = $this->getDataGenerator()->create_category();
         $this->course = $this->getDataGenerator()->create_course(['category' => $this->category->id]);
-        $this->courseid = $this->course->id;
         $this->verbalfeedback = $this->getDataGenerator()->create_module('verbalfeedback', ['course' => $this->course->id]);
-        $this->verbalfeedbackid = $this->verbalfeedback->id;
-        $this->verbalfeedbackname = $this->verbalfeedback->name;
-        $cm = $DB->get_record('course_modules', ['id' => $this->verbalfeedback->cmid], '*', MUST_EXIST);
+        $DB->get_record('course_modules', ['id' => $this->verbalfeedback->cmid], '*', MUST_EXIST);
 
         $this->create_and_enrol_users();
     }
 
-    /** Creating 10 students and 1 teacher. */
-    protected function create_and_enrol_users() {
+    /**
+     * Creating 10 students and 1 teacher.
+     */
+    protected function create_and_enrol_users(): void {
         $this->students = [];
         for ($i = 0; $i < 10; $i++) {
             $this->students[] = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
@@ -109,7 +97,7 @@ class verbalfeedback_test extends \advanced_testcase {
      *
      * @covers \mod_verbalfeedback\model\instance
      */
-    public function test_verbalfeedback() {
+    public function test_verbalfeedback(): void {
         $this->resetAfterTest();
         $this->assertEquals('Verbal feedback 1', $this->verbalfeedback->name);
     }
@@ -121,7 +109,7 @@ class verbalfeedback_test extends \advanced_testcase {
      * @throws coding_exception
      * @throws dml_exception
      */
-    public function test_verbalfeedback_get_user_grade() {
+    public function test_verbalfeedback_get_user_grade(): void {
         $this->resetAfterTest();
         $this->assertEquals([], verbalfeedback_get_user_grades($this->verbalfeedback));
     }

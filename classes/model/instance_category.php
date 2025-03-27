@@ -68,7 +68,7 @@ class instance_category {
      * @param parametrized_template_category $paramtemplatecategory The parametrized template category id
      * @return instance_category
      */
-    public static function from_template(parametrized_template_category $paramtemplatecategory) : instance_category {
+    public static function from_template(parametrized_template_category $paramtemplatecategory): instance_category {
         $instancecategory = new instance_category();
         $instancecategory->set_parametrized_template_category_id($paramtemplatecategory->get_id());
         $instancecategory->set_position($paramtemplatecategory->get_position());
@@ -107,7 +107,7 @@ class instance_category {
      *
      * @return int
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -125,7 +125,7 @@ class instance_category {
      *
      * @return int|null The parametrized template category id
      */
-    public function get_parametrized_template_category_id() : ?int {
+    public function get_parametrized_template_category_id(): ?int {
         return $this->paramtemplatecategoryid;
     }
 
@@ -143,7 +143,7 @@ class instance_category {
      *
      * @return int The template category position
      */
-    public function get_position() : int {
+    public function get_position(): int {
         return $this->position;
     }
 
@@ -161,7 +161,7 @@ class instance_category {
      *
      * @return float The category weight
      */
-    public function get_weight() : float {
+    public function get_weight(): float {
         return $this->weight;
     }
 
@@ -170,7 +170,7 @@ class instance_category {
      *
      * @return array<int, localized_string> The localized instance category headers.
      */
-    public function get_headers() : array {
+    public function get_headers(): array {
         return $this->localizedheaders;
     }
 
@@ -180,7 +180,7 @@ class instance_category {
      * @param string $languagestr The given language string
      * @return \mod_verbalfeedback\model\localized_string
      */
-    public function get_header(string $languagestr) : localized_string {
+    public function get_header(string $languagestr): localized_string {
         $langrepo = new language_repository();
 
         // Select the language string matching the current language.
@@ -207,7 +207,7 @@ class instance_category {
      *
      * @return array<int, instance_criterion> The criteria
      */
-    public function get_criteria() : array {
+    public function get_criteria(): array {
         return $this->instancecriteria;
     }
 

@@ -30,23 +30,23 @@ use mod_verbalfeedback\model\instance_category;
  */
 class db_instance_category {
     /**
-     * @var
+     * @var int The id of the category
      */
     public $id;
     /**
-     * @var
+     * @var int The id of the instance
      */
     public $instanceid;
     /**
-     * @var
+     * @var int The id of the category
      */
     public $paramtemplatecategoryid;
     /**
-     * @var
+     * @var int The position of the category
      */
     public $position;
     /**
-     * @var
+     * @var float The weight of the category
      */
     public $weight;
 
@@ -73,7 +73,7 @@ class db_instance_category {
      * @param object $dbo The database object
      * @return instance_category
      */
-    public static function to_instance_category($dbo) : instance_category {
+    public static function to_instance_category($dbo): instance_category {
         $category = new instance_category();
         if (isset($dbo->id)) {
             $category->set_id($dbo->id);

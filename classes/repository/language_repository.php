@@ -43,7 +43,7 @@ class language_repository {
     public function save(language $language) {
         global $DB;
         $dbolanguage = db_language::from_language($language);
-        if ($language->get_id() == 0) {
+        if ((int)$language->get_id() === 0) {
             $id = $DB->insert_record(tables::LANGUAGE_TABLE, $dbolanguage);
             $language->set_id($id);
         } else {
@@ -57,7 +57,7 @@ class language_repository {
      * @param int $id The language id
      * @return bool True, if successful
      */
-    public function delete_by_id(int $id) : bool {
+    public function delete_by_id(int $id): bool {
         global $DB;
         return $DB->delete_records(tables::LANGUAGE_TABLE, ['id' => $id]);
     }
@@ -66,7 +66,7 @@ class language_repository {
      * Selects all languages in the database
      * @return array<int, language> The resulting languages
      */
-    public function get_all() : array {
+    public function get_all(): array {
         global $DB;
         $languages = [];
 
@@ -82,7 +82,7 @@ class language_repository {
      * @param int $id The language id.
      * @return language|null The language.
      */
-    public function get_by_id(int $id) : language {
+    public function get_by_id(int $id): language {
         global $DB;
         $dbo = $DB->get_record(tables::LANGUAGE_TABLE, ["id" => $id]);
         return db_language::to_language($dbo);

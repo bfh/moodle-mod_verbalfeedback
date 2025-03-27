@@ -51,7 +51,7 @@ class report_criterion {
      *
      * @return int The report criterion id
      */
-    public function get_criterion_id() : int {
+    public function get_criterion_id(): int {
         return $this->instancecriterion->get_id();
     }
 
@@ -60,7 +60,7 @@ class report_criterion {
      *
      * @return int The report criterion position
      */
-    public function get_position() : int {
+    public function get_position(): int {
         return $this->instancecriterion->get_position();
     }
 
@@ -69,7 +69,7 @@ class report_criterion {
      *
      * @return float
      */
-    public function get_weight() : float {
+    public function get_weight(): float {
         return $this->instancecriterion->get_weight();
     }
 
@@ -78,7 +78,7 @@ class report_criterion {
      *
      * @return array<int, localized_string> The localized strings.
      */
-    public function get_descriptions() : array {
+    public function get_descriptions(): array {
         return $this->instancecriterion->get_descriptions();
     }
 
@@ -86,9 +86,9 @@ class report_criterion {
      * Gets a localized criterion description for the given language string.
      *
      * @param string $languagestr The given language string
-     * @return \mod_verbalfeedback\model\localized_string|null
+     * @return \mod_verbalfeedback\model\localized_string
      */
-    public function get_description(string $languagestr) : ?localized_string {
+    public function get_description(string $languagestr): localized_string {
         $languagerepository = new language_repository();
 
         // Select the language string matching the current language.
@@ -98,7 +98,7 @@ class report_criterion {
                 return $localizedstring;
             }
         }
-        return null;
+        return new localized_string(0, 0);
     }
 
     /**
@@ -115,7 +115,7 @@ class report_criterion {
      *
      * @return float|null The response value average or null.
      */
-    public function get_avg() : ?float {
+    public function get_avg(): ?float {
         return $this->avg;
     }
 
@@ -124,7 +124,7 @@ class report_criterion {
      *
      * @return float|null The weighted result or null.
      */
-    public function get_weighted_result() : ?float {
+    public function get_weighted_result(): ?float {
         $avg = $this->get_avg();
         if ($avg === null || $this->get_weight() == null) {
             return null;
@@ -136,7 +136,7 @@ class report_criterion {
      * Gets the students comments
      * @return array The students comments
      */
-    public function get_student_comments() : array {
+    public function get_student_comments(): array {
         $comments = [];
         foreach ($this->responses as $response) {
             $comments[] = $response->get_student_comment();

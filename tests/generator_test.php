@@ -31,7 +31,7 @@ namespace mod_verbalfeedback;
  * @copyright  2021 Luca Bösch <luca.boesch@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class generator_test extends \advanced_testcase {
+final class generator_test extends \advanced_testcase {
     /**
      * Test the verbalfeedback test data generator
      *
@@ -39,7 +39,7 @@ class generator_test extends \advanced_testcase {
      * @throws coding_exception
      * @throws dml_exception
      */
-    public function test_generator() {
+    public function test_generator(): void {
         global $DB;
 
         $this->resetAfterTest(true);

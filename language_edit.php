@@ -102,7 +102,7 @@ function language_to_view_model(language $language) {
  * @param object $viewmodel The language model
  * @return language The language object
  */
-function view_model_to_language($viewmodel) : language {
+function view_model_to_language($viewmodel): language {
     $language = new language();
     if (isset($viewmodel->id)) {
         $language->set_id($viewmodel->id);

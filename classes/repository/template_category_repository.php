@@ -42,7 +42,7 @@ class template_category_repository {
      *
      * @return array<int, template_category> The resulting categories.
      */
-    public function get_all() : array {
+    public function get_all(): array {
         global $DB;
 
         static $results = null;
@@ -51,7 +51,7 @@ class template_category_repository {
         }
 
         $results = [];
-        $rs = $DB->get_recordset("verbalfeedback_t_category");
+        $rs = $DB->get_recordset(tables::TEMPLATE_CATEGORY_TABLE);
         $templatecategories = [];
         foreach ($rs as $dbocategory) {
             $templatecategory = db_template_category::to_template_category($dbocategory);
@@ -79,7 +79,7 @@ class template_category_repository {
      * @param int $id The category template id.
      * @return template_category|null The template categories.
      */
-    public function get_by_id(int $id) : ?template_category {
+    public function get_by_id(int $id): ?template_category {
         $all = $this->get_all();
         return $all[$id] ?? null;
     }
@@ -97,10 +97,10 @@ class template_category_repository {
             $transaction = $DB->start_delegated_transaction();
             $dbocategory = db_template_category::from_template_category($templatecategory);
             if ($templatecategory->get_id() === null || $templatecategory->get_id() == 0) {
-                $id = $DB->insert_record('verbalfeedback_t_category', $dbocategory);
+                $id = $DB->insert_record(tables::TEMPLATE_CATEGORY_TABLE, $dbocategory);
                 $templatecategory->set_id($id);
             } else {
-                $DB->update_record('verbalfeedback_t_category', $dbocategory);
+                $DB->update_record(tables::TEMPLATE_CATEGORY_TABLE, $dbocategory);
             }
 
             // Insert or update category headers.
@@ -109,18 +109,18 @@ class template_category_repository {
                 localized_string_type::TEMPLATE_CATEGORY_HEADER, $templatecategory->get_id());
 
                 if ($header->get_id() == 0) {
-                    $DB->insert_record('verbalfeedback_local_string', $dboheader);
+                    $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dboheader);
                 } else {
-                    $DB->update_record('verbalfeedback_local_string', $dboheader);
+                    $DB->update_record(tables::LOCALIZED_STRING_TABLE, $dboheader);
                 }
             }
 
             // Update linked criteria.
-            $DB->delete_records('verbalfeedback_t_param_crit', ['categoryid' => $templatecategory->get_id()]);
+            $DB->delete_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['categoryid' => $templatecategory->get_id()]);
             foreach ($templatecategory->get_template_criteria() as $criterion) {
                 $dboparamcriterion = db_parametrized_criterion::from_parametrized_criterion($criterion,
                 $templatecategory->get_id());
-                $DB->insert_record('verbalfeedback_t_param_crit', $dboparamcriterion);
+                $DB->insert_record(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, $dboparamcriterion);
             }
 
             $transaction->allow_commit();
@@ -136,14 +136,16 @@ class template_category_repository {
      * @param int $id The id of the category template.
      * @return bool True, if successful
      */
-    public function delete_by_id(int $id) : bool {
+    public function delete_by_id(int $id): bool {
         global $DB;
         try {
             $transaction = $DB->start_delegated_transaction();
-            $DB->delete_records('verbalfeedback_local_string', ['foreignkey' => $id,
-                'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER, ]);
-            $DB->delete_records('verbalfeedback_t_param_crit', ['categoryid' => $id]);
-            $DB->delete_records('verbalfeedback_t_category', ['id' => $id]);
+            $DB->delete_records(tables::LOCALIZED_STRING_TABLE, [
+                'foreignkey' => $id,
+                'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER),
+            ]);
+            $DB->delete_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['categoryid' => $id]);
+            $DB->delete_records(tables::TEMPLATE_CATEGORY_TABLE, ['id' => $id]);
 
             $transaction->allow_commit();
         } catch (Exception $e) {
@@ -159,11 +161,13 @@ class template_category_repository {
      * @return array The category headers
      * @throws \dml_exception
      */
-    private function get_headers($foreignkey) : array {
+    private function get_headers($foreignkey): array {
         global $DB;
 
-        $dboheaders = $DB->get_records('verbalfeedback_local_string',
-            ['foreignkey' => $foreignkey, 'type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+        $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE, [
+            'foreignkey' => $foreignkey,
+            'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER),
+        ]);
         $headers = [];
         foreach ($dboheaders as $dboheader) {
             $headers[] = db_localized_string::to_localized_string($dboheader);
@@ -178,11 +182,14 @@ class template_category_repository {
      * @return array
      * @throws \dml_exception
      */
-    private function get_headers_by_category_ids() : array {
+    private function get_headers_by_category_ids(): array {
         global $DB;
 
         $headers = [];
-        $rs = $DB->get_recordset('verbalfeedback_local_string', ['type' => localized_string_type::TEMPLATE_CATEGORY_HEADER]);
+        $rs = $DB->get_recordset(
+            tables::LOCALIZED_STRING_TABLE,
+            ['typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER)]
+        );
         foreach ($rs as $row) {
             if (!\array_key_exists($row->foreignkey, $headers)) {
                 $headers[$row->foreignkey] = [];
@@ -200,10 +207,10 @@ class template_category_repository {
      * @return array The parametrized criteria
      * @throws \dml_exception
      */
-    private function get_parametrized_criteria($categoryid) : array {
+    private function get_parametrized_criteria($categoryid): array {
         global $DB;
 
-        $dboparametrizedcriteria = $DB->get_records('verbalfeedback_t_param_crit', ['categoryid' => $categoryid]);
+        $dboparametrizedcriteria = $DB->get_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['categoryid' => $categoryid]);
         $parametrizedcriteria = [];
         foreach ($dboparametrizedcriteria as $dboparametrizedcriterion) {
             $parametrizedcriteria[] = db_parametrized_criterion::to_parametrized_criterion($dboparametrizedcriterion);
@@ -216,11 +223,11 @@ class template_category_repository {
      * @return array The paramterized criteria in an array hashed by category id
      * @throws \dml_exception
      */
-    private function get_parameterized_criteria_by_categoryid() : array {
+    private function get_parameterized_criteria_by_categoryid(): array {
         global $DB;
 
         $critbycatid = [];
-        $rs = $DB->get_recordset('verbalfeedback_t_param_crit');
+        $rs = $DB->get_recordset(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE);
         foreach ($rs as $row) {
             if (!\array_key_exists($row->categoryid, $critbycatid)) {
                 $critbycatid[$row->categoryid] = [];

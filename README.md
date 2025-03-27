@@ -3,7 +3,7 @@
 [![GitHub
 Release](https://img.shields.io/github/release/bfh/moodle-mod_verbalfeedback.svg)](https://github.com/bfh/moodle-mod_verbalfeedback/releases)
 [![PHP Support](https://img.shields.io/badge/php-7.4--8.3-blue)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
-[![Moodle Support](https://img.shields.io/badge/Moodle-4.1--4.4-orange)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
+[![Moodle Support](https://img.shields.io/badge/Moodle-4.1--4.5-orange)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
 [![License GPL-3.0](https://img.shields.io/github/license/bfh/moodle-mod_verbalfeedback?color=lightgrey)](https://github.com/bfh/moodle-mod_verbalfeedback/blob/main/LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/bfh/moodle-mod_verbalfeedback)](https://github.com/bfh/moodle-mod_verbalfeedback/graphs/contributors)
 
@@ -47,3 +47,39 @@ to complete the installation from the command line.
 
 ## verbalfeedback
 https://github.com/bfh/moodle-mod_verbalfeedback
+
+## Version history
+
+The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
+the latest suppored Moodle version and Z is an incresing number for newer versions
+of the plugin whithin the same Moodle version.
+
+### v4.5-r2
+
+- Fix [issue #47](https://github.com/bfh/moodle-mod_verbalfeedback/issues/47)
+error when upgrading to 4.5 while using MySQL/MariaDB.
+
+### v4.5-r1
+
+- Major refactoring to circumvent memory issues with many instances.
+- Adaptions in code for Moodle 4.5
+
+### v4.4-r1
+
+### v4.3-r1
+
+- Support PHP 8.2 and Moodle 4.3.
+
+### v4.1-r1
+
+- Support PHP 8.1 and Moodle 4.1.
+
+### v4.0-r2
+
+-  Add Basque and Spanish to the default template (thanks to Iñigo Zendegi Urzelai)
+
+### v1.0.1
+
+### v1.0.0
+
+- Initial release

@@ -64,7 +64,7 @@ class template_criterion {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -91,7 +91,7 @@ class template_criterion {
      *
      * @return array<int, localized_string> The localized strings.
      */
-    public function get_descriptions() : array {
+    public function get_descriptions(): array {
         return $this->descriptions;
     }
 
@@ -118,7 +118,7 @@ class template_criterion {
      *
      * @return array The criteria's subratings
      */
-    public function get_subratings() : array {
+    public function get_subratings(): array {
         return $this->subratings;
     }
 }

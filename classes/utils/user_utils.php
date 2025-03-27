@@ -82,7 +82,7 @@ class user_utils {
      * @return bool
      * @throws coding_exception
      */
-    public static function can_view_own_report(instance $instance, context_module $context = null) {
+    public static function can_view_own_report(instance $instance, ?context_module $context = null): bool {
         $isreleased = $instance->reports_are_released();
         // Get context if not provided.
         if (empty($context)) {

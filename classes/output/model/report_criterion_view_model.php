@@ -38,6 +38,8 @@ class report_criterion_view_model {
     public $averagerating;
     /** @var string The multiplier */
     public $multiplier;
+    /** @var string[] */
+    public $comments;
 
     /**
      * The report criterion view model class constructor

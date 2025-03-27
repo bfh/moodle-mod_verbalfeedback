@@ -63,7 +63,7 @@ class template_category {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -81,7 +81,7 @@ class template_category {
      *
      * @return string The category unique name
      */
-    public function get_unique_name() : string {
+    public function get_unique_name(): string {
         return $this->uniquename;
     }
 
@@ -108,7 +108,7 @@ class template_category {
      *
      * @return array The localized template category headers
      */
-    public function get_headers() : array {
+    public function get_headers(): array {
         return $this->headers;
     }
 
@@ -135,7 +135,7 @@ class template_category {
      *
      * @return array The template category criteria
      */
-    public function get_template_criteria() : array {
+    public function get_template_criteria(): array {
         return $this->templatecriteria;
     }
 }

@@ -37,6 +37,7 @@ use mod_verbalfeedback\model\template\template;
 use mod_verbalfeedback\model\template\template_category;
 use mod_verbalfeedback\model\template\template_criterion;
 use mod_verbalfeedback\repository\language_repository;
+use mod_verbalfeedback\repository\tables;
 use mod_verbalfeedback\repository\template_category_repository;
 use mod_verbalfeedback\repository\template_criterion_repository;
 use mod_verbalfeedback\repository\template_repository;
@@ -44,7 +45,21 @@ use mod_verbalfeedback\repository\template_repository;
 /**
  * A PHPunit test class to test data import
  */
-class import_data_test extends \advanced_testcase {
+final class import_data_test extends \advanced_testcase {
+
+    /**
+     * Setup the test class.
+     */
+    public function setUp(): void {
+        global $DB;
+
+        parent::setUp();
+        // Empty tables, while not necessary locally it is necessary for CI at github.
+        $DB->execute(sprintf('TRUNCATE TABLE {%s}', tables::LANGUAGE_TABLE));
+        $DB->execute(sprintf('TRUNCATE TABLE {%s}', tables::TEMPLATE_CATEGORY_TABLE));
+        $DB->execute(sprintf('TRUNCATE TABLE {%s}', tables::TEMPLATE_CRITERION_TABLE));
+        $DB->execute(sprintf('TRUNCATE TABLE {%s}', tables::TEMPLATE_TABLE));
+    }
 
     /**
      * Tests data import
@@ -64,9 +79,9 @@ class import_data_test extends \advanced_testcase {
         $templaterepo = new template_repository();
 
         // Test dallgoot/yaml.
-        $importdata = helper::parseYamlFile('./mod/verbalfeedback/db/default.yaml');
+        $importdata = helper::parseyamlfile('./mod/verbalfeedback/db/default.yaml');
         foreach ($importdata->languages as $yamllang) {
-            if ($yamllang->id == null) {
+            if (empty($yamllang->id)) {
                 $lang = new language(null, $yamllang->language);
                 $id = $langrepo->save($lang);
                 $yamllang->id = $id;
@@ -83,7 +98,7 @@ class import_data_test extends \advanced_testcase {
                 $criterion->add_description($localstring);
             }
 
-            if ($criterion->get_id() == null) {
+            if ((int)$criterion->get_id() === 0) {
                 $id = $criterionrepo->save($criterion);
                 $yamlcriteria->id = $id;
             } else {

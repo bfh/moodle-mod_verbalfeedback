@@ -24,10 +24,10 @@
 
 use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\service\report_service;
+use mod_verbalfeedback\utils\font;
 use mod_verbalfeedback\utils\graph_utils;
 
 require_once(__DIR__ . '/../../config.php');
-
 require_once($CFG->libdir . '/pdflib.php');
 require_once($CFG->libdir . '/filestorage/stored_file.php');
 
@@ -36,7 +36,7 @@ global $DB;
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
 
-list ($course, $cm) = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
+list($course, $cm) = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 
 require_login($course, true, $cm);
 
@@ -81,8 +81,10 @@ $userheading = [
 $reportservice = new report_service();
 $report = $reportservice->create_report($instanceid, $touserid);
 
+$fonthandler = new font($report);
+
 $templatedata = new mod_verbalfeedback\output\report_download($report, $course->fullname, $course->startdate, $course->enddate,
-    $instancename, $touser);
+    $instancename, $touser, $fonthandler);
 
 $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 $html = $renderer->render($templatedata);
@@ -138,6 +140,9 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // Add a page.
 $pdf->AddPage();
+
+// Set font.
+$fonthandler->set_font_for_pdf($pdf);
 
 // Image size from logo image.
 $image = @getimagesize($imagefile);

@@ -82,7 +82,7 @@ class response {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -100,7 +100,7 @@ class response {
      *
      * @return int The instance id.
      */
-    public function get_instance_id() : int {
+    public function get_instance_id(): int {
         return $this->instanceid;
     }
 
@@ -118,7 +118,7 @@ class response {
      *
      * @return int The criterion id.
      */
-    public function get_criterion_id() : int {
+    public function get_criterion_id(): int {
         return $this->criterionid;
     }
 
@@ -136,7 +136,7 @@ class response {
      *
      * @return int The id of the responding user.
      */
-    public function get_from_user_id() : int {
+    public function get_from_user_id(): int {
         return $this->fromuserid;
     }
 
@@ -154,14 +154,14 @@ class response {
      *
      * @return int The id of the rated user.
      */
-    public function get_to_user_id() : int {
+    public function get_to_user_id(): int {
         return $this->touserid;
     }
 
     /**
      * Sets the response value.
      *
-     * @param int $value The response value.
+     * @param ?int $value The response value.
      */
     public function set_value(?int $value) {
         $this->value = $value;
@@ -172,7 +172,7 @@ class response {
      *
      * @return ?int The response value.
      */
-    public function get_value() : ?int {
+    public function get_value(): ?int {
         return $this->value;
     }
 
@@ -190,7 +190,7 @@ class response {
      *
      * @return string The comment.
      */
-    public function get_student_comment() : string {
+    public function get_student_comment(): string {
         return $this->studentcomment;
     }
 
@@ -208,7 +208,7 @@ class response {
      *
      * @return string The comment.
      */
-    public function get_private_comment() : string {
+    public function get_private_comment(): string {
         return $this->privatecomment;
     }
 }

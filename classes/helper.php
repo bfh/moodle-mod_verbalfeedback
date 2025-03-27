@@ -128,19 +128,19 @@ class helper {
 
     /**
      * Wrapper for the Yaml::parseFile() function.
-     * @param string $someYaml
+     *
+     * @param string $someyaml
      * @param int|null $options
      * @param int|null $debug
      * @return array|\Dallgoot\Yaml\Types\YamlObject|\Dallgoot\Yaml\YamlObject|null
      * @throws Exception
      */
-    public static function parseYamlFile(string $someYaml, ?int $options = null, ?int $debug = null)
-    {
+    public static function parseyamlfile(string $someyaml, ?int $options = null, ?int $debug = null) {
         if (version_compare(PHP_VERSION, '8.1.14') >= 0) {
-            require_once implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '81x', 'autoload.php']);
-            return \Dallgoot\Yaml\Yaml::parseFile($someYaml, $options, $debug);
+            require_once(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '81x', 'autoload.php']));
+            return \Dallgoot\Yaml\Yaml::parseFile($someyaml, $options, $debug);
         }
-        require_once implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '74x', 'autoload.php']);
-        return \Dallgoot\Yaml::parseFile($someYaml, $options, $debug);
+        require_once(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '74x', 'autoload.php']));
+        return \Dallgoot\Yaml::parseFile($someyaml, $options, $debug);
     }
 }

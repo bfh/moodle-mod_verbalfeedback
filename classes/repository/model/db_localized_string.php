@@ -29,26 +29,37 @@ use mod_verbalfeedback\model\localized_string;
  * The database localized string class
  */
 class db_localized_string {
+
     /**
      * @var int The id
      */
     public $id;
+
     /**
-     * @var string The type
+     * @var int The type
      */
-    public $type;
+    public $typeid;
+
     /**
      * @var int The foreign key
      */
+
     public $foreignkey;
+
     /**
      * @var string The language id
      */
     public $languageid;
+
     /**
      * @var string The string
      */
     public $string;
+
+    /**
+     * @var int The instance id of the verbal feedback activity
+     */
+    public $instanceid;
 
     /**
      * Return a localized string database object
@@ -56,20 +67,22 @@ class db_localized_string {
      * @param localized_string $localizedstring The localized string
      * @param string $type The string type
      * @param int $foreignkey The foreign key
+     * @param int $instanceid The instance id
      * @return db_localized_string
      * @throws \Exception
      */
     public static function from_localized_string(localized_string $localizedstring, string $type,
-    int $foreignkey): db_localized_string {
+    int $foreignkey, int $instanceid = 0): db_localized_string {
         if (!localized_string_type::exists($type)) {
             throw new \Exception("unknown localized_string_type");
         }
         $dbo = new db_localized_string();
         $dbo->id = $localizedstring->get_id();
-        $dbo->type = $type;
+        $dbo->typeid = localized_string_type::str2id($type);
         $dbo->foreignkey = $foreignkey;
         $dbo->languageid = $localizedstring->get_language_id();
         $dbo->string = $localizedstring->get_string();
+        $dbo->instanceid = $instanceid;
         return $dbo;
     }
 
@@ -80,7 +93,7 @@ class db_localized_string {
      * @return localized_string The localized string
      * @throws \Exception
      */
-    public static function to_localized_string($dbo) : localized_string {
+    public static function to_localized_string($dbo): localized_string {
         if (isset($dbo->languageid) && isset($dbo->id) && isset($dbo->string)) {
             return new localized_string($dbo->languageid, $dbo->id, $dbo->string);
         } else {

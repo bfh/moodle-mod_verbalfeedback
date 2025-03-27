@@ -54,7 +54,7 @@ class db_instance_subrating {
      * @param object $dbo The database object
      * @return subrating
      */
-    public static function to_subrating($dbo) : subrating {
+    public static function to_subrating($dbo): subrating {
         $subrating = new subrating();
         if (isset($dbo->id)) {
             $subrating->set_id($dbo->id);

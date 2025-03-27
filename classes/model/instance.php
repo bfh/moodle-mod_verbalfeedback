@@ -162,7 +162,7 @@ class instance {
     public static function from_template(int $course, template $template, int $id = 0, string $name = "", string $intro = "",
         int $introformat = 0, int $gradecat = 0, int $grade = 0, float $gradepass = 0,
         int $status = instance_status::NOT_READY, int $timeopen = 0, int $timeclose = 0, int $timemodified = 0,
-        int $releasetype = instance_release_type::NONE, int $released = 0) : instance {
+        int $releasetype = instance_release_type::NONE, int $released = 0): instance {
 
         $instance = new instance($course, $id, $name, $intro, $introformat, $grade, $gradecat, $gradepass,
             $status, $timeopen, $timeclose, $timemodified, $releasetype, $released);
@@ -181,7 +181,7 @@ class instance {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -199,7 +199,7 @@ class instance {
      *
      * @return int|null The template id.
      */
-    public function get_template_id() : ?int {
+    public function get_template_id(): ?int {
         return $this->templateid;
     }
 
@@ -217,7 +217,7 @@ class instance {
      *
      * @return int The course id.
      */
-    public function get_course() : int {
+    public function get_course(): int {
         return $this->course;
     }
 
@@ -235,7 +235,7 @@ class instance {
      *
      * @return string The instance name.
      */
-    public function get_name() : string {
+    public function get_name(): string {
         return $this->name;
     }
 
@@ -253,7 +253,7 @@ class instance {
      *
      * @return string The intro.
      */
-    public function get_intro() : string {
+    public function get_intro(): string {
         return $this->intro;
     }
 
@@ -271,7 +271,7 @@ class instance {
      *
      * @return int The introformat.
      */
-    public function get_introformat() : int {
+    public function get_introformat(): int {
         return $this->introformat;
     }
 
@@ -289,7 +289,7 @@ class instance {
      *
      * @return int The max grade.
      */
-    public function get_grade() : int {
+    public function get_grade(): int {
         global $DB;
         return $DB->get_field('verbalfeedback', 'grade', ['id' => $this->id]);
     }
@@ -308,7 +308,7 @@ class instance {
      *
      * @return int The grade category.
      */
-    public function get_gradecat() : int {
+    public function get_gradecat(): int {
         return $this->gradecat;
     }
 
@@ -326,7 +326,7 @@ class instance {
      *
      * @return float The pass grade.
      */
-    public function get_gradepass() : float {
+    public function get_gradepass(): float {
         return $this->gradepass;
     }
 
@@ -344,7 +344,7 @@ class instance {
      *
      * @return int The grade scale.
      */
-    public function get_gradescale() : int {
+    public function get_gradescale(): int {
         return $this->gradescale;
     }
 
@@ -362,7 +362,7 @@ class instance {
      *
      * @return int The instance status.
      */
-    public function get_status() : int {
+    public function get_status(): int {
         return $this->status;
     }
 
@@ -380,7 +380,7 @@ class instance {
      *
      * @return int The opening time.
      */
-    public function get_timeopen() : int {
+    public function get_timeopen(): int {
         return $this->timeopen;
     }
 
@@ -398,7 +398,7 @@ class instance {
      *
      * @return int The closing time.
      */
-    public function get_timeclose() : int {
+    public function get_timeclose(): int {
         return $this->timeclose;
     }
 
@@ -416,7 +416,7 @@ class instance {
      *
      * @return int The time of the last modification.
      */
-    public function get_timemodified() : int {
+    public function get_timemodified(): int {
         return $this->timemodified;
     }
 
@@ -439,7 +439,7 @@ class instance {
      *
      * @return int The releasetype property value.
      */
-    public function get_release_type() : int {
+    public function get_release_type(): int {
         return $this->releasetype;
     }
 
@@ -462,7 +462,7 @@ class instance {
      *
      * @return int The released property value.
      */
-    public function get_released() : int {
+    public function get_released(): int {
         return $this->released;
     }
 
@@ -480,7 +480,7 @@ class instance {
      *
      * @return array<int, instance_category> The categories.
      */
-    public function get_categories() : array {
+    public function get_categories(): array {
         return $this->categories;
     }
 

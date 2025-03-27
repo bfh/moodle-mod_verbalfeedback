@@ -30,13 +30,12 @@ global $CFG;
 
 use mod_verbalfeedback\model\language;
 use mod_verbalfeedback\repository\language_repository;
-use mod_verbalfeedback\repository\mapper;
 use mod_verbalfeedback\repository\tables;
 
 /**
  * Verbal feedback language repository test class
  */
-class language_repository_test extends \advanced_testcase {
+final class language_repository_test extends \advanced_testcase {
 
     /** @var language_repository A language repository */
     protected $repo;
@@ -45,6 +44,11 @@ class language_repository_test extends \advanced_testcase {
      * Setup the test class.
      */
     public function setUp(): void {
+        global $DB;
+
+        parent::setUp();
+        // Empty table, while not necessary locally it is necessary for CI at github.
+        $DB->execute(sprintf('TRUNCATE TABLE {%s}', tables::LANGUAGE_TABLE));
         $this->repo = new language_repository();
     }
 
@@ -95,7 +99,7 @@ class language_repository_test extends \advanced_testcase {
      * @throws coding_exception
      * @throws dml_exception
      */
-    public function test_get_all() {
+    public function test_get_all(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -136,7 +140,7 @@ class language_repository_test extends \advanced_testcase {
      *
      * @covers \mod_verbalfeedback\repository\language_repository::get_by_id
      */
-    public function test_get_by_id() {
+    public function test_get_by_id(): void {
         $this->resetAfterTest();
 
         $language = new language(null, 'en');
@@ -155,7 +159,7 @@ class language_repository_test extends \advanced_testcase {
      * @throws coding_exception
      * @throws dml_exception
      */
-    public function test_delete_by_id() {
+    public function test_delete_by_id(): void {
         global $DB;
         $this->resetAfterTest();
         $languages = [
@@ -163,11 +167,11 @@ class language_repository_test extends \advanced_testcase {
             ['id' => 2, 'language' => 'de'],
             ['id' => 3, 'language' => 'fr'],
         ];
-        $DB->insert_records('verbalfeedback_language', $languages);
+        $DB->insert_records(tables::LANGUAGE_TABLE, $languages);
 
         $this->repo->delete_by_id(1);
 
-        $this->assertFalse($DB->get_record('verbalfeedback_language', ['id' => 1]));
+        $this->assertFalse($DB->get_record(tables::LANGUAGE_TABLE, ['id' => 1]));
     }
 
     /**

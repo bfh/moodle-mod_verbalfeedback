@@ -30,11 +30,11 @@ use mod_verbalfeedback\model\language;
  */
 class db_language {
     /**
-     * @var int
+     * @var int The language id
      */
-    public $id = 0;
+    public $id;
     /**
-     * @var
+     * @var string The language
      */
     public $language;
 
@@ -44,7 +44,7 @@ class db_language {
      * @param language $language
      * @return db_language
      */
-    public static function from_language(language $language) : db_language {
+    public static function from_language(language $language): db_language {
         $dbo = new db_language();
         $dbo->id = $language->get_id();
         $dbo->language = $language->get_language();
@@ -57,12 +57,12 @@ class db_language {
      * @param object $dbo The database object
      * @return language
      */
-    public static function to_language($dbo) : language {
+    public static function to_language($dbo): language {
         $language = new language();
-        if (isset($dbo->id)) {
+        if (isset($dbo->id) && !empty($dbo->id)) {
             $language->set_id($dbo->id);
         }
-        if (isset($dbo->language)) {
+        if (isset($dbo->language) && !empty($dbo->language)) {
             $language->set_language($dbo->language);
         }
         return $language;

@@ -30,11 +30,11 @@ use mod_verbalfeedback\model\template\template_category;
  */
 class db_template_category {
     /**
-     * @var int
+     * @var int The id
      */
     public $id = 0;
     /**
-     * @var
+     * @var string The unique name
      */
     public $uniquename;
 
@@ -57,7 +57,7 @@ class db_template_category {
      * @param object $dbo The database object
      * @return template_category The template category
      */
-    public static function to_template_category($dbo) : template_category {
+    public static function to_template_category($dbo): template_category {
         $templatecategory = new template_category();
         if (isset($dbo->id)) {
             $templatecategory->set_id($dbo->id);

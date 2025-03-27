@@ -53,10 +53,10 @@ class report_service {
      *
      * @param int $instanceid The instance id.
      * @param int $touserid The user id of the participant for which the report shall be created.
-     * @return int The id of the submission.
+     * @return report The report model of the submission.
      * @throws dml_exception A DML specific exception is thrown for any errors.
      */
-    public function create_report(int $instanceid, int $touserid) : report {
+    public function create_report(int $instanceid, int $touserid): report {
         $instance = $this->instancerepo->get_by_id($instanceid);
         $submissions = $this->submissionrepo->get_by_instance_and_touser($instanceid, $touserid);
 

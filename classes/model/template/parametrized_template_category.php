@@ -67,7 +67,7 @@ class parametrized_template_category {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -85,7 +85,7 @@ class parametrized_template_category {
      *
      * @return int The category id
      */
-    public function get_template_category_id() : int {
+    public function get_template_category_id(): int {
         return $this->categoryid;
     }
 
@@ -103,7 +103,7 @@ class parametrized_template_category {
      *
      * @return int The parametrized template category position
      */
-    public function get_position() : int {
+    public function get_position(): int {
         return $this->position;
     }
 
@@ -121,7 +121,7 @@ class parametrized_template_category {
      *
      * @return float
      */
-    public function get_weight() : float {
+    public function get_weight(): float {
         return $this->weight;
     }
 }

@@ -61,7 +61,7 @@ class localized_string {
      *
      * @return int The id.
      */
-    public function get_id() : int {
+    public function get_id(): int {
         return $this->id;
     }
 
@@ -79,7 +79,7 @@ class localized_string {
      *
      * @return language The language.
      */
-    public function get_language_id() : int {
+    public function get_language_id(): int {
         return $this->languageid;
     }
 
@@ -97,7 +97,7 @@ class localized_string {
      *
      * @return string The string.
      */
-    public function get_string() : string {
+    public function get_string(): string {
         return $this->string;
     }
 }

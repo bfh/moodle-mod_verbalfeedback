@@ -62,7 +62,7 @@ class db_template {
      * @param object $dbo The database object
      * @return template The template
      */
-    public static function to_template($dbo) : template {
+    public static function to_template($dbo): template {
         $template = new template();
         if (isset($dbo->id)) {
             $template->set_id($dbo->id);
