@@ -54,6 +54,13 @@ The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
 the latest suppored Moodle version and Z is an incresing number for newer versions
 of the plugin whithin the same Moodle version.
 
+### v4.5-r3
+
+- Fix [issue #46](https://github.com/bfh/moodle-mod_verbalfeedback/issues/46)
+ non-Latin languages do not work in the PDF report
+- Fix [issue #39](https://github.com/bfh/moodle-mod_verbalfeedback/issues/39)
+  fix privacy provider. Thanks to [Nikolai](https://github.com/NJahreis) for a patch.
+
 ### v4.5-r2
 
 - Fix [issue #47](https://github.com/bfh/moodle-mod_verbalfeedback/issues/47)
