@@ -71,8 +71,8 @@ class provider implements
         $items->add_database_table(
             'verbalfeedback_response',
             [
-                'instanceid' => 'privacy:metadata:instanceid',
-                'item' => 'privacy:metadata:verbalfeedback_item',
+                'instanceid' => 'privacy:metadata:verbalfeedback',
+                'submissionid' => 'privacy:metadata:verbalfeedback_submissionid',
                 'fromuserid' => 'privacy:metadata:verbalfeedback_submission:fromuserid',
                 'touserid' => 'privacy:metadata:verbalfeedback_submission:touserid',
                 'value' => 'privacy:metadata:verbalfeedback_response:value',
@@ -333,8 +333,8 @@ class provider implements
         }
 
         if ($cm = get_coursemodule_from_id('verbalfeedback', $context->instanceid)) {
-            $DB->delete_records('verbalfeedback_response', ['verbalfeedback' => $cm->instance]);
-            $DB->delete_records('verbalfeedback_submission', ['verbalfeedback' => $cm->instance]);
+            $DB->delete_records('verbalfeedback_response', ['instanceid' => $cm->instance]);
+            $DB->delete_records('verbalfeedback_submission', ['instanceid' => $cm->instance]);
         }
     }
 
