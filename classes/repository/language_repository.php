@@ -87,4 +87,15 @@ class language_repository {
         $dbo = $DB->get_record(tables::LANGUAGE_TABLE, ["id" => $id]);
         return db_language::to_language($dbo);
     }
+
+    /**
+     * Gets the language for the given iso code.
+     * @param string $iso The language iso code.
+     * @return language|null The language.
+     */
+    public function get_by_iso(string $iso): language {
+        global $DB;
+        $dbo = $DB->get_record(tables::LANGUAGE_TABLE, ["language" => $iso]);
+        return db_language::to_language($dbo);
+    }
 }
