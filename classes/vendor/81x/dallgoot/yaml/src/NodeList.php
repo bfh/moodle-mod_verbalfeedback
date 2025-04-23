@@ -31,9 +31,9 @@ class NodeList extends \SplDoublyLinkedList
     /**
      * NodeList constructor
      *
-     * @param NodeGeneric|null $node (optional) a node that will be pushed as first element
+     * @param ?NodeGeneric|null $node (optional) a node that will be pushed as first element
      */
-    public function __construct(NodeGeneric $node = null)
+    public function __construct(?NodeGeneric $node = null)
     {
         // parent::__construct();
         // $this->setIteratorMode(self::IT_MODE_KEEP);
