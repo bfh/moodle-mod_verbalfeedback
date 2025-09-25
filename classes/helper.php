@@ -102,18 +102,18 @@ class helper {
                 $criterionviewmodel->id = $criterion->get_id();
                 $criterionviewmodel->position = $criterion->get_position();
                 $criterionviewmodel->weight = number_format($criterion->get_weight(), 2);
-                $criterionviewmodel->text = $criterion->get_description($currentlanguage)->get_string();
+                $criterionviewmodel->text = $criterion->get_description($currentlanguage) ? $criterion->get_description($currentlanguage)->get_string() : '';
 
                 foreach ($criterion->get_subratings() as $subrating) {
                     $subratingviewmodel = new stdClass();
 
                     $subratingviewmodel->id = $subrating->get_id();
                     $subratingviewmodel->title = $subrating->get_title($currentlanguage)->get_string();
-                    $subratingviewmodel->description = $subrating->get_description($currentlanguage)->get_string();
-                    $subratingviewmodel->verynegative = $subrating->get_verynegative($currentlanguage)->get_string();
-                    $subratingviewmodel->negative = $subrating->get_negative($currentlanguage)->get_string();
-                    $subratingviewmodel->positive = $subrating->get_positive($currentlanguage)->get_string();
-                    $subratingviewmodel->verypositive = $subrating->get_verypositive($currentlanguage)->get_string();
+                    $subratingviewmodel->description = $subrating->get_description($currentlanguage) ? $subrating->get_description($currentlanguage)->get_string() : '';
+                    $subratingviewmodel->verynegative = $subrating->get_verynegative($currentlanguage) ? $subrating->get_verynegative($currentlanguage)->get_string() : '';
+                    $subratingviewmodel->negative = $subrating->get_negative($currentlanguage) ? $subrating->get_negative($currentlanguage)->get_string() : '';
+                    $subratingviewmodel->positive = $subrating->get_positive($currentlanguage) ? $subrating->get_positive($currentlanguage)->get_string() : '';
+                    $subratingviewmodel->verypositive = $subrating->get_verypositive($currentlanguage) ? $subrating->get_verypositive($currentlanguage)->get_string() : '';
 
                     $criterionviewmodel->subratings[] = $subratingviewmodel;
                 }
