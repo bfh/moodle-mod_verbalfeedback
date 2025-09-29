@@ -90,7 +90,7 @@ class helper {
         /** @var instance_category $category */
         foreach ($categories as $category) {
             $categoryviewmodel = new stdClass();
-            $categoryviewmodel->header = $category->get_header($currentlanguage)->get_string();
+            $categoryviewmodel->header = $category->get_header($currentlanguage) ? $category->get_header($currentlanguage)->get_string() : '';
             $categoryviewmodel->id = $category->get_id();
             $categoryviewmodel->criteria = [];
             $categoryviewmodel->position = $category->get_position();
@@ -109,7 +109,7 @@ class helper {
                     $subratingviewmodel = new stdClass();
 
                     $subratingviewmodel->id = $subrating->get_id();
-                    $subratingviewmodel->title = $subrating->get_title($currentlanguage)->get_string();
+                    $subratingviewmodel->title = $subrating->get_title($currentlanguage) ? $subrating->get_title($currentlanguage)->get_string() : '';
                     $subratingviewmodel->description = $subrating->get_description($currentlanguage)
                         ? $subrating->get_description($currentlanguage)->get_string() : '';
                     $subratingviewmodel->verynegative = $subrating->get_verynegative($currentlanguage)
