@@ -110,7 +110,7 @@ class helper {
                     $subratingviewmodel = new stdClass();
 
                     $subratingviewmodel->id = $subrating->get_id();
-                    $subratingviewmodel->title = $subrating->get_title($currentlanguage) 
+                    $subratingviewmodel->title = $subrating->get_title($currentlanguage)
                         ? $subrating->get_title($currentlanguage)->get_string() : '';
                     $subratingviewmodel->description = $subrating->get_description($currentlanguage)
                         ? $subrating->get_description($currentlanguage)->get_string() : '';
