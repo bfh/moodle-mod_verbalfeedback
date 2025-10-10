@@ -36,6 +36,8 @@ The plugin can be also installed by putting the contents of this directory to
 
     {your/moodle/dirroot}/mod/verbalfeedback
 
+**Note**: since Moodle 5.1 the installation folder is `{your/moodle/dirroot}/public/mod/verbalfeedback`.
+
 Afterwards, log in to your Moodle site as an admin and go to _Site administration >
 Notifications_ to complete the installation.
 
@@ -58,6 +60,7 @@ of the plugin whithin the same Moodle version.
 
 - Support Moodle 5.1.
 - Allow ratings without subcriteria.
+- Remove backward compatibilty for PHP versions older 8.1.14.
 
 ### v5.0-r1
 
