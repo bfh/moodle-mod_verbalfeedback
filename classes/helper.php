@@ -143,10 +143,9 @@ class helper {
      */
     public static function parseyamlfile(string $someyaml, ?int $options = null, ?int $debug = null) {
         if (version_compare(PHP_VERSION, '8.1.14') >= 0) {
-            require_once(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '81x', 'autoload.php']));
+            require_once(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', 'autoload.php']));
             return \Dallgoot\Yaml\Yaml::parseFile($someyaml, $options, $debug);
         }
-        require_once(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'vendor', '74x', 'autoload.php']));
-        return \Dallgoot\Yaml::parseFile($someyaml, $options, $debug);
+        throw new Exception('YAML parsing requires at least PHP 8.1.14');
     }
 }
