@@ -1,8 +1,0 @@
-function ttEvent() {
-  document.addEventListener && document.addEventListener('mousemove',
-    function(e) {
-      var t = finditem(e,tips);
-      if(t || tooltipOn)
-        tooltip(e,texttt,t,t);
-    },false);
-}

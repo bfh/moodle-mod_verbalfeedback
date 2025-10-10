@@ -116,12 +116,8 @@ class graph_utils {
      * @return \Goat1000\SVGGraph\SVGGraph
      */
     public static function getsvggraph($w, $h, $settings = null, $subgraph = false) {
-        $dir = (version_compare(PHP_VERSION, '8.1.14') >= 0)
-            ? '81x'
-            : '74x';
-
         require_once(implode(DIRECTORY_SEPARATOR,
-            [dirname(__FILE__), '..', 'vendor', $dir, 'autoload.php']));
+            [dirname(__FILE__), '..', 'vendor', 'autoload.php']));
 
         return new \Goat1000\SVGGraph\SVGGraph($w, $h, $settings, $subgraph);
     }
