@@ -71,6 +71,8 @@ final class import_data_test extends \advanced_testcase {
      * @throws dml_transaction_exception
      */
     public function test_import(): void {
+        global $CFG;
+
         $this->resetAfterTest(true);
 
         $langrepo = new language_repository();
@@ -79,7 +81,7 @@ final class import_data_test extends \advanced_testcase {
         $templaterepo = new template_repository();
 
         // Test dallgoot/yaml.
-        $importdata = helper::parseyamlfile('./mod/verbalfeedback/db/default.yaml');
+        $importdata = helper::parseyamlfile($CFG->dirroot . '/mod/verbalfeedback/db/default.yaml');
         foreach ($importdata->languages as $yamllang) {
             if (empty($yamllang->id)) {
                 $lang = new language(null, $yamllang->language);
