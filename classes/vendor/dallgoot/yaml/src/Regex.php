@@ -18,11 +18,11 @@ class Regex
 
     const QUOTED = "(?'quot'(?'q'['\"]).*?(?<![\\\\])(?&q))";
     const NUM    = "(?'num'[\\-+]?(?:\\d+\\.?(?:\\d*(e[+\\-]?\\d+)?)|(\\.(inf|nan))))";
-    const WORD   = "(?'word'[[:alnum:] _\\-\\.]+)";
+    const WORD   = "(?'word'[[:alnum:] _\\-\\.:]+)";
     const RC     = "(?'rc'\\*\\w+)"; //reference call
     // const RC     = "(?'rc'\\*[^ *&]+)"; //reference call
-    const RD     = "(?'rd'&\\w+)"; //reference definition
-    // const RD     = "(?'rd'&[^ &*]+)"; //reference definition
+    // const RD     = "(?'rd'&\\w+)"; //reference definition
+    const RD     = "(?'rd'&[^ ]+)"; //reference definition
     // const TAG    = "(?'tag'!!?[\\w\\/\\-]+!?)";
     const TAG    = "(?'tag'!!?[^! ]+!?)";
     const ALL    = "(?'all'(?:(?:(?&rd)|(?&tag)) +)?(?:(?&quot)|(?&rc)|(?&word)|(?&map)|(?&seq)))";

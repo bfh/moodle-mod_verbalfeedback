@@ -4,7 +4,7 @@
     "vendor-dir": "../classes/vendor"
   },
   "require": {
-    "dallgoot/yaml": "^0.9.0",
+    "dallgoot/yaml": "@dev",
     "goat1000/svggraph": "^3.10.0"
   }
 }
