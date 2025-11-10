@@ -35,7 +35,6 @@ require_once($CFG->libdir . '/formslib.php');
  * The template category edit form
  */
 class template_category_edit_form extends \moodleform {
-
     /**
      * Add elements to form.
      *
@@ -61,11 +60,10 @@ class template_category_edit_form extends \moodleform {
             $headers[] =& $mform->createElement('hidden', 'language_id', $l->get_id());
             $categoryheader = get_string('categoryheader', 'verbalfeedback') . ' - ' . $l->get_language();
             $headers[] =& $mform->createElement('text', 'string', $categoryheader);
-            $mform->addGroup($headers, 'headers[' . $l->get_id() .']', $categoryheader, [''], true);
-
-            $mform->setType('headers[' . $l->get_id() .'][id]', PARAM_INT);
-            $mform->setType('headers[' . $l->get_id() .'][language_id]', PARAM_INT);
-            $mform->setType('headers[' . $l->get_id() .'][string]', PARAM_TEXT);
+            $mform->addGroup($headers, 'headers[' . $l->get_id() . ']', $categoryheader, [''], true);
+            $mform->setType('headers[' . $l->get_id() . '][id]', PARAM_INT);
+            $mform->setType('headers[' . $l->get_id() . '][language_id]', PARAM_INT);
+            $mform->setType('headers[' . $l->get_id() . '][string]', PARAM_TEXT);
         }
 
         $mform->addElement('header', 'criteriaheader', 'Select criteria');

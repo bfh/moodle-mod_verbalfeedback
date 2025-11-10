@@ -14,18 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * PHPUnit verbal feedback generator tests.
- *
- * @package    mod_verbalfeedback
- * @copyright  2021 Luca Bösch <luca.boesch@bfh.ch>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_verbalfeedback;
 
 /**
- * PHPUnit verbal feedback generator testcase.
+ * PHPUnit verbal feedback generator tests.
  *
  * @package    mod_verbalfeedback
  * @copyright  2021 Luca Bösch <luca.boesch@bfh.ch>
@@ -68,8 +60,15 @@ final class generator_test extends \advanced_testcase {
         // Test gradebook integration using low level DB access - DO NOT USE IN PLUGIN CODE!
         $verbalfeedback = $generator->create_instance(['course' => $course->id, 'assessed' => 1, 'grade' => 80]);
 
-        $gitem = $DB->get_record('grade_items', ['courseid' => $course->id, 'itemtype' => 'mod',
-            'itemmodule' => 'verbalfeedback', 'iteminstance' => $verbalfeedback->id, ], );
+        $gitem = $DB->get_record(
+            'grade_items',
+            [
+                'courseid' => $course->id,
+                'itemtype' => 'mod',
+                'itemmodule' => 'verbalfeedback',
+                'iteminstance' => $verbalfeedback->id,
+            ]
+        );
 
         $this->assertNotEmpty($gitem);
         $this->assertEquals(80, $gitem->grademax);

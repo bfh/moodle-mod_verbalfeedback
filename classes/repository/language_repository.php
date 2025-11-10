@@ -31,7 +31,6 @@ use mod_verbalfeedback\repository\model\db_language;
  * The language repository class.
  */
 class language_repository {
-
     /**
      * Inserts (language->id = null or 0) or updates a language record in the database.
      * Note: no error is thrown if no record for the given id exists.

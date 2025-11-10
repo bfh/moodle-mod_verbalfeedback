@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class for creating graphs. For example, to display on the report.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_verbalfeedback\utils;
 
 use mod_verbalfeedback\model\report;
@@ -36,7 +28,6 @@ use mod_verbalfeedback\model\report;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class font {
-
     /** @var string Base font name. */
     public const FONT_BASE = 'Noto_Sans';
     /** @var string Font name for Arabic. */

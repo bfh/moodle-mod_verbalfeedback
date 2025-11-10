@@ -23,8 +23,8 @@
  */
 
 use mod_verbalfeedback\api;
-use mod_verbalfeedback\model\report;
 use mod_verbalfeedback\repository\instance_repository;
+use mod_verbalfeedback\output\report;
 use mod_verbalfeedback\service\report_service;
 
 require_once(__DIR__ . '/../../config.php');
@@ -32,7 +32,7 @@ require_once(__DIR__ . '/../../config.php');
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
 
-list ($course, $cm) = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
+[$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 
 require_login($course, true, $cm);
 
@@ -90,8 +90,7 @@ if ($touserid != 0) {
     $reportservice = new report_service();
     $report = $reportservice->create_report($instanceid, $touserid);
 
-    $templatedata = new mod_verbalfeedback\output\report($cm->id, $instanceid, $report, $participants, $touser,
-        $downloadformats);
+    $templatedata = new report($cm->id, $instanceid, $report, $participants, $touser, $downloadformats);
 
     $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 

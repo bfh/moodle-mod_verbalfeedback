@@ -23,7 +23,6 @@
  */
 namespace mod_verbalfeedback\model;
 
-use Exception;
 use mod_verbalfeedback\repository\language_repository;
 
 /**
@@ -56,8 +55,15 @@ class subrating {
      * @param array $positives The positive subratings
      * @param array $verypositives The very positive subratings
      */
-    public function __construct(int $id = 0, array $titles = [], array $descriptions = [], array $verynegatives = [],
-    array $negatives = [], array $positives = [], array $verypositives = []) {
+    public function __construct(
+        int $id = 0,
+        array $titles = [],
+        array $descriptions = [],
+        array $verynegatives = [],
+        array $negatives = [],
+        array $positives = [],
+        array $verypositives = []
+    ) {
         $this->id = $id;
         $this->titles = $titles;
         $this->descriptions = $descriptions;

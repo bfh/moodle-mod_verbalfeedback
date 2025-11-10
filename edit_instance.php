@@ -56,7 +56,6 @@ if (!$instance = $instancerepository->get_by_id($cm->instance)) {
 }
 
 if (optional_param('savechanges', false, PARAM_BOOL) && confirm_sesskey()) {
-
     // If rescaling is required save the new maximum.
     $maxgrade = unformat_float(optional_param('maxgrade', '', PARAM_RAW_TRIMMED), true);
     if (is_float($maxgrade) && $maxgrade >= 0) {
@@ -104,8 +103,15 @@ if (!$instanceready) {
 }
 
 // Verbalfeedback item list.
-$itemslist = new mod_verbalfeedback\output\list_verbalfeedback_items($cmid, $course->id, $instance->get_id(), $viewurl, $previewurl,
-    $makeavailableurl, $maxgrade);
+$itemslist = new mod_verbalfeedback\output\list_verbalfeedback_items(
+    $cmid,
+    $course->id,
+    $instance->get_id(),
+    $viewurl,
+    $previewurl,
+    $makeavailableurl,
+    $maxgrade
+);
 $itemslistoutput = $PAGE->get_renderer('mod_verbalfeedback');
 echo $itemslistoutput->render($itemslist);
 

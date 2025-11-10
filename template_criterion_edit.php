@@ -68,7 +68,6 @@ if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present on form.
     redirect(new \moodle_url('/mod/verbalfeedback/template_criterion_list.php'));
 } else if ($formdata = $mform->get_data()) {
-
     if ($formdata->id == 0) {
         $formdata->id = null;
     }
@@ -76,7 +75,6 @@ if ($mform->is_cancelled()) {
 
     $templatecriterionrepository->save($templatecriterion);
     redirect(new \moodle_url('/mod/verbalfeedback/template_criterion_list.php'));
-
 } else {
     // This branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
     // or on the first display of the form.

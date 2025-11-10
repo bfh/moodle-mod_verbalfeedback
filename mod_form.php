@@ -39,7 +39,6 @@ use mod_verbalfeedback\repository\template_repository;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_verbalfeedback_mod_form extends moodleform_mod {
-
     /**
      * Form definition.
      *
@@ -108,10 +107,8 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
 
         // Availability.
         $mform->addElement('header', 'timinghdr', get_string('availability'));
-        $mform->addElement('date_time_selector', 'timeopen', get_string('feedbackopen', 'feedback'),
-            ['optional' => true]);
-        $mform->addElement('date_time_selector', 'timeclose', get_string('feedbackclose', 'feedback'),
-            ['optional' => true]);
+        $mform->addElement('date_time_selector', 'timeopen', get_string('feedbackopen', 'feedback'), ['optional' => true]);
+        $mform->addElement('date_time_selector', 'timeclose', get_string('feedbackclose', 'feedback'), ['optional' => true]);
 
         // Grade.
         $this->standard_grading_coursemodule_elements();

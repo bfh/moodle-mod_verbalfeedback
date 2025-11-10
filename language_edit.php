@@ -55,11 +55,9 @@ if ($mform->is_cancelled()) {
     redirect(new moodle_url('/mod/verbalfeedback/language_list.php'));
 } else if ($formdata = $mform->get_data()) {
     // In this case you process validated data. $mform->get_data() returns data posted in form.
-
     if ($formdata->id == 0) {
         $formdata->id = null;
     }
-
     $language = view_model_to_language($formdata);
     $languagerepository->save($language);
 

@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_verbalfeedback\output\report_download;
 use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\service\report_service;
 use mod_verbalfeedback\utils\font;
@@ -35,16 +36,11 @@ global $DB;
 
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
-
-list($course, $cm) = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
-
+[$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 require_login($course, true, $cm);
-
 $context = context_module::instance($cm->id);
-
 $instancerepo = new instance_repository();
 $instance = $instancerepo->get_by_id($instanceid);
-
 $viewownreport = $touserid == $USER->id;
 $participants = [];
 
@@ -83,8 +79,15 @@ $report = $reportservice->create_report($instanceid, $touserid);
 
 $fonthandler = new font($report);
 
-$templatedata = new mod_verbalfeedback\output\report_download($report, $course->fullname, $course->startdate, $course->enddate,
-    $instancename, $touser, $fonthandler);
+$templatedata = new report_download(
+    $report,
+    $course->fullname,
+    $course->startdate,
+    $course->enddate,
+    $instancename,
+    $touser,
+    $fonthandler
+);
 
 $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 $html = $renderer->render($templatedata);
@@ -101,7 +104,6 @@ $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // Set default header data.
 // Note: path must be relative to K_PATH_IMAGES and do not use "." or "..".
-
 $fs = get_file_storage();
 
 $logofilepath = $DB->get_field('config_plugins', 'value', ['plugin' => 'mod_verbalfeedback', 'name' => 'reportimage']);
@@ -110,8 +112,15 @@ if (!$logofilepath) {
     $imagefile = $CFG->dirroot . '/mod/verbalfeedback/pix/reportlogo.png';
 } else {
     $systemcontext = context_system::instance();
-    if ($file = $fs->get_file($systemcontext->id, 'mod_verbalfeedback', 'reportbackgroundimage', 0,
-        '/', $logofilepath)) {
+    $file = $fs->get_file(
+        $systemcontext->id,
+        'mod_verbalfeedback',
+        'reportbackgroundimage',
+        0,
+        '/',
+        $logofilepath
+    );
+    if ($file) {
         $imagefile = $file->copy_content_to_temp();
     }
 }
@@ -154,8 +163,18 @@ if ($image) {
 }
 
 $pdf->Image('@' . file_get_contents($imagefile), 15, 5, $imagescaledwidth, 18);
-$pdf->ImageSVG('@' . $radarimg, $x = 16, $y = 28, $w = '', $h = '', $link = '', $align = '', $palign = 'R',
-    $border = 1, $fitonpage = false);
+$pdf->ImageSVG(
+    '@' . $radarimg,
+    $x = 16,
+    $y = 28,
+    $w = '',
+    $h = '',
+    $link = '',
+    $align = '',
+    $palign = 'R',
+    $border = 1,
+    $fitonpage = false
+);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $pdf->lastPage();

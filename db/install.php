@@ -127,8 +127,12 @@ function xmldb_verbalfeedback_install() {
 
         foreach ($yamlcategory->criteria as $criterion) {
             // Use of $criterion->criterion because '<<' does not work with this yaml parser.
-            $parametrizedcriterion = new parametrized_template_criterion(0, $criterion->criterion->id, $criterion->position,
-                $criterion->weight);
+            $parametrizedcriterion = new parametrized_template_criterion(
+                0,
+                $criterion->criterion->id,
+                $criterion->position,
+                $criterion->weight
+            );
             $category->add_template_criterion($parametrizedcriterion);
         }
 
@@ -145,8 +149,12 @@ function xmldb_verbalfeedback_install() {
         $template = new template($yamltemplate->id, $yamltemplate->name, $yamltemplate->description);
         foreach ($yamltemplate->categories as $category) {
             // Use of $category->category->id because '<<' does not work with this yaml parser.
-            $parametrizedcategory = new parametrized_template_category(0, $category->category->id, $category->position,
-                $category->weight);
+            $parametrizedcategory = new parametrized_template_category(
+                0,
+                $category->category->id,
+                $category->position,
+                $category->weight
+            );
             $template->add_template_category($parametrizedcategory);
         }
 

@@ -55,8 +55,14 @@ class instance_criterion {
      * @param array $descriptions The criterion descriptions
      * @param array $subratings The criterion subratings
      */
-    public function __construct(int $id = 0, ?int $parametrizedtemplatecriterionid = null, int $position = 0,
-        float $weight = 0.0, $descriptions = [], $subratings = []) {
+    public function __construct(
+        int $id = 0,
+        ?int $parametrizedtemplatecriterionid = null,
+        int $position = 0,
+        float $weight = 0.0,
+        $descriptions = [],
+        $subratings = []
+    ) {
         $this->id = $id;
         $this->parametrizedtemplatecriterionid = $parametrizedtemplatecriterionid;
         $this->position = $position;

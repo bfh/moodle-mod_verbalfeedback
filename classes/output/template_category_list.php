@@ -23,11 +23,6 @@
  */
 namespace mod_verbalfeedback\output;
 
-defined('MOODLE_INTERNAL') || die();
-
-use mod_verbalfeedback\api;
-use mod_verbalfeedback\helper;
-use mod_verbalfeedback\model\template\template_category;
 use renderable;
 use renderer_base;
 use templatable;
@@ -61,7 +56,7 @@ class template_category_list implements renderable, templatable {
         $this->newtemplatecategoryurl = $url->out();
 
         foreach ($templatecategories as $c) {
-            $this->templatecategories[] = new template_category_view_model($c);
+            $this->templatecategories[] = new model\template_category_view_model($c);
         }
     }
 
@@ -82,39 +77,5 @@ class template_category_list implements renderable, templatable {
         $data->newtemplatecategoryurl = $this->newtemplatecategoryurl;
         $data->templatecategories = $this->templatecategories;
         return $data;
-    }
-}
-
-/**
- * The template category view model class
- */
-class template_category_view_model {
-    /** @var int The category id */
-    public $id;
-    /** @var string The category edit url */
-    public $editurl;
-    /** @var string The category delete url */
-    public $deleteurl;
-    /** @var string */
-    public $uniquename;
-    /** @var int|null Nomber of criterias. */
-    public $criteriacount;
-
-    /**
-     * The template category view model class constructor
-     *
-     * @param template_category $category
-     * @throws moodle_exception
-     */
-    public function __construct(template_category $category) {
-        $this->id = $category->get_id();
-        $this->uniquename = $category->get_unique_name();
-        $this->criteriacount = count($category->get_template_criteria());
-
-        $url = new \moodle_url('/mod/verbalfeedback/template_category_edit.php', ["id" => $category->get_id()]);
-        $this->editurl = $url->out();
-
-        $url = new \moodle_url('/mod/verbalfeedback/template_category_delete.php', ["id" => $category->get_id()]);
-        $this->deleteurl = $url->out();;
     }
 }

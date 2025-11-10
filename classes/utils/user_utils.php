@@ -28,14 +28,13 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 global $DB;
 
-require_once($CFG->libdir.'/accesslib.php');
+require_once($CFG->libdir . '/accesslib.php');
 
 use coding_exception;
 use context_module;
 use Exception;
 use mod_verbalfeedback\model\instance;
 use moodle_exception;
-use stdClass;
 
 /**
  * Class for performing user related actions for the verbal feedback activity module.
@@ -44,7 +43,6 @@ use stdClass;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class user_utils {
-
     /**
      * Returns true, if the user is enrolled in the given context.
      *
@@ -90,16 +88,14 @@ class user_utils {
                 $cm = get_coursemodule_from_instance('verbalfeedback', $instance->get_id());
                 $context = context_module::instance($cm->id);
             } catch (Exception $e) {
-                trigger_error('Failed to load context, returning default value "false" for function "can_view_own_report".',
-                    E_USER_WARNING);
-                    return false;
+                trigger_error(
+                    'Failed to load context, returning default value "false" for function "can_view_own_report".',
+                    E_USER_WARNING
+                );
+                return false;
             }
         }
-
-        if ($isreleased && has_capability('mod/verbalfeedback:receive_rating', $context)) {
-            return true;
-        }
-        return false;
+        return $isreleased && has_capability('mod/verbalfeedback:receive_rating', $context);
     }
 
     /**
@@ -113,8 +109,10 @@ class user_utils {
         try {
             $context = instance_utils::get_context_by_instance($instance);
         } catch (Exception $e) {
-            trigger_error('Failed to load context, returning default value "false" for function "user:can_respond".',
-              E_USER_WARNING);
+            trigger_error(
+                'Failed to load context, returning default value "false" for function "user:can_respond".',
+                E_USER_WARNING
+            );
             return false;
         }
         // User can't participate if not enrolled in the course.
@@ -139,8 +137,10 @@ class user_utils {
         try {
             $context = instance_utils::get_context_by_instance($instance);
         } catch (Exception $e) {
-            trigger_error('Failed to load context, returning default value "false" for function "user:can_participate".',
-                E_USER_WARNING);
+            trigger_error(
+                'Failed to load context, returning default value "false" for function "user:can_participate".',
+                E_USER_WARNING
+            );
             return false;
         }
         // User can't participate if not enrolled in the course.

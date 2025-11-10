@@ -40,7 +40,6 @@ require_once($CFG->dirroot . '/mod/verbalfeedback/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class verbalfeedback_test extends \advanced_testcase {
-
     /**
      * @var core_course_category Course category used for testing
      */

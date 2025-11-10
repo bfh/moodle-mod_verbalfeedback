@@ -32,15 +32,12 @@ require_once($CFG->libdir . '/formslib.php');
  * The template category delete form
  */
 class template_category_delete_form extends \moodleform {
-
     /**
      * Add elements to form.
      *
      * @throws \coding_exception
      */
     public function definition() {
-        global $CFG;
-
         $mform = $this->_form; // Don't forget the underscore!
 
         $mform->addElement('hidden', 'id'); // Add elements to your form.

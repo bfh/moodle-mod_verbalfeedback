@@ -33,12 +33,10 @@ use mod_verbalfeedback\repository\model\db_submission;
 
 require_once(__DIR__ . '/../../lib.php');
 
-
 /**
  * The submission repository class.
  */
 class submission_repository {
-
     /**
      * Inserts (submission->id = 0) or updates a submission.
      *
@@ -111,8 +109,14 @@ class submission_repository {
      */
     public function get_by_instance_and_fromuser_and_touser(int $instanceid, int $fromuserid, int $touserid): submission {
         global $DB;
-        $dbo = $DB->get_record(tables::SUBMISSION_TABLE, ["instanceid" => $instanceid, "fromuserid" => $fromuserid,
-            "touserid" => $touserid, ], );
+        $dbo = $DB->get_record(
+            tables::SUBMISSION_TABLE,
+            [
+                "instanceid" => $instanceid,
+                "fromuserid" => $fromuserid,
+                "touserid" => $touserid,
+            ]
+        );
         $submission = db_submission::to_submission($dbo);
 
         $dboresponses = $DB->get_records(tables::RESPONSE_TABLE, ["submissionid" => $submission->get_id()]);

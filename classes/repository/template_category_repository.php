@@ -36,7 +36,6 @@ use mod_verbalfeedback\repository\model\localized_string_type;
  * The template category repository class
  */
 class template_category_repository {
-
     /**
      * Gets all the template categories in the database.
      *
@@ -105,8 +104,11 @@ class template_category_repository {
 
             // Insert or update category headers.
             foreach ($templatecategory->get_headers() as $header) {
-                $dboheader = db_localized_string::from_localized_string($header,
-                localized_string_type::TEMPLATE_CATEGORY_HEADER, $templatecategory->get_id());
+                $dboheader = db_localized_string::from_localized_string(
+                    $header,
+                    localized_string_type::TEMPLATE_CATEGORY_HEADER,
+                    $templatecategory->get_id()
+                );
 
                 if ($header->get_id() == 0) {
                     $DB->insert_record(tables::LOCALIZED_STRING_TABLE, $dboheader);
@@ -118,8 +120,10 @@ class template_category_repository {
             // Update linked criteria.
             $DB->delete_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['categoryid' => $templatecategory->get_id()]);
             foreach ($templatecategory->get_template_criteria() as $criterion) {
-                $dboparamcriterion = db_parametrized_criterion::from_parametrized_criterion($criterion,
-                $templatecategory->get_id());
+                $dboparamcriterion = db_parametrized_criterion::from_parametrized_criterion(
+                    $criterion,
+                    $templatecategory->get_id()
+                );
                 $DB->insert_record(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, $dboparamcriterion);
             }
 

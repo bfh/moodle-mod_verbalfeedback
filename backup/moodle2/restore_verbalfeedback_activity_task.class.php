@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Restore task that provides all the settings and steps to perform one complete restore of the verbalfeedback instance.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/verbalfeedback/backup/moodle2/restore_verbalfeedback_stepslib.php');
@@ -34,7 +26,6 @@ require_once($CFG->dirroot . '/mod/verbalfeedback/backup/moodle2/restore_verbalf
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_verbalfeedback_activity_task extends restore_activity_task {
-
     /**
      * Define (add) particular settings this activity can have
      */
@@ -71,7 +62,6 @@ class restore_verbalfeedback_activity_task extends restore_activity_task {
         $rules[] = new restore_decode_rule('VERBALFEEDBACKINDEX', '/mod/verbalfeedback/index.php?id=$1', 'course');
 
         return $rules;
-
     }
 
     /**
@@ -107,8 +97,15 @@ class restore_verbalfeedback_activity_task extends restore_activity_task {
         $rules = [];
 
         // Fix old wrong uses (missing extension).
-        $rules[] = new restore_log_rule('verbalfeedback', 'view all', 'index?id={course}', null,
-                                        null, null, 'index.php?id={course}');
+        $rules[] = new restore_log_rule(
+            'verbalfeedback',
+            'view all',
+            'index?id={course}',
+            null,
+            null,
+            null,
+            'index.php?id={course}',
+        );
         $rules[] = new restore_log_rule('verbalfeedback', 'view all', 'index.php?id={course}', null);
 
         return $rules;

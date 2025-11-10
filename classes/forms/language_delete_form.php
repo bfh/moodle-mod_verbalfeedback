@@ -32,7 +32,6 @@ require_once($CFG->libdir . '/formslib.php');
  * The language delete form
  */
 class language_delete_form extends \moodleform {
-
     /**
      * Add elements to form.
      *

@@ -32,7 +32,6 @@ require_once($CFG->libdir . '/formslib.php');
  * The language edit form
  */
 class language_edit_form extends \moodleform {
-
     /**
      * Add elements to form.
      *

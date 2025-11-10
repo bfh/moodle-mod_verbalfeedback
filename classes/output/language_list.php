@@ -23,9 +23,6 @@
  */
 namespace mod_verbalfeedback\output;
 
-defined('MOODLE_INTERNAL') || die();
-
-use mod_verbalfeedback\model\language;
 use renderable;
 use renderer_base;
 use templatable;
@@ -57,7 +54,7 @@ class language_list implements renderable, templatable {
         $this->newlanguageurl = $url->out();
 
         foreach ($languages as $l) {
-            $this->languages[] = new language_view_model($l);
+            $this->languages[] = new model\language_view_model($l);
         }
     }
 
@@ -78,36 +75,5 @@ class language_list implements renderable, templatable {
         $data->newlanguageurl = $this->newlanguageurl;
         $data->languages = $this->languages;
         return $data;
-    }
-}
-
-/**
- * The language view model class
- */
-class language_view_model {
-    /** @var int|null The language id */
-    public $id;
-    /** @var string The language string */
-    public $language;
-    /** @var string The language edit url */
-    public $editurl;
-    /** @var string The language delete url */
-    public $deleteurl;
-
-    /**
-     * The class constructor
-     *
-     * @param language $language The language object
-     * @throws \moodle_exception
-     */
-    public function __construct(language $language) {
-        $this->id = $language->get_id();
-        $this->language = $language->get_language();
-
-        $url = new \moodle_url('/mod/verbalfeedback/language_edit.php', ["id" => $language->get_id()]);
-        $this->editurl = $url->out();
-
-        $url = new \moodle_url('/mod/verbalfeedback/language_delete.php', ["id" => $language->get_id()]);
-        $this->deleteurl = $url->out();;
     }
 }

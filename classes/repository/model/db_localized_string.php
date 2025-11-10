@@ -29,7 +29,6 @@ use mod_verbalfeedback\model\localized_string;
  * The database localized string class
  */
 class db_localized_string {
-
     /**
      * @var int The id
      */
@@ -71,8 +70,12 @@ class db_localized_string {
      * @return db_localized_string
      * @throws \Exception
      */
-    public static function from_localized_string(localized_string $localizedstring, string $type,
-    int $foreignkey, int $instanceid = 0): db_localized_string {
+    public static function from_localized_string(
+        localized_string $localizedstring,
+        string $type,
+        int $foreignkey,
+        int $instanceid = 0
+    ): db_localized_string {
         if (!localized_string_type::exists($type)) {
             throw new \Exception("unknown localized_string_type");
         }

@@ -14,27 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class containing data for users that need to be given with verbalfeedback.
- *
- * @package    mod_verbalfeedback
- * @copyright  2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace mod_verbalfeedback\output;
 
-defined('MOODLE_INTERNAL') || die();
-
-use mod_verbalfeedback\model\template\template;
 use renderable;
 use renderer_base;
 use templatable;
-use stdClass;
 
 /**
  * Class containing the admin settings that can be set for verbalfeedback.
  *
- * @package   mod_verbalfeedback
+ * @package    mod_verbalfeedback
+ * @copyright  2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class template_list implements renderable, templatable {
     /** @var array The template */
@@ -60,7 +51,7 @@ class template_list implements renderable, templatable {
         $this->newtemplateurl = $url->out();
 
         foreach ($templates as $t) {
-            $this->templates[] = new template_view_model($t);
+            $this->templates[] = new model\template_view_model($t);
         }
     }
 
@@ -68,12 +59,12 @@ class template_list implements renderable, templatable {
      * Export this data so it can be used as the context for a mustache template.
      *
      * @param renderer_base $output The renderer.
-     * @return stdClass|array
+     * @return \stdClass|array
      */
     public function export_for_template(renderer_base $output) {
         verbalfeedback_urls::construct_static();
 
-        $data = new stdClass();
+        $data = new \stdClass();
         $data->templatelisturl = verbalfeedback_urls::get_template_list_url();
         $data->templatecategorylisturl = verbalfeedback_urls::get_template_category_list_url();
         $data->templatecriterialisturl = verbalfeedback_urls::get_template_criterion_list_url();
@@ -81,47 +72,5 @@ class template_list implements renderable, templatable {
         $data->newtemplateurl = $this->newtemplateurl;
         $data->templates = $this->templates;
         return $data;
-    }
-}
-
-/**
- * The template view model class
- */
-class template_view_model {
-    /** @var int The id */
-    public $id;
-    /** @var string The name */
-    public $name;
-    /** @var string The description */
-    public $description;
-    /** @var int Number of categories */
-    public $categorycount;
-    /** @var string The edit url */
-    public $editurl;
-    /** @var string The delete url */
-    public $deleteurl;
-    /** @var string The download url */
-    public $downloadurl;
-
-    /**
-     * The template view model class constructor
-     *
-     * @param template $template The template
-     * @throws \moodle_exception
-     */
-    public function __construct(template $template) {
-        $this->id = $template->get_id();
-        $this->name = $template->get_name();
-        $this->description = $template->get_description();
-        $this->categorycount = count($template->get_template_categories());
-
-        $url = new \moodle_url('/mod/verbalfeedback/template_edit.php', ["id" => $template->get_id()]);
-        $this->editurl = $url->out();
-
-        $url = new \moodle_url('/mod/verbalfeedback/template_download.php', ["id" => $template->get_id()]);
-        $this->downloadurl = $url->out();
-
-        $url = new \moodle_url('/mod/verbalfeedback/template_delete.php', ["id" => $template->get_id()]);
-        $this->deleteurl = $url->out();;
     }
 }

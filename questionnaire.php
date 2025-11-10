@@ -41,7 +41,7 @@ if ($submissionid == 0 && !$preview) {
     \core\notification::error('If preview is not set, param \'submissionid\' is required.');
 }
 
-list ($course, $cm) = get_course_and_cm_from_instance($id, 'verbalfeedback');
+[$course, $cm] = get_course_and_cm_from_instance($id, 'verbalfeedback');
 
 require_login($course, true, $cm);
 
@@ -94,7 +94,7 @@ if ($preview) {
     // First, let's filter our set of criteria inside the categories.
 
     foreach ($questionnairedata->categories as $category) {
-        $filteredcriteria = array_filter($category->criteria, function($criterion) {
+        $filteredcriteria = array_filter($category->criteria, function ($criterion) {
             // Adding our criteria for a valid category.
             return
                 property_exists($criterion, 'weight') // The property weight exists.
@@ -109,7 +109,7 @@ if ($preview) {
     // Iterate and drop categories with weight 0.
     // Then, let's filter our set of categories.
 
-    $filteredcategories = array_filter($questionnairedata->categories, function($category) {
+    $filteredcategories = array_filter($questionnairedata->categories, function ($category) {
         // Adding our criteria for a valid category.
         return
             property_exists($category, 'weight') // The property weight exists.
@@ -158,7 +158,7 @@ if ($preview) {
         // First, let's filter our set of criteria inside the categories.
 
         foreach ($questionnairedata->categories as $category) {
-            $filteredcriteria = array_filter($category->criteria, function($criterion) {
+            $filteredcriteria = array_filter($category->criteria, function ($criterion) {
                 // Adding our criteria for a valid category.
                 return
                     property_exists($criterion, 'weight') // The property weight exists.
@@ -173,7 +173,7 @@ if ($preview) {
         // Iterate and drop categories with weight 0.
         // Then, let's filter our set of categories.
 
-        $filteredcategories = array_filter($questionnairedata->categories, function($category) {
+        $filteredcategories = array_filter($questionnairedata->categories, function ($category) {
             // Adding our criteria for a valid category.
             return
                 property_exists($category, 'weight') // The property weight exists.
@@ -189,7 +189,6 @@ if ($preview) {
         echo $renderer->render($questionnairedata);
 
         add_editors_for_comments($questionnairedata, $context);
-
     } else {
         if ($isready) {
             $message = get_string('instancenotready', 'mod_verbalfeedback');
@@ -234,5 +233,4 @@ function add_editors_for_comments($questionnairedata, $context) {
             $editor->use_editor($privatecommentelementid, ['context' => $context, 'autosave' => false]);
         }
     }
-
 }

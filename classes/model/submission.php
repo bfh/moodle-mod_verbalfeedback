@@ -53,8 +53,15 @@ class submission {
      * @param string $remarks The submission remarks
      * @param array $responses The submission responses
      */
-    public function __construct(int $id = 0, int $instanceid = 0, int $fromuserid = 0, int $touserid = 0,
-    int $status = submission_status::PENDING, string $remarks = "", array $responses = []) {
+    public function __construct(
+        int $id = 0,
+        int $instanceid = 0,
+        int $fromuserid = 0,
+        int $touserid = 0,
+        int $status = submission_status::PENDING,
+        string $remarks = "",
+        array $responses = []
+    ) {
         $this->id = $id;
         $this->instanceid = $instanceid;
         $this->fromuserid = $fromuserid;

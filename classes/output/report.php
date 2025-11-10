@@ -25,7 +25,6 @@ namespace mod_verbalfeedback\output;
 
 use action_link;
 use mod_verbalfeedback\api;
-use mod_verbalfeedback\helper;
 use mod_verbalfeedback\model\report as ModelReport;
 use mod_verbalfeedback\output\model\report_view_model;
 use moodle_url;
@@ -43,7 +42,6 @@ use url_select;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report implements renderable, templatable {
-
     /** @var int The verbal feedback instance ID. */
     protected $instanceid;
 
@@ -154,7 +152,7 @@ class report implements renderable, templatable {
         // First, let's filter our set of criteria inside the categories.
 
         foreach ($data->report->categories as $category) {
-            $filteredcriteria = array_filter($category->criteria, function($criterion) {
+            $filteredcriteria = array_filter($category->criteria, function ($criterion) {
                 // Adding our criteria for a valid category.
                 return
                     property_exists($criterion, 'multiplier') // The property weight exists.
@@ -169,7 +167,7 @@ class report implements renderable, templatable {
         // Iterate and drop categories with weight 0.
         // Then, let's filter our set of categories.
 
-        $filteredcategories = array_filter($data->report->categories, function($category) {
+        $filteredcategories = array_filter($data->report->categories, function ($category) {
             // Adding our criteria for a valid category.
             return
                 property_exists($category, 'weight') // The property weight exists.

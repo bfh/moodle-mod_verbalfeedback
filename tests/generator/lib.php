@@ -19,15 +19,6 @@
 // phpcs:disable PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated
 
 /**
- * mod_verbalfeedback data generator.
- *
- * @package mod_verbalfeedback
- * @category test
- * @copyright 2021 Luca Bösch <luca.boesch@bfh.ch>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-/**
  * mod_verbalfeedback data generator class.
  *
  * @package mod_verbalfeedback
@@ -36,7 +27,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_verbalfeedback_generator extends testing_module_generator {
-
     /**
      * Create a verbal feedback instance for testing purposes
      * @param null $record A verbal feedback record

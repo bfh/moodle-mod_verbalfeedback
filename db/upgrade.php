@@ -34,14 +34,6 @@
 // Please do not forget to use upgrade_set_timeout()
 // before any action that may take longer time to finish.
 
-/**
- * Upgrade code for the verbalfeedback activity plugin.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 use mod_verbalfeedback\repository\tables;
 use mod_verbalfeedback\repository\model\localized_string_type;
 
@@ -62,17 +54,15 @@ use mod_verbalfeedback\repository\model\localized_string_type;
  * @throws upgrade_exception
  */
 function xmldb_verbalfeedback_upgrade($oldversion) {
-
     global $CFG, $DB;
 
-    require_once($CFG->libdir.'/db/upgradelib.php'); // Core Upgrade-related functions.
+    require_once($CFG->libdir . '/db/upgradelib.php'); // Core Upgrade-related functions.
 
     $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
 
     // Put any upgrade step following this.
 
     if ($oldversion < 2021100103) {
-
         // Add new grade field to verbalfeedback table.
         $table = new xmldb_table('verbalfeedback');
         $field = new xmldb_field('grade', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, 0, null, null, 0);
@@ -139,15 +129,21 @@ function add_instance_to_localized_string() {
         : 'UPDATE {%2$s} JOIN {%1$s} ON {%1$s}.id = {%2$s}.foreignkey
            SET {%2$s}.instanceid = {%1$s}.instanceid
            WHERE {%2$s}.typeid = ?';
-    $DB->execute(sprintf($sql, tables::INSTANCE_CATEGORY_TABLE, tables::LOCALIZED_STRING_TABLE), [
-        localized_string_type::str2id(localized_string_type::INSTANCE_CATEGORY_HEADER),
-    ]);
+    $DB->execute(
+        sprintf(
+            $sql,
+            tables::INSTANCE_CATEGORY_TABLE,
+            tables::LOCALIZED_STRING_TABLE
+        ),
+        [
+            localized_string_type::str2id(localized_string_type::INSTANCE_CATEGORY_HEADER),
+        ]
+    );
 
     // Category criterion.
-    $sql = sprintf('
-        SELECT {%1$s}.id, {%2$s}.instanceid FROM {%1$s} JOIN {%2$s} ON {%2$s}.id = {%1$s}.categoryid
-        WHERE {%2$s}.id IN (SELECT DISTINCT(id) FROM {%2$s})
-        ',
+    $sql = sprintf(
+        'SELECT {%1$s}.id, {%2$s}.instanceid FROM {%1$s} JOIN {%2$s} ON {%2$s}.id = {%1$s}.categoryid
+        WHERE {%2$s}.id IN (SELECT DISTINCT(id) FROM {%2$s})',
         tables::INSTANCE_CRITERION_TABLE,
         tables::INSTANCE_CATEGORY_TABLE
     );

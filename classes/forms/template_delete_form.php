@@ -32,7 +32,6 @@ require_once($CFG->libdir . '/formslib.php');
  * The template delete form
  */
 class template_delete_form extends \moodleform {
-
     /**
      * Add elements to form.
      *
@@ -49,8 +48,12 @@ class template_delete_form extends \moodleform {
         $mform->addElement('text', 'name', get_string('name'), ['disabled' => 'disabled']); // Add elements to your form.
         $mform->setType('name', PARAM_TEXT); // Set type of element.
 
-        $mform->addElement('textarea', 'description', get_string('description'),
-            'disabled="disabled" wrap="virtual" rows="5" cols="50"');
+        $mform->addElement(
+            'textarea',
+            'description',
+            get_string('description'),
+            'disabled="disabled" wrap="virtual" rows="5" cols="50"'
+        );
         $mform->setType('description', PARAM_TEXT); // Set type of element.
 
         $this->add_action_buttons($cancel = true, $submitlabel = get_string('delete'));

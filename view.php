@@ -23,6 +23,7 @@
  */
 
 use mod_verbalfeedback\model\instance;
+use mod_verbalfeedback\output\list_participants;
 use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\utils\instance_utils;
 use mod_verbalfeedback\utils\user_utils;
@@ -33,7 +34,7 @@ require_once('lib.php');
 $id = required_param('id', PARAM_INT);
 $makeavailable = optional_param('makeavailable', false, PARAM_BOOL);
 $release = optional_param('release', -1, PARAM_INT);
-list ($course, $cm) = get_course_and_cm_from_cmid($id, 'verbalfeedback');
+[$course, $cm] = get_course_and_cm_from_cmid($id, 'verbalfeedback');
 
 require_login($course, true, $cm);
 
@@ -85,8 +86,11 @@ echo $OUTPUT->box(groups_print_activity_menu($cm, $PAGE->url, true, $hideallpart
 if ($canedit) {
     $edititemsurl = new moodle_url('edit_instance.php');
     $edititemsurl->param('id', $cm->id);
-    echo html_writer::link($edititemsurl, get_string('edititems', 'verbalfeedback'),
-        ['class' => 'btn btn-primary mr-1']);
+    echo html_writer::link(
+        $edititemsurl,
+        get_string('edititems', 'verbalfeedback'),
+        ['class' => 'btn btn-primary mr-1']
+    );
 }
 
 // If the user has edit capabilities and the instance is not ready, create the "make available"
@@ -96,8 +100,11 @@ if ($canedit && !$instanceready && !$makeavailable) {
     if ($instancerepository->has_items($instance->get_id())) {
         $url = $PAGE->url;
         $url->param('makeavailable', true);
-        echo html_writer::link($url, get_string('makeavailable'),
-            ['class' => 'btn btn-secondary pull-right']);
+        echo html_writer::link(
+            $url,
+            get_string('makeavailable'),
+            ['class' => 'btn btn-secondary pull-right']
+        );
     } else {
         \core\notification::warning(get_string('noitemsyet', 'mod_verbalfeedback'));
     }
@@ -163,11 +170,13 @@ function draw_view_own_report_button($instanceid, $userid) {
         'touser' => $userid,
     ]);
 
-    $feedbackreport = html_writer::link($reportsurl, get_string('viewfeedbackreport', 'verbalfeedback'),
-        ['class' => 'btn btn-secondary']);
+    $feedbackreport = html_writer::link(
+        $reportsurl,
+        get_string('viewfeedbackreport', 'verbalfeedback'),
+        ['class' => 'btn btn-secondary']
+    );
     echo html_writer::div($feedbackreport, 'text-right');
-};
-
+}
 
 /**
  * Draws the participants list on view.php.
@@ -178,9 +187,13 @@ function draw_view_own_report_button($instanceid, $userid) {
  * @param bool $canviewallreports Whether the user can view the reports of all enrolled users within the activity.
  * @param mixed $participantslistrenderer The renderer for the participants list.
  */
-function draw_participants_list(instance $instance, $currentuserid, $canparticipate,
-$canviewallreports, $participantslistrenderer) {
-
+function draw_participants_list(
+    instance $instance,
+    $currentuserid,
+    $canparticipate,
+    $canviewallreports,
+    $participantslistrenderer
+) {
     // Generate statuses if you can respond to the feedback.
     \mod_verbalfeedback\api::generate_verbalfeedback_feedback_states($instance->get_id(), $currentuserid);
     // Check if instance is already open.
@@ -196,8 +209,7 @@ $canviewallreports, $participantslistrenderer) {
     // Verbalfeedback To-do list.
     if ($canparticipate === true) {
         $participantslist =
-            new mod_verbalfeedback\output\list_participants($instance->get_id(), $currentuserid, $participants, $canviewallreports,
-                $isopen);
+            new list_participants($instance->get_id(), $currentuserid, $participants, $canviewallreports, $isopen);
         echo $participantslistrenderer->render($participantslist);
     }
 }

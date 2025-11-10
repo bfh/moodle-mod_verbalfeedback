@@ -118,10 +118,22 @@ class instance {
      * @param int $releasetype The releasetype property value.
      * @param int $released The released property value.
      */
-    public function __construct(int $course, int $id = 0, string $name = "", string $intro = "", int $introformat = 0,
-        int $grade = 100, int $gradecat = 0, float $gradepass = 0, int $status = instance_status::NOT_READY,
-        int $timeopen = 0, int $timeclose = 0, int $timemodified = 0, int $releasetype = instance_release_type::NONE,
-        int $released = 0) {
+    public function __construct(
+        int $course,
+        int $id = 0,
+        string $name = "",
+        string $intro = "",
+        int $introformat = 0,
+        int $grade = 100,
+        int $gradecat = 0,
+        float $gradepass = 0,
+        int $status = instance_status::NOT_READY,
+        int $timeopen = 0,
+        int $timeclose = 0,
+        int $timemodified = 0,
+        int $releasetype = instance_release_type::NONE,
+        int $released = 0
+    ) {
         $this->set_id($id);
         $this->set_template_id(null);
         $this->set_course($course);
@@ -159,13 +171,39 @@ class instance {
      * @param int $released The released property value.
      * @return instance
      */
-    public static function from_template(int $course, template $template, int $id = 0, string $name = "", string $intro = "",
-        int $introformat = 0, int $gradecat = 0, int $grade = 0, float $gradepass = 0,
-        int $status = instance_status::NOT_READY, int $timeopen = 0, int $timeclose = 0, int $timemodified = 0,
-        int $releasetype = instance_release_type::NONE, int $released = 0): instance {
-
-        $instance = new instance($course, $id, $name, $intro, $introformat, $grade, $gradecat, $gradepass,
-            $status, $timeopen, $timeclose, $timemodified, $releasetype, $released);
+    public static function from_template(
+        int $course,
+        template $template,
+        int $id = 0,
+        string $name = "",
+        string $intro = "",
+        int $introformat = 0,
+        int $gradecat = 0,
+        int $grade = 0,
+        float $gradepass = 0,
+        int $status = instance_status::NOT_READY,
+        int $timeopen = 0,
+        int $timeclose = 0,
+        int $timemodified = 0,
+        int $releasetype = instance_release_type::NONE,
+        int $released = 0
+    ): instance {
+        $instance = new instance(
+            $course,
+            $id,
+            $name,
+            $intro,
+            $introformat,
+            $grade,
+            $gradecat,
+            $gradepass,
+            $status,
+            $timeopen,
+            $timeclose,
+            $timemodified,
+            $releasetype,
+            $released
+        );
 
         if ($template !== null) {
             foreach ($template->get_template_categories() as $templatecategory) {

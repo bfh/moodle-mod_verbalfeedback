@@ -33,7 +33,6 @@ use mod_verbalfeedback\repository\tables;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_verbalfeedback_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * Defines the verbal feedback instance structure.
      *
@@ -61,8 +60,12 @@ class backup_verbalfeedback_activity_structure_step extends backup_activity_stru
         $categoryheader = new backup_nested_element('categoryheader', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);
 
         $criteria = new backup_nested_element('criteria');
-        $criterion = new backup_nested_element('criterion', ['id'],
-            ['paramtemplatecriterionid', 'categoryid', 'position', 'weight']);
+        $criterion = new backup_nested_element('criterion', ['id'], [
+            'paramtemplatecriterionid',
+            'categoryid',
+            'position',
+            'weight',
+        ]);
 
         $criteriontexts = new backup_nested_element('criteriontexts');
         $criteriontext = new backup_nested_element('criteriontext', ['id'], ['foreignkey', 'typeid', 'languageid', 'string']);

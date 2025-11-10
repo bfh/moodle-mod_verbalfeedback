@@ -40,7 +40,6 @@ require_once($CFG->libdir . "/externallib.php");
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_verbalfeedback_external extends external_api {
-
     /**
      * Fetches the questions assigned to a verbal feedback instance.
      *
@@ -195,7 +194,9 @@ class mod_verbalfeedback_external extends external_api {
     public static function update_question($id, $question, $type, $category, $verbalfeedbackid) {
         $warnings = [];
 
-        $params = external_api::validate_parameters(self::update_question_parameters(), [
+        $params = external_api::validate_parameters(
+            self::update_question_parameters(),
+            [
                 'id' => $id,
                 'question' => $question,
                 'type' => $type,
@@ -958,8 +959,12 @@ class mod_verbalfeedback_external extends external_api {
                             'viewlink' => new external_value(PARAM_RAW, 'Flag for view button.', VALUE_OPTIONAL, false),
                             'respondlink' => new external_value(PARAM_URL, 'Questionnaire URL.', VALUE_OPTIONAL),
                             'declinelink' => new external_value(PARAM_BOOL, 'Flag for decline button.', VALUE_OPTIONAL, false),
-                            'undodeclinelink' => new external_value(PARAM_BOOL, 'Flag for the undo decline button.', VALUE_OPTIONAL,
-                                false),
+                            'undodeclinelink' => new external_value(
+                                PARAM_BOOL,
+                                'Flag for the undo decline button.',
+                                VALUE_OPTIONAL,
+                                false
+                            ),
                         ]
                     )
                 ),
@@ -986,8 +991,13 @@ class mod_verbalfeedback_external extends external_api {
                             'value' => new external_value(PARAM_INT, 'The response value.', VALUE_OPTIONAL, null),
                             'studentcomment' => new external_value(PARAM_RAW, 'The response public comment.', VALUE_OPTIONAL, ''),
                             'privatecomment' => new external_value(PARAM_RAW, 'The response private comment.', VALUE_OPTIONAL, ''),
-                        ], 'item to save', VALUE_OPTIONAL
-                    ), 'item collection to save', VALUE_OPTIONAL, null
+                        ],
+                        'item to save',
+                        VALUE_OPTIONAL
+                    ),
+                    'item collection to save',
+                    VALUE_OPTIONAL,
+                    null
                 ),
                 'complete' => new external_value(PARAM_BOOL, 'Whether to mark the submission as complete.'),
             ]
@@ -1010,7 +1020,6 @@ class mod_verbalfeedback_external extends external_api {
      * @throws restricted_context_exception
      */
     public static function save_responses($verbalfeedbackid, $submissionid, $touserid, $responses, $complete) {
-        global $USER;
         $warnings = [];
         $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
         $cmid = $cm->id;
@@ -1104,8 +1113,10 @@ class mod_verbalfeedback_external extends external_api {
         $context = context_module::instance($cmid);
         self::validate_context($context);
 
-        if (has_capability('mod/verbalfeedback:view_all_reports', $context) ||
-            has_capability('mod/verbalfeedback:receive_rating', $context)) {
+        if (
+            has_capability('mod/verbalfeedback:view_all_reports', $context) ||
+            has_capability('mod/verbalfeedback:receive_rating', $context)
+        ) {
             $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
             $redirecturl->param('id', $cmid);
 

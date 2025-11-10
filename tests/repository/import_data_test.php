@@ -46,7 +46,6 @@ use mod_verbalfeedback\repository\template_repository;
  * A PHPunit test class to test data import
  */
 final class import_data_test extends \advanced_testcase {
-
     /**
      * Setup the test class.
      */
@@ -140,11 +139,19 @@ final class import_data_test extends \advanced_testcase {
             }
             foreach ($yamltemplate->categories as $arrcategory) {
                 if (isset($arrcategory->id)) {
-                    $category = new parametrized_template_category(0, $arrcategory->id, $arrcategory->position,
-                        $arrcategory->weight);
+                    $category = new parametrized_template_category(
+                        0,
+                        $arrcategory->id,
+                        $arrcategory->position,
+                        $arrcategory->weight
+                    );
                 } else {
-                    $category = new parametrized_template_category(0, 0, $arrcategory->position,
-                        $arrcategory->weight);
+                    $category = new parametrized_template_category(
+                        0,
+                        0,
+                        $arrcategory->position,
+                        $arrcategory->weight
+                    );
                 }
                 $template->add_template_category($category);
             }

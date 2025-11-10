@@ -34,7 +34,6 @@ use mod_verbalfeedback\repository\submission_repository;
  * The report service class for managing user reports
  */
 class report_service {
-
     /** @var instance_repository The instance repository */
     private $instancerepo;
     /** @var submission_repository The submission repository */

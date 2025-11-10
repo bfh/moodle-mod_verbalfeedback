@@ -30,7 +30,7 @@ use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/weblib.php');
+require_once($CFG->libdir . '/weblib.php');
 
 /**
  * Class containing helper functions for the verbal feedback activity module.
@@ -39,7 +39,6 @@ require_once($CFG->libdir.'/weblib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
-
     /**
      * Gets the localised string value of a status code.
      *

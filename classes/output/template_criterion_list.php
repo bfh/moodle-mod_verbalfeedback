@@ -23,10 +23,6 @@
  */
 namespace mod_verbalfeedback\output;
 
-defined('MOODLE_INTERNAL') || die();
-
-use mod_verbalfeedback\model\template\template_criterion;
-use mod_verbalfeedback\repository\language_repository;
 use renderable;
 use renderer_base;
 use templatable;
@@ -59,7 +55,7 @@ class template_criterion_list implements renderable, templatable {
         $this->newtemplatecriterionurl = $url->out();
 
         foreach ($templatecriteria as $tc) {
-            $this->templatecriteria[] = new template_criterion_view_model($tc);
+            $this->templatecriteria[] = new model\template_criterion_view_model($tc);
         }
     }
 
@@ -80,58 +76,5 @@ class template_criterion_list implements renderable, templatable {
         $data->newtemplatecriterionurl = $this->newtemplatecriterionurl;
         $data->templatecriteria = $this->templatecriteria;
         return $data;
-    }
-}
-
-/**
- * The template criterion view model class
- */
-class template_criterion_view_model {
-    /**
-     * @var int The criterion id
-     */
-    public $id;
-    /**
-     * @var string The criterion text
-     */
-    public $text;
-    /**
-     * @var string The edit url
-     */
-    public $editurl;
-    /**
-     * @var string The delete url
-     */
-    public $deleteurl;
-
-    /** @var int */
-    public $subratingcount;
-
-    /**
-     * The template criterion view model class constructor
-     *
-     * @param template_criterion $criteria
-     * @throws \moodle_exception
-     */
-    public function __construct(template_criterion $criteria) {
-        $languagerepository = new language_repository();
-        $this->id = $criteria->get_id();
-        $currentlanguage = current_language();
-
-        foreach ($criteria->get_descriptions() as $s) {
-            $descriptionlanguage = $languagerepository->get_by_id($s->get_language_id());
-            if ($descriptionlanguage->get_language() == $currentlanguage) {
-                $this->text = $s->get_string();
-                break;
-            }
-        }
-
-        $this->subratingcount = count($criteria->get_subratings());
-
-        $url = new \moodle_url('/mod/verbalfeedback/template_criterion_edit.php', ["id" => $criteria->get_id()]);
-        $this->editurl = $url->out();
-
-        $url = new \moodle_url('/mod/verbalfeedback/template_criterion_delete.php', ["id" => $criteria->get_id()]);
-        $this->deleteurl = $url->out();
     }
 }

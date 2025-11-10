@@ -34,7 +34,6 @@ require_once($CFG->libdir . '/formslib.php');
  * The template criterion edit form
  */
 class template_criterion_edit_form extends \moodleform {
-
     /** @var int */
     public $subratingcount;
 
@@ -70,10 +69,19 @@ class template_criterion_edit_form extends \moodleform {
             $localizedstring = [];
             $localizedstring[] = &$mform->createElement('hidden', 'id', 0);
             $localizedstring[] = &$mform->createElement('hidden', 'language_id', $l->get_id());
-            $localizedstring[] = &$mform->createElement('textarea', 'string', '&emsp;' . $l->get_language(),
-                'wrap="virtual" rows="3" cols="50"');
-            $mform->addGroup($localizedstring, 'localized_strings[' . $l->get_id() . ']', '&emsp;' . $l->get_language(), null,
-                true);
+            $localizedstring[] = &$mform->createElement(
+                'textarea',
+                'string',
+                '&emsp;' . $l->get_language(),
+                'wrap="virtual" rows="3" cols="50"'
+            );
+            $mform->addGroup(
+                $localizedstring,
+                'localized_strings[' . $l->get_id() . ']',
+                '&emsp;' . $l->get_language(),
+                null,
+                true
+            );
 
             $mform->setType('localized_strings[' . $l->get_id() . '][id]', PARAM_INT);
             $mform->setType('localized_strings[' . $l->get_id() . '][language_id]', PARAM_INT);
@@ -86,8 +94,12 @@ class template_criterion_edit_form extends \moodleform {
 
         $repeatarray = [];
         $repeatarray[] = $mform->createElement('html', '<hr>');
-        $repeatarray[] = $mform->createElement('static', 'header', '<h4>' . get_string('subrating', 'verbalfeedback') .
-            ' - {no}</h4>', '');
+        $repeatarray[] = $mform->createElement(
+            'static',
+            'header',
+            '<h4>' . get_string('subrating', 'verbalfeedback') . ' - {no}</h4>',
+            ''
+        );
         $repeatarray[] = $mform->createElement('hidden', 'subrating_id', 0);
         $repeateloptions['subrating_id']['type'] = PARAM_INT;
 
@@ -97,10 +109,17 @@ class template_criterion_edit_form extends \moodleform {
             $titlelabel = '&emsp;' . get_string('titlelabel', 'verbalfeedback');
             $titleplaceholder = get_string('titlelabel', 'verbalfeedback');
             $repeatarray[] = &$mform->createElement('hidden', 'subrating_title_' . $language->get_language() . '_id', 0);
-            $repeatarray[] = &$mform->createElement('hidden', 'subrating_title_' . $language->get_language() . '_language_id',
-                $language->get_id());
-            $repeatarray[] = &$mform->createElement('text', 'subrating_title_' . $language->get_language() . '_string',
-                $titlelabel, 'placeholder="'. $titleplaceholder .'"');
+            $repeatarray[] = &$mform->createElement(
+                'hidden',
+                'subrating_title_' . $language->get_language() . '_language_id',
+                $language->get_id()
+            );
+            $repeatarray[] = &$mform->createElement(
+                'text',
+                'subrating_title_' . $language->get_language() . '_string',
+                $titlelabel,
+                'placeholder="' . $titleplaceholder . '"'
+            );
             $repeateloptions['subrating_title_' . $language->get_language() . '_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_title_' . $language->get_language() . '_language_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_title_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
@@ -108,10 +127,17 @@ class template_criterion_edit_form extends \moodleform {
             $descriptionlabel = '&emsp;' . get_string('description');
             $descriptionplaceholder = get_string('description');
             $repeatarray[] = &$mform->createElement('hidden', 'subrating_description_' . $language->get_language() . '_id', 0);
-            $repeatarray[] = &$mform->createElement('hidden', 'subrating_description_' . $language->get_language() .
-                '_language_id', $language->get_id());
-            $repeatarray[] = &$mform->createElement('textarea', 'subrating_description_' . $language->get_language() . '_string',
-                $descriptionlabel, 'placeholder="'. $descriptionplaceholder .'" wrap="virtual" rows="2" cols="50"');
+            $repeatarray[] = &$mform->createElement(
+                'hidden',
+                'subrating_description_' . $language->get_language() . '_language_id',
+                $language->get_id()
+            );
+            $repeatarray[] = &$mform->createElement(
+                'textarea',
+                'subrating_description_' . $language->get_language() . '_string',
+                $descriptionlabel,
+                'placeholder="' . $descriptionplaceholder . '" wrap="virtual" rows="2" cols="50"'
+            );
             $repeateloptions['subrating_description_' . $language->get_language() . '_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_description_' . $language->get_language() . '_language_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_description_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
@@ -119,10 +145,17 @@ class template_criterion_edit_form extends \moodleform {
             $verynegativelabel = '&emsp;' . get_string('verynegative', 'verbalfeedback');
             $verynegativeplaceholder = get_string('verynegative', 'verbalfeedback');
             $repeatarray[] = &$mform->createElement('hidden', 'subrating_verynegative_' . $language->get_language() . '_id', 0);
-            $repeatarray[] = &$mform->createElement('hidden', 'subrating_verynegative_' . $language->get_language() .
-                '_language_id', $language->get_id());
-            $repeatarray[] = &$mform->createElement('textarea', 'subrating_verynegative_' . $language->get_language() . '_string',
-                $verynegativelabel, 'placeholder="'. $verynegativeplaceholder .'" wrap="virtual" rows="2" cols="50"');
+            $repeatarray[] = &$mform->createElement(
+                'hidden',
+                'subrating_verynegative_' . $language->get_language() . '_language_id',
+                $language->get_id()
+            );
+            $repeatarray[] = &$mform->createElement(
+                'textarea',
+                'subrating_verynegative_' . $language->get_language() . '_string',
+                $verynegativelabel,
+                'placeholder="' . $verynegativeplaceholder . '" wrap="virtual" rows="2" cols="50"'
+            );
             $repeateloptions['subrating_verynegative_' . $language->get_language() . '_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_verynegative_' . $language->get_language() . '_language_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_verynegative_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
@@ -130,10 +163,17 @@ class template_criterion_edit_form extends \moodleform {
             $negativelabel = '&emsp;' . get_string('negative', 'verbalfeedback');
             $negativeplaceholder = get_string('negative', 'verbalfeedback');
             $repeatarray[] = &$mform->createElement('hidden', 'subrating_negative_' . $language->get_language() . '_id', 0);
-            $repeatarray[] = &$mform->createElement('hidden', 'subrating_negative_' . $language->get_language() .
-                '_language_id', $language->get_id());
-            $repeatarray[] = &$mform->createElement('textarea', 'subrating_negative_' . $language->get_language() . '_string',
-                $negativelabel, 'placeholder="'. $negativeplaceholder .'" wrap="virtual" rows="2" cols="50"');
+            $repeatarray[] = &$mform->createElement(
+                'hidden',
+                'subrating_negative_' . $language->get_language() . '_language_id',
+                $language->get_id()
+            );
+            $repeatarray[] = &$mform->createElement(
+                'textarea',
+                'subrating_negative_' . $language->get_language() . '_string',
+                $negativelabel,
+                'placeholder="' . $negativeplaceholder . '" wrap="virtual" rows="2" cols="50"'
+            );
             $repeateloptions['subrating_negative_' . $language->get_language() . '_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_negative_' . $language->get_language() . '_language_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_negative_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
@@ -141,10 +181,17 @@ class template_criterion_edit_form extends \moodleform {
             $positivelabel = '&emsp;' . get_string('positive', 'verbalfeedback');
             $positiveplaceholder = get_string('positive', 'verbalfeedback');
             $repeatarray[] = &$mform->createElement('hidden', 'subrating_positive_' . $language->get_language() . '_id', 0);
-            $repeatarray[] = &$mform->createElement('hidden', 'subrating_positive_' . $language->get_language() .
-                '_language_id', $language->get_id());
-            $repeatarray[] = &$mform->createElement('textarea', 'subrating_positive_' . $language->get_language() . '_string',
-                $positivelabel, 'placeholder="'. $positiveplaceholder .'" wrap="virtual" rows="2" cols="50"');
+            $repeatarray[] = &$mform->createElement(
+                'hidden',
+                'subrating_positive_' . $language->get_language() . '_language_id',
+                $language->get_id()
+            );
+            $repeatarray[] = &$mform->createElement(
+                'textarea',
+                'subrating_positive_' . $language->get_language() . '_string',
+                $positivelabel,
+                'placeholder="' . $positiveplaceholder . '" wrap="virtual" rows="2" cols="50"'
+            );
             $repeateloptions['subrating_positive_' . $language->get_language() . '_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_positive_' . $language->get_language() . '_language_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_positive_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
@@ -152,10 +199,17 @@ class template_criterion_edit_form extends \moodleform {
             $verypositivelabel = '&emsp;' . get_string('verypositive', 'verbalfeedback');
             $verypositiveplaceholder = get_string('verypositive', 'verbalfeedback');
             $repeatarray[] = &$mform->createElement('hidden', 'subrating_verypositive_' . $language->get_language() . '_id', 0);
-            $repeatarray[] = &$mform->createElement('hidden', 'subrating_verypositive_' . $language->get_language() .
-                '_language_id', $language->get_id());
-            $repeatarray[] = &$mform->createElement('textarea', 'subrating_verypositive_' . $language->get_language() . '_string',
-                $verypositivelabel, 'placeholder="'. $verypositiveplaceholder .'" wrap="virtual" rows="2" cols="50"');
+            $repeatarray[] = &$mform->createElement(
+                'hidden',
+                'subrating_verypositive_' . $language->get_language() . '_language_id',
+                $language->get_id()
+            );
+            $repeatarray[] = &$mform->createElement(
+                'textarea',
+                'subrating_verypositive_' . $language->get_language() . '_string',
+                $verypositivelabel,
+                'placeholder="' . $verypositiveplaceholder . '" wrap="virtual" rows="2" cols="50"'
+            );
             $repeateloptions['subrating_verypositive_' . $language->get_language() . '_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_verypositive_' . $language->get_language() . '_language_id']['type'] = PARAM_INT;
             $repeateloptions['subrating_verypositive_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
@@ -166,9 +220,16 @@ class template_criterion_edit_form extends \moodleform {
             $repeatno = 1;
         }
 
-        $this->repeat_elements($repeatarray, $repeatno,
-            $repeateloptions, 'subrating_repeats', 'subrating_add_fields', 1, '+{no} ' . get_string('subrating', 'verbalfeedback'),
-            true);
+        $this->repeat_elements(
+            $repeatarray,
+            $repeatno,
+            $repeateloptions,
+            'subrating_repeats',
+            'subrating_add_fields',
+            1,
+            '+{no} ' . get_string('subrating', 'verbalfeedback'),
+            true
+        );
 
         $this->add_action_buttons($cancel = true);
     }

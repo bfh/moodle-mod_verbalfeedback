@@ -28,7 +28,16 @@ if ($ADMIN->fulltree) {
     $name = 'mod_verbalfeedback/reportimage';
     $title = get_string('reportimage', 'mod_verbalfeedback', null, true);
     $description = get_string('reportimage_desc', 'mod_verbalfeedback', null, true);
-    $setting = new admin_setting_configstoredfile($name, $title, $description, 'reportbackgroundimage', 0,
-        ['maxfiles' => 1, 'accepted_types' => ['.jpg', '.png']]);
+    $setting = new admin_setting_configstoredfile(
+        $name,
+        $title,
+        $description,
+        'reportbackgroundimage',
+        0,
+        [
+            'maxfiles' => 1,
+            'accepted_types' => ['.jpg', '.png'],
+        ],
+    );
     $settings->add($setting);
 }

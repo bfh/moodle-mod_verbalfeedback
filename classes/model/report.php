@@ -160,7 +160,7 @@ class report {
             $categoryweights[] = $category->get_weight();
             $categoryresults[] = $category->get_weighted_result() * $category->get_weight();
         }
-        if (count($categoryresults) == 0 || count($categoryweights) == 0 ) {
+        if (count($categoryresults) == 0 || count($categoryweights) == 0) {
             $this->result = null;
         } else {
             $resultsum = array_sum($categoryresults);

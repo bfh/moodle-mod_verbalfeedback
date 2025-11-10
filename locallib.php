@@ -92,8 +92,12 @@ function view_model_to_template_category($viewmodel): template_category {
     foreach ($viewmodel as $key => $value) {
         if (strpos($key, 'criterion') === 0 && isset($value['selected'])) {
             // Variable $value is a criterion.
-            $parametrizedcriterion = new parametrized_template_criterion($value['param_criterion_id'],
-                $value['criterion_id'], (int)$value['position'], $value['weight']);
+            $parametrizedcriterion = new parametrized_template_criterion(
+                $value['param_criterion_id'],
+                $value['criterion_id'],
+                (int)$value['position'],
+                $value['weight']
+            );
             $templatecategory->add_template_criterion($parametrizedcriterion);
         }
     }
@@ -203,53 +207,65 @@ function view_model_to_template_criterion($viewmodel): template_criterion {
         foreach ($languagerepository->get_all() as $language) {
             $languagestring = $language->get_language();
 
-            $titlemodel = new localized_string($viewmodel->{'subrating_title_' . $languagestring . '_language_id'}[$i],
+            $titlemodel = new localized_string(
+                $viewmodel->{'subrating_title_' . $languagestring . '_language_id'}[$i],
                 $viewmodel->{'subrating_title_' . $languagestring . '_id'}[$i],
-                $viewmodel->{'subrating_title_' . $languagestring . '_string'}[$i]);
+                $viewmodel->{'subrating_title_' . $languagestring . '_string'}[$i]
+            );
 
             if ($titlemodel->get_string() != "") {
                 $isemptysubrating = false;
             }
             $subratingmodel->add_title($titlemodel);
-            $descriptionmodel = new localized_string($viewmodel->{'subrating_description_' . $languagestring . '_language_id'}[$i],
+            $descriptionmodel = new localized_string(
+                $viewmodel->{'subrating_description_' . $languagestring . '_language_id'}[$i],
                 $viewmodel->{'subrating_description_' . $languagestring . '_id'}[$i],
-                $viewmodel->{'subrating_description_' . $languagestring . '_string'}[$i]);
+                $viewmodel->{'subrating_description_' . $languagestring . '_string'}[$i]
+            );
 
             if ($descriptionmodel->get_string() != "") {
                 $isemptysubrating = false;
             }
             $subratingmodel->add_description($descriptionmodel);
 
-            $verynegativemodel = new localized_string($viewmodel->{'subrating_verynegative_' . $languagestring .
-            '_language_id'}[$i], $viewmodel->{'subrating_verynegative_' . $languagestring . '_id'}[$i],
-                $viewmodel->{'subrating_verynegative_' . $languagestring . '_string'}[$i]);
+            $verynegativemodel = new localized_string(
+                $viewmodel->{'subrating_verynegative_' . $languagestring . '_language_id'}[$i],
+                $viewmodel->{'subrating_verynegative_' . $languagestring . '_id'}[$i],
+                $viewmodel->{'subrating_verynegative_' . $languagestring . '_string'}[$i]
+            );
 
             if ($verynegativemodel->get_string() != "") {
                 $isemptysubrating = false;
             }
             $subratingmodel->add_verynegative($verynegativemodel);
 
-            $negativemodel = new localized_string($viewmodel->{'subrating_negative_' . $languagestring . '_language_id'}[$i],
+            $negativemodel = new localized_string(
+                $viewmodel->{'subrating_negative_' . $languagestring . '_language_id'}[$i],
                 $viewmodel->{'subrating_negative_' . $languagestring . '_id'}[$i],
-                $viewmodel->{'subrating_negative_' . $languagestring . '_string'}[$i]);
+                $viewmodel->{'subrating_negative_' . $languagestring . '_string'}[$i]
+            );
 
             if ($negativemodel->get_string() != "") {
                 $isemptysubrating = false;
             }
             $subratingmodel->add_negative($negativemodel);
 
-            $positivemodel = new localized_string($viewmodel->{'subrating_positive_' . $languagestring . '_language_id'}[$i],
+            $positivemodel = new localized_string(
+                $viewmodel->{'subrating_positive_' . $languagestring . '_language_id'}[$i],
                 $viewmodel->{'subrating_positive_' . $languagestring . '_id'}[$i],
-                $viewmodel->{'subrating_positive_' . $languagestring . '_string'}[$i]);
+                $viewmodel->{'subrating_positive_' . $languagestring . '_string'}[$i]
+            );
 
             if ($positivemodel->get_string() != "") {
                 $isemptysubrating = false;
             }
             $subratingmodel->add_positive($positivemodel);
 
-            $verypositivemodel = new localized_string($viewmodel->{'subrating_verypositive_' . $languagestring .
-            '_language_id'}[$i], $viewmodel->{'subrating_verypositive_' . $languagestring . '_id'}[$i],
-                $viewmodel->{'subrating_verypositive_' . $languagestring . '_string'}[$i]);
+            $verypositivemodel = new localized_string(
+                $viewmodel->{'subrating_verypositive_' . $languagestring . '_language_id'}[$i],
+                $viewmodel->{'subrating_verypositive_' . $languagestring . '_id'}[$i],
+                $viewmodel->{'subrating_verypositive_' . $languagestring . '_string'}[$i]
+            );
 
             if ($verypositivemodel->get_string() != "") {
                 $isemptysubrating = false;
@@ -305,8 +321,12 @@ function view_model_to_template($viewmodel): template {
     foreach ($viewmodel as $key => $value) {
         if (strpos($key, 'category') === 0 && isset($value['selected'])) {
             // Variable $value is a category.
-            $parametrizedcategory = new parametrized_template_category($value['param_category_id'],
-                $value['template_category_id'], (int)$value['position'], $value['weight']);
+            $parametrizedcategory = new parametrized_template_category(
+                $value['param_category_id'],
+                $value['template_category_id'],
+                (int)$value['position'],
+                $value['weight']
+            );
             $template->add_template_category($parametrizedcategory);
         }
     }

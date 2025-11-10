@@ -56,8 +56,16 @@ class response {
      * @param string $studentcomment
      * @param string $privatecomment
      */
-    public function __construct(int $id = 0, int $instanceid = 0, int $criterionid = 0, int $fromuserid = 0,
-    int $touserid = 0, ?int $value = null, string $studentcomment = "", string $privatecomment = "") {
+    public function __construct(
+        int $id = 0,
+        int $instanceid = 0,
+        int $criterionid = 0,
+        int $fromuserid = 0,
+        int $touserid = 0,
+        ?int $value = null,
+        string $studentcomment = "",
+        string $privatecomment = ""
+    ) {
         $this->id = $id;
         $this->instanceid = $instanceid;
         $this->criterionid = $criterionid;

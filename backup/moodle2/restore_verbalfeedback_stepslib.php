@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Defines all the restore steps that will be used by the restore_verbalfeedback_activity_task
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-use mod_verbalfeedback\repository\model\localized_string_type;
 use mod_verbalfeedback\repository\tables;
 
 /**
@@ -33,7 +24,6 @@ use mod_verbalfeedback\repository\tables;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_verbalfeedback_activity_structure_step extends restore_activity_structure_step {
-
     /**
      * The instance id when the item is newly inserted.
      *
@@ -64,26 +54,44 @@ class restore_verbalfeedback_activity_structure_step extends restore_activity_st
             'category/categoryheaders/categoryheader');
 
         // Criterion.
-        $paths[] = new restore_path_element('criterion',
-            '/activity/instance/categories/category/criteria/criterion');
-        $paths[] = new restore_path_element('criteriontext',
-            '/activity/instance/categories/category/criteria/criterion/criteriontexts/criteriontext');
+        $paths[] = new restore_path_element(
+            'criterion',
+            '/activity/instance/categories/category/criteria/criterion'
+        );
+        $paths[] = new restore_path_element(
+            'criteriontext',
+            '/activity/instance/categories/category/criteria/criterion/criteriontexts/criteriontext'
+        );
 
         // Subrating.
-        $paths[] = new restore_path_element('subrating',
-            '/activity/instance/categories/category/criteria/criterion/subratings/subrating');
-        $paths[] = new restore_path_element('subratingtitle',
-            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/titles/title');
-        $paths[] = new restore_path_element('subratingdescription',
-            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/descriptions/description');
-        $paths[] = new restore_path_element('subratingverynegative',
-            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/verynegatives/verynegative');
-        $paths[] = new restore_path_element('subratingnegative',
-            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/negatives/negative');
-        $paths[] = new restore_path_element('subratingpositive',
-            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/positives/positive');
-        $paths[] = new restore_path_element('subratingverypositive',
-            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/verypositives/verypositive');
+        $paths[] = new restore_path_element(
+            'subrating',
+            '/activity/instance/categories/category/criteria/criterion/subratings/subrating'
+        );
+        $paths[] = new restore_path_element(
+            'subratingtitle',
+            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/titles/title'
+        );
+        $paths[] = new restore_path_element(
+            'subratingdescription',
+            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/descriptions/description'
+        );
+        $paths[] = new restore_path_element(
+            'subratingverynegative',
+            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/verynegatives/verynegative'
+        );
+        $paths[] = new restore_path_element(
+            'subratingnegative',
+            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/negatives/negative'
+        );
+        $paths[] = new restore_path_element(
+            'subratingpositive',
+            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/positives/positive'
+        );
+        $paths[] = new restore_path_element(
+            'subratingverypositive',
+            '/activity/instance/categories/category/criteria/criterion/subratings/subrating/verypositives/verypositive'
+        );
 
         if ($userinfo) {
             $paths[] = new restore_path_element('submission', '/activity/instance/submissions/submission');

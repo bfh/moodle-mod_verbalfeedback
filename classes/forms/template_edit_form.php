@@ -34,7 +34,6 @@ require_once($CFG->libdir . '/formslib.php');
  * The template edit form
  */
 class template_edit_form extends \moodleform {
-
     /**
      * Add elements to form.
      *

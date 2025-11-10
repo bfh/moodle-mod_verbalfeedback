@@ -28,10 +28,9 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 global $DB;
 
-require_once($CFG->libdir.'/accesslib.php');
+require_once($CFG->libdir . '/accesslib.php');
 
 use context_module;
-use dml_exception;
 use moodle_exception;
 use moodle_url;
 use stdClass;
@@ -48,7 +47,6 @@ use mod_verbalfeedback\repository\instance_repository;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class instance_utils {
-
     /**
      * Make the verbal feedback instance ready for use by the participants.
      *
@@ -92,7 +90,7 @@ class instance_utils {
     public static function register_calendar_events(instance $verbalfeedback) {
         global $CFG;
 
-        require_once($CFG->dirroot.'/calendar/lib.php');
+        require_once($CFG->dirroot . '/calendar/lib.php');
 
         $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedback->get_id(), $verbalfeedback->get_course());
 
@@ -112,15 +110,31 @@ class instance_utils {
         $eventtype = api::VERBALFEEDBACK_EVENT_TYPE_OPEN;
         // Calendar event type is set to action event when there's no timeclose.
         $calendareventtype = empty($verbalfeedback->get_timeclose()) ? CALENDAR_EVENT_TYPE_ACTION : CALENDAR_EVENT_TYPE_STANDARD;
-        self::set_event($instanceid, $eventname, $eventdescription, $eventtype, $calendareventtype, $verbalfeedback->get_timeopen(),
-            $visible, $courseid);
+        self::set_event(
+            $instanceid,
+            $eventname,
+            $eventdescription,
+            $eventtype,
+            $calendareventtype,
+            $verbalfeedback->get_timeopen(),
+            $visible,
+            $courseid
+        );
 
         // Calendar event for when the verbal feedback closes.
         $eventname = get_string('calendarend', 'verbalfeedback', $verbalfeedback->get_name());
         $eventtype = api::VERBALFEEDBACK_EVENT_TYPE_CLOSE;
         $calendareventtype = CALENDAR_EVENT_TYPE_ACTION;
-        self::set_event($instanceid, $eventname, $eventdescription, $eventtype, $calendareventtype,
-            $verbalfeedback->get_timeclose(), $visible, $courseid);
+        self::set_event(
+            $instanceid,
+            $eventname,
+            $eventdescription,
+            $eventtype,
+            $calendareventtype,
+            $verbalfeedback->get_timeclose(),
+            $visible,
+            $courseid
+        );
     }
 
     /**
@@ -138,8 +152,16 @@ class instance_utils {
      * @param bool $visible Whether this event is visible.
      * @param int $courseid The course ID of this event.
      */
-    protected static function set_event($id, $eventname, $description, $eventtype, $calendareventtype, $timestamp, $visible,
-                                        $courseid) {
+    protected static function set_event(
+        $id,
+        $eventname,
+        $description,
+        $eventtype,
+        $calendareventtype,
+        $timestamp,
+        $visible,
+        $courseid
+    ) {
         global $DB;
 
         // Build the calendar event object.
@@ -154,8 +176,15 @@ class instance_utils {
         $event->type         = $calendareventtype;
 
         // Check if event exists.
-        $event->id = $DB->get_field('event', 'id', ['modulename' => 'verbalfeedback', 'instance' => $id,
-            'eventtype' => $eventtype, ]);
+        $event->id = $DB->get_field(
+            'event',
+            'id',
+            [
+                'modulename' => 'verbalfeedback',
+                'instance' => $id,
+                'eventtype' => $eventtype,
+            ]
+        );
         if ($event->id) {
             $calendarevent = calendar_event::load($event->id);
             if ($timestamp) {
@@ -172,7 +201,6 @@ class instance_utils {
             $event->userid       = 0;
             $event->modulename   = 'verbalfeedback';
             $event->instance     = $id;
-
             calendar_event::create($event, false);
         }
     }
@@ -192,7 +220,6 @@ class instance_utils {
             // Nothing to do.
             return true;
         }
-        $oldgrade = $verbalfeedback->grade;
         $verbalfeedback->grade = $newgrade;
 
         // Use a transaction, so that on those databases that support it, this is safer.

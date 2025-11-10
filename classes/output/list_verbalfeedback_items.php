@@ -28,7 +28,6 @@ use mod_verbalfeedback\helper;
 use mod_verbalfeedback\repository\instance_repository;
 use moodle_url;
 use renderer_base;
-use stdClass;
 
 /**
  * Class containing data for users that need to be given with verbalfeedback.
@@ -37,7 +36,6 @@ use stdClass;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class list_verbalfeedback_items implements \renderable, \templatable {
-
     /** @var int The context module ID. */
     private $cmid;
 
@@ -73,8 +71,15 @@ class list_verbalfeedback_items implements \renderable, \templatable {
      * @param moodle_url $makeavailableurl The URL to the view.php page with the make available parameter set to true.
      * @param int $maxgrade The maximum grade.
      */
-    public function __construct($cmid, $courseid, $verbalfeedbackid, $viewurl, $previewurl, $makeavailableurl = null,
-        $maxgrade = 100) {
+    public function __construct(
+        $cmid,
+        $courseid,
+        $verbalfeedbackid,
+        $viewurl,
+        $previewurl,
+        $makeavailableurl = null,
+        $maxgrade = 100
+    ) {
         global $USER;
 
         $this->cmid = $cmid;
@@ -94,14 +99,12 @@ class list_verbalfeedback_items implements \renderable, \templatable {
      * 2. Any additional info that is required for the template is pre-calculated (e.g. capability checks).
      *
      * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
-     * @return stdClass|array
+     * @return \stdClass|array
      * @throws \coding_exception
      * @throws dml_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $CFG;
-
-        $data = new stdClass();
+        $data = new \stdClass();
         $data->categories = [];
         $data->verbalfeedbackid = $this->verbalfeedbackid;
         $data->viewurl = $this->viewurl;

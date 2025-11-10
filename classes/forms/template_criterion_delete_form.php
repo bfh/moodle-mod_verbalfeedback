@@ -34,14 +34,12 @@ require_once($CFG->libdir . '/formslib.php');
  * The template criterion delete form
  */
 class template_criterion_delete_form extends \moodleform {
-
     /**
      * Add elements to form.
      *
      * @throws \coding_exception
      */
     public function definition() {
-        global $CFG;
         $languagerepo = new language_repository();
 
         $mform = $this->_form; // Don't forget the underscore!
@@ -60,12 +58,12 @@ class template_criterion_delete_form extends \moodleform {
             $style = 'disabled="disabled" wrap="virtual" rows="5" cols="50"';
             $localizedstring[] = $mform->createElement('textarea', 'string', $textfieldname, ['style' => $style]);
 
-            $groupname = 'localized_strings[' . $l->get_id() .']';
+            $groupname = 'localized_strings[' . $l->get_id() . ']';
             $mform->addGroup($localizedstring, $groupname, $textfieldname, [''], true, ['disabled' => 'disabled']);
 
-            $mform->setType('localized_strings[' . $l->get_id() .'][id]', PARAM_INT);
-            $mform->setType('localized_strings[' . $l->get_id() .'][language_id]', PARAM_INT);
-            $mform->setType('localized_strings[' . $l->get_id() .'][string]', PARAM_TEXT);
+            $mform->setType('localized_strings[' . $l->get_id() . '][id]', PARAM_INT);
+            $mform->setType('localized_strings[' . $l->get_id() . '][language_id]', PARAM_INT);
+            $mform->setType('localized_strings[' . $l->get_id() . '][string]', PARAM_TEXT);
         }
 
         $this->add_action_buttons(true, get_string('delete'));

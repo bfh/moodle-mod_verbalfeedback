@@ -50,7 +50,6 @@ use mod_verbalfeedback\repository\model\localized_string_type;
  * @covers \mod_verbalfeedback\repository\model\localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE
  */
 final class localized_string_type_test extends \advanced_testcase {
-
     /**
      * The string constants that are used in the verbal feedback module but are stored as ids in the database.
      * @var string[]
