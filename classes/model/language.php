@@ -23,6 +23,8 @@
  */
 namespace mod_verbalfeedback\model;
 
+use mod_verbalfeedback\repository\language_repository;
+
 /**
  * The language class
  */
@@ -77,5 +79,34 @@ class language {
      */
     public function get_language(): string {
         return $this->language;
+    }
+
+    /**
+     * Maps the current language of Moodle to a verbal feedback language.
+     * Be more flexible by checking only the first two characters if no exact match is found.
+     * @return string The language
+     */
+    public static function map_current_language(): string {
+        static $currentlang = null;
+        if ($currentlang === null) {
+            $vblang = (new language_repository())->get_all();
+            foreach ($vblang as $lang) {
+                if ($lang->get_language() == current_language()) {
+                    $currentlang = $lang->get_language();
+                    return $currentlang;
+                }
+            }
+            if (strlen(current_language()) > 2) {
+                $shortlang = substr(current_language(), 0, 2);
+                foreach ($vblang as $lang) {
+                    if (substr($lang->get_language(), 0, 2) == $shortlang) {
+                        $currentlang = $lang->get_language();
+                        return $currentlang;
+                    }
+                }
+            }
+            $currentlang = current_language();
+        }
+        return $currentlang;
     }
 }

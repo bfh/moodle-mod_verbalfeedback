@@ -24,6 +24,7 @@
 namespace mod_verbalfeedback\output\model;
 
 use mod_verbalfeedback\api;
+use mod_verbalfeedback\model\language;
 use mod_verbalfeedback\model\report_criterion;
 
 /**
@@ -48,7 +49,7 @@ class report_criterion_view_model {
      * @throws \coding_exception
      */
     public function __construct(report_criterion $criterion) {
-        $this->text = $criterion->get_description(current_language())->get_string();
+        $this->text = $criterion->get_description(language::map_current_language())->get_string();
         if ($criterion->get_avg() === null) {
             $this->averagerating = get_string('notapplicableabbr', 'mod_verbalfeedback');
             $this->scaletext = get_string('notapplicableabbr', 'mod_verbalfeedback');
