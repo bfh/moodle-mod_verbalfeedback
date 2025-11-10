@@ -155,28 +155,6 @@ class template_category_repository {
     }
 
     /**
-     * Gets the template category headers
-     *
-     * @param int $foreignkey The foreign key
-     * @return array The category headers
-     * @throws \dml_exception
-     */
-    private function get_headers($foreignkey): array {
-        global $DB;
-
-        $dboheaders = $DB->get_records(tables::LOCALIZED_STRING_TABLE, [
-            'foreignkey' => $foreignkey,
-            'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_CATEGORY_HEADER),
-        ]);
-        $headers = [];
-        foreach ($dboheaders as $dboheader) {
-            $headers[] = db_localized_string::to_localized_string($dboheader);
-        }
-
-        return $headers;
-    }
-
-    /**
      * Get all category headers hashed by category id.
      *
      * @return array
@@ -198,24 +176,6 @@ class template_category_repository {
         }
         $rs->close();
         return $headers;
-    }
-
-    /**
-     * Gets the parametrized criteria of a category
-     *
-     * @param int $categoryid The category id
-     * @return array The parametrized criteria
-     * @throws \dml_exception
-     */
-    private function get_parametrized_criteria($categoryid): array {
-        global $DB;
-
-        $dboparametrizedcriteria = $DB->get_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['categoryid' => $categoryid]);
-        $parametrizedcriteria = [];
-        foreach ($dboparametrizedcriteria as $dboparametrizedcriterion) {
-            $parametrizedcriteria[] = db_parametrized_criterion::to_parametrized_criterion($dboparametrizedcriterion);
-        }
-        return $parametrizedcriteria;
     }
 
     /**
