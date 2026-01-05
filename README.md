@@ -56,6 +56,10 @@ The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
 the latest suppored Moodle version and Z is an incresing number for newer versions
 of the plugin whithin the same Moodle version.
 
+### v5.1-r3
+
+- Support course overview.
+
 ### v5.1-r2
 
 - Fix [issue #52](https://github.com/bfh/moodle-mod_verbalfeedback/issues/52)
