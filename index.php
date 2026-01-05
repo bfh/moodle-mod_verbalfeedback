@@ -32,6 +32,10 @@ if (!$course = $DB->get_record('course', ['id' => $id])) {
     throw new moodle_exception('Course ID is incorrect');
 }
 
+if ($CFG->version > 2025041400) {
+    \core_courseformat\activityoverviewbase::redirect_to_overview_page($id, 'verbalfeedback');
+}
+
 require_course_login($course);
 
 $strverbalfeedback = get_string('modulename', 'verbalfeedback');

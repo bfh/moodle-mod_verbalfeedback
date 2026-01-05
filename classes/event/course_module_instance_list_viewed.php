@@ -14,20 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace mod_verbalfeedback\event;
+
 /**
- * Plugin version and other meta-data are defined here.
+ * Event course_module_instance_list_viewed
  *
- * @package     mod_verbalfeedback
- * @copyright   2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_verbalfeedback
+ * @copyright 2026 Luca Bösch <luca.boesch@bfh.ch>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'mod_verbalfeedback';
-$plugin->version = 2026010500;
-$plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->cron      = 0;
-$plugin->supported = [401, 501];
-$plugin->release   = 'v5.1-r2';
+class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
+    // No need for any code here as everything is handled by the parent class.
+}
