@@ -109,7 +109,19 @@ $string['listcriteria'] = 'List criteria';
 $string['managetemplates'] = 'Manage templates';
 $string['messageafterdecline'] = 'Feedback declined.';
 $string['modulename'] = 'Verbal feedback';
-$string['modulename_help'] = 'The verbal feedback activity module enables participants to provide feedback to all the other participants.';
+$string['modulename_help'] = '###### Key features
+- Multi-lecturer assessment: Supports simultaneous feedback from multiple lecturers, with results aggregated and averaged automatically.
+- Configurable criteria catalogue: Offers a vast set of customizable criteria, including multiple templates. Weights can be adjusted, and criteria can be excluded by assigning 0% weight.
+- Flexible feedback input: Lecturers can insert predefined text blocks into feedback fields and edit them later for personalization.
+- Private comments: Allows lecturers to add private notes that are not visible to students.
+- Student-friendly results: Provides an attractive, clear overview of feedback.
+
+###### Ways to use it
+- Presentation grading: Evaluate student presentations systematically using weighted criteria and pre-phrased feedback sentences.
+- Collaborative assessment: Enable multiple lecturers to provide feedback on the same presentation, ensuring fairness and diverse perspectives.
+- Template-based evaluation: Use predefined templates for different types of presentations or create custom ones for specific courses.
+- Constructive feedback delivery: Combine structured scoring with personalized comments for comprehensive student feedback.';
+$string['modulename_summary'] = 'Supports structured, multi-lecturer feedback with customizable criteria, predefined comments, and clear, student-friendly results.';
 $string['modulenameplural'] = 'Verbal feedbacks';
 $string['moveitemdown'] = 'Move item down';
 $string['moveitemup'] = 'Move item up';
