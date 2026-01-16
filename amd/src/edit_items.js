@@ -23,12 +23,11 @@
  */
 define([
     'jquery',
-    'core/templates',
     'core/notification',
     'core/ajax',
     'core/str',
     'core/yui'
-], function($, Templates, Notification, Ajax) {
+], function($, Notification, Ajax) {
 
     /**
      * List of action selectors.
