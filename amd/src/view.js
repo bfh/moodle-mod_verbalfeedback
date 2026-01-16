@@ -27,9 +27,9 @@ define([
     'core/notification',
     'core/ajax',
     'core/str',
-    'core/modal_factory',
+    'core/modal_save_cancel',
     'core/modal_events'
-], function($, Templates, notification, ajax, Str, ModalFactory, ModalEvents) {
+], function($, Templates, notification, ajax, Str, Modal, ModalEvents) {
 
     /**
      * List of action selectors.
@@ -81,11 +81,10 @@ define([
             var titlePromise = Str.get_string('declinefeedback', 'mod_verbalfeedback');
 
             $.when(titlePromise).then(function(title) {
-                return ModalFactory.create({
+                return Modal.create({
                     title: title,
                     body: declineTemplatePromise,
                     large: true,
-                    type: ModalFactory.types.SAVE_CANCEL
                 });
             }).done(function(modal) {
                 // Display the dialogue.

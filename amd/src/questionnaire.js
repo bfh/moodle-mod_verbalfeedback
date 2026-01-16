@@ -26,9 +26,9 @@ define(['jquery',
     'core/notification',
     'core/ajax',
     'core/str',
-    'core/modal_factory',
+    'core/modal_save_cancel',
     'core/modal_events'
-], function($, Templates, Notification, Ajax, Str, ModalFactory, ModalEvents) {
+], function($, Templates, Notification, Ajax, Str, Modal, ModalEvents) {
 
     var responses = [];
 
@@ -388,11 +388,10 @@ define(['jquery',
      */
     function showConfirmationDialogue(title, confirmationMessage, verbalfeedbackId, submissionId, toUser, responses, finalise) {
       let confirmButtonTextPromise = Str.get_string('finalise', 'mod_verbalfeedback');
-        let confirmModalPromise = ModalFactory.create({
+        let confirmModalPromise = Modal.create({
             title: title,
             body: confirmationMessage,
             large: true,
-            type: ModalFactory.types.SAVE_CANCEL
         });
         $.when(confirmButtonTextPromise, confirmModalPromise).done(function(confirmButtonText, modal) {
             modal.setSaveButtonText(confirmButtonText);
