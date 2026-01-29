@@ -611,6 +611,7 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
             SELECT subquery.userid id,
                 subquery.userid,
                 SUM(subquery.grade),
+                subquery.catid,
                 subquery.catweight,
                 SUM(subquery.grade) * subquery.catweight catsum,
                 (SUM(subquery.grade) * subquery.catweight) / 5 * vf.grade grade
@@ -624,8 +625,8 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
                     vfcri.weight criweight,
                     ctw.criteriatotalweight,
                     vfcri.weight / ctw.criteriatotalweight criteriaeffweight,
-                    vfres.value,
-                    vfcri.weight / ctw.criteriatotalweight * vfres.value grade
+                    --SUM(vfres.value),
+                    (SUM(vfres.value)/ COUNT(vfres.fromuserid)) * (vfcri.weight / ctw.criteriatotalweight) grade
                 FROM
                 (
                     SELECT vfcat.id,
@@ -650,8 +651,18 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
                         ON u.id = vfs.touserid
                     JOIN {verbalfeedback_response} vfres
                         ON vfres.criterionid = vfcri.id
+                        AND vfres.instanceid = vfs.instanceid
+                        AND vfres.fromuserid = vfs.fromuserid
                         AND vfres.touserid = vfs.touserid
                 WHERE vfcat.instanceid = ? $usertest
+                  AND vfs.status <> 0 -- pending status excluded, not sure if needed
+                  AND vfres.value is not null -- N/A values should not be taken into account
+                GROUP BY u.id,
+                        vfcat.id,
+                        vfcri.id,
+                        vfcat.weight,
+                        vfcri.weight,
+                        ctw.criteriatotalweight
             ) subquery
                 JOIN {verbalfeedback} vf
                     ON vf.id = ?
