@@ -185,12 +185,13 @@ class api {
      * @param int $verbalfeedbackid The verbal feedback instance ID.
      * @param int $currentuserid The current user ID.
      * @param bool $includeself Whether to include the respondent in the list.
+     * @param int $groupid The group id to filter participants by, default 0 (no group filter).
      * @return array
      * @throws coding_exception
      * @throws dml_exception
      * @throws moodle_exception
      */
-    public static function get_participants($verbalfeedbackid, $currentuserid, $includeself = false) {
+    public static function get_participants($verbalfeedbackid, $currentuserid, $includeself = false, $groupid = 0) {
         global $DB;
 
         $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
@@ -200,7 +201,7 @@ class api {
             get_enrolled_users(
                 $context,
                 'mod/verbalfeedback:receive_rating', // Capability.
-                0, // Groupid = 0 means all groups.
+                $groupid,
                 'u.id AS userid,
                 u.firstname,
                 u.lastname,

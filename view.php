@@ -51,7 +51,14 @@ $PAGE->set_pagelayout('incourse');
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
 
-$PAGE->set_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]);
+$pageparams = ['id' => $cm->id];
+$filter = [];
+$currentgroup = optional_param('group', 0, PARAM_INT);
+if ($currentgroup > 0) {
+    $pageparams['group'] = $currentgroup;
+    $filter['group'] = $currentgroup;
+}
+$PAGE->set_url('/mod/verbalfeedback/view.php', $pageparams);
 $title = format_string($instance->get_name());
 $PAGE->set_title($title);
 $PAGE->set_heading($course->fullname);
@@ -80,8 +87,16 @@ if ($release != -1) {
 // Edit items.
 $instanceready = $instancerepository->is_ready($instance->get_id());
 $canedit = user_utils::can_edit_items($instance, $context);
-$hideallparticipants = !has_capability('moodle/site:accessallgroups', $context);
-echo $OUTPUT->box(groups_print_activity_menu($cm, $PAGE->url, true, $hideallparticipants));
+// Group filter: show whenever course has groups (like Participants page / Grader report).
+$groupmenu = groups_allgroups_course_menu(
+    $course,
+    new moodle_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]),
+    true,
+    $currentgroup
+);
+if ($groupmenu) {
+    echo $OUTPUT->box($groupmenu, 'generalbox verbalfeedback-group-filter');
+}
 
 if ($canedit) {
     $edititemsurl = new moodle_url('edit_instance.php');
@@ -128,7 +143,7 @@ if ($instanceready) {
     if (($canrespond === true) || (has_capability('moodle/site:config', $context))) {
         try {
             $participantslistrenderer = $PAGE->get_renderer('mod_verbalfeedback');
-            draw_participants_list($instance, $USER->id, $canparticipate, $canviewallreports, $participantslistrenderer);
+            draw_participants_list($instance, $USER->id, $canparticipate, $canviewallreports, $filter, $participantslistrenderer);
         } catch (moodle_exception $e) {
             \core\notification::error($e->getMessage());
         }
@@ -185,6 +200,7 @@ function draw_view_own_report_button($instanceid, $userid) {
  * @param int $currentuserid The user ID.
  * @param bool $canparticipate Whether the user can participate in this activity or not.
  * @param bool $canviewallreports Whether the user can view the reports of all enrolled users within the activity.
+ * @param array $filter The filter parameters.
  * @param mixed $participantslistrenderer The renderer for the participants list.
  */
 function draw_participants_list(
@@ -192,6 +208,7 @@ function draw_participants_list(
     $currentuserid,
     $canparticipate,
     $canviewallreports,
+    $filter,
     $participantslistrenderer
 ) {
     // Generate statuses if you can respond to the feedback.
@@ -204,7 +221,7 @@ function draw_participants_list(
         // Ensure that $isopen is a boolean. is_open() can return a string in some cases.
         $isopen = false;
     }
-    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid);
+    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid, false, $filter['group'] ?? 0);
 
     // Verbalfeedback To-do list.
     if ($canparticipate === true) {
