@@ -39,7 +39,7 @@ Feature: Testing overview integration in verbalfeedback activity
 
   @javascript
   Scenario: The verbalfeedback activity index redirect to the activities overview
-    Given the site is running Moodle version 5.0 or higher
+    Given the site is running Moodle version 5.0
     And I am on "Course 1" course homepage with editing mode on
     And I add the "Activities" block
     And I click on "Verbal feedbacks" "link" in the "Activities" "block"
