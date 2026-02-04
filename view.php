@@ -221,7 +221,7 @@ function draw_participants_list(
         // Ensure that $isopen is a boolean. is_open() can return a string in some cases.
         $isopen = false;
     }
-    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid, false, $filter['group'] ?? 0);
+    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid, $filter['group'] ?? 0);
 
     // Verbalfeedback To-do list.
     if ($canparticipate === true) {

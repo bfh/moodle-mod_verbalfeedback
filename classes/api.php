@@ -184,14 +184,13 @@ class api {
      *
      * @param int $verbalfeedbackid The verbal feedback instance ID.
      * @param int $currentuserid The current user ID.
-     * @param bool $includeself Whether to include the respondent in the list.
      * @param int $groupid The group id to filter participants by, default 0 (no group filter).
      * @return array
      * @throws coding_exception
      * @throws dml_exception
      * @throws moodle_exception
      */
-    public static function get_participants($verbalfeedbackid, $currentuserid, $includeself = false, $groupid = 0) {
+    public static function get_participants($verbalfeedbackid, $currentuserid, $groupid = 0) {
         global $DB;
 
         $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
@@ -219,8 +218,8 @@ class api {
         $statusrecords = $DB->get_records_sql($userssql, ['instanceid' => $verbalfeedbackid, 'currentuserid' => $currentuserid]);
 
         // Combine sql results and drop current user ($includeself) if necessary.
-        $filtermap = function ($v) use ($currentuserid, $includeself, $statusrecords) {
-            if ($v->userid == $currentuserid && !$includeself) {
+        $filtermap = function ($v) use ($currentuserid, $statusrecords) {
+            if ($v->userid == $currentuserid) {
                 return false;
             }
             if (isset($statusrecords[$v->userid]->submissionid)) {
@@ -242,11 +241,10 @@ class api {
      *
      * @param int $verbalfeedbackid The verbal feedback instance ID.
      * @param int $fromuserid The user ID of the respondent.
-     * @param bool $includeself Whether to include self.
      * @throws coding_exception
      * @throws dml_exception
      */
-    public static function generate_verbalfeedback_feedback_states($verbalfeedbackid, $fromuserid, $includeself = false) {
+    public static function generate_verbalfeedback_feedback_states($verbalfeedbackid, $fromuserid) {
         global $DB;
         $submissionrepo = new submission_repository();
 
@@ -264,10 +262,8 @@ class api {
             'fromuser2' => $fromuserid,
         ];
 
-        if (!$includeself) {
-            $wheres[] = 'u.id <> :fromuser';
-            $params['fromuser'] = $fromuserid;
-        }
+        $wheres[] = 'u.id <> :fromuser';
+        $params['fromuser'] = $fromuserid;
 
         [$course, $cm] = get_course_and_cm_from_instance(
             $verbalfeedbackid,
@@ -472,7 +468,7 @@ class api {
         if (user_utils::can_respond($verbalfeedback, $user) === true) {
             if (!$DB->record_exists(tables::SUBMISSION_TABLE, ['instance' => $verbalfeedback->id, 'fromuser' => $user])) {
                 // Generate submission records if there are no submission records yet.
-                self::generate_verbalfeedback_feedback_states($verbalfeedback->id, $user, $verbalfeedback->with_self_review);
+                self::generate_verbalfeedback_feedback_states($verbalfeedback->id, $user);
             }
 
             // Count participants awaiting feedback from this user.
