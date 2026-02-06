@@ -204,6 +204,7 @@ class api {
                 'u.id AS userid,
                 u.firstname,
                 u.lastname,
+                u.email,
                 u.firstnamephonetic,
                 u.lastnamephonetic,
                 u.middlename,

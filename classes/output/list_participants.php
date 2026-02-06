@@ -30,6 +30,8 @@ use renderable;
 use renderer_base;
 use stdClass;
 use templatable;
+use core_course\output\actionbar\user_selector;
+use core_course\output\actionbar\group_selector;
 
 /**
  * Class containing data for users that need to be given with verbalfeedback.
@@ -44,6 +46,12 @@ class list_participants implements renderable, templatable {
     /** @var int The user ID of the respondent. */
     protected $userid;
 
+    protected $groupid;
+
+    protected $course;
+
+    protected $cm;
+
     /** @var array The array of participants for the verbalfeedback, excluding the respondent. */
     protected $participants = [];
 
@@ -53,20 +61,55 @@ class list_participants implements renderable, templatable {
     /** @var bool Whether the instance is open for participants to interact with. */
     protected $isopen = false;
 
+    /** @var array The filter parameters. */
+    protected $filter = [];
+
     /**
      * list_participants constructor.
-     * @param stdClass $verbalfeedbackid The verbalfeedback instance.
+     * @param stdClass $verbalfeedback The verbalfeedback instance.
      * @param int $userid The respondent's user ID.
      * @param array $participants The array of participants for the verbalfeedback, excluding the respondent.
      * @param bool $canviewreports Whether the user has the capability to view reports.
      * @param bool $isopen Whether the instance is open for participants to interact with.
      */
-    public function __construct($verbalfeedbackid, $userid, $participants, $canviewreports = false, $isopen = false) {
+    public function __construct($verbalfeedback, $userid, $participants, $canviewreports = false, $isopen = false) {
         $this->userid = $userid;
-        $this->verbalfeedback = $verbalfeedbackid;
+        $this->verbalfeedback = $verbalfeedback;
         $this->participants = $participants;
         $this->canviewreports = $canviewreports;
         $this->isopen = $isopen;
+        $this->cm = get_coursemodule_from_instance('verbalfeedback', $this->verbalfeedback->id);
+        $this->course = get_course($this->cm->course);
+        $this->groupid = groups_get_course_group($this->course, true);
+    }
+
+    public function set_filter(array $filter) {
+        $this->filter = $filter;
+        return $this;
+    }
+
+    protected function get_action_menu(renderer_base $output): array {
+        global $PAGE;
+        $data = [];
+        $userid = optional_param('userid', null, PARAM_INT);
+        $usersearch = $userid ? fullname(\core_user::get_user($userid)) : optional_param('search', '', PARAM_NOTAGS);
+        $resetlink = new moodle_url('/mod/verbalfeedback/view.php', ['id' => $this->verbalfeedback->id]);
+        $groupid = groups_get_course_group($this->course, true);
+        $userselector = new user_selector(
+            course: $this->course,
+            resetlink: $resetlink,
+            userid: $userid,
+            groupid: $groupid,
+            usersearch: $usersearch,
+            instanceid: $this->verbalfeedback->id
+        );
+        $data['userselector'] = $userselector->export_for_template($output);
+
+        if (groups_get_activity_groupmode($this->cm, $this->course)) {
+            $gs = new group_selector($PAGE->context, false);
+            $data['groupselector'] = $gs->export_for_template($output);
+        }
+        return $data;
     }
 
     /**
@@ -81,18 +124,25 @@ class list_participants implements renderable, templatable {
      */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
-        $data->verbalfeedbackid = $this->verbalfeedback;
+        $data->verbalfeedbackid = $this->verbalfeedback->id;
+        $data->courseid = $this->course->id;
         $data->participants = [];
         $data->canperformactions = $this->isopen;
+        foreach ($this->get_action_menu($output) as $key => $value) {
+            $data->$key = $value;
+        }
 
-        $cm = get_coursemodule_from_instance('verbalfeedback', $data->verbalfeedbackid, 0, false, MUST_EXIST);
-        $viewfullnames = has_capability('moodle/site:viewfullnames', \context_module::instance($cm->id));
+        $viewfullnames = has_capability('moodle/site:viewfullnames', \context_module::instance($this->cm->id));
 
         foreach ($this->participants as $user) {
             $member = new stdClass();
 
-            // Name column.
+            // User ID, email and name column.
+            $member->userid = $user->userid;
+            $member->email = $user->email;
             $member->name = fullname($user, $viewfullnames);
+            $member->link = (new \moodle_url('/user/view.php', ['id' => $member->userid, 'course' => $this->course->id]))->out(false);
+            //$member->picture = $output->user_picture($user, ['size' => 35, 'courseid' => $this->course->id]);
 
             // Status column.
             // By default the user viewing the participants page can respond if there's a submission record.
@@ -131,7 +181,7 @@ class list_participants implements renderable, templatable {
                 }
                 $reportslink = new moodle_url('/mod/verbalfeedback/report.php');
                 $reportslink->params([
-                    'instance' => $this->verbalfeedback,
+                    'instance' => $this->verbalfeedback->id,
                     'touser' => $user->userid,
                 ]);
                 $member->reportslink = $reportslink->out();
@@ -141,7 +191,7 @@ class list_participants implements renderable, templatable {
             if ($canrespond) {
                 $respondurl = new moodle_url('/mod/verbalfeedback/questionnaire.php');
                 $respondurl->params([
-                    'instance' => $this->verbalfeedback,
+                    'instance' => $this->verbalfeedback->id,
                     'submission' => $user->submissionid,
                 ]);
                 $member->respondlink = $respondurl->out();

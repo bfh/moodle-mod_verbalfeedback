@@ -225,8 +225,14 @@ function draw_participants_list(
 
     // Verbalfeedback To-do list.
     if ($canparticipate === true) {
-        $participantslist =
-            new list_participants($instance->get_id(), $currentuserid, $participants, $canviewallreports, $isopen);
+        $participantslist = new list_participants(
+            $instance,
+            $currentuserid,
+            $participants,
+            $canviewallreports,
+            $isopen
+        );
+        $participantslist->set_filter($filter);
         echo $participantslistrenderer->render($participantslist);
     }
 }

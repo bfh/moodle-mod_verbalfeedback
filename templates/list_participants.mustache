@@ -35,21 +35,32 @@
     {
         "verbalfeedbackid": 1,
         "canperformactions": true,
+        "courseid": 12,
+        "userselect": "string"
         "participants": [
             {
-                "name" : "Kurdapyo Dimagiba",
+                "id": 123,
+                "email": "kurdapyo.dimagiba@exampe.com",
+                "name": "Kurdapyo Dimagiba",
+                "link": "/user/view.php?id=123&course=12",
                 "statuspending" : true,
                 "respondlink": "#",
                 "declinelink": "#"
             },
             {
+                "id": 123,
+                "email": "kurdapyo.dimagiba@exampe.com",
                 "name" : "Kurdapya Dimagiba",
+                "link": "/user/view.php?id=123&course=12",
                 "statusinprogress" : true,
                 "respondlink": "#",
                 "declinelink": "#"
             },
             {
+                "id": 332,
+                "email": "john.doe@nowhere.org",
                 "name" : "John Doe",
+                "link": "/user/view.php?id=332&course=12",
                 "statusinprogress" : true,
                 "undodeclinelink": "#"
             }
@@ -57,11 +68,31 @@
     }
 }}
 <div class="container-fluid" data-region="participantlist">
+    <div class="container-fluid tertiary-navigation full-width-bottom-border">
+        <div class="d-flex flex-wrap">
+            {{#groupselector}}
+                <div class="navitem">
+                    {{>core/comboboxsearch}}
+                </div>
+                <div class="navitem-divider"></div>
+            {{/groupselector}}
+            {{#userselector}}
+                <span class="d-none" data-region="courseid" data-courseid="{{courseid}}" aria-hidden="true"></span>
+                <div class="navitem flex-column">
+                    {{#content}}
+                        {{>core/comboboxsearch}}
+                    {{/content}}
+                </div>
+                <div class="navitem-divider"></div>
+            {{/userselector}}
+        </div>
+    </div>
     <div class="row mt-3">
         <table class="flexible generaltable generalbox" id="participants">
             <thead>
                 <tr>
-                    <th>{{#str}}student, mod_verbalfeedback{{/str}}</th>
+                    <th>{{#str}}firstname, core{{/str}} / {{#str}}lastname, core{{/str}}</th>
+                    <th>{{#str}}email, core{{/str}}</th>
                     <th>{{#str}}status, mod_verbalfeedback{{/str}}</th>
                     <th>{{#str}}actions{{/str}}</th>
                 </tr>
@@ -70,7 +101,10 @@
             {{# participants }}
                 <tr class="user unselectedrow">
                     <td class="align-middle">
-                        {{ name }}
+                        <a href="{{link}}">{{ name }}</a>
+                    </td>
+                    <td>
+                        {{ email }}
                     </td>
                     <td class="align-middle">
                         <span class="badge
