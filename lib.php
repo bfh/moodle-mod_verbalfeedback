@@ -179,56 +179,22 @@ function verbalfeedback_delete_instance($id) {
  * @return mixed True if module supports feature, null if doesn't know
  */
 function verbalfeedback_supports($feature) {
-    if (defined('FEATURE_MOD_PURPOSE') && defined('MOD_PURPOSE_ASSESSMENT')) {
-        // Moodle ≥ 4.0.
-        switch ($feature) {
-            case FEATURE_MOD_INTRO:
-                return true;
-            case FEATURE_SHOW_DESCRIPTION:
-                return true;
-            case FEATURE_COMPLETION_TRACKS_VIEWS:
-                return true;
-            case FEATURE_GRADE_HAS_GRADE:
-                return true;
-            case FEATURE_GRADE_OUTCOMES:
-                return false;
-            case FEATURE_BACKUP_MOODLE2:
-                return true;
-            case FEATURE_GROUPINGS:
-                return false;
-            case FEATURE_GROUPS:
-                return false;
-            case FEATURE_COMPLETION_HAS_RULES:
-                return true;
-            case FEATURE_MOD_PURPOSE:
-                return MOD_PURPOSE_ASSESSMENT;
-            default:
-                return null;
-        }
-    } else {
-        // Moodle ≤ 3.11.
-        switch ($feature) {
-            case FEATURE_MOD_INTRO:
-                return true;
-            case FEATURE_SHOW_DESCRIPTION:
-                return true;
-            case FEATURE_COMPLETION_TRACKS_VIEWS:
-                return true;
-            case FEATURE_GRADE_HAS_GRADE:
-                return true;
-            case FEATURE_GRADE_OUTCOMES:
-                return false;
-            case FEATURE_BACKUP_MOODLE2:
-                return true;
-            case FEATURE_GROUPINGS:
-                return false;
-            case FEATURE_GROUPS:
-                return false;
-            case FEATURE_COMPLETION_HAS_RULES:
-                return true;
-            default:
-                return null;
-        }
+    switch ($feature) {
+        case FEATURE_MOD_INTRO:
+        case FEATURE_SHOW_DESCRIPTION:
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+        case FEATURE_GRADE_HAS_GRADE:
+        case FEATURE_BACKUP_MOODLE2:
+        case FEATURE_GROUPINGS:
+        case FEATURE_GROUPS:
+        case FEATURE_COMPLETION_HAS_RULES:
+            return true;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_MOD_PURPOSE:
+            return MOD_PURPOSE_ASSESSMENT;
+        default:
+            return null;
     }
 }
 
