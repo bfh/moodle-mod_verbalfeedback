@@ -87,17 +87,6 @@ if ($release != -1) {
 // Edit items.
 $instanceready = $instancerepository->is_ready($instance->get_id());
 $canedit = user_utils::can_edit_items($instance, $context);
-// Group filter: show whenever course has groups (like Participants page / Grader report).
-$groupmenu = groups_allgroups_course_menu(
-    $course,
-    new moodle_url('/mod/verbalfeedback/view.php', ['id' => $cm->id]),
-    true,
-    $currentgroup
-);
-if ($groupmenu) {
-    echo $OUTPUT->box($groupmenu, 'generalbox verbalfeedback-group-filter');
-}
-
 if ($canedit) {
     $edititemsurl = new moodle_url('edit_instance.php');
     $edititemsurl->param('id', $cm->id);
@@ -211,8 +200,10 @@ function draw_participants_list(
     $filter,
     $participantslistrenderer
 ) {
+    // Filter participants by group if group filter is applied.
+    $groupid = get_current_group($instance);
     // Generate statuses if you can respond to the feedback.
-    \mod_verbalfeedback\api::generate_verbalfeedback_feedback_states($instance->get_id(), $currentuserid);
+    \mod_verbalfeedback\api::generate_verbalfeedback_feedback_states($instance->get_id(), $currentuserid, $groupid);
     // Check if instance is already open.
     $isopen = $instance->is_open(true);
     if ($isopen !== true) {
@@ -221,7 +212,7 @@ function draw_participants_list(
         // Ensure that $isopen is a boolean. is_open() can return a string in some cases.
         $isopen = false;
     }
-    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid, $filter['group'] ?? 0);
+    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid, $groupid);
 
     // Verbalfeedback To-do list.
     if ($canparticipate === true) {
@@ -235,4 +226,40 @@ function draw_participants_list(
         $participantslist->set_filter($filter);
         echo $participantslistrenderer->render($participantslist);
     }
+}
+
+/**
+ * Gets the current group id for the verbal feedback instance.
+ *
+ * @param instance $instance The verbal feedback instance.
+ * @return int The current group id, 0 if no group filter is applied.
+ */
+function get_current_group(instance $instance): int {
+    global $USER;
+    $cm = get_coursemodule_from_instance('verbalfeedback', $instance->get_id());
+    $course = get_course($cm->course);
+
+    $currentgroup = 0;
+    if (groups_get_activity_groupmode($cm) != NOGROUPS) {
+        $grp = groups_get_activity_group($cm, true);
+        $currentgroup = ($grp !== false) ? (int)$grp : 0;
+    } else if ($course->groupmode != NOGROUPS) {
+        $grp = groups_get_course_group($course, true);
+        $currentgroup = ($grp !== false) ? (int)$grp : 0;
+    }
+    if ($currentgroup === 0) {
+        $requestedgroup = optional_param('group', 0, PARAM_INT);
+        if ($requestedgroup > 0) {
+            $contextcourse = context_course::instance($course->id);
+            if (has_capability('moodle/site:accessallgroups', $contextcourse)) {
+                $allowedgroups = groups_get_all_groups($course->id, 0, 0);
+            } else {
+                $allowedgroups = groups_get_all_groups($course->id, $USER->id, 0);
+            }
+            if (isset($allowedgroups[$requestedgroup])) {
+                $currentgroup = (int)$requestedgroup;
+            }
+        }
+    }
+    return $currentgroup;
 }

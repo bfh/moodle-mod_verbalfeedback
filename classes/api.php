@@ -25,6 +25,7 @@
 namespace mod_verbalfeedback;
 
 use coding_exception;
+use context_course;
 use context_module;
 use dml_exception;
 use Exception;
@@ -242,10 +243,11 @@ class api {
      *
      * @param int $verbalfeedbackid The verbal feedback instance ID.
      * @param int $fromuserid The user ID of the respondent.
+     * @param int $groupid The group id to filter participants by, default 0 (no group filter).
      * @throws coding_exception
      * @throws dml_exception
      */
-    public static function generate_verbalfeedback_feedback_states($verbalfeedbackid, $fromuserid) {
+    public static function generate_verbalfeedback_feedback_states($verbalfeedbackid, $fromuserid, $groupid = 0) {
         global $DB;
         $submissionrepo = new submission_repository();
 
@@ -266,18 +268,15 @@ class api {
         $wheres[] = 'u.id <> :fromuser';
         $params['fromuser'] = $fromuserid;
 
-        [$course, $cm] = get_course_and_cm_from_instance(
-            $verbalfeedbackid,
-            'verbalfeedback',
-            $verbalfeedback->course,
-            $fromuserid
-        );
+        if ($groupid != 0) {
+            $cm = get_coursemodule_from_instance(
+                'verbalfeedback',
+                $verbalfeedbackid,
+                $verbalfeedback->course
+            );
+            $context = context_module::instance($cm->id);
 
-        $groupmode = groups_get_activity_groupmode($cm);
-        if ($groupmode != NOGROUPS) {
-            $currentgroup = groups_get_activity_group($cm, true);
-            $context = $cm->context;
-            $userids = get_enrolled_users($context, '', $currentgroup, 'u.id', null, 0, 0, self::show_only_active_users($context));
+            $userids = get_enrolled_users($context, '', $groupid, 'u.id', null, 0, 0, self::show_only_active_users($context));
 
             if ($userids) {
                 $userids = array_map(
