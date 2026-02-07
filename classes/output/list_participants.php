@@ -83,17 +83,27 @@ class list_participants implements renderable, templatable {
         $this->groupid = groups_get_course_group($this->course, true);
     }
 
+    /** Set filter parameters for the participants list.
+     *
+     * @param array $filter The filter parameters to set.
+     * @return list_participants The current instance for chaining.
+     */
     public function set_filter(array $filter) {
         $this->filter = $filter;
         return $this;
     }
 
+    /**
+     * Get the data for the action menu, which includes the user selector and group selector if applicable.
+     * @param renderer_base $output The renderer to use for rendering any components.
+     * @return array The data for the action menu.
+     */
     protected function get_action_menu(renderer_base $output): array {
         global $PAGE;
         $data = [];
         $userid = optional_param('userid', null, PARAM_INT);
         $usersearch = $userid ? fullname(\core_user::get_user($userid)) : optional_param('search', '', PARAM_NOTAGS);
-        $resetlink = new moodle_url('/mod/verbalfeedback/view.php', ['id' => $this->verbalfeedback->id]);
+        $resetlink = new moodle_url('/mod/verbalfeedback/view.php', ['id' => $this->cm->id]);
         $groupid = groups_get_course_group($this->course, true);
         $userselector = new user_selector(
             course: $this->course,
@@ -108,6 +118,7 @@ class list_participants implements renderable, templatable {
         if (groups_get_activity_groupmode($this->cm, $this->course)) {
             $gs = new group_selector($PAGE->context, false);
             $data['groupselector'] = $gs->export_for_template($output);
+            $PAGE->requires->js_call_amd('core_course/actionbar/group', 'init', [$resetlink->out(false)]);
         }
         return $data;
     }
