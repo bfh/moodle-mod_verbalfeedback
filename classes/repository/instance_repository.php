@@ -40,6 +40,36 @@ use mod_verbalfeedback\repository\model\localized_string_type;
  */
 class instance_repository {
     /**
+     * Static cache for instance to prevent multiple DB calls.
+     * @var array
+     */
+    private static $instancesbyid = [];
+
+    /**
+     * Static cache for sorted strings.
+     * @var array
+     */
+    private static $sortedstrings = [];
+
+    /**
+     * Static cache for strings by instance.
+     * @var array
+     */
+    private static $strbyinstance = [];
+
+    /**
+     * Static cache for categories by instance.
+     * @var array
+     */
+    private static $catbyinstance = [];
+
+    /**
+     * Static cache for criteria by instance.
+     * @var array
+     */
+    private static $critbyinstance = [];
+
+    /**
      * Gets the instance with the given id
      * @param int $id The verbal feedback id.
      * @return instance|null The language.
@@ -47,10 +77,9 @@ class instance_repository {
     public static function get_by_id(int $id): instance {
         global $DB;
 
-        // Return cached $byid instance if available and if we are not running a php unit test.
-        static $byid = [];
-        if (isset($byid[$id]) && !PHPUNIT_TEST) {
-            return $byid[$id];
+        // Return cached $instancesbyid instance if available and if we are not running a php unit test.
+        if (isset(static::$instancesbyid[$id]) && !PHPUNIT_TEST) {
+            return static::$instancesbyid[$id];
         }
 
         $dboinstance = api::get_instance($id);
@@ -168,7 +197,7 @@ class instance_repository {
         }
 
         // Add to cache.
-        $byid[$id] = $instance;
+        static::$instancesbyid[$id] = $instance;
         return $instance;
     }
 
@@ -186,7 +215,6 @@ class instance_repository {
     private static function get_strings(string $type, int $subratingid, int $instanceid = 0, bool $throwonerror = false): array {
         global $DB;
 
-        static $sortedstrings = [];
         $typeid = localized_string_type::str2id($type);
 
         if ($instanceid > 0 || localized_string_type::is_template_type($type)) {
@@ -201,8 +229,8 @@ class instance_repository {
         }
         $cachekey = $type . '~~' . $subratingid;
 
-        if (!array_key_exists($cachekey, $sortedstrings) || PHPUNIT_TEST) {
-            $sortedstrings[$cachekey] = [];
+        if (!array_key_exists($cachekey, static::$sortedstrings) || PHPUNIT_TEST) {
+            static::$sortedstrings[$cachekey] = [];
             $rs = $DB->get_recordset(
                 tables::LOCALIZED_STRING_TABLE,
                 ['typeid' => $typeid, 'foreignkey' => $subratingid]
@@ -221,14 +249,14 @@ class instance_repository {
             $rs->close();
         }
 
-        if (empty($sortedstrings[$cachekey])) {
+        if (empty(static::$sortedstrings[$cachekey])) {
             if ($throwonerror) {
                 throw new \coding_exception("No strings for type $type and subratingid $subratingid");
             }
             return [];
         }
 
-        return $sortedstrings[$cachekey];
+        return static::$sortedstrings[$cachekey];
     }
 
     /**
@@ -240,10 +268,8 @@ class instance_repository {
     private static function get_strings_for_instance(int $id): array {
         global $DB;
 
-        static $byinstance = [];
-
-        if (!array_key_exists($id, $byinstance) || PHPUNIT_TEST) {
-            $byinstance[$id] = [];
+        if (!array_key_exists($id, static::$strbyinstance) || PHPUNIT_TEST) {
+            static::$strbyinstance[$id] = [];
             $rs = $DB->get_recordset(tables::LOCALIZED_STRING_TABLE, ['instanceid' => $id]);
             foreach ($rs as $dboheader) {
                 $dbobj = new db_localized_string();
@@ -254,19 +280,18 @@ class instance_repository {
                 $dbobj->foreignkey = $dboheader->foreignkey;
                 $dbobj->instanceid = $dboheader->instanceid;
 
-                if (!array_key_exists($dbobj->typeid, $byinstance[$id])) {
-                    $byinstance[$id][$dbobj->typeid] = [];
+                if (!array_key_exists($dbobj->typeid, static::$strbyinstance[$id])) {
+                    static::$strbyinstance[$id][$dbobj->typeid] = [];
                 }
-                if (!array_key_exists($dbobj->foreignkey, $byinstance[$id][$dbobj->typeid])) {
-                    $byinstance[$id][$dbobj->typeid][$dbobj->foreignkey] = [];
+                if (!array_key_exists($dbobj->foreignkey, static::$strbyinstance[$id][$dbobj->typeid])) {
+                    static::$strbyinstance[$id][$dbobj->typeid][$dbobj->foreignkey] = [];
                 }
                 // Store the localized string by instanceid, typeid, foreignkey, languageid.
-                $byinstance[$id][$dbobj->typeid][$dbobj->foreignkey][$dbobj->languageid] = $dbobj;
+                static::$strbyinstance[$id][$dbobj->typeid][$dbobj->foreignkey][$dbobj->languageid] = $dbobj;
             }
             $rs->close();
         }
-
-        return $byinstance[$id];
+        return static::$strbyinstance[$id];
     }
 
     /**
@@ -278,9 +303,7 @@ class instance_repository {
     private static function get_criteria_by_category_for_instance_id(int $id): array {
         global $DB;
 
-        static $bycats = [];
-
-        if (!array_key_exists($id, $bycats) || PHPUNIT_TEST) {
+        if (!array_key_exists($id, static::$catbyinstance) || PHPUNIT_TEST) {
             $crittab = tables::INSTANCE_CRITERION_TABLE;
             $cattab = tables::INSTANCE_CATEGORY_TABLE;
 
@@ -299,9 +322,9 @@ class instance_repository {
                 $bycat[$dbocriterion->categoryid][$dbocriterion->id] = db_instance_criterion::to_instance_criterion($dbocriterion);
             }
             $rs->close();
-            $bycats[$id] = $bycat;
+            static::$catbyinstance[$id] = $bycat;
         }
-        return $bycats[$id];
+        return static::$catbyinstance[$id];
     }
 
     /**
@@ -313,9 +336,7 @@ class instance_repository {
     private static function get_subratings_by_criterion_for_instance(int $id): array {
         global $DB;
 
-        static $bycrits = [];
-
-        if (!\array_key_exists($id, $bycrits) || PHPUNIT_TEST) {
+        if (!\array_key_exists($id, static::$critbyinstance) || PHPUNIT_TEST) {
             $crittab = tables::INSTANCE_CRITERION_TABLE;
             $cattab = tables::INSTANCE_CATEGORY_TABLE;
             $srattab = tables::INSTANCE_SUBRATING_TABLE;
@@ -337,9 +358,9 @@ class instance_repository {
                 }
             }
             $rs->close();
-            $bycrits[$id] = $bycrit;
+            static::$critbyinstance[$id] = $bycrit;
         }
-        return $bycrits[$id];
+        return static::$critbyinstance[$id];
     }
 
     /**
@@ -512,7 +533,18 @@ class instance_repository {
      */
     public function delete(int $instanceid) {
         global $DB;
+        // Delete criteria, subratings and all strings related to the instance.
+        $this->delete_criteria($instanceid);
+        // Delete the instance itself.
+        return $DB->delete_records(tables::INSTANCE_TABLE, ["id" => $instanceid]);
+    }
 
+    /**
+     * Deletes the criteria for the instance with the given id.
+     * @param int $instanceid The instance id.
+     */
+    public function delete_criteria(int $instanceid) {
+        global $DB;
         $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $instanceid]);
         foreach ($dbocategories as $dbocategory) {
             // Delete category criteria.
@@ -523,13 +555,15 @@ class instance_repository {
             }
             $DB->delete_records(tables::INSTANCE_CRITERION_TABLE, ["categoryid" => $dbocategory->id]);
         }
-
         // Delete all strings.
         $DB->delete_records(tables::LOCALIZED_STRING_TABLE, ["instanceid" => $instanceid]);
         // Delete categories.
         $DB->delete_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $instanceid]);
-        // Delete the instance itself.
-        return $DB->delete_records(tables::INSTANCE_TABLE, ["id" => $instanceid]);
+        // Purge static cache variables.
+        unset(static::$instancesbyid[$instanceid]);
+        unset(static::$strbyinstance[$instanceid]);
+        unset(static::$catbyinstance[$instanceid]);
+        unset(static::$critbyinstance[$instanceid]);
     }
 
     /**

@@ -31,6 +31,7 @@ use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\repository\submission_repository;
 use mod_verbalfeedback\repository\tables;
 use mod_verbalfeedback\repository\template_repository;
+use mod_verbalfeedback\utils\instance_utils;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -56,7 +57,7 @@ function mod_verbalfeedback_view_model_to_instance(stdClass $object): instance {
 
     if (empty($object->template)) {
         // If we enter here, it's mostly $object->template == ''.
-        $instance = new instance((int) $object->course);
+        $instance = new instance((int)$object->course);
     } else {
         $template = $templaterepository->get_by_id((int)$object->template);
         $instance = instance::from_template((int) $object->course, $template);
@@ -141,6 +142,17 @@ function verbalfeedback_update_instance($verbalfeedback) {
 
     $verbalfeedback->timemodified = time();
     $verbalfeedback->id = $verbalfeedback->instance;
+
+    // Check if the template has been changed and if it can be changed.
+    if (!empty($verbalfeedback->template)) {
+        $oldtemplateid = $DB->get_field(tables::INSTANCE_TABLE, 'templateid', ['id' => $verbalfeedback->id]);
+        if ($oldtemplateid != $verbalfeedback->template && !instance_utils::instance_has_submissions($verbalfeedback->id)) {
+            $instancerepository = new instance_repository();
+            $instancerepository->delete_criteria($verbalfeedback->id);
+            $verbalfeedback = mod_verbalfeedback_view_model_to_instance($verbalfeedback);
+            return (bool)$instancerepository->save($verbalfeedback);
+        }
+    }
 
     // Update grade item definition.
     verbalfeedback_grade_item_update($verbalfeedback);

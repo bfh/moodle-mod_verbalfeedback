@@ -30,6 +30,7 @@ require_once($CFG->dirroot . '/mod/verbalfeedback/lib.php');
 use mod_verbalfeedback\model\instance_release_type;
 use mod_verbalfeedback\repository\tables;
 use mod_verbalfeedback\repository\template_repository;
+use mod_verbalfeedback\utils\instance_utils;
 
 /**
  * Class mod_verbalfeedback_mod_form.
@@ -72,35 +73,27 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         $mform->addElement('select', 'releasetype', get_string('releasetype', 'mod_verbalfeedback'), $releasetypeoptions);
         $mform->addHelpButton('releasetype', 'releasetype', 'mod_verbalfeedback');
 
-        if ($this->_instance) {
-            if ($DB->count_records(tables::SUBMISSION_TABLE, ['instanceid' => $this->_instance]) > 0) {
-                // Prevent user from toggeling the template once there are submissions.
-                $mform->addElement('hidden', 'allowchangetemplate', 0);
-                $mform->setType('allowchangetemplate', PARAM_INT);
-            }
+        if ($this->_instance && instance_utils::instance_has_submissions($this->_instance)) {
+            // Prevent user from toggeling the template once there are submissions.
+            $mform->addElement('hidden', 'allowchangetemplate', 0);
+            $mform->setType('allowchangetemplate', PARAM_INT);
         }
 
-        $templates = [
-          null => get_string('notemplate', 'mod_verbalfeedback'),
-        ];
+        $templates = [];
         foreach ($templaterepository->get_all() as $t) {
             $templates[$t->get_id()] = format_text($t->get_name());
         }
-
-        // Pop and remove 'No template' to add it later at the end.
-        $notemplateoption = $templates[null];
-        unset($templates[null]);
 
         // Sort alphabetically.
         asort($templates);
 
         // Add 'No template' at the end.
-        $templates[null] = $notemplateoption;
+        $templates[0] = get_string('notemplate', 'mod_verbalfeedback');
 
         $mform->addElement('select', 'template', get_string('template', 'mod_verbalfeedback'), $templates);
         if ($this->_instance) {
             $defaulttemplate = $DB->get_field(tables::INSTANCE_TABLE, 'templateid', ['id' => $this->_instance]);
-            $mform->setDefault('template', $defaulttemplate);
+            $mform->setDefault('template', $defaulttemplate ?: 0);
         }
 
         $mform->disabledIf('template', 'allowchangetemplate', '0');

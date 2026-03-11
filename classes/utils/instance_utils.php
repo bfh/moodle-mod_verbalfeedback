@@ -80,6 +80,20 @@ class instance_utils {
         return context_module::instance($cm->id);
     }
 
+    /**
+     * Returns true if the given instance has submissions, false otherwise.
+     * @param instance|int $instance The verbal feedback activity instance.
+     * @return bool
+     */
+    public static function instance_has_submissions(instance|int $instance): bool {
+        global $DB;
+        if ($instance instanceof instance) {
+            $instanceid = $instance->get_id();
+        } else {
+            $instanceid = $instance;
+        }
+        return $DB->record_exists('verbalfeedback_submission', ['instanceid' => $instanceid]);
+    }
 
     /**
      * This creates new calendar events given as timeopen and timeclose by $verbalfeedback.
