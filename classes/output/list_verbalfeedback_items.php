@@ -119,6 +119,12 @@ class list_verbalfeedback_items implements \renderable, \templatable {
         $instance = $instancerepository->get_by_id($this->verbalfeedbackid);
 
         $data->categories = helper::prepare_items_view($instance->get_categories());
+        $data->templatename = '';
+        if ($instance->get_template_id()) {
+            $templaterepository = new \mod_verbalfeedback\repository\template_repository();
+            $template = $templaterepository->get_by_id($instance->get_template_id());
+            $data->templatename = $template->get_name();
+        }
         return $data;
     }
 }

@@ -916,7 +916,8 @@
         "previewurl": "http://example.org/mod/verbalfeedback/questionnaire.php?instance=2&preview=1",
         "maxgrade": "15.00",
         "cmid": 465,
-        "sesskey": "BABEgbUslM"
+        "sesskey": "BABEgbUslM",
+        "templatename": "Default template"
     }
 }}
 <div class="mod-verbalfeedback-edit-content" data-region="itemlist">
@@ -940,6 +941,12 @@
         </div>
         <div class="d-flex justify-content-between flex-wrap mb-1">
             <div class="d-flex flex-column justify-content-around">
+               {{#templatename}}
+                   {{#str}} templateused, mod_verbalfeedback{{/str}}: {{templatename}}
+               {{/templatename}}
+               {{^templatename}}
+                   {{#str}} notemplateused, mod_verbalfeedback{{/str}}
+               {{/templatename}}
             </div>
             <div>
                 <a class="btn btn-link pr-0" href="{{viewurl}}">{{#str}}
