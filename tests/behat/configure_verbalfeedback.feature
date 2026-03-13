@@ -21,7 +21,7 @@ Feature: Configure a verbal feedback activity
       | student1 | C1     | student        |
 
   @javascript
-  Scenario: Add a verbal feedback to a course without questions
+  Scenario: Add a verbal feedback to a course with template and without questions
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
@@ -31,6 +31,27 @@ Feature: Configure a verbal feedback activity
     And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I follow "Edit verbal feedback items"
     Then I should see "Edit verbal feedback items"
+    And I should see "Template used: Default template"
+    And I should see "The content is relevant, technically correct and supported by arguments."
+
+  @javascript
+  Scenario: Add a verbal feedback to a course without template
+    When I log in as "teacher1"
+    And I am on "Course 1" course homepage with editing mode on
+    And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
+      | Name        | Test verbal feedback             |
+      | Description | Test verbal feedback description |
+      | Template    | No template                      |
+    And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
+    And I follow "Edit verbal feedback items"
+    Then I should see "No template used, please go to the settings to select one."
+    And I navigate to "Settings" in current page administration
+    And I set the field "Template" to "Default template"
+    And I press "Save and display"
+    And I follow "Edit verbal feedback items"
+    Then I should see "Edit verbal feedback items"
+    And I should see "Template used: Default template"
+    And I should see "The content is relevant, technically correct and supported by arguments."
 
   @javascript
   Scenario: Add a verbal feedback to a course using the default template and weight one category with 0 and one criteria with 0
