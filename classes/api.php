@@ -185,17 +185,18 @@ class api {
      *
      * @param int $verbalfeedbackid The verbal feedback instance ID.
      * @param int $currentuserid The current user ID.
-     * @param int $groupid The group id to filter participants by, default 0 (no group filter).
+     * @param array $filter The filter parameters for the participants list.
      * @return array
      * @throws coding_exception
      * @throws dml_exception
      * @throws moodle_exception
      */
-    public static function get_participants($verbalfeedbackid, $currentuserid, $groupid = 0) {
+    public static function get_participants($verbalfeedbackid, $currentuserid, $filter = []) {
         global $DB;
 
         $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
         $context = context_module::instance($cm->id);
+        $groupid = $filter['group'] ?? 0;
 
         $submissioncandidates =
             get_enrolled_users(
@@ -220,8 +221,14 @@ class api {
         $statusrecords = $DB->get_records_sql($userssql, ['instanceid' => $verbalfeedbackid, 'currentuserid' => $currentuserid]);
 
         // Combine sql results and drop current user ($includeself) if necessary.
-        $filtermap = function ($v) use ($currentuserid, $statusrecords) {
+        $filtermap = function ($v) use ($currentuserid, $statusrecords, $filter) {
             if ($v->userid == $currentuserid) {
+                return false;
+            }
+            if (isset($filter['tifirst']) && !empty($filter['tifirst']) && stripos($v->firstname, $filter['tifirst']) !== 0) {
+                return false;
+            }
+            if (isset($filter['tilast']) && !empty($filter['tilast']) && stripos($v->lastname, $filter['tilast']) !== 0) {
                 return false;
             }
             if (isset($statusrecords[$v->userid]->submissionid)) {
@@ -243,11 +250,11 @@ class api {
      *
      * @param int $verbalfeedbackid The verbal feedback instance ID.
      * @param int $fromuserid The user ID of the respondent.
-     * @param int $groupid The group id to filter participants by, default 0 (no group filter).
+     * @param array $filter The filter parameters for the participants list.
      * @throws coding_exception
      * @throws dml_exception
      */
-    public static function generate_verbalfeedback_feedback_states($verbalfeedbackid, $fromuserid, $groupid = 0) {
+    public static function generate_verbalfeedback_feedback_states($verbalfeedbackid, $fromuserid, $filter = []) {
         global $DB;
         $submissionrepo = new submission_repository();
 
@@ -268,6 +275,7 @@ class api {
         $wheres[] = 'u.id <> :fromuser';
         $params['fromuser'] = $fromuserid;
 
+        $groupid = $filter['group'] ?? 0;
         if ($groupid != 0) {
             $cm = get_coursemodule_from_instance(
                 'verbalfeedback',

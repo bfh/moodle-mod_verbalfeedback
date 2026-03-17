@@ -25,6 +25,7 @@ namespace mod_verbalfeedback\output;
 
 use coding_exception;
 use mod_verbalfeedback\api;
+use mod_verbalfeedback\utils\user_utils;
 use moodle_url;
 use renderable;
 use renderer_base;
@@ -115,10 +116,25 @@ class list_participants implements renderable, templatable {
         );
         $data['userselector'] = $userselector->export_for_template($output);
 
+        $initialselector = new \core_course\output\actionbar\initials_selector(
+            course: $this->course,
+            targeturl: '/mod/verbalfeedback/view.php',
+            firstinitial: !empty($this->filter['tifirst']) ? $this->filter['tifirst'] : '',
+            lastinitial: !empty($this->filter['tilast']) ? $this->filter['tilast'] :  '',
+            firstinitialparam: 'tifirst',
+            lastinitialparam: 'tilast',
+            additionalparams: ['id' => $this->cm->id]
+        );
+
+        $data['initialselector'] = $initialselector->export_for_template($output);
+
         if (groups_get_activity_groupmode($this->cm, $this->course)) {
             $gs = new group_selector($PAGE->context, false);
             $data['groupselector'] = $gs->export_for_template($output);
             $PAGE->requires->js_call_amd('core_course/actionbar/group', 'init', [$resetlink->out(false)]);
+        }
+        if (user_utils::can_edit_items($this->verbalfeedback, \context_module::instance($this->cm->id))) {
+            $data['edititems'] = new moodle_url('/mod/verbalfeedback/edit_instance.php', ['id' => $this->cm->id]);
         }
         return $data;
     }
@@ -137,6 +153,7 @@ class list_participants implements renderable, templatable {
         $data = new stdClass();
         $data->verbalfeedbackid = $this->verbalfeedback->id;
         $data->courseid = $this->course->id;
+        $data->cmid = $this->cm->id;
         $data->participants = [];
         $data->canperformactions = $this->isopen;
         foreach ($this->get_action_menu($output) as $key => $value) {

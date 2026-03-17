@@ -87,15 +87,6 @@ if ($release != -1) {
 // Edit items.
 $instanceready = $instancerepository->is_ready($instance->get_id());
 $canedit = user_utils::can_edit_items($instance, $context);
-if ($canedit) {
-    $edititemsurl = new moodle_url('edit_instance.php');
-    $edititemsurl->param('id', $cm->id);
-    echo html_writer::link(
-        $edititemsurl,
-        get_string('edititems', 'verbalfeedback'),
-        ['class' => 'btn btn-primary mr-1']
-    );
-}
 
 // If the user has edit capabilities and the instance is not ready, create the "make available"
 // button or show a warning that the instance has no criteria yet.
@@ -201,9 +192,11 @@ function draw_participants_list(
     $participantslistrenderer
 ) {
     // Filter participants by group if group filter is applied.
-    $groupid = get_current_group($instance);
+    $filter = ['group' => get_current_group($instance)];
+    $filter['tifirst'] = optional_param('tifirst', 0, PARAM_ALPHA);
+    $filter['tilast'] = optional_param('tilast', 0, PARAM_ALPHA);
     // Generate statuses if you can respond to the feedback.
-    \mod_verbalfeedback\api::generate_verbalfeedback_feedback_states($instance->get_id(), $currentuserid, $groupid);
+    \mod_verbalfeedback\api::generate_verbalfeedback_feedback_states($instance->get_id(), $currentuserid, $filter);
     // Check if instance is already open.
     $isopen = $instance->is_open(true);
     if ($isopen !== true) {
@@ -212,8 +205,8 @@ function draw_participants_list(
         // Ensure that $isopen is a boolean. is_open() can return a string in some cases.
         $isopen = false;
     }
-    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid, $groupid);
 
+    $participants = \mod_verbalfeedback\api::get_participants($instance->get_id(), $currentuserid, $filter);
     // Verbalfeedback To-do list.
     if ($canparticipate === true) {
         $participantslist = new list_participants(

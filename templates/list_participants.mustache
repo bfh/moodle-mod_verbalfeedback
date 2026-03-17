@@ -36,6 +36,8 @@
         "verbalfeedbackid": 1,
         "canperformactions": true,
         "courseid": 12,
+        "cmid": 345,
+        "canedititems": true,
         "userselect": "string"
         "participants": [
             {
@@ -76,15 +78,24 @@
                 </div>
                 <div class="navitem-divider"></div>
             {{/groupselector}}
+            {{#initialselector}}
+                <div class="navitem d-flex flex-column align-self-center">
+                    {{>core/comboboxsearch}}
+                </div>
+                <div class="navitem-divider"></div>
+            {{/initialselector}}
             {{#userselector}}
-                <span class="d-none" data-region="courseid" data-courseid="{{courseid}}" aria-hidden="true"></span>
-                <div class="navitem flex-column">
-                    {{#content}}
-                        {{>core/comboboxsearch}}
-                    {{/content}}
+                <div class="navitem">
+                    {{>core/comboboxsearch}}
                 </div>
                 <div class="navitem-divider"></div>
             {{/userselector}}
+            {{#edititems}}
+                <div class="navitem flex-column">
+                    <a href="{{edititems}}" class="btn btn-primary">{{#str}}edititems, verbalfeedback{{/str}}</a>
+                </div>
+                <div class="navitem-divider"></div>
+            {{/edititems}}
         </div>
     </div>
     <div class="row mt-3">
