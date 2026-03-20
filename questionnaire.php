@@ -82,7 +82,7 @@ if ($preview) {
     ];
     $contextheader = $OUTPUT->context_header($userheading, 3);
     $container = html_writer::div($contextheader, 'card-body');
-    echo html_writer::div($container, 'card');
+    echo html_writer::div($container, 'card border-0');
 
     $submission = new submission();
     $submission->set_status(submission_status::IN_PROGRESS);
@@ -141,7 +141,7 @@ if ($preview) {
 
             $contextheader = $OUTPUT->context_header($userheading, 3);
             $container = html_writer::div($contextheader, 'card-body');
-            echo html_writer::div($container, 'card');
+            echo html_writer::div($container, 'card border-0');
         }
 
         // Set status to in progress if pending.

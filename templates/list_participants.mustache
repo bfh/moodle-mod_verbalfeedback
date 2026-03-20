@@ -58,7 +58,7 @@
 }}
 <div class="container-fluid" data-region="participantlist">
     <div class="row mt-3">
-        <table class="flexible generaltable generalbox" id="participants">
+        <table class="flexible generaltable table-reboot generalbox" id="participants">
             <thead>
                 <tr>
                     <th>{{#str}}student, mod_verbalfeedback{{/str}}</th>
@@ -74,11 +74,11 @@
                     </td>
                     <td class="align-middle">
                         <span class="badge
-                            {{#statuspending}}badge-secondary{{/statuspending}}
-                            {{#statusinprogress}}badge-info{{/statusinprogress}}
-                            {{#statusviewonly}}badge-info{{/statusviewonly}}
-                            {{#statuscompleted}}badge-success{{/statuscompleted}}
-                            {{#statusdeclined}}badge-warning{{/statusdeclined}}">
+                            {{#statuspending}}bg-secondary{{/statuspending}}
+                            {{#statusinprogress}}bg-info{{/statusinprogress}}
+                            {{#statusviewonly}}bg-info{{/statusviewonly}}
+                            {{#statuscompleted}}bg-success{{/statuscompleted}}
+                            {{#statusdeclined}}bg-warning{{/statusdeclined}}">
                             {{#statuspending}}{{#str}}statuspending, mod_verbalfeedback{{/str}}{{/statuspending}}
                             {{#statusinprogress}}{{#str}}statusinprogress, mod_verbalfeedback{{/str}}{{/statusinprogress}}
                             {{#statuscompleted}}{{#str}}statuscompleted, mod_verbalfeedback{{/str}}{{/statuscompleted}}
@@ -89,7 +89,7 @@
                     <td class="align-middle">
                         {{#canperformactions}}
                             {{#respondlink}}
-                            <a class="btn btn-link pl-0" href="{{{respondlink}}}" title="{{#str}}providefeedback, mod_verbalfeedback{{/str}}">
+                            <a class="btn btn-link ps-0" href="{{{respondlink}}}" title="{{#str}}providefeedback, mod_verbalfeedback{{/str}}">
                                 {{#pix}} t/editstring, core, {{#str}}providefeedback, mod_verbalfeedback{{/str}} {{/pix}}
                             </a>
                             {{/respondlink}}

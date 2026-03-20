@@ -56,13 +56,13 @@
         ]
     }
 }}
-<div class="card">
+<div class="card border-0">
     <div class="card-body" data-region="status">
         <span class="label {{statusclass}}">{{ status }}</span>
     </div>
 </div>
 
-<div class="mt-3 card">
+<div class="mt-3 card border-0">
     <div class="card-body" data-region="status">
         <div class="mod-verbalfeedback-edit-content" data-region="itemlist">
             <div class="mod-verbalfeedback-edit-top-controls">
@@ -130,7 +130,7 @@
                                         </div>
                                         {{#scales}}
                                             <div class="col-md-1 span1 scaleoption text-center align-items-center">
-                                                <label class="scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                <label class="scaleoptionlabel badge bg-secondary ps-3 pe-3"
                                                        data-value="{{scale}}" tabindex="0"
                                                        for="option-{{id}}-{{scale}}" title="{{description}}"
                                                        aria-label="{{description}}">
@@ -148,10 +148,10 @@
                                                 <div class="col-12 pt-3">
                                                     <div>
                                                         <form class="mform">
-                                                            <div class="form-group">
+                                                            <div class="mb-3">
                                                                 <div class="col-md-3"><h5>{{#str}}detailrating, mod_verbalfeedback{{/str}}</h5></div>
                                                                 <div class="col-md-9"></div>
-                                                                <div class="col-md-12 pl-0">
+                                                                <div class="col-md-12 ps-0">
                                                                     <table id="detail-rating-{{id}}"
                                                                            class="table table-sm table-striped mx-3">
                                                                         <tbody>
@@ -169,7 +169,7 @@
                                                                                                 {{ description }}
                                                                                             </div>
                                                                                             <div class="col-md-1 span1 detail-scaleoption text-center">
-                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                <label class="detail-scaleoptionlabel badge bg-secondary ps-3 pe-3"
                                                                                                        data-value="{{verynegative}}"
                                                                                                        tabindex="0"
                                                                                                        for="detail-option-{{id}}-0"
@@ -178,7 +178,7 @@
                                                                                                 </label>
                                                                                             </div>
                                                                                             <div class="col-md-1 span1 detail-scaleoption text-center">
-                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                <label class="detail-scaleoptionlabel badge bg-secondary ps-3 pe-3"
                                                                                                        data-value="{{negative}}"
                                                                                                        tabindex="0"
                                                                                                        for="detail-option-{{id}}-1"
@@ -187,7 +187,7 @@
                                                                                                 </label>
                                                                                             </div>
                                                                                             <div class="col-md-1 span1 detail-scaleoption text-center">
-                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                <label class="detail-scaleoptionlabel badge bg-secondary ps-3 pe-3"
                                                                                                        data-value="{{positive}}"
                                                                                                        tabindex="0"
                                                                                                        for="detail-option-{{id}}-2"
@@ -196,7 +196,7 @@
                                                                                                 </label>
                                                                                             </div>
                                                                                             <div class="col-md-1 span1 detail-scaleoption text-center">
-                                                                                                <label class="detail-scaleoptionlabel badge badge-secondary pl-3 pr-3"
+                                                                                                <label class="detail-scaleoptionlabel badge bg-secondary ps-3 pe-3"
                                                                                                        data-value="{{verypositive}}"
                                                                                                        tabindex="0"
                                                                                                        for="detail-option-{{id}}-3"
@@ -217,7 +217,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row ml-4 mr-4">
+                                            <div class="row ms-4 me-4">
                                                 <div class="col-12 pt-3">
                                                   <label>{{#str}}studentcomment, mod_verbalfeedback{{/str}}</label>
                                                   <div class="container">
@@ -228,7 +228,7 @@
                                                   </div>
                                                 </div>
                                             </div>
-                                            <div class="row ml-4 mr-4">
+                                            <div class="row ms-4 me-4">
                                               <div class="col-12 pt-3">
                                                 <label>{{#str}}privatecomment, mod_verbalfeedback{{/str}}</label>
                                                 <div class="container">

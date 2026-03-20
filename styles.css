@@ -1,6 +1,6 @@
 /** Choice highlighting **/
 
-.path-mod-verbalfeedback .scaleoptionlabel.badge.badge-success {
+.path-mod-verbalfeedback .scaleoptionlabel.badge.bg-success {
     text-decoration: underline overline;
 }
 
