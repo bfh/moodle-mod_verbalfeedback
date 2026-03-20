@@ -150,13 +150,13 @@ define(['jquery',
                                 // Mark selected option as selected.
                                 let selected = $(this).find('label');
                                 if (selected.data('value') === response.value) {
-                                    selected.removeClass('badge-secondary');
-                                    selected.removeClass('badge-info');
-                                    selected.addClass('badge-success');
+                                    selected.removeClass('bg-secondary');
+                                    selected.removeClass('bg-info');
+                                    selected.addClass('bg-success');
                                 } else if (selected.data('value') === "" && response.value === null) {
-                                    selected.removeClass('badge-secondary');
-                                    selected.removeClass('badge-info');
-                                    selected.addClass('badge-success');
+                                    selected.removeClass('bg-secondary');
+                                    selected.removeClass('bg-info');
+                                    selected.addClass('bg-success');
                                 }
                             });
                         }
@@ -181,9 +181,9 @@ define(['jquery',
 
             // Deselect the option that has been selected.
             $.each(options, function() {
-                if ($(this).hasClass('badge-success')) {
-                    $(this).removeClass('badge-success');
-                    $(this).addClass('badge-secondary');
+                if ($(this).hasClass('bg-success')) {
+                    $(this).removeClass('bg-success');
+                    $(this).addClass('bg-secondary');
 
                     var forId = $(this).attr('for');
                     var optionRadio = $("#" + forId);
@@ -193,9 +193,9 @@ define(['jquery',
 
             // Mark selected option as selected.
             let selected = $(this).find('label');
-            selected.removeClass('badge-secondary');
-            selected.removeClass('badge-info');
-            selected.addClass('badge-success');
+            selected.removeClass('bg-secondary');
+            selected.removeClass('bg-info');
+            selected.addClass('bg-success');
 
             // Mark hidden radio button as checked.
             let radio = $("#" + selected.attr('for'));
@@ -213,13 +213,13 @@ define(['jquery',
         $('.scaleoptionlabel').hover(function(e) {
             e.preventDefault();
 
-            if (!$(this).hasClass('badge-success')) {
-                if ($(this).hasClass('badge-secondary')) {
-                    $(this).removeClass('badge-secondary');
-                    $(this).addClass('badge-info');
+            if (!$(this).hasClass('bg-success')) {
+                if ($(this).hasClass('bg-secondary')) {
+                    $(this).removeClass('bg-secondary');
+                    $(this).addClass('bg-info');
                 } else {
-                    $(this).addClass('badge-secondary');
-                    $(this).removeClass('badge-info');
+                    $(this).addClass('bg-secondary');
+                    $(this).removeClass('bg-info');
                 }
             }
         });
@@ -235,13 +235,13 @@ define(['jquery',
         $('.detail-scaleoptionlabel').hover(function(e) {
             e.preventDefault();
 
-            if (!$(this).hasClass('badge-success')) {
-                if ($(this).hasClass('badge-secondary')) {
-                    $(this).removeClass('badge-secondary');
-                    $(this).addClass('badge-info');
+            if (!$(this).hasClass('bg-success')) {
+                if ($(this).hasClass('bg-secondary')) {
+                    $(this).removeClass('bg-secondary');
+                    $(this).addClass('bg-info');
                 } else {
-                    $(this).addClass('badge-secondary');
-                    $(this).removeClass('badge-info');
+                    $(this).addClass('bg-secondary');
+                    $(this).removeClass('bg-info');
                 }
             }
         });

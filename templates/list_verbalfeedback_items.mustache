@@ -927,13 +927,13 @@
             </div>
             <div class="d-flex flex-column justify-content-around">
                 <div class="maxgrade">
-                    <form method="post" action="edit_instance.php" class="verbalfeedbacksavegradesform form-inline">
-                        <fieldset class="invisiblefieldset">
+                    <form method="post" action="edit_instance.php" class="verbalfeedbacksavegradesform d-flex align-items-center gap-2">
+                        <fieldset class="invisiblefieldset d-flex align-items-center gap-2">
                             <input type="hidden" name="id" value="{{ cmid }}">
                             <input type="hidden" name="sesskey" value="{{ sesskey }}">
                             <label for="inputmaxgrade">{{#str}}grademax, grades{{/str}}</label>
                             <input type="text" id="inputmaxgrade" name="maxgrade" size="4" value="{{ maxgrade }}" class="form-control">
-                            <input type="submit" class="btn btn-primary ml-1" name="savechanges" value="{{#str}}save, core{{/str}}">
+                            <input type="submit" class="btn btn-primary ms-1" name="savechanges" value="{{#str}}save, core{{/str}}">
                         </fieldset>
                     </form>
                 </div>
@@ -949,7 +949,7 @@
                {{/templatename}}
             </div>
             <div>
-                <a class="btn btn-link pr-0" href="{{viewurl}}">{{#str}}
+                <a class="btn btn-link pe-0" href="{{viewurl}}">{{#str}}
                     backtoverbalfeedbackdashboard, mod_verbalfeedback{{/str}}</a>
             </div>
         </div>
@@ -959,28 +959,28 @@
         <div class="d-flex justify-content-between flex-wrap mb-1">
             <div class="mod-verbalfeedback-edit-action-buttons btn-group edit-toolbar" role="group">
                 {{#makeavailableurl}}
-                    <a class="btn btn-secondary mr-1" href="{{{makeavailableurl}}}">{{#str}}makeavailable{{/str}}</a>
+                    <a class="btn btn-secondary me-1" href="{{{makeavailableurl}}}">{{#str}}makeavailable{{/str}}</a>
                 {{/makeavailableurl}}
                 {{#previewurl}}
-                    <a class="btn btn-secondary mr-1" href="{{{previewurl}}}">{{#str}}preview{{/str}}</a>
+                    <a class="btn btn-secondary me-1" href="{{{previewurl}}}">{{#str}}preview{{/str}}</a>
                 {{/previewurl}}
             </div>
-            <div id="percentage-total" class="pt-1 font-weight-bold">
+            <div id="percentage-total" class="pt-1 fw-bold">
                 <span>{{#str}}totalpercentage, mod_verbalfeedback{{/str}}</span>
                 <span id="percentage-total-value"></span>
                 <span>%</span>
             </div>
         </div>
-        <div class="row ml-0 mr-0 mt-3">
-            <!-- classes: flexible generaltable generalbox -->
+        <div class="row ms-0 me-0 mt-3">
+            <!-- classes: flexible generaltable table-reboot generalbox -->
             {{# categories }}
                 <div class="row w-100 mb-3 border-bottom">
-                    <div class="col col-xs-8 col-sm-10 pt-3"><span class="pl-2 bold">{{ header }}</span></div>
+                    <div class="col col-xs-8 col-sm-10 pt-3"><span class="ps-2 bold">{{ header }}</span></div>
                     <div class="col col-xs-4 col-sm-2 align-middle">
                         <b>{{#str}}percentage, mod_verbalfeedback{{/str}}:&nbsp;</b>
-                        <div class="input-group mb-2">
-                            <label for="category-{{id}}-percentage" class="sr-only">{{#str}}percentage, mod_verbalfeedback{{/str}}</label>
-                            <select class="category-percentage custom-select" id="category-{{id}}-percentage"
+                        <div class="mb-2">
+                            <label for="category-{{id}}-percentage" class="visually-hidden">{{#str}}percentage, mod_verbalfeedback{{/str}}</label>
+                            <select class="category-percentage form-select w-100" id="category-{{id}}-percentage"
                                     data-action="change-category-percentage" data-categoryid="{{id}}">
                                 <option value="0.00">0%</option>
                                 <option value="0.05">5%</option>
@@ -1011,13 +1011,13 @@
                 {{# criteria }}
                     <div class="row unselectedrow w-100 mb-2 border-bottom">
                         <div class="col col-xs-8 col-sm-10">
-                            <span class="pl-2">{{ text }}</span>
+                            <span class="ps-2">{{ text }}</span>
                         </div>
                         <div class="col col-xs-4 col-sm-2">
-                            <div class="input-group mb-2">
-                                <label for="item-{{id}}-multiplier" class="sr-only">{{#str}}multiplier, mod_verbalfeedback{{/str}}</label>
+                            <div class="mb-2">
+                                <label for="item-{{id}}-multiplier" class="visually-hidden">{{#str}}multiplier, mod_verbalfeedback{{/str}}</label>
                                 <!-- lang "en" is required because we don't want diffrent floating point separators. -->
-                                <input lang="en" class="form-control w-40 pl-1 pr-1" type="number"
+                                <input lang="en" class="form-control w-40 ps-1 pe-1" type="number"
                                         data-action="change-item-multiplier" id="item-{{id}}-multiplier" data-itemid="{{id}}"
                                         step="0.50" value="{{weight}}" min="0" max="5">
                                 <span class="text-success" style="display: none;">{{#pix }} e/save, core, {{/pix }}</span>

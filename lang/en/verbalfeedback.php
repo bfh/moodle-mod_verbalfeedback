@@ -60,6 +60,7 @@ $string['deletetemplate'] = 'Delete template';
 $string['detailrating'] = 'Detail rating';
 $string['done'] = 'Done';
 $string['download'] = 'Download';
+$string['downloadreport'] = 'Download report';
 $string['downloadreportas'] = 'Download feedback report as...';
 $string['downloadtemplate'] = 'Download template';
 $string['editcategory'] = 'Edit category';
