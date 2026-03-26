@@ -98,7 +98,7 @@ class report_category {
      * @return array<int, report_criterion> The criteria.
      */
     public function get_criteria(): array {
-        return $this->reportcriteria;
+        return $this->reportcriteria ?? [];
     }
 
     /**

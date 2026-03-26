@@ -85,7 +85,7 @@ class instance_repository {
         $dboinstance = api::get_instance($id);
         $instance = db_instance::to_instance($dboinstance);
 
-        $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $id]);
+        $dbocategories = $DB->get_records(tables::INSTANCE_CATEGORY_TABLE, ["instanceid" => $id], 'position');
 
         $criteriabycatid = self::get_criteria_by_category_for_instance_id($id);
         $subratingsbycritid = self::get_subratings_by_criterion_for_instance($id);
@@ -101,7 +101,7 @@ class instance_repository {
             }
 
             // Load category criteria.
-            $criteria = $criteriabycatid[$category->get_id()];
+            $criteria = $criteriabycatid[$category->get_id()] ?? [];
             foreach ($criteria as $criterion) {
                 // Load criterion description.
                 $dbodescriptions = self::get_strings(localized_string_type::INSTANCE_CRITERION, $criterion->get_id(), $id);
@@ -111,7 +111,7 @@ class instance_repository {
                 }
 
                 // Load criterion subratings.
-                $subratings = $subratingsbycritid[$criterion->get_id()];
+                $subratings = $subratingsbycritid[$criterion->get_id()] ?? [];
                 foreach ($subratings as $subrating) {
                     $ratinttypes = [
                         // Load subrating titles (1 title per language).
@@ -311,7 +311,8 @@ class instance_repository {
                     FROM {{$crittab}} crit
                     JOIN {{$cattab}} cat
                         ON crit.categoryid = cat.id
-                    WHERE cat.instanceid = ?";
+                    WHERE cat.instanceid = ?
+                    ORDER BY cat.position, crit.position";
 
             $bycat = [];
             $rs = $DB->get_recordset_sql($sql, [$id]);
