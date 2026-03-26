@@ -42,7 +42,7 @@ $PAGE->set_pagelayout('admin');
 
 echo $OUTPUT->header();
 
-$templates = $templaterepository->get_all();
+$templates = $templaterepository->get_all('name');
 
 $templatedata = new \mod_verbalfeedback\output\template_list($templates);
 
