@@ -97,7 +97,7 @@ class template_criterion_edit_form extends \moodleform {
         $repeatarray[] = $mform->createElement(
             'static',
             'header',
-            '<h4>' . get_string('subrating', 'verbalfeedback') . ' - {no}</h4>',
+            '<h4 class="subrating-header">' . get_string('subrating', 'verbalfeedback') . ' - {no}</h4>',
             ''
         );
         $repeatarray[] = $mform->createElement('hidden', 'subrating_id', 0);
@@ -215,6 +215,16 @@ class template_criterion_edit_form extends \moodleform {
             $repeateloptions['subrating_verypositive_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
         }
 
+        $repeatarray[] = &$mform->createElement(
+            'html',
+            '<div class="mb-3 row fitem subrating-actions">
+                <div class="col-md-3 col-form-label d-flex pb-0 pe-md-0"> </div>
+                <div class="col-md-9 d-flex flex-wrap align-items-start felement">
+                    <button type="button" class="copy-subrating btn btn-secondary mb-3 fitem">' . get_string('subratingcopy', 'verbalfeedback') . '</button>
+                    <button type="button" class="delete-subrating btn btn-secondary mb-3 fitem">' . get_string('subratingdelete', 'verbalfeedback') . '</button>
+                </div>
+            </div>'
+        );
         $repeatno = $this->subratingcount;
         if ($repeatno == 0) {
             $repeatno = 1;
@@ -231,7 +241,7 @@ class template_criterion_edit_form extends \moodleform {
             true
         );
 
-        $this->add_action_buttons($cancel = true);
+        $this->add_action_buttons(true);
     }
 
     /**
@@ -243,5 +253,22 @@ class template_criterion_edit_form extends \moodleform {
      */
     public function validation($data, $files) {
         return [];
+    }
+
+    /**
+     * Displays the form with the required JavaScript.
+     */
+    public function display() {
+        global $OUTPUT;
+        $js = $OUTPUT->render_from_template('mod_verbalfeedback/edit_subrating_js', []);
+
+        parent::display();
+        ?>
+        <script type="text/javascript">
+        /*<![CDATA[*/
+        <?php echo $js; ?>
+        /* ]]>*/
+        </script>
+        <?php
     }
 }

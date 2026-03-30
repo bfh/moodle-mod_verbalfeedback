@@ -75,9 +75,9 @@ class localized_string {
     }
 
     /**
-     * Gets the language.
+     * Gets the language id.
      *
-     * @return language The language.
+     * @return int The language id.
      */
     public function get_language_id(): int {
         return $this->languageid;

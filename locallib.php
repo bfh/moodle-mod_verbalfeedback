@@ -200,8 +200,12 @@ function view_model_to_template_criterion($viewmodel): template_criterion {
         $isemptysubrating = true;
         $subratingmodel = new subrating();
         $subratingmodel->set_id($viewmodel->subrating_id[$i]);
-        if ($subratingmodel->get_id() != 0 || $subratingmodel->get_id() != null) {
+        if (!empty($subratingmodel->get_id())) {
             $isemptysubrating = false;
+            if (is_subrating_empty($viewmodel, $i)) {
+                $subratingmodel->delete();
+                continue;
+            }
         }
 
         foreach ($languagerepository->get_all() as $language) {
@@ -278,6 +282,24 @@ function view_model_to_template_criterion($viewmodel): template_criterion {
         }
     }
     return $templatecriterionmodel;
+}
+
+/**
+ * Checks if a subrating is empty.
+ *
+ * @param object $viewmodel The view model
+ * @param int $index The index of the subrating to check
+ * @return bool True if the subrating is empty, false otherwise
+ */
+function is_subrating_empty($viewmodel, $index): bool {
+    foreach ($viewmodel as $key => $value) {
+        // Check if e.g. subrating_title_en_string contains the current index, then it was set in the form.
+        // Otherwise the value was not set because the field didn't exist in the form.
+        if (str_ends_with($key, '_string') && !key_exists($index, $value)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
