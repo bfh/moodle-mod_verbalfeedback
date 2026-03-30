@@ -40,10 +40,10 @@ class subrating_repository {
                 localized_string_type::TEMPLATE_SUBRATING_VERY_NEGATIVE,
                 localized_string_type::TEMPLATE_SUBRATING_NEGATIVE,
                 localized_string_type::TEMPLATE_SUBRATING_POSITIVE,
-                localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE
+                localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE,
             ];
             foreach ($constants as $constant) {
-                 $DB->delete_records(
+                $DB->delete_records(
                     tables::LOCALIZED_STRING_TABLE,
                     [
                         'foreignkey' => $dbosubrating->id,

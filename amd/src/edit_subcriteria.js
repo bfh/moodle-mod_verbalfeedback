@@ -1,6 +1,27 @@
-(function() {
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Javscript for copying and removing subcriteria form fields.
+ *
+ * @module     mod_verbalfeedback/edit_subcriteria
+ * @copyright  2026 Stephan Robotta <stephan.robotta@bfh.ch>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+export const editSubcriteria = () => {
     const getContainer = e => {
-        const res = {container: null, position: -1};
         while (e) {
             if (e.classList.contains('subrating-actions')) {
                 break;
@@ -26,13 +47,17 @@
 
     const renumberHeadline = () => {
         document.querySelectorAll('h4.subrating-header').forEach(
-            (el, idx) => el.innerHTML = el.innerHTML.replace(/\d+\s*$/, `${++idx}`)
+            (el, idx) => {
+                el.innerHTML = el.innerHTML.replace(/\d+\s*$/, `${++idx}`);
+            }
         );
     };
 
     const delSubrating = event => {
         let container = getContainer(event.target);
-        if (!container) return;
+        if (!container) {
+            return;
+        }
         let t = container;
         while (container) {
             t = container.previousSibling;
@@ -47,7 +72,9 @@
 
     const cpSubrating = event => {
         let container = getContainer(event.target);
-        if (!container) return;
+        if (!container) {
+            return;
+        }
         const no = getNextSequence();
         const btnplus = document.getElementById('fitem_id_subrating_add_fields');
         const nodes = [];
@@ -96,6 +123,7 @@
         });
 
     };
+
     const addEvents = () => {
         document.querySelectorAll('button.copy-subrating').forEach(
             e => e.addEventListener('click', cpSubrating)
@@ -114,4 +142,4 @@
         );
     };
     addEvents();
-})();
+};

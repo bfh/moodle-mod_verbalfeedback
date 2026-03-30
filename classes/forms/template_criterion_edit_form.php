@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class for the verbal feedback template criterion edit form.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_verbalfeedback\forms;
 
 use mod_verbalfeedback\repository\language_repository;
@@ -31,7 +23,11 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * The template criterion edit form
+ * Class for the verbal feedback template criterion edit form.
+ *
+ * @package   mod_verbalfeedback
+ * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class template_criterion_edit_form extends \moodleform {
     /** @var int */
@@ -220,8 +216,12 @@ class template_criterion_edit_form extends \moodleform {
             '<div class="mb-3 row fitem subrating-actions">
                 <div class="col-md-3 col-form-label d-flex pb-0 pe-md-0"> </div>
                 <div class="col-md-9 d-flex flex-wrap align-items-start felement">
-                    <button type="button" class="copy-subrating btn btn-secondary mb-3 fitem">' . get_string('subratingcopy', 'verbalfeedback') . '</button>
-                    <button type="button" class="delete-subrating btn btn-secondary mb-3 fitem">' . get_string('subratingdelete', 'verbalfeedback') . '</button>
+                    <button type="button" class="copy-subrating btn btn-secondary mb-3 fitem">'
+                    . get_string('subratingcopy', 'verbalfeedback')
+                    . '</button>
+                    <button type="button" class="delete-subrating btn btn-secondary mb-3 fitem">'
+                    . get_string('subratingdelete', 'verbalfeedback')
+                    . '</button>
                 </div>
             </div>'
         );
@@ -259,16 +259,9 @@ class template_criterion_edit_form extends \moodleform {
      * Displays the form with the required JavaScript.
      */
     public function display() {
-        global $OUTPUT;
-        $js = $OUTPUT->render_from_template('mod_verbalfeedback/edit_subrating_js', []);
+        global $PAGE;
 
+        $PAGE->requires->js_call_amd('mod_verbalfeedback/edit_subcriteria', 'editSubcriteria');
         parent::display();
-        ?>
-        <script type="text/javascript">
-        /*<![CDATA[*/
-        <?php echo $js; ?>
-        /* ]]>*/
-        </script>
-        <?php
     }
 }
