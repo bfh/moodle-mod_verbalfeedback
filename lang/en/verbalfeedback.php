@@ -155,6 +155,7 @@ $string['privacy:metadata:verbalfeedback_response'] = 'This table stores the res
 $string['privacy:metadata:verbalfeedback_response:value'] = 'The value of the respondent\'s response to the feedback question';
 $string['privacy:metadata:verbalfeedback_submission'] = 'This table stores the information about the statuses of verbal feedback submissions between the participants';
 $string['privacy:metadata:verbalfeedback_submission:fromuserid'] = 'The user ID of the person giving the feedback';
+$string['privacy:metadata:verbalfeedback_submission:id'] = 'The ID of the verbal feedback submission';
 $string['privacy:metadata:verbalfeedback_submission:remarks'] = 'The reason why the respondent declined to give feedback to the feedback recipient';
 $string['privacy:metadata:verbalfeedback_submission:status'] = 'The status of the feedback submission';
 $string['privacy:metadata:verbalfeedback_submission:touserid'] = 'The user ID of the feedback recipient';
