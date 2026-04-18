@@ -12,8 +12,8 @@ Feature: User management in the verbal feedback activity
       | student1 | Student   | One      | student1@example.com |
       | student2 | Student   | Two      | student1@example.com |
     And the following "courses" exist:
-      | fullname | shortname | category |
-      | Course 1 | C1        | 0        |
+      | fullname | shortname | category | groupmode |
+      | Course 1 | C1        | 0        | 1         |
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
@@ -33,6 +33,7 @@ Feature: User management in the verbal feedback activity
       | Name        | Test verbal feedback             |
       | Description | Test verbal feedback description |
       | Template    | Default template                 |
+      | Group mode  | Separate groups                  |
     And I am on "Course 1" course homepage
     And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I follow "Edit verbal feedback items"
@@ -42,12 +43,12 @@ Feature: User management in the verbal feedback activity
     And I click on "Save" "button"
     And I am on the "Test verbal feedback" "verbalfeedback activity" page logged in as teacher1
     And I follow "Make available"
-    And I should see "All participants" in the "Groups" "select"
+    And I confirm "All participants" exists in the "Search groups" search combo box
     And I should see "Student One"
     And I should see "Student Two"
-    When I set the field "Groups" to "Class A"
+    When I click on "Class A" in the "Search groups" search combo box
     Then I should see "Student One"
     And I should not see "Student Two"
-    When I set the field "Groups" to "Class B"
+    And I click on "Class B" in the "Search groups" search combo box
     Then I should not see "Student One"
     And I should see "Student Two"
