@@ -47,10 +47,13 @@ class list_participants implements renderable, templatable {
     /** @var int The user ID of the respondent. */
     protected $userid;
 
+    /** @var int The group ID to filter the list of participants. */
     protected $groupid;
 
+    /** @var stdClass The course instance. */
     protected $course;
 
+    /** @var stdClass The course module instance. */
     protected $cm;
 
     /** @var array The array of participants for the verbalfeedback, excluding the respondent. */
@@ -106,23 +109,24 @@ class list_participants implements renderable, templatable {
         $usersearch = $userid ? fullname(\core_user::get_user($userid)) : optional_param('search', '', PARAM_NOTAGS);
         $resetlink = new moodle_url('/mod/verbalfeedback/view.php', ['id' => $this->cm->id]);
         $groupid = groups_get_course_group($this->course, true);
-        /*
-        $userselector = new user_selector(
-            course: $this->course,
-            resetlink: $resetlink,
-            userid: $userid,
-            groupid: $groupid,
-            usersearch: $usersearch,
-            instanceid: $this->verbalfeedback->id
-        );
-        $data['userselector'] = $userselector->export_for_template($output);
-        */
+        // The following condition is for disabling the user selector for now, as it is not fully working yet.
+        if (false) {
+            $userselector = new user_selector(
+                course: $this->course,
+                resetlink: $resetlink,
+                userid: $userid,
+                groupid: $groupid,
+                usersearch: $usersearch,
+                instanceid: $this->verbalfeedback->id
+            );
+            $data['userselector'] = $userselector->export_for_template($output);
+        }
 
         $initialselector = new \core_course\output\actionbar\initials_selector(
             course: $this->course,
             targeturl: '/mod/verbalfeedback/view.php',
             firstinitial: !empty($this->filter['tifirst']) ? $this->filter['tifirst'] : '',
-            lastinitial: !empty($this->filter['tilast']) ? $this->filter['tilast'] :  '',
+            lastinitial: !empty($this->filter['tilast']) ? $this->filter['tilast'] : '',
             firstinitialparam: 'tifirst',
             lastinitialparam: 'tilast',
             additionalparams: ['id' => $this->cm->id]
@@ -171,8 +175,8 @@ class list_participants implements renderable, templatable {
             $member->userid = $user->userid;
             $member->email = $user->email;
             $member->name = fullname($user, $viewfullnames);
-            $member->link = (new \moodle_url('/user/view.php', ['id' => $member->userid, 'course' => $this->course->id]))->out(false);
-            //$member->picture = $output->user_picture($user, ['size' => 35, 'courseid' => $this->course->id]);
+            $member->link = (new \moodle_url('/user/view.php', ['id' => $member->userid, 'course' => $this->course->id]))
+                ->out(false);
 
             // Status column.
             // By default the user viewing the participants page can respond if there's a submission record.
