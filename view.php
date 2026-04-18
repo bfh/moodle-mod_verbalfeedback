@@ -91,6 +91,13 @@ $canedit = user_utils::can_edit_items($instance, $context);
 // If the user has edit capabilities and the instance is not ready, create the "make available"
 // button or show a warning that the instance has no criteria yet.
 if ($canedit && !$instanceready && !$makeavailable) {
+    $edititemsurl = new moodle_url('edit_instance.php');
+    $edititemsurl->param('id', $cm->id);
+    echo html_writer::link(
+        $edititemsurl,
+        get_string('edititems', 'verbalfeedback'),
+        ['class' => 'btn btn-primary me-1']
+    );
     // Check if we can make the instance available to the respondents.
     if ($instancerepository->has_items($instance->get_id())) {
         $url = $PAGE->url;
