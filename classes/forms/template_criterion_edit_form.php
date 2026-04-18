@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class for the verbal feedback template criterion edit form.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_verbalfeedback\forms;
 
 use mod_verbalfeedback\repository\language_repository;
@@ -31,7 +23,11 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
 /**
- * The template criterion edit form
+ * Class for the verbal feedback template criterion edit form.
+ *
+ * @package   mod_verbalfeedback
+ * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class template_criterion_edit_form extends \moodleform {
     /** @var int */
@@ -97,7 +93,7 @@ class template_criterion_edit_form extends \moodleform {
         $repeatarray[] = $mform->createElement(
             'static',
             'header',
-            '<h4>' . get_string('subrating', 'verbalfeedback') . ' - {no}</h4>',
+            '<h4 class="subrating-header">' . get_string('subrating', 'verbalfeedback') . ' - {no}</h4>',
             ''
         );
         $repeatarray[] = $mform->createElement('hidden', 'subrating_id', 0);
@@ -215,6 +211,20 @@ class template_criterion_edit_form extends \moodleform {
             $repeateloptions['subrating_verypositive_' . $language->get_language() . '_string']['type'] = PARAM_TEXT;
         }
 
+        $repeatarray[] = &$mform->createElement(
+            'html',
+            '<div class="mb-3 row fitem subrating-actions">
+                <div class="col-md-3 col-form-label d-flex pb-0 pe-md-0"> </div>
+                <div class="col-md-9 d-flex flex-wrap align-items-start felement">
+                    <button type="button" class="copy-subrating btn btn-secondary mb-3 fitem">'
+                    . get_string('subratingcopy', 'verbalfeedback')
+                    . '</button>
+                    <button type="button" class="delete-subrating btn btn-secondary mb-3 fitem">'
+                    . get_string('subratingdelete', 'verbalfeedback')
+                    . '</button>
+                </div>
+            </div>'
+        );
         $repeatno = $this->subratingcount;
         if ($repeatno == 0) {
             $repeatno = 1;
@@ -231,7 +241,7 @@ class template_criterion_edit_form extends \moodleform {
             true
         );
 
-        $this->add_action_buttons($cancel = true);
+        $this->add_action_buttons(true);
     }
 
     /**
@@ -243,5 +253,15 @@ class template_criterion_edit_form extends \moodleform {
      */
     public function validation($data, $files) {
         return [];
+    }
+
+    /**
+     * Displays the form with the required JavaScript.
+     */
+    public function display() {
+        global $PAGE;
+
+        $PAGE->requires->js_call_amd('mod_verbalfeedback/edit_subcriteria', 'editSubcriteria');
+        parent::display();
     }
 }

@@ -170,7 +170,7 @@ function draw_view_own_report_button($instanceid, $userid) {
         get_string('viewfeedbackreport', 'verbalfeedback'),
         ['class' => 'btn btn-secondary']
     );
-    echo html_writer::div($feedbackreport, 'text-right');
+    echo html_writer::div($feedbackreport, 'text-end');
 }
 
 /**

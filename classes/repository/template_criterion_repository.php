@@ -264,51 +264,11 @@ class template_criterion_repository {
 
             // Delete subratings.
             $dbosubratings = $DB->get_records(tables::TEMPLATE_SUBRATINGS_TABLE, ['criterionid' => $id]);
+
+            $subratingrepository = new subrating_repository();
             foreach ($dbosubratings as $dbosubrating) {
-                $DB->delete_records(
-                    tables::LOCALIZED_STRING_TABLE,
-                    [
-                        'foreignkey' => $dbosubrating->id,
-                        'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_SUBRATING_TITLE),
-                    ],
-                );
-                $DB->delete_records(
-                    tables::LOCALIZED_STRING_TABLE,
-                    [
-                        'foreignkey' => $dbosubrating->id,
-                        'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_SUBRATING_DESCRIPTION),
-                    ],
-                );
-                $DB->delete_records(
-                    tables::LOCALIZED_STRING_TABLE,
-                    [
-                        'foreignkey' => $dbosubrating->id,
-                        'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_SUBRATING_VERY_NEGATIVE),
-                    ],
-                );
-                $DB->delete_records(
-                    tables::LOCALIZED_STRING_TABLE,
-                    [
-                        'foreignkey' => $dbosubrating->id,
-                        'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_SUBRATING_NEGATIVE),
-                    ],
-                );
-                $DB->delete_records(
-                    tables::LOCALIZED_STRING_TABLE,
-                    [
-                        'foreignkey' => $dbosubrating->id,
-                        'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_SUBRATING_POSITIVE),
-                    ],
-                );
-                $DB->delete_records(
-                    tables::LOCALIZED_STRING_TABLE,
-                    [
-                        'foreignkey' => $dbosubrating->id,
-                        'typeid' => localized_string_type::str2id(localized_string_type::TEMPLATE_SUBRATING_VERY_POSITIVE),
-                    ],
-                );
+                $subratingrepository->delete_by_id($dbosubrating->id);
             }
-            $DB->delete_records(tables::TEMPLATE_SUBRATINGS_TABLE, ['criterionid' => $id]);
 
             // Delete localized strings.
             $DB->delete_records(

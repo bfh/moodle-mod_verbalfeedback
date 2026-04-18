@@ -40,10 +40,7 @@ Feature: Testing overview integration in verbalfeedback activity
   @javascript
   Scenario: The verbalfeedback activity index redirect to the activities overview
     Given the site is running Moodle version 5.0 or higher
-    And the site is running Moodle version 5.0 or lower
-    And I am on "Course 1" course homepage with editing mode on
-    And I add the "Activities" block
-    And I click on "Verbal feedbacks" "link" in the "Activities" "block"
+    When I am on the "C1" "course > activities > verbalfeedback" page logged in as "admin"
     Then I should see "An overview of all activities in the course"
     And I should see "Name" in the "verbalfeedback_overview_collapsible" "region"
     And I should see "Actions" in the "verbalfeedback_overview_collapsible" "region"

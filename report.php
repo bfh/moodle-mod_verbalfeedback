@@ -75,7 +75,7 @@ if ($touserid != 0) {
     ];
 
     $contextheader = $OUTPUT->context_header($userheading, 3);
-    echo html_writer::div($contextheader, 'card card-block p-1');
+    echo html_writer::div($contextheader, 'card card-block border-0 p-1');
 
     // Download format options.
     $downloadformats = [];

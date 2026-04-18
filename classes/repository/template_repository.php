@@ -35,12 +35,13 @@ use mod_verbalfeedback\repository\model\db_template;
 class template_repository {
     /**
      * Gets all the templates within the database.
+     * @param string $orderby The column to order the results by.
      * @return array<int, template> The resulting templates.
      */
-    public function get_all(): array {
+    public function get_all(string $orderby = 'id'): array {
         global $DB;
         $results = [];
-        $dbotemplates = $DB->get_records(tables::TEMPLATE_TABLE);
+        $dbotemplates = $DB->get_records(tables::TEMPLATE_TABLE, null, $orderby);
 
         foreach ($dbotemplates as $dbotemplate) {
             $template = db_template::to_template($dbotemplate);

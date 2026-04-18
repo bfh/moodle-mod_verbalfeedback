@@ -24,6 +24,7 @@
 namespace mod_verbalfeedback\model;
 
 use mod_verbalfeedback\repository\language_repository;
+use mod_verbalfeedback\repository\subrating_repository;
 
 /**
  * The subrating class
@@ -296,5 +297,16 @@ class subrating {
      */
     public function add_verypositive(localized_string $verypositive) {
         $this->verypositives[] = $verypositive;
+    }
+
+    /**
+     * Deletes the subrating instance.
+     */
+    public function delete() {
+        if (empty($this->id)) {
+            return;
+        }
+        $repository = new subrating_repository();
+        $repository->delete_by_id($this->id);
     }
 }
