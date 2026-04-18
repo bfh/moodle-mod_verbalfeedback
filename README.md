@@ -56,6 +56,19 @@ The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
 the latest suppored Moodle version and Z is an incresing number for newer versions
 of the plugin whithin the same Moodle version.
 
+### v5.2-r1
+
+- Support Moodle 5.2.
+- Add missing privacy strings.
+- Enhance participants list towards a modern look with the new search widgets
+  (see also [issue #48](https://github.com/bfh/moodle-mod_verbalfeedback/issues/48)).
+- Improve handling of subratings in criteria. Addresses also
+  [issue #63](https://github.com/bfh/moodle-mod_verbalfeedback/issues/63).
+- Fix [issue #61](https://github.com/bfh/moodle-mod_verbalfeedback/issues/61),
+  sort order of categories and criteria.
+- Sort templates by name in list.
+- Comptibility with Bootstrap 5.
+
 ### v5.1-r3
 
 - Support course overview.
