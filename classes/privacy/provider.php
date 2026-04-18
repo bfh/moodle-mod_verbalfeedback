@@ -71,8 +71,8 @@ class provider implements
         $items->add_database_table(
             'verbalfeedback_response',
             [
-                'instanceid' => 'privacy:metadata:verbalfeedback',
-                'submissionid' => 'privacy:metadata:verbalfeedback_submissionid',
+                'instanceid' => 'privacy:metadata:instanceid',
+                'submissionid' => 'privacy:metadata:verbalfeedback_submission:id',
                 'fromuserid' => 'privacy:metadata:verbalfeedback_submission:fromuserid',
                 'touserid' => 'privacy:metadata:verbalfeedback_submission:touserid',
                 'value' => 'privacy:metadata:verbalfeedback_response:value',
