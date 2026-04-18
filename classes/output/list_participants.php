@@ -106,6 +106,7 @@ class list_participants implements renderable, templatable {
         $usersearch = $userid ? fullname(\core_user::get_user($userid)) : optional_param('search', '', PARAM_NOTAGS);
         $resetlink = new moodle_url('/mod/verbalfeedback/view.php', ['id' => $this->cm->id]);
         $groupid = groups_get_course_group($this->course, true);
+        /*
         $userselector = new user_selector(
             course: $this->course,
             resetlink: $resetlink,
@@ -115,6 +116,7 @@ class list_participants implements renderable, templatable {
             instanceid: $this->verbalfeedback->id
         );
         $data['userselector'] = $userselector->export_for_template($output);
+        */
 
         $initialselector = new \core_course\output\actionbar\initials_selector(
             course: $this->course,
