@@ -22,16 +22,30 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_verbalfeedback\repository\template_repository;
+
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-    $name = 'mod_verbalfeedback/reportimage';
-    $title = get_string('reportimage', 'mod_verbalfeedback', null, true);
-    $description = get_string('reportimage_desc', 'mod_verbalfeedback', null, true);
+    $templaterepository = new template_repository();
+    $templates = [];
+    foreach ($templaterepository->get_all() as $t) {
+        $templates[$t->get_id()] = $t->get_name();
+    }
+    $templates[0] = get_string('notemplate', 'mod_verbalfeedback');
+    $setting = new admin_setting_configselect(
+        'mod_verbalfeedback/defaulttemplate',
+        get_string('defaulttemplate', 'mod_verbalfeedback'),
+        get_string('defaulttemplate_desc', 'mod_verbalfeedback'),
+        '1',
+        $templates
+    );
+    $settings->add($setting);
+
     $setting = new admin_setting_configstoredfile(
-        $name,
-        $title,
-        $description,
+        'mod_verbalfeedback/reportimage',
+        get_string('reportimage', 'mod_verbalfeedback', null, true),
+        get_string('reportimage_desc', 'mod_verbalfeedback', null, true),
         'reportbackgroundimage',
         0,
         [

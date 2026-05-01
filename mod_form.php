@@ -94,6 +94,8 @@ class mod_verbalfeedback_mod_form extends moodleform_mod {
         if ($this->_instance) {
             $defaulttemplate = $DB->get_field(tables::INSTANCE_TABLE, 'templateid', ['id' => $this->_instance]);
             $mform->setDefault('template', $defaulttemplate ?: 0);
+        } else {
+            $mform->setDefault('template', get_config('mod_verbalfeedback', 'defaulttemplate'));
         }
 
         $mform->disabledIf('template', 'allowchangetemplate', '0');
