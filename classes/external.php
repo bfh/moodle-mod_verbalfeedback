@@ -30,6 +30,7 @@ use mod_verbalfeedback\output\list_participants;
 use mod_verbalfeedback\repository\submission_repository;
 
 require_once($CFG->libdir . "/externallib.php");
+require_once($CFG->dirroot . "/user/externallib.php");
 
 /**
  * Class external.
@@ -888,6 +889,50 @@ class mod_verbalfeedback_external extends external_api {
     }
 
     /**
+     * Fetches the plain data for the user selector.
+     *
+     * @param int $verbalfeedbackid The verbal feedback instance ID.
+     * @param int $groupid The group ID if group mode is enabled.
+     * @param int $status The submission status filter.
+     * @return array
+     * @throws coding_exception
+     * @throws dml_exception
+     * @throws invalid_parameter_exception
+     * @throws moodle_exception
+     * @throws restricted_context_exception
+     */
+    public static function data_for_userselector($verbalfeedbackid, $groupid = 0, $status = 0) {
+        global $USER;
+        $warnings = [];
+        $params = external_api::validate_parameters(self::data_for_userselector_parameters(), [
+            'verbalfeedbackid' => $verbalfeedbackid,
+            'groupid' => $groupid,
+            'status' => $status,
+        ]);
+
+        $verbalfeedbackid = $params['verbalfeedbackid'];
+        $coursecm = get_course_and_cm_from_instance($verbalfeedbackid, 'verbalfeedback');
+        $context = context_module::instance($coursecm[1]->id);
+        self::validate_context($context);
+
+        require_capability('mod/verbalfeedback:can_respond', $context);
+
+        $verbalfeedback = api::get_instance($verbalfeedbackid);
+        $filter = [];
+        if ($params['groupid']) {
+            $filter['groupid'] = $params['groupid'];
+        }
+        if ($params['status']) {
+            $filter['status'] = $params['status'];
+        }
+        $participants = api::get_participants($verbalfeedback->id, $USER->id, $filter);
+        foreach (\array_keys($participants) as $id) {
+            $participants[$id]->fullname = $participants[$id]->firstname . ' ' . $participants[$id]->lastname;
+        }
+        return $participants;
+    }
+
+    /**
      * Fetches template data for the list participants the user will provide feedback to.
      *
      * @param int $verbalfeedbackid The verbal feedback instance ID.
@@ -971,6 +1016,43 @@ class mod_verbalfeedback_external extends external_api {
                 'warnings' => new external_warnings(),
             ]
         );
+    }
+
+    /**
+     * Parameter description for data_for_participant_list().
+     *
+     * @return external_function_parameters
+     */
+    public static function data_for_userselector_parameters() {
+        return new external_function_parameters(
+            [
+                'verbalfeedbackid' => new external_value(PARAM_INT, 'The verbal feedback ID.'),
+                'groupid' => new external_value(PARAM_INT, 'The group ID if group mode is enabled.', VALUE_OPTIONAL, 0),
+                'status' => new external_value(PARAM_INT, 'The submission status filter.', VALUE_OPTIONAL, 0),
+            ]
+        );
+    }
+
+    /**
+     * Method results description for data_for_participant_list().
+     *
+     * @return external_description
+     */
+    public static function data_for_userselector_returns() {
+        // Get user description.
+        $userdesc = \core_user_external::user_description();
+        // Unset all the keys that are not returned by the verbal feedback api class.
+        foreach (\array_keys($userdesc->keys) as $prop) {
+            if (!in_array($prop, api::get_fields_for_participants())) {
+                unset($userdesc->keys[$prop]);
+            }
+        }
+        // Add submission fields from the verbal feedback submission record related to the user.
+        $userdesc->keys['submissionid'] = new external_value(PARAM_INT, 'The submission ID if exists.', VALUE_OPTIONAL);
+        $userdesc->keys['submissionstatus'] = new external_value(PARAM_INT, 'The submission status if exists.', VALUE_OPTIONAL);
+        // Add the fullname field.
+        $userdesc->keys['fullname'] = new external_value(PARAM_TEXT, 'The user full name.');
+        return new external_multiple_structure($userdesc);
     }
 
     /**

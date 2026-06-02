@@ -90,7 +90,7 @@ class report implements renderable, templatable {
         $participantslist = [];
         foreach ($participants as $participant) {
             // Module URL.
-            $urlparams = ['instance' => $this->instanceid, 'touser' => $participant->userid];
+            $urlparams = ['instance' => $this->instanceid, 'touser' => $participant->id];
             $linkurl = new moodle_url('/mod/verbalfeedback/report.php', $urlparams);
             // Add module URL (as key) and name (as value) to the activity list array.
             $participantslist[$linkurl->out(false)] = fullname($participant);

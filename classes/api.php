@@ -181,6 +181,26 @@ class api {
     }
 
     /**
+     * Function that retrieves the fields of the user table for the participants list.
+     *
+     * @return array
+     */
+    public static function get_fields_for_participants() {
+        return [
+            'id',
+            'firstname',
+            'lastname',
+            'email',
+            'firstnamephonetic',
+            'lastnamephonetic',
+            'middlename',
+            'alternatename',
+            'picture',
+            'imagealt',
+        ];
+    }
+
+    /**
      * Function that retrieves the participants for the verbal feedback activity.
      *
      * @param int $verbalfeedbackid The verbal feedback instance ID.
@@ -203,26 +223,19 @@ class api {
                 $context,
                 'mod/verbalfeedback:receive_rating', // Capability.
                 $groupid,
-                'u.id AS userid,
-                u.firstname,
-                u.lastname,
-                u.email,
-                u.firstnamephonetic,
-                u.lastnamephonetic,
-                u.middlename,
-                u.alternatename', // Userfields.
+                implode(', ', array_map(fn($field) => "u.$field", self::get_fields_for_participants())), // Fields.
                 'u.lastname, u.firstname', // Order by.
             );
 
         $userssql = "SELECT DISTINCT s.touserid AS touserid, s.id AS submissionid, s.status AS submissionstatus
                      FROM {verbalfeedback_submission} s
                      WHERE s.instanceid = :instanceid AND s.fromuserid = :currentuserid";
-
-        $statusrecords = $DB->get_records_sql($userssql, ['instanceid' => $verbalfeedbackid, 'currentuserid' => $currentuserid]);
+        $sqlparams = ['instanceid' => $verbalfeedbackid, 'currentuserid' => $currentuserid];
+        $statusrecords = $DB->get_records_sql($userssql, $sqlparams);
 
         // Combine sql results and drop current user ($includeself) if necessary.
         $filtermap = function ($v) use ($currentuserid, $statusrecords, $filter) {
-            if ($v->userid == $currentuserid) {
+            if ($v->id == $currentuserid) {
                 return false;
             }
             if (isset($filter['tifirst']) && !empty($filter['tifirst']) && stripos($v->firstname, $filter['tifirst']) !== 0) {
@@ -231,11 +244,17 @@ class api {
             if (isset($filter['tilast']) && !empty($filter['tilast']) && stripos($v->lastname, $filter['tilast']) !== 0) {
                 return false;
             }
-            if (isset($statusrecords[$v->userid]->submissionid)) {
-                $v->submissionid = $statusrecords[$v->userid]->submissionid;
+            if (isset($filter['userid']) && !empty($filter['userid']) && $v->id != $filter['userid']) {
+                return false;
             }
-            if (isset($statusrecords[$v->userid]->submissionstatus)) {
-                $v->submissionstatus = $statusrecords[$v->userid]->submissionstatus;
+            if (isset($statusrecords[$v->id]->submissionid)) {
+                $v->submissionid = $statusrecords[$v->id]->submissionid;
+            }
+            if (isset($statusrecords[$v->id]->submissionstatus)) {
+                $v->submissionstatus = $statusrecords[$v->id]->submissionstatus;
+                if (isset($filter['status']) && $filter['status'] != 0 && $v->submissionstatus != $filter['status']) {
+                    return false;
+                }
             }
             return true;
         };

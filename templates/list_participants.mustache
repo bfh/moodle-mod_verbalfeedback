@@ -90,6 +90,7 @@
                 </div>
                 <div class="navitem-divider"></div>
             {{/userselector}}
+            <div class="dnone statusfilter" data-status="{{statusfilter}}" data-region="statusfilter"></div>
             {{#edititems}}
                 <div class="navitem flex-column">
                     <a href="{{edititems}}" class="btn btn-primary">{{#str}}edititems, verbalfeedback{{/str}}</a>
@@ -99,7 +100,7 @@
         </div>
     </div>
     <div class="row mt-3">
-        <table class="flexible generaltable table-reboot generalbox" id="participants">
+        <table class="flexible table table-striped table-hover table generaltable" id="participants">
             <thead>
                 <tr>
                     <th>{{#str}}firstname, core{{/str}} / {{#str}}lastname, core{{/str}}</th>
@@ -112,7 +113,8 @@
             {{# participants }}
                 <tr class="user unselectedrow">
                     <td class="align-middle">
-                        <a href="{{link}}">{{ name }}</a>
+                        {{{ picture }}}
+                        <a href="{{link}}" class="user-name">{{ name }}</a>
                     </td>
                     <td>
                         {{ email }}

@@ -155,6 +155,15 @@ $functions = [
         'ajax'          => true,
         'loginrequired' => true,
     ],
+    'mod_verbalfeedback_userselector' => [
+        'classname'     => 'mod_verbalfeedback_external',
+        'methodname'    => 'data_for_userselector',
+        'classpath'     => 'mod/verbalfeedback/classes/external.php',
+        'description'   => 'Get data for the list of participants for user selector.',
+        'type'          => 'read',
+        'ajax'          => true,
+        'loginrequired' => true,
+    ],
     'mod_verbalfeedback_save_responses' => [
         'classname'     => 'mod_verbalfeedback_external',
         'methodname'    => 'save_responses',

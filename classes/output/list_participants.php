@@ -27,10 +27,10 @@ use coding_exception;
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\utils\user_utils;
 use moodle_url;
-use renderable;
-use renderer_base;
+use core\output\renderable;
+use core\output\renderer_base;
+use core\output\templatable;
 use stdClass;
-use templatable;
 use core_course\output\actionbar\user_selector;
 use core_course\output\actionbar\group_selector;
 
@@ -107,20 +107,20 @@ class list_participants implements renderable, templatable {
         $data = [];
         $userid = optional_param('userid', null, PARAM_INT);
         $usersearch = $userid ? fullname(\core_user::get_user($userid)) : optional_param('search', '', PARAM_NOTAGS);
+        $status = optional_param('status', null, PARAM_INT);
         $resetlink = new moodle_url('/mod/verbalfeedback/view.php', ['id' => $this->cm->id]);
         $groupid = groups_get_course_group($this->course, true);
-        // The following condition is for disabling the user selector for now, as it is not fully working yet.
-        if (false) {
-            $userselector = new user_selector(
-                course: $this->course,
-                resetlink: $resetlink,
-                userid: $userid,
-                groupid: $groupid,
-                usersearch: $usersearch,
-                instanceid: $this->verbalfeedback->id
-            );
-            $data['userselector'] = $userselector->export_for_template($output);
-        }
+        $userselector = new user_selector(
+            course: $this->course,
+            resetlink: $resetlink,
+            userid: $userid,
+            groupid: $groupid,
+            usersearch: $usersearch,
+            instanceid: $this->verbalfeedback->id
+        );
+        $data['userselector'] = $userselector->export_for_template($output);
+        $PAGE->requires->js_call_amd('mod_verbalfeedback/user', 'init', [$resetlink->out(false)]);
+        $data['statusfilter'] = $status;
 
         $initialselector = new \core_course\output\actionbar\initials_selector(
             course: $this->course,
@@ -172,12 +172,12 @@ class list_participants implements renderable, templatable {
             $member = new stdClass();
 
             // User ID, email and name column.
-            $member->userid = $user->userid;
+            $member->userid = $user->id;
             $member->email = $user->email;
             $member->name = fullname($user, $viewfullnames);
-            $member->link = (new \moodle_url('/user/view.php', ['id' => $member->userid, 'course' => $this->course->id]))
+            $member->link = (new \moodle_url('/user/view.php', ['id' => $user->id, 'course' => $this->course->id]))
                 ->out(false);
-
+            $member->picture = $output->user_picture($user, ['size' => 35, 'courseid' => $this->course->id]);
             // Status column.
             // By default the user viewing the participants page can respond if there's a submission record.
             $canrespond = !empty($user->submissionid);
@@ -216,7 +216,7 @@ class list_participants implements renderable, templatable {
                 $reportslink = new moodle_url('/mod/verbalfeedback/report.php');
                 $reportslink->params([
                     'instance' => $this->verbalfeedback->id,
-                    'touser' => $user->userid,
+                    'touser' => $user->id,
                 ]);
                 $member->reportslink = $reportslink->out();
             }
