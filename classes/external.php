@@ -918,6 +918,10 @@ class mod_verbalfeedback_external extends external_api {
         require_capability('mod/verbalfeedback:can_respond', $context);
 
         $verbalfeedback = api::get_instance($verbalfeedbackid);
+
+        // Use here the filters only that are set via the action bar above the result set. Even though users
+        // are filtered already by some letters, the ajax user search must operate on all possible users
+        // to be able to create a new filtered list on the next page request.
         $filter = [];
         if ($params['groupid']) {
             $filter['groupid'] = $params['groupid'];
@@ -927,7 +931,7 @@ class mod_verbalfeedback_external extends external_api {
         }
         $participants = api::get_participants($verbalfeedback->id, $USER->id, $filter);
         foreach (\array_keys($participants) as $id) {
-            $participants[$id]->fullname = $participants[$id]->firstname . ' ' . $participants[$id]->lastname;
+            $participants[$id]->fullname = fullname($participants[$id]);
         }
         return $participants;
     }

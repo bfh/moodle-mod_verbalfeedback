@@ -183,9 +183,9 @@ class api {
     /**
      * Function that retrieves the fields of the user table for the participants list.
      *
-     * @return array
+     * @return string[] The fields of the user table for the participants list.
      */
-    public static function get_fields_for_participants() {
+    public static function get_fields_for_participants(): array {
         return [
             'id',
             'firstname',
@@ -206,6 +206,7 @@ class api {
      * @param int $verbalfeedbackid The verbal feedback instance ID.
      * @param int $currentuserid The current user ID.
      * @param array $filter The filter parameters for the participants list.
+     *                      Filter parameters can be groupid, tifirst, tilast, userid, status and usersearch.
      * @return array
      * @throws coding_exception
      * @throws dml_exception
@@ -237,6 +238,12 @@ class api {
         $filtermap = function ($v) use ($currentuserid, $statusrecords, $filter) {
             if ($v->id == $currentuserid) {
                 return false;
+            }
+            if (isset($filter['usersearch']) && !empty($filter['usersearch'])) {
+                $fullnamestring = fullname($v);
+                if (stripos($fullnamestring, $filter['usersearch']) === false) {
+                    return false;
+                }
             }
             if (isset($filter['tifirst']) && !empty($filter['tifirst']) && stripos($v->firstname, $filter['tifirst']) !== 0) {
                 return false;
