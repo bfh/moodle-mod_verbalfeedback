@@ -902,8 +902,7 @@ class mod_verbalfeedback_external extends external_api {
      * @throws restricted_context_exception
      */
     public static function data_for_userselector($verbalfeedbackid, $groupid = 0, $status = 0) {
-        global $USER;
-        $warnings = [];
+        global $PAGE, $USER;
         $params = external_api::validate_parameters(self::data_for_userselector_parameters(), [
             'verbalfeedbackid' => $verbalfeedbackid,
             'groupid' => $groupid,
@@ -932,6 +931,9 @@ class mod_verbalfeedback_external extends external_api {
         $participants = api::get_participants($verbalfeedback->id, $USER->id, $filter);
         foreach (\array_keys($participants) as $id) {
             $participants[$id]->fullname = fullname($participants[$id]);
+            $userpicture = new user_picture($participants[$id]);
+            $userpicture->size = 1;
+            $participants[$id]->profileimageurl = $userpicture->get_url($PAGE)->out(false);
         }
         return $participants;
     }
@@ -1054,8 +1056,9 @@ class mod_verbalfeedback_external extends external_api {
         // Add submission fields from the verbal feedback submission record related to the user.
         $userdesc->keys['submissionid'] = new external_value(PARAM_INT, 'The submission ID if exists.', VALUE_OPTIONAL);
         $userdesc->keys['submissionstatus'] = new external_value(PARAM_INT, 'The submission status if exists.', VALUE_OPTIONAL);
-        // Add the fullname field.
+        // Add the fullname field and the profile image URL.
         $userdesc->keys['fullname'] = new external_value(PARAM_TEXT, 'The user full name.');
+        $userdesc->keys['profileimageurl'] = new external_value(PARAM_URL, 'The user profile image URL.', VALUE_OPTIONAL);
         return new external_multiple_structure($userdesc);
     }
 
