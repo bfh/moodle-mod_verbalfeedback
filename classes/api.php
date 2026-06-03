@@ -259,7 +259,7 @@ class api {
             }
             if (isset($statusrecords[$v->id]->submissionstatus)) {
                 $v->submissionstatus = $statusrecords[$v->id]->submissionstatus;
-                if (isset($filter['status']) && $filter['status'] != 0 && $v->submissionstatus != $filter['status']) {
+                if (isset($filter['status']) && $filter['status'] != -1 && $v->submissionstatus != $filter['status']) {
                     return false;
                 }
             }

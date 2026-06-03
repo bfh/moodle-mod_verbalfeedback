@@ -21,14 +21,15 @@ const selectors = {
     component: '.user-search',
     groupid: '[data-region="groupid"]',
     instance: '[data-region="instance"]',
-    status: '[data-region="statusfilter"]',
+    status: '[data-region="statusfilter"] input',
     currentvalue: '[data-region="currentvalue"]',
 };
 
 const component = document.querySelector(selectors.component);
 const groupId = parseInt(component.querySelector(selectors.groupid).dataset.groupid, 10);
 const instanceId = parseInt(component.querySelector(selectors.instance).dataset.instance, 10);
-const statusFilter = parseInt(document.querySelector(selectors.status).dataset.status, 10);
+const statusFilter = parseInt(document.querySelector(selectors.status).value, 10);
+
 /**
  * Allow the user to search for users in the action bar.
  *

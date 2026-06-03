@@ -901,7 +901,7 @@ class mod_verbalfeedback_external extends external_api {
      * @throws moodle_exception
      * @throws restricted_context_exception
      */
-    public static function data_for_userselector($verbalfeedbackid, $groupid = 0, $status = 0) {
+    public static function data_for_userselector($verbalfeedbackid, $groupid = 0, $status = -1) {
         global $PAGE, $USER;
         $params = external_api::validate_parameters(self::data_for_userselector_parameters(), [
             'verbalfeedbackid' => $verbalfeedbackid,
@@ -925,7 +925,7 @@ class mod_verbalfeedback_external extends external_api {
         if ($params['groupid']) {
             $filter['groupid'] = $params['groupid'];
         }
-        if ($params['status']) {
+        if ($params['status'] !== -1) {
             $filter['status'] = $params['status'];
         }
         $participants = api::get_participants($verbalfeedback->id, $USER->id, $filter);

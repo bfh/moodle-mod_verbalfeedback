@@ -107,8 +107,12 @@ class list_participants implements renderable, templatable {
         $data = [];
         $userid = optional_param('userid', null, PARAM_INT);
         $usersearch = $userid ? fullname(\core_user::get_user($userid)) : optional_param('search', '', PARAM_NOTAGS);
-        $status = optional_param('status', null, PARAM_INT);
-        $resetlink = new moodle_url('/mod/verbalfeedback/view.php', ['id' => $this->cm->id]);
+        $statusvalue = optional_param('status', -1, PARAM_INT);
+        $resetparameters = ['id' => $this->cm->id];
+        if ($statusvalue !== -1) {
+            $resetparameters['status'] = $statusvalue;
+        }
+        $resetlink = new moodle_url('/mod/verbalfeedback/view.php', $resetparameters);
         $groupid = groups_get_course_group($this->course, true);
         $userselector = new user_selector(
             course: $this->course,
@@ -120,7 +124,6 @@ class list_participants implements renderable, templatable {
         );
         $data['userselector'] = $userselector->export_for_template($output);
         $PAGE->requires->js_call_amd('mod_verbalfeedback/user', 'init', [$resetlink->out(false)]);
-        $data['statusfilter'] = $status;
 
         $initialselector = new \core_course\output\actionbar\initials_selector(
             course: $this->course,
@@ -129,7 +132,7 @@ class list_participants implements renderable, templatable {
             lastinitial: !empty($this->filter['tilast']) ? $this->filter['tilast'] : '',
             firstinitialparam: 'tifirst',
             lastinitialparam: 'tilast',
-            additionalparams: ['id' => $this->cm->id]
+            additionalparams: $resetparameters
         );
 
         $data['initialselector'] = $initialselector->export_for_template($output);
@@ -142,6 +145,21 @@ class list_participants implements renderable, templatable {
         if (user_utils::can_edit_items($this->verbalfeedback, \context_module::instance($this->cm->id))) {
             $data['edititems'] = new moodle_url('/mod/verbalfeedback/edit_instance.php', ['id' => $this->cm->id]);
         }
+
+        $statusselect = new \core\output\select_menu(
+            'status',
+            [
+                '-1' => get_string('all'),
+                api::STATUS_PENDING => get_string('statuspending', 'mod_verbalfeedback'),
+                api::STATUS_IN_PROGRESS => get_string('statusinprogress', 'mod_verbalfeedback'),
+                api::STATUS_COMPLETE => get_string('statuscompleted', 'mod_verbalfeedback'),
+                api::STATUS_DECLINED => get_string('statusdeclined', 'mod_verbalfeedback'),
+            ],
+            $statusvalue,
+            true
+        );
+        $statusselect->set_label(get_string('status', 'mod_verbalfeedback'), [], true);
+        $data['statusselector'] = $statusselect->export_for_template($output);
         return $data;
     }
 

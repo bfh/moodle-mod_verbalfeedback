@@ -90,7 +90,22 @@
                 </div>
                 <div class="navitem-divider"></div>
             {{/userselector}}
-            <div class="dnone statusfilter" data-status="{{statusfilter}}" data-region="statusfilter"></div>
+            {{#statusselector}}
+                <div class="navitem" data-region="statusfilter">
+                    {{>core/select_menu}}
+                </div>
+                <div class="navitem-divider d-none d-sm-flex"></div>
+                {{#js}}
+                    document.querySelector('#{{baseid}}').addEventListener('change', function(e) {
+                        const loc = window.location.href;
+                        if (loc.match(/\bstatus=/)) {
+                            window.location.href = loc.replace(/\bstatus=(\-?\d+)/, 'status=' + e.target.value);
+                        } else {
+                            window.location.href += (loc.indexOf('?') === -1 ? '?' : '&') + 'status=' + e.target.value;
+                        }
+                    });
+                {{/js}}
+            {{/statusselector}}
             {{#edititems}}
                 <div class="navitem flex-column align-self-center">
                     <a href="{{edititems}}" class="btn btn-primary">{{#str}}edititems, verbalfeedback{{/str}}</a>

@@ -204,6 +204,7 @@ function draw_participants_list(
     $filter['tilast'] = optional_param('tilast', 0, PARAM_ALPHA);
     $filter['userid'] = optional_param('userid', 0, PARAM_INT);
     $filter['usersearch'] = optional_param('search', '', PARAM_TEXT);
+    $filter['status'] = optional_param('status', -1, PARAM_INT);
     // Generate statuses if you can respond to the feedback.
     \mod_verbalfeedback\api::generate_verbalfeedback_feedback_states($instance->get_id(), $currentuserid, $filter);
     // Check if instance is already open.
