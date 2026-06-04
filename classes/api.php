@@ -25,11 +25,11 @@
 namespace mod_verbalfeedback;
 
 use coding_exception;
-use context_course;
 use context_module;
 use dml_exception;
 use Exception;
 use moodle_exception;
+use mod_verbalfeedback\model\instance;
 use mod_verbalfeedback\model\response;
 use mod_verbalfeedback\model\submission;
 use mod_verbalfeedback\model\submission_status;
@@ -496,7 +496,8 @@ class api {
     public static function count_users_awaiting_feedback($verbalfeedbackid, $user) {
         global $DB;
 
-        $verbalfeedback = self::get_instance($verbalfeedbackid);
+        $record = self::get_instance($verbalfeedbackid);
+        $verbalfeedback = instance::from_record($record);
 
         // Check first if the user can write feedback to other participants.
         if (user_utils::can_respond($verbalfeedback, $user) === true) {

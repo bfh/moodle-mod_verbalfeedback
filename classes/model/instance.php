@@ -215,6 +215,32 @@ class instance {
     }
 
     /**
+     * Build a verbal feedback instance from a DB record.
+     * @param \stdClass $record The DB record.
+     * @return instance The verbal feedback instance.
+     */
+    public static function from_record(\stdClass $record): instance {
+        $instance = new instance(
+            $record->course,
+            $record->id,
+            $record->name,
+            $record->intro,
+            $record->introformat,
+            $record->grade,
+            0,
+            0,
+            $record->status,
+            $record->timeopen,
+            $record->timeclose,
+            $record->timemodified,
+            $record->releasetype,
+            $record->released
+        );
+        $instance->set_template_id($record->templateid);
+        return $instance;
+    }
+
+    /**
      * Gets the id.
      *
      * @return int The id.
