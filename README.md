@@ -3,7 +3,7 @@
 [![GitHub
 Release](https://img.shields.io/github/release/bfh/moodle-mod_verbalfeedback.svg)](https://github.com/bfh/moodle-mod_verbalfeedback/releases)
 [![PHP Support](https://img.shields.io/badge/php-8.2--8.4-blue)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
-[![Moodle Support](https://img.shields.io/badge/Moodle-4.5--5.1-orange)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
+[![Moodle Support](https://img.shields.io/badge/Moodle-4.5--5.2-orange)](https://github.com/bfh/moodle-mod_verbalfeedback/actions)
 [![License GPL-3.0](https://img.shields.io/github/license/bfh/moodle-mod_verbalfeedback?color=lightgrey)](https://github.com/bfh/moodle-mod_verbalfeedback/blob/main/LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/bfh/moodle-mod_verbalfeedback)](https://github.com/bfh/moodle-mod_verbalfeedback/graphs/contributors)
 
@@ -55,6 +55,15 @@ https://github.com/bfh/moodle-mod_verbalfeedback
 The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
 the latest suppored Moodle version and Z is an incresing number for newer versions
 of the plugin whithin the same Moodle version.
+
+### v5.2-r2
+
+- The participants list now looks more in the Moodle style. The user contains
+  the user thumbnail or initials. The standard Moodle table styling is used.
+  Furthermore, the participants can be filtered via a custom user search, and
+  the status of the feedback.
+- New setting for the default template that is preselected when a new verbal
+  feedback instance is created.
 
 ### v5.2-r1
 
