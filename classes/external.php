@@ -1195,52 +1195,57 @@ class mod_verbalfeedback_external extends external_api {
      * @throws restricted_context_exception
      */
     public static function get_responses($verbalfeedbackid, $fromuserid, $touserid, $submissionid) {
+        global $USER;
         $warnings = [];
 
         $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
         $cmid = $cm->id;
         $context = context_module::instance($cmid);
         self::validate_context($context);
-
+        $canviewallreports = has_capability('mod/verbalfeedback:view_all_reports', $context);
         if (
-            has_capability('mod/verbalfeedback:view_all_reports', $context) ||
-            has_capability('mod/verbalfeedback:receive_rating', $context)
+            $canviewallreports === false &&
+            (!has_capability('mod/verbalfeedback:receive_rating', $context) || $touserid !== (int)$USER->id)
         ) {
-            $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
-            $redirecturl->param('id', $cmid);
-
-            $params = external_api::validate_parameters(self::get_responses_parameters(), [
-                'verbalfeedbackid' => $verbalfeedbackid,
-                'fromuserid' => $fromuserid,
-                'touserid' => $touserid,
-                'submissionid' => $submissionid,
-            ]);
-
-            $verbalfeedbackid = $params['verbalfeedbackid'];
-            $fromuserid = $params['fromuserid'];
-            $touserid = $params['touserid'];
-            $submissionid = $params['submissionid'];
-
-            $submissionrepo = new submission_repository();
-            $submission = $submissionrepo->get_by_id($submissionid);
-
-            $responses = [];
-            foreach ($submission->get_responses() as $response) {
-                $viewmodel = [];
-                $viewmodel['id'] = $response->get_id();
-                $viewmodel['criterionid'] = $response->get_criterion_id();
-                $viewmodel['value'] = $response->get_value();
-                $viewmodel['studentcomment'] = $response->get_student_comment();
-                $viewmodel['privatecomment'] = $response->get_private_comment();
-                $responses[] = $viewmodel;
-            }
-
-            return [
-                'responses' => $responses,
-                'redirurl' => $redirecturl->out(),
-                'warnings' => $warnings,
-            ];
+            throw new moodle_exception('nopermissions', 'error');
         }
+        $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
+        $redirecturl->param('id', $cmid);
+
+        $params = external_api::validate_parameters(self::get_responses_parameters(), [
+            'verbalfeedbackid' => $verbalfeedbackid,
+            'fromuserid' => $fromuserid,
+            'touserid' => $touserid,
+            'submissionid' => $submissionid,
+        ]);
+
+        $verbalfeedbackid = $params['verbalfeedbackid'];
+        $fromuserid = $params['fromuserid'];
+        $touserid = $params['touserid'];
+        $submissionid = $params['submissionid'];
+        $submissionrepo = new submission_repository();
+        $submission = $submissionrepo->get_by_id($submissionid);
+        // Sanity check: if the submission id does not belong to the given verbal feedback id, throw an exception.
+        if ($submission->instanceid !== $verbalfeedbackid) {
+            throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
+        }
+
+        $responses = [];
+        foreach ($submission->get_responses() as $response) {
+            $viewmodel = [];
+            $viewmodel['id'] = $response->get_id();
+            $viewmodel['criterionid'] = $response->get_criterion_id();
+            $viewmodel['value'] = $response->get_value();
+            $viewmodel['studentcomment'] = $response->get_student_comment();
+            $viewmodel['privatecomment'] = ($canviewallreports) ? $response->get_private_comment() : null;
+            $responses[] = $viewmodel;
+        }
+
+        return [
+            'responses' => $responses,
+            'redirurl' => $redirecturl->out(),
+            'warnings' => $warnings,
+        ];
     }
 
     /**

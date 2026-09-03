@@ -106,6 +106,7 @@ $string['instancenotready'] = 'Click the "Make available" button to release the 
 $string['instancenotreadystudents'] = 'The verbal feedback activity is not yet ready. Please try again later.';
 $string['instancenotyetopen'] = 'The verbal feedback activity is not yet open.';
 $string['instancenowready'] = 'The verbal feedback activity is now ready for use by the participants!';
+$string['invalididprovided'] = 'Invalid data provided';
 $string['languageplural'] = 'Languages';
 $string['listcategories'] = 'List categories';
 $string['listcriteria'] = 'List criteria';
