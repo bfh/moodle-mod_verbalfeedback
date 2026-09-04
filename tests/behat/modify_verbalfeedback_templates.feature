@@ -17,7 +17,7 @@ Feature: Modify a verbal feedback activity template
 
   @javascript
   Scenario: Edit a verbal feedback activity template
-    When I log in as "teacher1"
+    When I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
     And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
       | Name                  | Test verbal feedback             |
@@ -34,7 +34,7 @@ Feature: Modify a verbal feedback activity template
 
   @javascript
   Scenario: Delete a verbal feedback activity template
-    When I log in as "teacher1"
+    When I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
     And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
       | Name                  | Test verbal feedback             |
@@ -50,7 +50,7 @@ Feature: Modify a verbal feedback activity template
 
   @javascript
   Scenario: Delete a verbal feedback activity category template
-    When I log in as "teacher1"
+    When I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
     And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
       | Name                  | Test verbal feedback             |
@@ -67,7 +67,7 @@ Feature: Modify a verbal feedback activity template
 
   @javascript
   Scenario: Delete a verbal feedback activity criteria template
-    When I log in as "teacher1"
+    When I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
     And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
       | Name                  | Test verbal feedback             |
@@ -84,7 +84,7 @@ Feature: Modify a verbal feedback activity template
 
   @javascript
   Scenario: Delete a verbal feedback activity language
-    When I log in as "teacher1"
+    When I log in as "admin"
     And I am on "Course 1" course homepage with editing mode on
     And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
       | Name                  | Test verbal feedback             |

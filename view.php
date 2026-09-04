@@ -87,7 +87,6 @@ if ($release != -1) {
 // Edit items.
 $instanceready = $instancerepository->is_ready($instance->get_id());
 $canedit = user_utils::can_edit_items($instance, $context);
-
 // If the user has edit capabilities and the instance is not ready, create the "make available"
 // button or show a warning that the instance has no criteria yet.
 if ($canedit && !$instanceready && !$makeavailable) {

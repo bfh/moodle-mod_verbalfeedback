@@ -22,11 +22,14 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\context\system as context_system;
 use mod_verbalfeedback\repository\template_repository;
 
 require_once(__DIR__ . '/../../config.php');
 
 require_login();
+$context = context_system::instance();
+require_capability('mod/verbalfeedback:managetemplates', $context);
 
 $templaterepository = new template_repository();
 
@@ -35,7 +38,7 @@ $strverbalfeedbacks = get_string('modulenameplural', 'verbalfeedback');
 
 $pageurl = new moodle_url('/mod/verbalfeedback/template_list.php');
 $PAGE->set_url($pageurl);
-$PAGE->set_context(context_system::instance());
+$PAGE->set_context($context);
 $PAGE->set_title(get_string('verbalfeedbacktemplates', 'verbalfeedback'));
 $PAGE->set_heading(get_string('verbalfeedbacktemplates', 'verbalfeedback'));
 $PAGE->set_pagelayout('admin');

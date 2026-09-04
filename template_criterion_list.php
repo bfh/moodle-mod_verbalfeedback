@@ -22,18 +22,21 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\context\system as context_system;
 use mod_verbalfeedback\repository\template_criterion_repository;
 
 require_once(__DIR__ . '/../../config.php');
 
 require_login();
+$context = context_system::instance();
+require_capability('mod/verbalfeedback:managetemplates', $context);
 
 $strverbalfeedback = get_string('modulename', 'verbalfeedback');
 $strverbalfeedbacks = get_string('modulenameplural', 'verbalfeedback');
 
 $pageurl = new moodle_url('/mod/verbalfeedback/template_criterion_list.php');
 $PAGE->set_url($pageurl);
-$PAGE->set_context(context_system::instance());
+$PAGE->set_context($context);
 $PAGE->set_title(get_string('listcriteria', 'verbalfeedback'));
 $PAGE->set_heading(get_string('listcriteria', 'verbalfeedback'));
 $PAGE->set_pagelayout('admin');
@@ -48,6 +51,5 @@ $templatecriteriadata = new \mod_verbalfeedback\output\template_criterion_list($
 $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 
 echo $renderer->render($templatecriteriadata);
-
 
 echo $OUTPUT->footer();

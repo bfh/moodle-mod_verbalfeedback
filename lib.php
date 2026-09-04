@@ -666,9 +666,9 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
  * @param navigation_node $navigationnode The node to add module settings to
  */
 function verbalfeedback_extend_settings_navigation(settings_navigation $settings, navigation_node $navigationnode) {
-    global $PAGE;
+    global $USER;
 
-    if (!$context = context_module::instance($PAGE->cm->id, IGNORE_MISSING)) {
+    if (!$context = context_user::instance($USER->id, IGNORE_MISSING)) {
         throw new moodle_exception('badcontext');
     }
 

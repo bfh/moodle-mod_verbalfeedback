@@ -1133,6 +1133,12 @@ class mod_verbalfeedback_external extends external_api {
         $touserid = $params['touserid'];
         $responses = $params['responses'];
         $complete = $params['complete'];
+        $submissionrepo = new submission_repository();
+        $submission = $submissionrepo->get_by_id($submissionid);
+        // Sanity check: if the submission id does not belong to the given verbal feedback id, throw an exception.
+        if ($submission->instanceid !== $verbalfeedbackid) {
+            throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
+        }
 
         $result = api::save_responses($verbalfeedbackid, $submissionid, $touserid, $responses);
 

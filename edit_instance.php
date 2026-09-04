@@ -47,12 +47,16 @@ if (!$course = $DB->get_record("course", ["id" => $cm->course])) {
     throw new moodle_exception('coursemisconf');
 }
 
-require_login($course, true, $cm);
-
 $instancerepository = new instance_repository();
-
 if (!$instance = $instancerepository->get_by_id($cm->instance)) {
     throw new moodle_exception('errorverbalfeedbacknotfound', 'mod_verbalfeedback', $viewurl);
+}
+
+require_login($course, true, $cm);
+// Check capability to edit items.
+$context = context_module::instance($cm->id);
+if (!\mod_verbalfeedback\utils\user_utils::can_edit_items($instance->get_id(), $context)) {
+    throw new moodle_exception('nocaptoedititems', 'mod_verbalfeedback', $viewurl);
 }
 
 if (optional_param('savechanges', false, PARAM_BOOL) && confirm_sesskey()) {
@@ -66,12 +70,6 @@ if (optional_param('savechanges', false, PARAM_BOOL) && confirm_sesskey()) {
     }
 
     redirect(new moodle_url('/mod/verbalfeedback/edit_instance.php', ['id' => $cmid]));
-}
-
-// Check capability to edit items.
-$context = context_module::instance($cm->id);
-if (!\mod_verbalfeedback\utils\user_utils::can_edit_items($instance->get_id(), $context)) {
-    throw new moodle_exception('nocaptoedititems', 'mod_verbalfeedback', $viewurl);
 }
 
 $question = '';

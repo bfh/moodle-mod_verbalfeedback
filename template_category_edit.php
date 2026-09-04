@@ -29,11 +29,12 @@ use mod_verbalfeedback\repository\template_category_repository;
 require_once(__DIR__ . '/../../config.php');
 
 require_once($CFG->dirroot . '/mod/verbalfeedback/lib.php');
-
 // Require own locallib.php.
 require_once($CFG->dirroot . '/mod/verbalfeedback/locallib.php');
 
 require_login();
+$context = context_system::instance();
+require_capability('mod/verbalfeedback:managetemplates', $context);
 
 $id = optional_param('id', 0, PARAM_INT);
 
@@ -48,7 +49,7 @@ if ($id) {
     $pageurl->param('id', $id);
 }
 $PAGE->set_url($pageurl);
-$PAGE->set_context(context_system::instance());
+$PAGE->set_context($context);
 $PAGE->set_title('Verbalfeedback settings');
 $PAGE->set_heading(get_string('editcategory', 'verbalfeedback'));
 $PAGE->set_pagelayout('admin');
