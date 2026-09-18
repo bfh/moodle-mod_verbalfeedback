@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 use mod_verbalfeedback\api;
+use mod_verbalfeedback\model\submission;
 use mod_verbalfeedback\model\submission_status;
 use mod_verbalfeedback\output\list_participants;
 use mod_verbalfeedback\repository\submission_repository;
@@ -710,7 +711,6 @@ class mod_verbalfeedback_external extends external_api {
         $cmid = $cm->id;
         $context = context_module::instance($cmid);
         self::validate_context($context);
-
         require_capability('mod/verbalfeedback:edititems', $context);
 
         $result = api::move_item_up($id);
@@ -775,7 +775,6 @@ class mod_verbalfeedback_external extends external_api {
         $cmid = $cm->id;
         $context = context_module::instance($cmid);
         self::validate_context($context);
-
         require_capability('mod/verbalfeedback:edititems', $context);
 
         $result = api::move_item_down($id);
@@ -913,7 +912,6 @@ class mod_verbalfeedback_external extends external_api {
         $coursecm = get_course_and_cm_from_instance($verbalfeedbackid, 'verbalfeedback');
         $context = context_module::instance($coursecm[1]->id);
         self::validate_context($context);
-
         require_capability('mod/verbalfeedback:can_respond', $context);
 
         $verbalfeedback = api::get_instance($verbalfeedbackid);
@@ -960,7 +958,6 @@ class mod_verbalfeedback_external extends external_api {
         $coursecm = get_course_and_cm_from_instance($verbalfeedbackid, 'verbalfeedback');
         $context = context_module::instance($coursecm[1]->id);
         self::validate_context($context);
-
         require_capability('mod/verbalfeedback:can_respond', $context);
 
         $renderer = $PAGE->get_renderer('mod_verbalfeedback');
@@ -1133,12 +1130,7 @@ class mod_verbalfeedback_external extends external_api {
         $touserid = $params['touserid'];
         $responses = $params['responses'];
         $complete = $params['complete'];
-        $submissionrepo = new submission_repository();
-        $submission = $submissionrepo->get_by_id($submissionid);
-        // Sanity check: if the submission id does not belong to the given verbal feedback id, throw an exception.
-        if ($submission->instanceid !== $verbalfeedbackid) {
-            throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
-        }
+        $submission = self::get_verified_submission_by_id($submissionid, $verbalfeedbackid);
 
         $result = api::save_responses($verbalfeedbackid, $submissionid, $touserid, $responses);
 
@@ -1229,12 +1221,7 @@ class mod_verbalfeedback_external extends external_api {
         $fromuserid = $params['fromuserid'];
         $touserid = $params['touserid'];
         $submissionid = $params['submissionid'];
-        $submissionrepo = new submission_repository();
-        $submission = $submissionrepo->get_by_id($submissionid);
-        // Sanity check: if the submission id does not belong to the given verbal feedback id, throw an exception.
-        if ($submission->instanceid !== $verbalfeedbackid) {
-            throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
-        }
+        $submission = self::get_verified_submission_by_id($submissionid, $verbalfeedbackid);
 
         $responses = [];
         foreach ($submission->get_responses() as $response) {
@@ -1276,5 +1263,24 @@ class mod_verbalfeedback_external extends external_api {
                 'warnings' => new external_warnings(),
             ]
         );
+    }
+
+    /**
+     * Get a verified submission by its ID and check whether it belongs to the given verbal feedback ID.
+     * If not, throw an exception.
+     *
+     * @param int $submissionid The submission ID.
+     * @param int $verbalfeedbackid The verbal feedback ID.
+     * @return submission The verified submission.
+     * @throws moodle_exception If the submission is not found or does not belong to the given verbal feedback.
+     */
+    private static function get_verified_submission_by_id($submissionid, $verbalfeedbackid): submission {
+        $submissionrepo = new submission_repository();
+        $submission = $submissionrepo->get_by_id($submissionid);
+        // Sanity check: if the submission id does not belong to the given verbal feedback id, throw an exception.
+        if ($submission === null || $submission->instanceid !== $verbalfeedbackid) {
+            throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
+        }
+        return $submission;
     }
 }
