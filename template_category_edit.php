@@ -33,8 +33,7 @@ require_once($CFG->dirroot . '/mod/verbalfeedback/lib.php');
 require_once($CFG->dirroot . '/mod/verbalfeedback/locallib.php');
 
 require_login();
-$context = context_system::instance();
-require_capability('mod/verbalfeedback:managetemplates', $context);
+require_capability('mod/verbalfeedback:managetemplates', context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
 
@@ -49,7 +48,7 @@ if ($id) {
     $pageurl->param('id', $id);
 }
 $PAGE->set_url($pageurl);
-$PAGE->set_context($context);
+$PAGE->set_context(context_system::instance());
 $PAGE->set_title('Verbalfeedback settings');
 $PAGE->set_heading(get_string('editcategory', 'verbalfeedback'));
 $PAGE->set_pagelayout('admin');

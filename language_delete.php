@@ -27,6 +27,7 @@ use mod_verbalfeedback\repository\language_repository;
 
 require_once(__DIR__ . '/../../config.php');
 require_login();
+require_capability('mod/verbalfeedback:managetemplates', context_system::instance());
 
 $id = required_param('id', PARAM_INT);
 

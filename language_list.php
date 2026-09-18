@@ -27,6 +27,7 @@ use mod_verbalfeedback\repository\language_repository;
 require_once(__DIR__ . '/../../config.php');
 
 require_login();
+require_capability('mod/verbalfeedback:managetemplates', context_system::instance());
 
 $strverbalfeedback = get_string('modulename', 'verbalfeedback');
 $strverbalfeedbacks = get_string('modulenameplural', 'verbalfeedback');
