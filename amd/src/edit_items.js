@@ -48,16 +48,16 @@ define([
         $('.category-percentage').each(function() {
             sum += parseFloat($(this).val());
         });
+        sum = parseFloat(sum.toFixed(2));
 
-        if (sum != 1) {
+        if (sum !== 1.00) {
             $('.category-percentage').addClass('is-invalid');
             $('#percentage-total').addClass('text-danger');
-            $('#percentage-total-value').text(parseFloat(sum * 100).toFixed(2));
         } else {
             $('.category-percentage').removeClass('is-invalid');
             $('#percentage-total').removeClass('text-danger');
-            $('#percentage-total-value').text(parseFloat(sum * 100).toFixed(2));
         }
+        $('#percentage-total-value').text(parseFloat(sum * 100).toFixed(2));
     };
 
     editItems.callCategoryAction = function(action, elem) {
