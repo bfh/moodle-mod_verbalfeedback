@@ -79,7 +79,8 @@ class submission_repository {
      */
     public function delete_by_id(int $id): bool {
         global $DB;
-        return $DB->delete_records(tables::LANGUAGE_TABLE, ['id' => $id]);
+        $DB->delete_records(tables::RESPONSE_TABLE, ['submissionid' => $id]);
+        return $DB->delete_records(tables::SUBMISSION_TABLE, ['id' => $id]);
     }
 
     /**
