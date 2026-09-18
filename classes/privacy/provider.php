@@ -495,8 +495,8 @@ class provider implements
         $userids = $userlist->get_userids();
         [$usersql, $userparams] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
 
-        $fromselect = "verbalfeedback = :verbalfeedback AND fromuserid $usersql";
-        $toselect = "verbalfeedback = :verbalfeedback AND touserid $usersql";
+        $fromselect = "instanceid = :verbalfeedback AND fromuserid $usersql";
+        $toselect = "instanceid = :verbalfeedback AND touserid $usersql";
         $params = ['verbalfeedback' => $cm->instance] + $userparams;
         $DB->delete_records_select('verbalfeedback_submission', $fromselect, $params);
         $DB->delete_records_select('verbalfeedback_submission', $toselect, $params);
