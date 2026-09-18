@@ -375,16 +375,6 @@ class mod_verbalfeedback_external extends external_api {
      */
     public static function save_responses($verbalfeedbackid, $submissionid, $touserid, $responses, $complete) {
         $warnings = [];
-        $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
-        $cmid = $cm->id;
-        $context = context_module::instance($cmid);
-        self::validate_context($context);
-
-        require_capability('mod/verbalfeedback:can_respond', $context);
-
-        $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
-        $redirecturl->param('id', $cmid);
-
         $params = external_api::validate_parameters(self::save_responses_parameters(), [
             'verbalfeedbackid' => $verbalfeedbackid,
             'submissionid' => $submissionid,
@@ -398,8 +388,16 @@ class mod_verbalfeedback_external extends external_api {
         $touserid = $params['touserid'];
         $responses = $params['responses'];
         $complete = $params['complete'];
-        $submission = self::get_verified_submission_by_id($submissionid, $verbalfeedbackid);
 
+        $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
+        $context = context_module::instance($cm->id);
+        self::validate_context($context);
+        require_capability('mod/verbalfeedback:can_respond', $context);
+
+        $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
+        $redirecturl->param('id', $cm->id);
+
+        $submission = self::get_verified_submission_by_id($submissionid, $verbalfeedbackid, 'fromuserid');
         $result = api::save_responses($verbalfeedbackid, $submissionid, $touserid, $responses);
 
         if ($complete && $result) {
@@ -464,32 +462,30 @@ class mod_verbalfeedback_external extends external_api {
         global $USER;
         $warnings = [];
 
-        $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
-        $cmid = $cm->id;
-        $context = context_module::instance($cmid);
-        self::validate_context($context);
-        $canviewallreports = has_capability('mod/verbalfeedback:view_all_reports', $context);
-        if (
-            $canviewallreports === false &&
-            (!has_capability('mod/verbalfeedback:receive_rating', $context) || $touserid !== (int)$USER->id)
-        ) {
-            throw new moodle_exception('nopermissions', 'error');
-        }
-        $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
-        $redirecturl->param('id', $cmid);
-
         $params = external_api::validate_parameters(self::get_responses_parameters(), [
             'verbalfeedbackid' => $verbalfeedbackid,
             'fromuserid' => $fromuserid,
             'touserid' => $touserid,
             'submissionid' => $submissionid,
         ]);
-
         $verbalfeedbackid = $params['verbalfeedbackid'];
         $fromuserid = $params['fromuserid'];
         $touserid = $params['touserid'];
         $submissionid = $params['submissionid'];
+
+        $cm = get_coursemodule_from_instance('verbalfeedback', $verbalfeedbackid);
+        $cmid = $cm->id;
+        $context = context_module::instance($cmid);
+        self::validate_context($context);
         $submission = self::get_verified_submission_by_id($submissionid, $verbalfeedbackid);
+        $canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
+        $isrecipient = has_capability('mod/verbalfeedback:receive_rating', $context)
+            && (int)$submission->touserid === (int)$USER->id;
+        if (!$canviewall && !$isrecipient) {
+            throw new moodle_exception('nopermissions', 'error');
+        }
+        $redirecturl = new \moodle_url('/mod/verbalfeedback/view.php');
+        $redirecturl->param('id', $cmid);
 
         $responses = [];
         foreach ($submission->get_responses() as $response) {
@@ -498,7 +494,7 @@ class mod_verbalfeedback_external extends external_api {
             $viewmodel['criterionid'] = $response->get_criterion_id();
             $viewmodel['value'] = $response->get_value();
             $viewmodel['studentcomment'] = $response->get_student_comment();
-            $viewmodel['privatecomment'] = ($canviewallreports) ? $response->get_private_comment() : null;
+            $viewmodel['privatecomment'] = ($canviewall) ? $response->get_private_comment() : null;
             $responses[] = $viewmodel;
         }
 
@@ -539,15 +535,24 @@ class mod_verbalfeedback_external extends external_api {
      *
      * @param int $submissionid The submission ID.
      * @param int $verbalfeedbackid The verbal feedback ID.
+     * @param string $mode The mode to check the user against ('fromuserid' or 'touserid').
      * @return submission The verified submission.
      * @throws moodle_exception If the submission is not found or does not belong to the given verbal feedback.
      */
-    private static function get_verified_submission_by_id($submissionid, $verbalfeedbackid): submission {
+    private static function get_verified_submission_by_id($submissionid, $verbalfeedbackid, string $mode = ''): submission {
+        global $USER;
         $submissionrepo = new submission_repository();
         $submission = $submissionrepo->get_by_id($submissionid);
         // Sanity check: if the submission id does not belong to the given verbal feedback id, throw an exception.
         if ($submission === null || $submission->instanceid !== $verbalfeedbackid) {
             throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
+        }
+        // Check if the current user is either the recipient or the respondent of the submission.
+        if ($mode === 'touserid' && $submission->get_to_user_id() !== $USER->id) {
+            throw new moodle_exception('nopermissions', 'error');
+        }
+        if ($mode === 'fromuserid' && $submission->get_from_user_id() !== $USER->id) {
+            throw new moodle_exception('nopermissions', 'error');
         }
         return $submission;
     }
