@@ -61,9 +61,11 @@ class report_criterion_view_model {
         $this->multiplier = number_format($criterion->get_weight(), 2);
         $addfirstelement = true;
         foreach ($criterion->get_student_comments() as $comment) {
-            if ($comment == "") {
+            if (trim($comment) == "") {
                 continue;
             }
+            $stripped = strip_tags($comment); // Guess whether we have HTML because the format is not stored in the database.
+            $comment = format_text($comment, $stripped !== $comment ? FORMAT_HTML : FORMAT_PLAIN);
             if ($addfirstelement) {
                 // This is a nasty hack to allow mustache to decide whether to display the "comments" label.
                 $addfirstelement = false;

@@ -46,15 +46,21 @@ define(['jquery',
         }
         return editor;
     };
+    const escapeHtml = function(html) {
+        const text = document.createTextNode(html);
+        const p = document.createElement('p');
+        p.appendChild(text);
+        return p.innerHTML;
+    };
 
     const setComment = function(row, classSelector, comment, append = false) {
         if (getEditor() === 'atto') {
             const editorcontent = row.find(classSelector + '.editor_atto_content');
             if (append) {
-                editorcontent.append("<ul><li>" + comment + "</li></ul>");
+                editorcontent.append("<ul><li>" + escapeHtml(comment) + "</li></ul>");
                 return;
             }
-            editorcontent.html(comment);
+            editorcontent.html(escapeHtml(comment));
             return;
         }
         const commentId = row.find(classSelector).attr('id');
@@ -62,16 +68,16 @@ define(['jquery',
             const $input = $('#' + commentId);
             if (getEditor() === 'tiny') {
                 if (append) {
-                    window.tinyMCE.get(commentId).insertContent('<ul><li>' + comment + '</li></ul><br/>');
+                    window.tinyMCE.get(commentId).insertContent('<ul><li>' + escapeHtml(comment) + '</li></ul><br/>');
                     return;
                 }
-                window.tinyMCE.get(commentId).setContent(comment);
+                window.tinyMCE.get(commentId).setContent(escapeHtml(comment));
                 return;
             }
             if (append) {
                 const oldComment = $input.val();
                 if (oldComment.trim() !== '') {
-                    $input.val(oldComment + "\n\n" + comment);
+                    $input.val(oldComment + "\n\n" + escapeHtml(comment));
                     return;
                 }
             }
