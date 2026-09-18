@@ -56,6 +56,16 @@ The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
 the latest suppored Moodle version and Z is an incresing number for newer versions
 of the plugin whithin the same Moodle version.
 
+### v5.2-r3
+
+- Major rework of the ajax endpoints. Removed all that have not been in use.
+- Fixed possible vulnerabilities where permissions where not checked sufficient.
+- Templates and criteria can only be changed by the manager. Teacher may use a
+predefined template and may adjust weights.
+- Fix of GUI when percentage was correct but a warning issued (float numbers where incorrect)
+All security releated issues were identified by MDLShield.
+
+
 ### v5.2-r2
 
 - The participants list now looks more in the Moodle style. The user contains
