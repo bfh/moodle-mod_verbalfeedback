@@ -392,7 +392,7 @@ class api {
     public static function save_responses($instanceid, $submissionid, $touser, $responses) {
         global $USER;
         $submissionrepo = new submission_repository();
-        $fromuser = $USER->id;
+        $fromuser = (int)$USER->id;
 
         $inprogress = false;
 

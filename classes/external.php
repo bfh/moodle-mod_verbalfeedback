@@ -480,7 +480,7 @@ class mod_verbalfeedback_external extends external_api {
         $submission = self::get_verified_submission_by_id($submissionid, $verbalfeedbackid);
         $canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
         $isrecipient = has_capability('mod/verbalfeedback:receive_rating', $context)
-            && (int)$submission->touserid === (int)$USER->id;
+            && $submission->touserid === (int)$USER->id;
         if (!$canviewall && !$isrecipient) {
             throw new moodle_exception('nopermissions', 'error');
         }
@@ -548,10 +548,10 @@ class mod_verbalfeedback_external extends external_api {
             throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
         }
         // Check if the current user is either the recipient or the respondent of the submission.
-        if ($mode === 'touserid' && $submission->get_to_user_id() !== $USER->id) {
+        if ($mode === 'touserid' && $submission->get_to_user_id() !== (int)$USER->id) {
             throw new moodle_exception('nopermissions', 'error');
         }
-        if ($mode === 'fromuserid' && $submission->get_from_user_id() !== $USER->id) {
+        if ($mode === 'fromuserid' && $submission->get_from_user_id() !== (int)$USER->id) {
             throw new moodle_exception('nopermissions', 'error');
         }
         return $submission;

@@ -432,7 +432,7 @@ final class api_test extends \advanced_testcase {
             ],
         ];
 
-        $result = api::save_responses($vf->id, $subid, $to->id, $responses);
+        $result = api::save_responses((int)$vf->id, (int)$subid, (int)$to->id, $responses);
         $this->assertTrue($result);
 
         $saved = $repo->get_by_id($subid);
