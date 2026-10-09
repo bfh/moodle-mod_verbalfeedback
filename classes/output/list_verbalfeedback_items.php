@@ -125,6 +125,7 @@ class list_verbalfeedback_items implements \renderable, \templatable {
             $template = $templaterepository->get_by_id($instance->get_template_id());
             $data->templatename = $template->get_name();
         }
+        $data->percentage_all_rates = (count($data->categories) < 3);
         return $data;
     }
 }

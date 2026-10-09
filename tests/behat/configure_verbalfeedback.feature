@@ -69,6 +69,9 @@ Feature: Configure a verbal feedback activity
     And I set the field with xpath "//*[text()='Content']/../..//select" to "0.25"
     And I set the field with xpath "//*[text()='Speech']/../..//select" to "0.25"
     And I set the field with xpath "//*[text()='Media']/../..//select" to "0.25"
+    # Make sure that there are no percent rates > 50%
+    And I wait until "//*[text()='Structure']/../..//option[@value='0.50']" "xpath_element" exists
+    And "//*[text()='Structure']/../..//option[@value='0.55']" "xpath_element" should not exist
     # And I set the field "Multiplier" in the "The main points build on each other and are in line with your purpose." "table_row" to "0.00"
     And I set the field with xpath "(//input[@data-action='change-item-multiplier'])[9]" to "0.00"
     And I follow "Preview"
