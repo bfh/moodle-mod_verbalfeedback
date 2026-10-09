@@ -64,7 +64,7 @@ Feature: create a verbal feedback activity template
     And I set the field "id_subrating_verypositive_en_string_0" to "New template criterion 2 very positive"
     And I press "id_submitbutton"
 
-  Scenario: Try to access the verbal feedback template as a teacher
+  Scenario: Try to access the verbal feedback templates as a teacher where permission is not granted
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     And I add a verbalfeedback activity to course "Course 1" section "1" and I fill the form with:
@@ -76,3 +76,12 @@ Feature: create a verbal feedback activity template
     And I am on the "Test verbal feedback" "verbalfeedback activity" page
     Then I should not see "Verbal feedback templates"
     Then I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/template_list.php"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/template_category_list.php"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/template_category_edit.php"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/template_category_delete.php?id=3"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/template_criterion_list.php"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/template_criterion_edit.php"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/template_criterion_delete.php?id=2"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/language_list.php"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/language_edit.php"
+    And I get an exception "Sorry, but you do not currently have permissions to do that (Manage verbal feedback templates)" when I visit "/mod/verbalfeedback/language_delete.php?id=1"
