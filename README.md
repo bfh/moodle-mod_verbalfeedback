@@ -57,6 +57,7 @@ of the plugin whithin the same Moodle version.
 
 ### v5.3-r1
 - Add support for Moodle 5.3.
+- Fix [issue #81](https://github.com/bfh/moodle-mod_verbalfeedback/issues/81): Categories percentage is fixed to 50% not allowing a template to hold a single category
 
 ### v5.2-r3
 
