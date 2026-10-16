@@ -317,7 +317,7 @@ class template_criterion_repository {
         $typeid = localized_string_type::str2id($type);
         $cachekey = $typeid . '~~' . $foreignkey;
 
-        if (array_key_exists($cachekey, $strings) && !PHPUNIT_TEST) {
+        if (array_key_exists($cachekey, $strings) && !defined('PHPUNIT_TEST')) {
             // We already have this cached, so return it.
             return $strings[$cachekey];
         }
