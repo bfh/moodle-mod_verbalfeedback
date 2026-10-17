@@ -94,7 +94,7 @@ if (!empty($hierarchy)) {
     }
 }
 
-global $DB; // We
+global $DB;
 
 // Get all languages.
 $languages = (new language_repository())->get_all();
@@ -162,7 +162,7 @@ if (empty($filter) || array_key_exists('criterion', $filter)) {
     }
 }
 
-// Hierarchy list
+// List hierarchy of entity.
 $tree = new \stdClass();
 if ($hierarchy === 'criterion') {
     $tree->criterion = [
@@ -193,8 +193,7 @@ if ($hierarchy === 'criterion') {
             echo "  |- Template: {$template}\n";
         }
     }
-}
-else if ($hierarchy === 'category') {
+} else if ($hierarchy === 'category') {
     $tree->category = [
         'id' => $entityid,
         'template' => [],
@@ -207,7 +206,6 @@ else if ($hierarchy === 'category') {
     foreach ($tree->category[0]['template'] as $template) {
         echo "|- Template: {$template}\n";
     }
-}
-else if ($hierarchy === 'subrating') {
+} else if ($hierarchy === 'subrating') {
     echo "Subratings are currently not implemented";
 }
