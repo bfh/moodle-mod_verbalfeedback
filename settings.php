@@ -55,3 +55,22 @@ if ($ADMIN->fulltree) {
     );
     $settings->add($setting);
 }
+
+$ADMIN->add('modsettings', new admin_category(
+    'modsettingsverbalfeedbackcat',
+    get_string('pluginname', 'mod_verbalfeedback'),
+    $module->is_enabled() === false
+));
+
+// Retitle the general page so it does not repeat the category name.
+$settings->visiblename = get_string('generalsettings', 'admin');
+$ADMIN->add('modsettingsverbalfeedbackcat', $settings);
+// The entry link to manage templates, categories, criteria and subratings.
+$ADMIN->add('modsettingsverbalfeedbackcat', new admin_externalpage(
+    'mod_verbalfeedback/templates',
+    get_string('templateplural', 'mod_verbalfeedback'),
+    $CFG->wwwroot . '/mod/verbalfeedback/template_list.php',
+    'mod/verbalfeedback:managetemplates'
+));
+
+$settings = null; // Prevent the loader from adding the standard settings link again.
