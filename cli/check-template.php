@@ -163,49 +163,77 @@ if (empty($filter) || array_key_exists('criterion', $filter)) {
 }
 
 // List hierarchy of entity.
-$tree = new \stdClass();
 if ($hierarchy === 'criterion') {
-    $tree->criterion = [
-        'id' => $entityid,
-        'category' => [],
-    ];
+    $category = [];
     $res = $DB->get_records(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, ['criterionid' => $entityid]);
-    foreach ($res as $row) {
-        $tree->criterion['category'][] = [
-            'id' => (int)$row->categoryid,
-            'template' => [],
-        ];
+    if (empty($res)) {
+        cli_error("No criterion found with id {$entityid}");
     }
-    $categoryids = array_map(fn($c) => $c['id'], $tree->criterion['category']);
-    [$insql, $inparams] = $DB->get_in_or_equal($categoryids);
+    foreach ($res as $row) {
+        if (!array_key_exists((int)$row->categoryid, $category)) {
+            $category[(int)$row->categoryid] = [];
+        }
+        $category[(int)$row->categoryid] = [];
+    }
+    [$insql, $inparams] = $DB->get_in_or_equal(array_keys($category));
     $res = $DB->get_records_select(tables::PARAMETRIZED_TEMPLATE_CATEGORY_TABLE, 'categoryid ' . $insql, $inparams);
     foreach ($res as $row) {
-        foreach ($tree->criterion['category'] as $i => $cat) {
-            if ((int)$row->categoryid === $cat['id']) {
-                $tree->criterion['category'][$i]['template'][] = $row->templateid;
+        foreach ($category as $i => $cat) {
+            if ((int)$row->categoryid === $i) {
+                $category[$i][] = $row->templateid;
             }
         }
     }
-    echo "Criterion: " . $tree->criterion['id'] . "\n";
-    foreach ($tree->criterion['category'] as $cat) {
-        echo "|- Category: " . $cat['id'] . "\n";
-        foreach ($cat['template'] as $template) {
+    echo "Criterion: {$entityid}\n";
+    foreach (array_keys($category) as $i) {
+        echo "|- Category: " . $i . "\n";
+        foreach ($category[$i] as $template) {
             echo "  |- Template: {$template}\n";
         }
     }
 } else if ($hierarchy === 'category') {
-    $tree->category = [
-        'id' => $entityid,
-        'template' => [],
-    ];
+    $templates = [];
     $res = $DB->get_records(tables::PARAMETRIZED_TEMPLATE_CATEGORY_TABLE, ['categoryid' => $entityid]);
     foreach ($res as $row) {
-        $tree->category[0]['template'][][$i]['template'][] = $row->templateid;
+        $templates[] = $row->templateid;
     }
-    echo "Category: " . $tree->criterion[0]['id'] . "\n";
-    foreach ($tree->category[0]['template'] as $template) {
+    echo "Category: {$entityid}\n";
+    foreach ($templates as $template) {
         echo "|- Template: {$template}\n";
     }
 } else if ($hierarchy === 'subrating') {
-    echo "Subratings are currently not implemented";
+    $criteria = [];
+    $res = $DB->get_records(tables::TEMPLATE_SUBRATINGS_TABLE, ['id' => $entityid]);
+    if (empty($res)) {
+        cli_error("No subrating found with id {$entityid}");
+    }
+    foreach ($res as $row) {
+        $criteria[(int)$row->criterionid] = [];
+    }
+    [$insql, $inparams] = $DB->get_in_or_equal(array_keys($criteria));
+    $res = $DB->get_records_select(tables::PARAMETRIZED_TEMPLATE_CRITERION_TABLE, 'criterionid ' . $insql, $inparams);
+    foreach ($res as $row) {
+        $criteria[(int)$row->criterionid][] = (int)$row->categoryid;
+    }
+    $categoryids = array_values(array_merge([], ...array_map(fn($a) => array_values($a), $criteria)));
+    [$insql, $inparams] = $DB->get_in_or_equal($categoryids);
+    $res = $DB->get_records_select(tables::PARAMETRIZED_TEMPLATE_CATEGORY_TABLE, 'categoryid ' . $insql, $inparams);
+    $cat2temp = [];
+    foreach ($res as $row) {
+        if (!array_key_exists((int)$row->categoryid, $cat2temp)) {
+            $cat2temp[(int)$row->categoryid] = [];
+        }
+        $cat2temp[(int)$row->categoryid][] = (int)$row->templateid;
+    }
+
+    echo "Subrating: {$entityid}\n";
+    foreach (array_keys($criteria) as $criterion) {
+        echo "|- Criterion: {$criterion}\n";
+        foreach ($criteria[$criterion] as $category) {
+            echo "  |- Category: {$category}\n";
+            foreach ($cat2temp[$category] ?? [] as $template) {
+                echo "    |- Template: {$template}\n";
+            }
+        }
+    }
 }
