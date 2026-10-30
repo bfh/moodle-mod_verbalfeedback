@@ -33,7 +33,6 @@ require_once('lib.php');
 
 $id = required_param('id', PARAM_INT);
 $makeavailable = optional_param('makeavailable', false, PARAM_BOOL);
-$release = optional_param('release', -1, PARAM_INT);
 [$course, $cm] = get_course_and_cm_from_cmid($id, 'verbalfeedback');
 
 require_login($course, true, $cm);
@@ -79,11 +78,6 @@ if ($canparticipate === true && ($canrespond === true || $canviewallreports === 
     echo $OUTPUT->heading(get_string('students'), 3);
 }
 
-if ($release != -1) {
-    // Toggle the released flag.
-    \mod_verbalfeedback\api::toggle_released_flag($instance, $release);
-}
-
 // Edit items.
 $instanceready = $instancerepository->is_ready($instance->get_id());
 $canedit = user_utils::can_edit_items($instance, $context);
@@ -113,6 +107,7 @@ if ($canedit && !$instanceready && !$makeavailable) {
 
 // Process "make available" button click event.
 if ($canedit && !$instanceready && $makeavailable) {
+    require_sesskey();
     if ($instancerepository->has_items($instance->get_id())) {
         if (instance_utils::make_ready($instance)) {
             \core\notification::success(get_string('instancenowready', 'mod_verbalfeedback'));

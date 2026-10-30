@@ -50,15 +50,24 @@ $instancerepository = new instance_repository();
 $submissionrepository = new submission_repository();
 
 $submission = null;
-$instance = null;
+$instance = $instancerepository->get_by_id($cm->instance);
 if ($preview) {
-    if (!$instance = $instancerepository->get_by_id($cm->instance)) {
+    if (!$instance) {
         throw new moodle_exception('errorverbalfeedbacknotfound', 'mod_verbalfeedback', $viewurl);
     }
 } else {
     $submission = $submissionrepository->get_by_id($submissionid);
-    $instance = $instancerepository->get_by_id($submission->get_instance_id());
+    if ($submission === null || $submission->get_instance_id() != $cm->instance) {
+        throw new moodle_exception('invalididprovided', 'mod_verbalfeedback');
+    }
+    if (
+        $submission->get_from_user_id() != $USER->id &&
+        !has_capability('mod/verbalfeedback:view_all_reports', $context)
+    ) {
+        throw new moodle_exception('nopermissions', 'error');
+    }
 }
+
 $PAGE->set_context($context);
 $PAGE->set_cm($cm, $course);
 $PAGE->set_pagelayout('incourse');

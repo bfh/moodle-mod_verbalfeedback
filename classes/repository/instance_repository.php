@@ -636,9 +636,11 @@ class instance_repository {
         global $DB;
         // Update all users grades.
         $instanceid = $DB->get_field_sql(
-            'SELECT v.id FROM {verbalfeedback} v JOIN {verbalfeedback_i_category} vc ' .
-            'ON vc.instanceid = v.id JOIN {verbalfeedback_i_criterion} vcr ' .
-            'ON vc.id = vcr.categoryid WHERE vcr.id = ' . $criterionid
+            'SELECT v.id FROM {verbalfeedback} v
+                JOIN {verbalfeedback_i_category} vc ON vc.instanceid = v.id
+                JOIN {verbalfeedback_i_criterion} vcr ON vc.id = vcr.categoryid
+                WHERE vcr.id = ?',
+            [$criterionid]
         );
         verbalfeedback_update_grades(self::get_by_id($instanceid), 0);
         return $DB->set_field(tables::INSTANCE_CRITERION_TABLE, 'weight', $weight, ['id' => $criterionid]);

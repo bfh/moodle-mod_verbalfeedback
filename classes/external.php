@@ -28,6 +28,7 @@ use mod_verbalfeedback\api;
 use mod_verbalfeedback\model\submission;
 use mod_verbalfeedback\model\submission_status;
 use mod_verbalfeedback\output\list_participants;
+use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\repository\submission_repository;
 
 require_once($CFG->libdir . "/externallib.php");
@@ -477,10 +478,12 @@ class mod_verbalfeedback_external extends external_api {
         $cmid = $cm->id;
         $context = context_module::instance($cmid);
         self::validate_context($context);
+        $instance = (new instance_repository())->get_by_id($verbalfeedbackid);
         $submission = self::get_verified_submission_by_id($submissionid, $verbalfeedbackid);
         $canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
         $isrecipient = has_capability('mod/verbalfeedback:receive_rating', $context)
-            && $submission->touserid === (int)$USER->id;
+            && $submission->touserid === (int)$USER->id
+            && $instance->reports_are_released();
         if (!$canviewall && !$isrecipient) {
             throw new moodle_exception('nopermissions', 'error');
         }
