@@ -76,6 +76,8 @@ class provider implements
                 'fromuserid' => 'privacy:metadata:verbalfeedback_submission:fromuserid',
                 'touserid' => 'privacy:metadata:verbalfeedback_submission:touserid',
                 'value' => 'privacy:metadata:verbalfeedback_response:value',
+                'studentcomment' => 'privacy:metadata:verbalfeedback_response:studentcomment',
+                'privatecomment' => 'privacy:metadata:verbalfeedback_response:privatecomment',
             ],
             'privacy:metadata:verbalfeedback_response'
         );
@@ -241,7 +243,9 @@ class provider implements
                        ti.categoryid,
                        tr.value,
                        tr.fromuserid,
-                       tr.touserid
+                       tr.touserid,
+                       tr.studentcomment,
+                       tr.privatecomment
                   FROM {context} ctx
                   JOIN {course_modules} cm
                     ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextlevel
@@ -314,6 +318,8 @@ class provider implements
             $responsesdata[$response->cmid]['criterion'][$response->criterionid]['submissions'][] = [
                 $userkey => $relateduser,
                 'value' => format_string($response->value, true, $options),
+                'studentcomment' => format_string($response->studentcomment, true, $options),
+                'privatecomment' => format_string($response->privatecomment, true, $options),
             ];
         }
         $responses->close();
