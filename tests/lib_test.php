@@ -40,7 +40,6 @@ require_once($CFG->dirroot . '/mod/verbalfeedback/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class lib_test extends \advanced_testcase {
-
     /**
      * Create a verbalfeedback instance in the given course and populate it with
      * a full chain of user data: a category, a criterion, a subrating, a

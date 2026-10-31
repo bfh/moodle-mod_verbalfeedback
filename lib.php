@@ -426,7 +426,6 @@ function verbalfeedback_reset_userdata($data) {
     $componentstr = get_string('modulenameplural', 'verbalfeedback');
     $status = [];
 
-
     if (!empty($data->reset_verbalfeedback)) {
         $verbalfeedbackssql = sprintf(
             'SELECT vf.id FROM {%s} vf WHERE vf.course = ?',

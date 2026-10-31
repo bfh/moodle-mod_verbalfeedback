@@ -167,9 +167,14 @@ final class externallib_test extends \externallib_advanced_testcase {
 
         $student = $this->students[0];
         $submission = $this->create_submission($this->verbalfeedback->id, $this->teacher->id, $student->id);
-
+        // Prepare the vb instance that it is open to participants and in the state of ready.
+        $instance = \mod_verbalfeedback\model\instance::from_record($this->verbalfeedback);
+        $instancerepo = new \mod_verbalfeedback\repository\instance_repository();
+        $instance->set_status(\mod_verbalfeedback\model\instance_status::READY);
+        $instance->set_release_type(\mod_verbalfeedback\model\instance_release_type::OPEN);
+        $instancerepo->save($instance);
+        // Set the user to become the student that wants to see his results.
         $this->setUser($student);
-
         $result = \mod_verbalfeedback_external::get_responses(
             (int)$this->verbalfeedback->id,
             (int)$this->teacher->id,
@@ -183,6 +188,28 @@ final class externallib_test extends \externallib_advanced_testcase {
         $this->assertSame('A public comment for the student.', $response['studentcomment']);
         // The rated user must not see the private comment.
         $this->assertNull($response['privatecomment']);
+    }
+
+    /**
+     * The rated user (receive_rating capability) gets an error when the instance is not yet released.
+     *
+     * @covers \mod_verbalfeedback_external::get_responses
+     */
+    public function test_get_responses_as_rated_user_when_not_released(): void {
+        $this->resetAfterTest();
+
+        $student = $this->students[0];
+        $submission = $this->create_submission($this->verbalfeedback->id, $this->teacher->id, $student->id);
+
+        $this->setUser($student);
+
+        $this->expectException(\moodle_exception::class);
+        $result = \mod_verbalfeedback_external::get_responses(
+            (int)$this->verbalfeedback->id,
+            (int)$this->teacher->id,
+            (int)$student->id,
+            $submission->get_id()
+        );
     }
 
     /**
