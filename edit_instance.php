@@ -97,6 +97,7 @@ if (!$instanceready) {
     if ($instancerepository->has_items($instance->get_id())) {
         $makeavailableurl = clone $viewurl;
         $makeavailableurl->param('makeavailable', true);
+        $makeavailableurl->param('sesskey', sesskey());
     }
 }
 

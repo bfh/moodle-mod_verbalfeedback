@@ -95,6 +95,7 @@ if ($canedit && !$instanceready && !$makeavailable) {
     if ($instancerepository->has_items($instance->get_id())) {
         $url = $PAGE->url;
         $url->param('makeavailable', true);
+        $url->param('sesskey', sesskey());
         echo html_writer::link(
             $url,
             get_string('makeavailable'),
