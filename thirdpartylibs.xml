@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <libraries>
     <library>
-        <location>classes/vendor/goat1000/svggraph/</location>
+        <location>vendor/goat1000/svggraph/</location>
         <name>SVGGraph</name>
         <version>3.20.2</version>
         <license>GNU Lesser General Public License</license>
         <licenseversion>v3.0</licenseversion>
     </library>
     <library>
-        <location>classes/vendor/dallgoot/yaml/</location>
+        <location>vendor/dallgoot/yaml/</location>
         <name>Dallgoot : YAML library for PHP</name>
         <version>v0.9.1.2</version>
         <license>Apache</license>
