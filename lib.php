@@ -421,14 +421,17 @@ function verbalfeedback_reset_gradebook($courseid, $type = '') {
  * @return array The status array
  */
 function verbalfeedback_reset_userdata($data) {
-    global $CFG, $DB;
+    global $DB;
 
+    $componentstr = get_string('modulenameplural', 'verbalfeedback');
     $status = [];
 
+
     if (!empty($data->reset_verbalfeedback)) {
-        $verbalfeedbackssql = "SELECT vf.id " .
-                       "FROM " . tables::INSTANCE_TABLE . " vf " .
-                       "WHERE vf.course=?";
+        $verbalfeedbackssql = sprintf(
+            'SELECT vf.id FROM {%s} vf WHERE vf.course = ?',
+            tables::INSTANCE_TABLE
+        );
 
         $DB->delete_records_select(tables::RESPONSE_TABLE, "instanceid IN ($verbalfeedbackssql)", [$data->courseid]);
         $status[] = ['component' => $componentstr, 'item' => get_string('removeresponses', 'verbalfeedback'),
@@ -442,15 +445,19 @@ function verbalfeedback_reset_userdata($data) {
         $status[] = ['component' => $componentstr, 'item' => get_string('removecategories', 'verbalfeedback'),
             'error' => false, ];
 
-        $allverbalfeedbackcriteriasql       = "SELECT vfcri.id " .
-                                                "FROM " . tables::INSTANCE_CRITERION_TABLE . " vfcri " .
-                                                "JOIN " . tables::INSTANCE_CATEGORY_TABLE .
-                                                      " vfcat ON vfcri.categoryid = vfcat.id " .
-                                                "JOIN " . tables::INSTANCE_TABLE . " vf ON vfcat.instanceid = vf.id" .
-                                               "WHERE vf.course = ?";
+        $allverbalfeedbackcriteriasql = sprintf(
+            'SELECT vfcri.id
+                FROM {%s} vfcri
+                JOIN {%s} vfcat ON vfcri.categoryid = vfcat.id
+                JOIN {%s} vf ON vfcat.instanceid = vf.id
+                WHERE vf.course = ?',
+            tables::INSTANCE_CRITERION_TABLE,
+            tables::INSTANCE_CATEGORY_TABLE,
+            tables::INSTANCE_TABLE
+        );
         $DB->delete_records_select(
             tables::INSTANCE_CRITERION_TABLE,
-            "instanceid IN ($allverbalfeedbackcriteriasql)",
+            "id IN ($allverbalfeedbackcriteriasql)",
             [$data->courseid]
         );
         $status[] = [
@@ -459,17 +466,21 @@ function verbalfeedback_reset_userdata($data) {
             'error' => false,
         ];
 
-        $allverbalfeedbacksubratingssql = "SELECT vfsub.id " .
-            "FROM " . tables::INSTANCE_SUBRATING_TABLE . " vfsub " .
-            "JOIN " . tables::INSTANCE_CRITERION_TABLE .
-            " vfcri ON vfcri.id = vfsub.criterionid " .
-            "JOIN " . tables::INSTANCE_CATEGORY_TABLE .
-            " vfcat ON vfcri.categoryid = vfcat.id " .
-            "JOIN " . tables::INSTANCE_TABLE . " vf ON vfcat.instanceid = vf.id" .
-            "WHERE vf.course = ?";
+        $allverbalfeedbacksubratingssql = sprintf(
+            'SELECT vfsub.id FROM {%s} vfsub
+                JOIN {%s} vfcri ON vfcri.id = vfsub.criterionid
+                JOIN {%s} vfcat ON vfcri.categoryid = vfcat.id
+                JOIN {%s} vf ON vfcat.instanceid = vf.id
+                WHERE vf.course = ?
+            ',
+            tables::INSTANCE_SUBRATING_TABLE,
+            tables::INSTANCE_CRITERION_TABLE,
+            tables::INSTANCE_CATEGORY_TABLE,
+            tables::INSTANCE_TABLE,
+        );
         $DB->delete_records_select(
             tables::INSTANCE_SUBRATING_TABLE,
-            "instanceid IN ($allverbalfeedbacksubratingssql)",
+            "id IN ($allverbalfeedbacksubratingssql)",
             [$data->courseid]
         );
         $status[] = [
