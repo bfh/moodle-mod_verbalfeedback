@@ -14,4 +14,39 @@
         <license>Apache</license>
         <licenseversion>2.0</licenseversion>
     </library>
+    <library>
+        <location>fonts/Noto_Naskh_Arabic</location>
+        <name>Font NotoNaskhArabic</name>
+        <version>132252</version>
+        <license>SIL Open Font License</license>
+        <licenseversion>1.1</licenseversion>
+    </library>
+    <library>
+        <location>fonts/Noto_Sans</location>
+        <name>Font NotoSans</name>
+        <version>n.a.</version>
+        <license>SIL Open Font License</license>
+        <licenseversion>1.1</licenseversion>
+    </library>
+    <library>
+        <location>fonts/Noto_Sans_Hebrew</location>
+        <name>Font NotoSansHebrew</name>
+        <version>196674</version>
+        <license>SIL Open Font License</license>
+        <licenseversion>1.1</licenseversion>
+    </library>
+    <library>
+        <location>fonts/Noto_Sans_JP</location>
+        <name>Font NotoSansJP</name>
+        <version>131334</version>
+        <license>SIL Open Font License</license>
+        <licenseversion>1.1</licenseversion>
+    </library>
+    <library>
+        <location>fonts/Noto_Sans_TC</location>
+        <name>Font NotoSansTC</name>
+        <version>131334</version>
+        <license>SIL Open Font License</license>
+        <licenseversion>1.1</licenseversion>
+    </library>
 </libraries>
