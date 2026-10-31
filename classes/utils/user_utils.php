@@ -47,11 +47,12 @@ class user_utils {
      * Returns true, if the user is enrolled in the given context.
      *
      * @param context_module $context the context to test
+     * @param int|null $userid the user id to be checked.
      * @return bool true, if the user is enrolled
      */
-    public static function is_enrolled(context_module $context) {
+    public static function is_enrolled(context_module $context, ?int $userid) {
         // User can't participate if not enrolled in the course.
-        return is_enrolled($context);
+        return is_enrolled($context, $userid);
     }
 
     /**

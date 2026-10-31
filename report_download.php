@@ -154,27 +154,29 @@ $pdf->AddPage();
 $fonthandler->set_font_for_pdf($pdf);
 
 // Image size from logo image.
-$image = @getimagesize($imagefile);
+if (isset($imagefile)) {
+    $image = @getimagesize($imagefile);
 
-if ($image) {
-    $imagefilewidth = $image[0];
-    $imagefileheight = $image[1];
-    $imagescaledwidth = 18 * $imagefilewidth / $imagefileheight;
+    if ($image) {
+        $imagefilewidth = $image[0];
+        $imagefileheight = $image[1];
+        $imagescaledwidth = 18 * $imagefilewidth / $imagefileheight;
+    }
+
+    $pdf->Image('@' . file_get_contents($imagefile), 15, 5, $imagescaledwidth, 18);
+    $pdf->ImageSVG(
+        '@' . $radarimg,
+        $x = 16,
+        $y = 28,
+        $w = '',
+        $h = '',
+        $link = '',
+        $align = '',
+        $palign = 'R',
+        $border = 1,
+        $fitonpage = false
+    );
 }
-
-$pdf->Image('@' . file_get_contents($imagefile), 15, 5, $imagescaledwidth, 18);
-$pdf->ImageSVG(
-    '@' . $radarimg,
-    $x = 16,
-    $y = 28,
-    $w = '',
-    $h = '',
-    $link = '',
-    $align = '',
-    $palign = 'R',
-    $border = 1,
-    $fitonpage = false
-);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $pdf->lastPage();
