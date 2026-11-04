@@ -256,6 +256,7 @@
         finalize, mod_verbalfeedback{{/str}}</button>
     <button class="btn btn-secondary" id="save-feedback" {{#preview}}disabled="disabled"{{/preview}} data-returnurl="{{returnurl}}">{{#str}}
         saveandreturn, mod_verbalfeedback{{/str}}</button>
+    <a class="btn btn-secondary" id="cancel-feedback" href="{{returnurl}}">{{#str}}cancel, core{{/str}}</a>
 </div>
 {{#js}}
     require([
