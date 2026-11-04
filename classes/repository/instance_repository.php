@@ -611,9 +611,14 @@ class instance_repository {
      * @param float $weight The category weight
      * @return bool
      * @throws \dml_exception
+     * @throws \moodle_exception
      */
     public function update_category_weight($categoryid, $weight) {
         global $DB;
+        $weight = (float)$weight;
+        if ($weight < 0.0 || $weight > 1.0) {
+            throw new \moodle_exception("Invalid value for weight: {$weight}.");
+        }
         // Update all users grades.
         verbalfeedback_update_grades(
             self::get_by_id(
@@ -631,9 +636,14 @@ class instance_repository {
      * @param float $weight The criterion weight
      * @return bool
      * @throws \dml_exception
+     * @throws \moodle_exception
      */
     public function update_criterion_weight($criterionid, $weight) {
         global $DB;
+        $weight = (float)$weight;
+        if ($weight < 0.0) {
+            throw new \moodle_exception("Invalid value for weight: {$weight}.");
+        }
         // Update all users grades.
         $instanceid = $DB->get_field_sql(
             'SELECT v.id FROM {verbalfeedback} v
