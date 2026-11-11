@@ -245,4 +245,42 @@ class instance_utils {
         $transaction->allow_commit();
         return true;
     }
+
+    /**
+     * Gets the current group id to filter the participants list by.
+     *
+     * A group filter is only applied when the activity itself is in a group mode (respecting the
+     * course "force group mode" setting). This mirrors core activities such as mod/assign: when the
+     * activity has no groups, all enrolled participants the user may access are shown, rather than
+     * falling back to the teacher's single default course group.
+     *
+     * @param stdClass $cm The course module record.
+     * @param stdClass $course The course record.
+     * @return int The current group id, 0 if no group filter should be applied.
+     */
+    public static function get_current_group($cm, $course): int {
+        global $USER;
+
+        if (groups_get_activity_groupmode($cm, $course) == NOGROUPS) {
+            return 0;
+        }
+
+        $grp = groups_get_activity_group($cm, true);
+        $currentgroup = ($grp !== false) ? (int)$grp : 0;
+        if ($currentgroup === 0) {
+            $requestedgroup = optional_param('group', 0, PARAM_INT);
+            if ($requestedgroup > 0) {
+                $contextcourse = \context_course::instance($course->id);
+                if (has_capability('moodle/site:accessallgroups', $contextcourse)) {
+                    $allowedgroups = groups_get_all_groups($course->id, 0, 0);
+                } else {
+                    $allowedgroups = groups_get_all_groups($course->id, $USER->id, 0);
+                }
+                if (isset($allowedgroups[$requestedgroup])) {
+                    $currentgroup = (int)$requestedgroup;
+                }
+            }
+        }
+        return $currentgroup;
+    }
 }

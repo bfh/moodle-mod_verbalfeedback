@@ -233,31 +233,8 @@ function draw_participants_list(
  * @return int The current group id, 0 if no group filter is applied.
  */
 function get_current_group(instance $instance): int {
-    global $USER;
     $cm = get_coursemodule_from_instance('verbalfeedback', $instance->get_id());
     $course = get_course($cm->course);
 
-    $currentgroup = 0;
-    if (groups_get_activity_groupmode($cm) != NOGROUPS) {
-        $grp = groups_get_activity_group($cm, true);
-        $currentgroup = ($grp !== false) ? (int)$grp : 0;
-    } else if ($course->groupmode != NOGROUPS) {
-        $grp = groups_get_course_group($course, true);
-        $currentgroup = ($grp !== false) ? (int)$grp : 0;
-    }
-    if ($currentgroup === 0) {
-        $requestedgroup = optional_param('group', 0, PARAM_INT);
-        if ($requestedgroup > 0) {
-            $contextcourse = context_course::instance($course->id);
-            if (has_capability('moodle/site:accessallgroups', $contextcourse)) {
-                $allowedgroups = groups_get_all_groups($course->id, 0, 0);
-            } else {
-                $allowedgroups = groups_get_all_groups($course->id, $USER->id, 0);
-            }
-            if (isset($allowedgroups[$requestedgroup])) {
-                $currentgroup = (int)$requestedgroup;
-            }
-        }
-    }
-    return $currentgroup;
+    return instance_utils::get_current_group($cm, $course);
 }

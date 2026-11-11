@@ -25,6 +25,7 @@ namespace mod_verbalfeedback\output;
 
 use coding_exception;
 use mod_verbalfeedback\api;
+use mod_verbalfeedback\utils\instance_utils;
 use mod_verbalfeedback\utils\user_utils;
 use moodle_url;
 use core\output\renderable;
@@ -84,7 +85,7 @@ class list_participants implements renderable, templatable {
         $this->isopen = $isopen;
         $this->cm = get_coursemodule_from_instance('verbalfeedback', $this->verbalfeedback->id);
         $this->course = get_course($this->cm->course);
-        $this->groupid = groups_get_course_group($this->course, true);
+        $this->groupid = instance_utils::get_current_group($this->cm, $this->course);
     }
 
     /** Set filter parameters for the participants list.
@@ -113,7 +114,7 @@ class list_participants implements renderable, templatable {
             $resetparameters['status'] = $statusvalue;
         }
         $resetlink = new moodle_url('/mod/verbalfeedback/view.php', $resetparameters);
-        $groupid = groups_get_course_group($this->course, true);
+        $groupid = instance_utils::get_current_group($this->cm, $this->course);
         $userselector = new user_selector(
             course: $this->course,
             resetlink: $resetlink,

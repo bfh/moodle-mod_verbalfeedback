@@ -190,7 +190,7 @@ class mod_verbalfeedback_external extends external_api {
         // to be able to create a new filtered list on the next page request.
         $filter = [];
         if ($params['groupid']) {
-            $filter['groupid'] = $params['groupid'];
+            $filter['group'] = $params['groupid'];
         }
         if ($params['status'] !== -1) {
             $filter['status'] = $params['status'];
