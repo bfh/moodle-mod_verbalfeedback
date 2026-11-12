@@ -52,10 +52,12 @@ class report_service {
      *
      * @param int $instanceid The instance id.
      * @param int $touserid The user id of the participant for which the report shall be created.
+     * @param int $fromuserid If greater than 0, the report is limited to the feedback given by this single reviewer.
+     *                        Otherwise the combined feedback of all reviewers is used.
      * @return report The report model of the submission.
      * @throws dml_exception A DML specific exception is thrown for any errors.
      */
-    public function create_report(int $instanceid, int $touserid): report {
+    public function create_report(int $instanceid, int $touserid, int $fromuserid = 0): report {
         $instance = $this->instancerepo->get_by_id($instanceid);
         $submissions = $this->submissionrepo->get_by_instance_and_touser($instanceid, $touserid);
 
@@ -66,6 +68,10 @@ class report_service {
         // Group responses by criteria id.
         $responses = [];
         foreach ($submissions as $submission) {
+            // When a single reviewer is requested, skip every other reviewer's submission.
+            if ($fromuserid > 0 && $submission->get_from_user_id() != $fromuserid) {
+                continue;
+            }
             $report->add_from_user_id($submission->get_from_user_id());
             foreach ($submission->get_responses() as $response) {
                 $responses[$response->get_criterion_id()][] = $response;

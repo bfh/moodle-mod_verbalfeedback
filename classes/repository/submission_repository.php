@@ -153,6 +153,28 @@ class submission_repository {
     }
 
     /**
+     * Gets the distinct ids of the users who provided a completed feedback for the given rated user.
+     *
+     * @param int $instanceid The instance id.
+     * @param int $touserid The id of the rated user.
+     * @return array<int> The ids of the rating (reviewing) users.
+     */
+    public function get_completed_fromuserids(int $instanceid, int $touserid): array {
+        global $DB;
+        $fromuserids = $DB->get_fieldset_select(
+            tables::SUBMISSION_TABLE,
+            'DISTINCT fromuserid',
+            'instanceid = :instanceid AND touserid = :touserid AND status = :status',
+            [
+                'instanceid' => $instanceid,
+                'touserid' => $touserid,
+                'status' => submission_status::COMPLETE,
+            ]
+        );
+        return array_map('intval', $fromuserids);
+    }
+
+    /**
      * Deletes all submissions with the given instance id.
      * @param int $instanceid The instance id.
      */

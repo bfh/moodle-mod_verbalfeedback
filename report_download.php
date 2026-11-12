@@ -36,6 +36,7 @@ global $DB;
 
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
+$fromuserid = optional_param('fromuser', 0, PARAM_INT);
 [$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
@@ -50,6 +51,11 @@ if (!$viewownreport) {
     throw new moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
 }
 
+// Breaking the feedback down by a single reviewer is only available to users who may view all reports.
+if (!has_capability('mod/verbalfeedback:view_all_reports', $context)) {
+    $fromuserid = 0;
+}
+
 $PAGE->set_context($context);
 $PAGE->set_cm($cm, $course);
 $PAGE->set_pagelayout('incourse');
@@ -59,6 +65,9 @@ $urlparams = [
     'touser' => $touserid,
     'forcedownload' => 1,
 ];
+if ($fromuserid != 0) {
+    $urlparams['fromuser'] = $fromuserid;
+}
 $PAGE->set_url('/mod/verbalfeedback/report_download.php', $urlparams);
 $PAGE->set_heading($course->fullname);
 $instancename = format_string($instance->get_name());
@@ -75,7 +84,7 @@ $userheading = [
 
 // Get the responses to the user.
 $reportservice = new report_service();
-$report = $reportservice->create_report($instanceid, $touserid);
+$report = $reportservice->create_report($instanceid, $touserid, $fromuserid);
 
 $fonthandler = new font($report);
 

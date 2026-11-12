@@ -51,6 +51,9 @@ class report implements renderable, templatable {
     /** @var url_select The user selector control. */
     protected $userselect;
 
+    /** @var url_select The reviewer selector control (combined feedback vs. a single reviewer). */
+    protected $reviewerselect;
+
     /** @var action_link The action link pointing to the verbal feedback view page. */
     protected $activitylink;
 
@@ -75,15 +78,29 @@ class report implements renderable, templatable {
      * @param array $participants List of participants for the verbal feedback activity.
      * @param int $touser The user this report is being generated for.
      * @param array $downloadformats List of download format options for the report.
+     * @param array $reviewers List of users (keyed by user id) who provided feedback for the rated user.
+     * @param int $selectedfromuser The id of the currently selected reviewer, or 0 for the combined feedback.
      * @throws \coding_exception
      * @throws \moodle_exception
      */
-    public function __construct($cmid, $instanceid, ModelReport $report, $participants, $touser, $downloadformats = null) {
+    public function __construct(
+        $cmid,
+        $instanceid,
+        ModelReport $report,
+        $participants,
+        $touser,
+        $downloadformats = null,
+        $reviewers = [],
+        $selectedfromuser = 0
+    ) {
         $this->instanceid = $instanceid;
         $this->report = $report;
         $this->touser = $touser;
 
         $urlparams = ['instance' => $this->instanceid, 'touser' => $this->touser->id];
+        if ($selectedfromuser != 0) {
+            $urlparams['fromuser'] = $selectedfromuser;
+        }
         $this->reportdownloadurl = new moodle_url('/mod/verbalfeedback/report_download.php', $urlparams);
 
         // Generate data for the user selector widget.
@@ -102,6 +119,38 @@ class report implements renderable, templatable {
             $select->attributes = ['id' => 'jump-to-user-report'];
             $select->class = 'd-inline-block';
             $this->userselect = $select;
+        }
+
+        // Generate data for the reviewer selector widget. It allows switching between the combined feedback
+        // of all reviewers and the feedback of a single reviewer. Only shown when at least two reviewers
+        // submitted feedback, and the current reviewer has the capability to view all reports,
+        // so there is actually something to choose from.
+        if (
+            count($reviewers) >= 2 &&
+            has_capability('mod/verbalfeedback:view_all_reports', \core\context\module::instance($cmid))
+        ) {
+            $combinedurl = new moodle_url(
+                '/mod/verbalfeedback/report.php',
+                ['instance' => $this->instanceid, 'touser' => $this->touser->id]
+            );
+            $selectedurl = $combinedurl->out(false);
+            $reviewerlist = [$selectedurl => get_string('combinedreview', 'mod_verbalfeedback')];
+            foreach ($reviewers as $reviewer) {
+                $reviewerurl = new moodle_url(
+                    '/mod/verbalfeedback/report.php',
+                    ['instance' => $this->instanceid, 'touser' => $this->touser->id, 'fromuser' => $reviewer->id]
+                );
+                $reviewerkey = $reviewerurl->out(false);
+                $reviewerlist[$reviewerkey] = get_string('reviewby', 'mod_verbalfeedback', fullname($reviewer));
+                if ($selectedfromuser == $reviewer->id) {
+                    $selectedurl = $reviewerkey;
+                }
+            }
+            $reviewerselect = new url_select($reviewerlist, $selectedurl, []);
+            $reviewerselect->set_label(get_string('selectreview', 'mod_verbalfeedback'), ['class' => 'visually-hidden']);
+            $reviewerselect->attributes = ['id' => 'select-review-report'];
+            $reviewerselect->class = 'd-inline-block';
+            $this->reviewerselect = $reviewerselect;
         }
 
         if (!empty($downloadformats)) {
@@ -138,6 +187,9 @@ class report implements renderable, templatable {
         $data = new stdClass();
         if ($this->userselect) {
             $data->userselect = $this->userselect->export_for_template($output);
+        }
+        if ($this->reviewerselect) {
+            $data->reviewerselect = $this->reviewerselect->export_for_template($output);
         }
         if ($this->downloadselect) {
             $data->downloadselect = $this->downloadselect->export_for_template($output);

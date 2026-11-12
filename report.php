@@ -24,6 +24,7 @@
 
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\repository\instance_repository;
+use mod_verbalfeedback\repository\submission_repository;
 use mod_verbalfeedback\output\report;
 use mod_verbalfeedback\service\report_service;
 
@@ -31,31 +32,57 @@ require_once(__DIR__ . '/../../config.php');
 
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
+$fromuserid = optional_param('fromuser', 0, PARAM_INT);
 
 [$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 
 require_login($course, true, $cm);
 
-$context = context_module::instance($cm->id);
+$context = \core\context\module::instance($cm->id);
 
 $instancerepo = new instance_repository();
 $instance = $instancerepo->get_by_id($instanceid);
 
 $viewownreport = $touserid == $USER->id;
+$viewratedreport = $fromuserid == $USER->id;
+$canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
 $participants = [];
 
 if (!$viewownreport) {
-    require_capability('mod/verbalfeedback:view_all_reports', $context);
+    require_capability('mod/verbalfeedback:can_respond', $context);
     $participants = api::get_participants($instanceid, $USER->id);
-} else if (!$instance->reports_are_released($instance) && (!has_capability('mod/verbalfeedback:view_all_reports', $context))) {
-    throw new moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
+} else if (!$instance->reports_are_released($instance) && !$canviewall) {
+    throw new \moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
+}
+
+// Only users who are allowed to view all reports may break down the feedback by a single reviewer.
+// For everyone else (e.g. the rated user looking at their own report) the feedback stays combined and anonymous.
+$reviewers = [];
+if ($canviewall && $touserid != 0) {
+    $submissionrepo = new submission_repository();
+    $reviewerids = $submissionrepo->get_completed_fromuserids($instanceid, $touserid);
+    foreach ($reviewerids as $reviewerid) {
+        if ($reviewer = core_user::get_user($reviewerid)) {
+            $reviewers[$reviewerid] = $reviewer;
+        }
+    }
+    // Ignore an invalid reviewer selection and fall back to the combined report.
+    if (!isset($reviewers[$fromuserid])) {
+        $fromuserid = 0;
+    }
+} else {
+    $fromuserid = 0;
 }
 
 $PAGE->set_context($context);
 $PAGE->set_cm($cm, $course);
 $PAGE->set_pagelayout('incourse');
 
-$PAGE->set_url('/mod/verbalfeedback/report.php', ['instance' => $instanceid, 'touser' => $touserid]);
+$pageurlparams = ['instance' => $instanceid, 'touser' => $touserid];
+if ($fromuserid != 0) {
+    $pageurlparams['fromuser'] = $fromuserid;
+}
+$PAGE->set_url('/mod/verbalfeedback/report.php', $pageurlparams);
 $PAGE->set_heading($course->fullname);
 $title = format_string($instance->get_name());
 $PAGE->set_title($title);
@@ -88,9 +115,9 @@ if ($touserid != 0) {
     }
 
     $reportservice = new report_service();
-    $report = $reportservice->create_report($instanceid, $touserid);
+    $report = $reportservice->create_report($instanceid, $touserid, $fromuserid);
 
-    $templatedata = new report($cm->id, $instanceid, $report, $participants, $touser, $downloadformats);
+    $templatedata = new report($cm->id, $instanceid, $report, $participants, $touser, $downloadformats, $reviewers, $fromuserid);
 
     $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 

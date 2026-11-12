@@ -59,12 +59,11 @@
 <div class="card border-0">
     <div class="card-block p-1">
         <div class="row m-0">
-            <div class="span6 col-6 text-start ps-1 pt-1 pb-1">
+            <div class="col-12 d-flex align-items-center gap-2">
                 {{#userselect}}{{> core/url_select }}{{/userselect}}
+                {{#reviewerselect}}{{> core/url_select }}{{/reviewerselect}}
                 {{#downloadselect}}{{/downloadselect}}
-            </div>
-            <div class="span6 col-6 text-end">
-                {{#activitylink}}{{> core/action_link }}{{/activitylink}}
+                <span class="ms-auto">{{#activitylink}}{{> core/action_link }}{{/activitylink}}</span>
             </div>
         </div>
         <div class="row m-0 ps-0 pt-1 pb-1">
