@@ -43,17 +43,19 @@ $context = context_module::instance($cm->id);
 $instancerepo = new instance_repository();
 $instance = $instancerepo->get_by_id($instanceid);
 $viewownreport = $touserid == $USER->id;
+$viewownsubmission = $fromuserid == $USER->id;
+$canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
 $participants = [];
 
 if (!$viewownreport) {
-    require_capability('mod/verbalfeedback:view_all_reports', $context);
+    require_capability('mod/verbalfeedback:can_respond', $context);
+    // When a certain fromuser is specified, we only allow users who can view all reports or
+    // the user with it's own report as a single reviewer.
+    if ($fromuserid != 0 && !$canviewall && !$viewownsubmission) {
+        throw new \moodle_exception('nopermission', 'error');
+    }
 } else if (!$instance->reports_are_released($instance)) {
     throw new moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
-}
-
-// Breaking the feedback down by a single reviewer is only available to users who may view all reports.
-if (!has_capability('mod/verbalfeedback:view_all_reports', $context)) {
-    $fromuserid = 0;
 }
 
 $PAGE->set_context($context);
