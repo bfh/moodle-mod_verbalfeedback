@@ -52,7 +52,7 @@ if (!$viewownreport) {
     // When a certain fromuser is specified, we only allow users who can view all reports or
     // the user with it's own report as a single reviewer.
     if ($fromuserid != 0 && !$canviewall && !$viewownsubmission) {
-        throw new \moodle_exception('nopermission', 'error');
+        throw new \moodle_exception('nopermissions', 'error');
     }
 } else if (!$instance->reports_are_released($instance)) {
     throw new moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
