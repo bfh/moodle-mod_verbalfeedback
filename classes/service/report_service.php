@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class for managing user reports.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_verbalfeedback\service;
 
 use mod_verbalfeedback\model\report;
@@ -32,6 +24,10 @@ use mod_verbalfeedback\repository\submission_repository;
 
 /**
  * The report service class for managing user reports
+ *
+ * @package    mod_verbalfeedback
+ * @copyright  2020 Kevin Tippenhauer
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report_service {
     /** @var instance_repository The instance repository */

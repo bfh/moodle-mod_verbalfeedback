@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class containing the external API functions functions for the verbal feedback module.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 defined('MOODLE_INTERNAL') || die();
 
 use mod_verbalfeedback\api;
@@ -39,6 +31,7 @@ require_once($CFG->dirroot . "/user/externallib.php");
  *
  * The external API for the verbal feedback module.
  *
+ * @package   mod_verbalfeedback
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -21,6 +21,7 @@
  * @copyright  2021 Kevin Tippenhauer
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace mod_verbalfeedback\model;
 
 /**

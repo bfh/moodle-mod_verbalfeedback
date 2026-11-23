@@ -21,10 +21,8 @@
  * @copyright  2021 Kevin Tippenhauer
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace mod_verbalfeedback\model\template;
 
-use mod_verbalfeedback\model\localized_string;
-use stdClass;
+namespace mod_verbalfeedback\model\template;
 
 /**
  * The parametrized template criterion class

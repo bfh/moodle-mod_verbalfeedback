@@ -14,13 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class containing data for users that need to be given with verbalfeedback.
- *
- * @package    mod_verbalfeedback
- * @copyright  2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace mod_verbalfeedback\output;
 
 use renderable;
@@ -29,9 +22,11 @@ use templatable;
 use stdClass;
 
 /**
- * Class containing the admin settings that can be set for verbalfeedback.
+ * Class containing the data for language selection.
  *
- * @package   mod_verbalfeedback
+ * @package    mod_verbalfeedback
+ * @copyright  2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class language_list implements renderable, templatable {
     /**

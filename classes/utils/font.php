@@ -18,7 +18,6 @@ namespace mod_verbalfeedback\utils;
 
 use mod_verbalfeedback\model\report;
 
-
 /**
  * Class for handling the font in the PDF. That may vary depending on the teacher,
  * student name and the content of the course.

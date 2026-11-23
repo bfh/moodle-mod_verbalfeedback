@@ -14,13 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class containing data for rendering the verbal feedback report page for a participant.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace mod_verbalfeedback\output;
 
 use mod_verbalfeedback\api;
@@ -35,6 +28,7 @@ use templatable;
 /**
  * Class containing data for rendering the verbal feedback report page for a participant.
  *
+ * @package   mod_verbalfeedback
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

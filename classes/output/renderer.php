@@ -14,13 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Renderer class for template library.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace mod_verbalfeedback\output;
 
 use moodle_exception;
@@ -29,6 +22,7 @@ use plugin_renderer_base;
 /**
  * Renderer class for the verbal feedback module.
  *
+ * @package   mod_verbalfeedback
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

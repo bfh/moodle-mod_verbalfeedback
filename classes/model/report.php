@@ -21,6 +21,7 @@
  * @copyright  2021 Kevin Tippenhauer
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace mod_verbalfeedback\model;
 
 /**
@@ -154,7 +155,8 @@ class report {
     private function update_result() {
         $categoryresults = [];
         foreach ($this->reportcategories as $category) {
-            if ($category->get_weighted_result() === null || $category->get_weight() == null) { // Operator == null is intended.
+            if ($category->get_weighted_result() === null || $category->get_weight() == null) {
+                // Operator == null is intended.
                 continue;
             }
             $categoryweights[] = $category->get_weight();

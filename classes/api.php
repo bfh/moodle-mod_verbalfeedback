@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class for performing DB actions for the verbal feedback activity module.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_verbalfeedback;
 
 use coding_exception;
@@ -38,10 +30,10 @@ use mod_verbalfeedback\repository\submission_repository;
 use mod_verbalfeedback\repository\tables;
 use mod_verbalfeedback\utils\user_utils;
 
-
 /**
- * Class for performing DB actions for the verbal feedback activity module.
+ * Class for all api calls that performing DB actions for the verbal feedback activity module.
  *
+ * @package   mod_verbalfeedback
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

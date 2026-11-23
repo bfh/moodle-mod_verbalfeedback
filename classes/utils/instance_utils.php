@@ -14,19 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class for performing user related actions for the verbal feedback activity module.
- *
- * @package   mod_verbalfeedback
- * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace mod_verbalfeedback\utils;
 
 defined('MOODLE_INTERNAL') || die();
-
-global $CFG;
-global $DB;
 
 require_once($CFG->libdir . '/accesslib.php');
 
@@ -43,6 +33,7 @@ use mod_verbalfeedback\repository\instance_repository;
 /**
  * Class for performing user related actions for the verbal feedback activity module.
  *
+ * @package   mod_verbalfeedback
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

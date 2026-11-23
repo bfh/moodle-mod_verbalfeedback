@@ -14,13 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class containing data for users that need to be given with verbalfeedback.
- *
- * @package    mod_verbalfeedback
- * @copyright  2021 Kevin Tippenhauer
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace mod_verbalfeedback\output\model;
 
 use mod_verbalfeedback\model\language;
@@ -28,6 +21,10 @@ use mod_verbalfeedback\model\report_category;
 
 /**
  * The report category view model class
+ *
+ * @package    mod_verbalfeedback
+ * @copyright  2021 Kevin Tippenhauer
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report_category_view_model {
     /** @var string The name */

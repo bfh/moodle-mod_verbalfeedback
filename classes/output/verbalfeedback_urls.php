@@ -14,18 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace mod_verbalfeedback\output;
+
 /**
- * Class for performing DB actions for the verbal feedback activity module.
+ * Class for all static urls to access the verbal feedback templates, category, criteria etc.
  *
  * @package   mod_verbalfeedback
  * @copyright 2020 Kevin Tippenhauer <kevin.tippenhauer@bfh.ch>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-namespace mod_verbalfeedback\output;
-
-/**
- * The verbal feedback URLs class
  */
 class verbalfeedback_urls {
     /** @var string The template list url */

@@ -14,19 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Class for performing DB actions for the verbal feedback activity module.
- *
- * @package    mod_verbalfeedback
- * @copyright  2021 Kevin Tippenhauer
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 namespace mod_verbalfeedback\repository\model;
 
 use mod_verbalfeedback\model\template\parametrized_template_criterion;
 
 /**
  * The database parametrized criterion class
+ *
+ * @package    mod_verbalfeedback
+ * @copyright  2021 Kevin Tippenhauer
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class db_parametrized_criterion {
     /** @var int Primary key. */

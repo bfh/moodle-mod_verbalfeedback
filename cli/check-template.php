@@ -21,6 +21,7 @@
  * @copyright  2026 Stephan Robotta <stephan.robotta@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
