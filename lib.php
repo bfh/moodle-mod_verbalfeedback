@@ -584,11 +584,10 @@ function verbalfeedback_update_grades($verbalfeedback, $userid = 0, $nullifnone 
 function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
     global $DB;
 
-    $params = [$verbalfeedback->id, $verbalfeedback->id, $verbalfeedback->id, $verbalfeedback->id];
+    $vbid = (int)$verbalfeedback->id;
     $usertest = '';
     if ($userid > 0) {
-        $params = [$verbalfeedback->id, $verbalfeedback->id, $userid, $verbalfeedback->id, $verbalfeedback->id];
-        $usertest = 'AND vfs.touserid = ?';
+        $usertest = 'AND vfs.touserid = ' . (int)$userid;
     }
     return $DB->get_records_sql(
         "SELECT subquery1.userid id,
@@ -607,28 +606,14 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
             (
                 SELECT u.id id,
                     u.id userid,
-                    vfcri.id criid,
                     vfcat.id catid,
                     vfcat.weight catweight,
-                    vfcri.weight criweight,
-                    ctw.criteriatotalweight,
-                    vfcri.weight / ctw.criteriatotalweight criteriaeffweight,
-                    --SUM(vfres.value),
-                    (SUM(vfres.value)/ COUNT(vfres.fromuserid)) * (vfcri.weight / ctw.criteriatotalweight) grade
-                FROM
-                (
-                    SELECT vfcat.id,
-                        SUM(vfcri.weight) criteriatotalweight
-                    FROM {verbalfeedback_i_criterion} vfcri
-                        JOIN {verbalfeedback_i_category} vfcat
-                            ON vfcat.id = vfcri.categoryid
-                        JOIN {verbalfeedback} vf
-                            ON vfcat.instanceid = vf.id
-                    WHERE vf.id = ?
-                    GROUP BY vfcat.id
-                ) AS ctw
-                    JOIN {verbalfeedback_i_category} vfcat
-                        ON vfcat.id = ctw.id
+                    -- Normalise each criterion against the summed weight of only the criteria this user
+                    -- actually answered. N/A responses (value IS NULL) are filtered out below, so the
+                    -- window sum drops their weight from the denominator instead of scoring them as 0.
+                    (SUM(vfres.value) / COUNT(vfres.value))
+                        * (vfcri.weight / SUM(vfcri.weight) OVER (PARTITION BY u.id, vfcat.id)) grade
+                FROM {verbalfeedback_i_category} vfcat
                     JOIN {verbalfeedback_i_criterion} vfcri
                         ON vfcri.categoryid = vfcat.id
                     JOIN {verbalfeedback} vf
@@ -642,18 +627,17 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
                         AND vfres.instanceid = vfs.instanceid
                         AND vfres.fromuserid = vfs.fromuserid
                         AND vfres.touserid = vfs.touserid
-                WHERE vfcat.instanceid = ? $usertest
+                WHERE vfcat.instanceid = $vbid $usertest
                   AND vfs.status <> 0 -- pending status excluded, not sure if needed
                   AND vfres.value is not null -- N/A values should not be taken into account
                 GROUP BY u.id,
                         vfcat.id,
                         vfcri.id,
                         vfcat.weight,
-                        vfcri.weight,
-                        ctw.criteriatotalweight
+                        vfcri.weight
             ) subquery
                 JOIN {verbalfeedback} vf
-                    ON vf.id = ?
+                    ON vf.id = $vbid
             GROUP BY subquery.id,
                     subquery.userid,
                     subquery.catid,
@@ -661,11 +645,10 @@ function verbalfeedback_get_user_grades($verbalfeedback, $userid = 0) {
                     subquery.catweight
         ) AS subquery1
             JOIN {verbalfeedback} vf
-                ON vf.id = ?
+                ON vf.id = $vbid
         GROUP BY subquery1.userid,
                 subquery1.userid
-        ",
-        $params
+        "
     );
 }
 
