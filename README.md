@@ -55,6 +55,18 @@ The versioning of this plugin follows roughly the pattern: X.Y-rZ where X.Y is
 the latest suppored Moodle version and Z is an incresing number for newer versions
 of the plugin whithin the same Moodle version.
 
+### v5.3-r2
+
+- Fix [issue #82](https://github.com/bfh/moodle-mod_verbalfeedback/issues/82): Grade calculation - No difference between 0 and N/A.
+- Fix permission check in report download.
+- Add handling for reviewers to view student reports from other peer reviewers.
+- Fix of handling student visibility when using groups.
+- Non editing teachers should not allowed to be able to view all reports and manage templates.
+- Validate weight values before saving in DB.
+- Generalize filter of categories and criteria with weight 0.
+- Add a cancel button at the questionnaire page to abort any changes.
+- Several fixes that where discovered in a MDLShield code check run.
+
 ### v5.3-r1
 - Add support for Moodle 5.3.
 - Fix [issue #81](https://github.com/bfh/moodle-mod_verbalfeedback/issues/81): Categories percentage is fixed to 50% not allowing a template to hold a single category
