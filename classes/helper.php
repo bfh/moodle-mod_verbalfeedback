@@ -16,6 +16,7 @@
 
 namespace mod_verbalfeedback;
 
+use core\files\curl_security_helper;
 use Exception;
 use mod_verbalfeedback\model\instance_category;
 use mod_verbalfeedback\model\language;
@@ -52,24 +53,6 @@ class helper {
                 return get_string('statusdeclined', 'mod_verbalfeedback');
             default:
                 throw new moodle_exception('errorinvalidstatus', 'mod_verbalfeedback');
-        }
-    }
-
-    /**
-     * Gets the localised string value of a question type code.
-     *
-     * @param int $type The question type numeric equivalent
-     * @return string The string equivalent of the question type.
-     * @throws \coding_exception
-     */
-    public static function get_question_type_text($type) {
-        switch ($type) {
-            case api::QTYPE_RATED:
-                return get_string('qtyperated', 'verbalfeedback');
-            case api::QTYPE_COMMENT:
-                return get_string('qtypecomment', 'verbalfeedback');
-            default:
-                return '';
         }
     }
 
@@ -144,5 +127,82 @@ class helper {
             return \Dallgoot\Yaml\Yaml::parseFile($someyaml, $options, $debug);
         }
         throw new Exception('YAML parsing requires at least PHP 8.1.14');
+    }
+
+    /**
+     * Filter comment HTML. While it is allowed to have HTMl, only a subset of tags
+     * and attributes should be allowed.
+     * @param string $html
+     * @return string
+     */
+    public static function sanitize_comment(string $html): string {
+        $allowedtags = [
+            'p', 'br', 'ul', 'ol', 'li', 'b', 'strong', 'i', 'em', 'u', 'span', 'div', 'img'
+        ];
+
+        $allowedattributes = [
+            'class', 'style', 'src'
+        ];
+
+        $dom = new \DOMDocument();
+
+        // Prevent DOMDocument from adding html/body wrappers to the output.
+        libxml_use_internal_errors(true);
+
+        $dom->loadHTML(
+            '<?xml encoding="utf-8" ?><sanitize_root>' . $html . '</sanitize_root>',
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+        );
+
+        libxml_clear_errors();
+
+        $xpath = new \DOMXPath($dom);
+
+        // Remove all disallowed elements.
+        foreach ($xpath->query('//*') as $element) {
+            if ($element->nodeName === 'sanitize_root') {
+                continue;
+            }
+
+            if (!\in_array($element->nodeName, $allowedtags, true)) {
+                // Remove element but preserve its text content.
+                $parent = $element->parentNode;
+                while ($element->firstChild) {
+                    $parent->insertBefore($element->firstChild, $element);
+                }
+                $parent->removeChild($element);
+            }
+        }
+
+        // Remove unsafe attributes.
+        foreach ($xpath->query('//@*') as $attribute) {
+            $name = strtolower($attribute->nodeName);
+            $value = $attribute->nodeValue;
+
+            if (!in_array($name, $allowedattributes, true)) {
+                $attribute->ownerElement->removeAttributeNode($attribute);
+                continue;
+            }
+
+            // Remove CSS URLs, including background-image references.
+            if ($name === 'style') {
+                if (preg_match('/url\s*\(|expression\s*\(|@import|behavior\s*:/i', $value)) {
+                    $attribute->ownerElement->removeAttribute('style');
+                }
+            }
+            // Check urls and remove the entire image when source to load the image from is not allowed.
+            if (($name === 'src') && (new curl_security_helper())->url_is_blocked($value)) {
+                $attribute->ownerElement->remove();
+            }
+        }
+
+        $root = $dom->documentElement;
+
+        $result = '';
+        foreach ($root->childNodes as $child) {
+            $result .= $dom->saveHTML($child);
+        }
+
+        return $result;
     }
 }

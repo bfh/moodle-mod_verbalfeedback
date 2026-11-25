@@ -188,6 +188,8 @@ if (isset($imagefile)) {
         $fitonpage = false
     );
 }
+// No external images that could harm the PDF.
+$html = preg_replace('/<img\b[^>]*>/i', '', $html);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $pdf->lastPage();

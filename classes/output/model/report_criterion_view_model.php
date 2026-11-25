@@ -17,6 +17,7 @@
 namespace mod_verbalfeedback\output\model;
 
 use mod_verbalfeedback\api;
+use mod_verbalfeedback\helper;
 use mod_verbalfeedback\model\language;
 use mod_verbalfeedback\model\report_criterion;
 
@@ -58,11 +59,16 @@ class report_criterion_view_model {
         $this->multiplier = number_format($criterion->get_weight(), 2);
         $addfirstelement = true;
         foreach ($criterion->get_student_comments() as $comment) {
-            if (trim($comment) == "") {
+            if (empty(trim($comment))) {
                 continue;
             }
-            $stripped = strip_tags($comment); // Guess whether we have HTML because the format is not stored in the database.
-            $comment = format_text($comment, $stripped !== $comment ? FORMAT_HTML : FORMAT_PLAIN);
+            // Guess whether we have HTML because the format is not stored in the database.
+            $format = FORMAT_PLAIN;
+            if (strip_tags($comment) !== $comment) {
+                $comment = helper::sanitize_comment($comment);
+                $format = FORMAT_HTML;
+            }
+            $comment = format_text($comment, $format);
             if ($addfirstelement) {
                 // This is a nasty hack to allow mustache to decide whether to display the "comments" label.
                 $addfirstelement = false;
