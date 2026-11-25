@@ -40,7 +40,7 @@ final class helper_test extends \advanced_testcase {
     #[Override]
     public function setUp(): void {
         parent::setUp();
-        // setUp() writes to the language to the database, so flag the reset here.
+        // The setUp() writes to the language to the database, so flag the reset here.
         $this->resetAfterTest();
         // Ensure an English verbal feedback language exists for the localised lookups.
         // Passing id 0 forces an insert (a non-zero id would trigger an update that

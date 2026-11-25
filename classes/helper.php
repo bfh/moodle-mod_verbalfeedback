@@ -137,11 +137,11 @@ class helper {
      */
     public static function sanitize_comment(string $html): string {
         $allowedtags = [
-            'p', 'br', 'ul', 'ol', 'li', 'b', 'strong', 'i', 'em', 'u', 'span', 'div', 'img'
+            'p', 'br', 'ul', 'ol', 'li', 'b', 'strong', 'i', 'em', 'u', 'span', 'div', 'img',
         ];
 
         $allowedattributes = [
-            'class', 'style', 'src'
+            'class', 'style', 'src',
         ];
 
         $dom = new \DOMDocument();
