@@ -25,6 +25,7 @@
 use mod_verbalfeedback\api;
 use mod_verbalfeedback\output\report_download;
 use mod_verbalfeedback\repository\instance_repository;
+use mod_verbalfeedback\repository\submission_repository;
 use mod_verbalfeedback\service\report_service;
 use mod_verbalfeedback\utils\font;
 use mod_verbalfeedback\utils\graph_utils;
