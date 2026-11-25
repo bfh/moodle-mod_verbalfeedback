@@ -33,18 +33,12 @@ require_once(__DIR__ . '/../../config.php');
 $instanceid = required_param('instance', PARAM_INT);
 $touserid = required_param('touser', PARAM_INT);
 $fromuserid = optional_param('fromuser', 0, PARAM_INT);
-
 [$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
-
 require_login($course, true, $cm);
-
 $context = \core\context\module::instance($cm->id);
-
 $instancerepo = new instance_repository();
 $instance = $instancerepo->get_by_id($instanceid);
-
 $viewownreport = $touserid == $USER->id;
-$viewratedreport = $fromuserid == $USER->id;
 $canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
 $participants = [];
 

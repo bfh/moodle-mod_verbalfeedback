@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_verbalfeedback\api;
 use mod_verbalfeedback\output\report_download;
 use mod_verbalfeedback\repository\instance_repository;
 use mod_verbalfeedback\service\report_service;
@@ -39,23 +40,37 @@ $touserid = required_param('touser', PARAM_INT);
 $fromuserid = optional_param('fromuser', 0, PARAM_INT);
 [$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 require_login($course, true, $cm);
-$context = context_module::instance($cm->id);
+$context = \core\context\module::instance($cm->id);
 $instancerepo = new instance_repository();
 $instance = $instancerepo->get_by_id($instanceid);
 $viewownreport = $touserid == $USER->id;
-$viewownsubmission = $fromuserid == $USER->id;
 $canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
 $participants = [];
 
 if (!$viewownreport) {
     require_capability('mod/verbalfeedback:can_respond', $context);
-    // When a certain fromuser is specified, we only allow users who can view all reports or
-    // the user with it's own report as a single reviewer.
-    if ($fromuserid != 0 && !$canviewall && !$viewownsubmission) {
-        throw new \moodle_exception('nopermissions', 'error');
+    $participants = api::get_participants($instanceid, $USER->id);
+} else if (!$instance->reports_are_released($instance) && !$canviewall) {
+    throw new \moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
+}
+
+// Only users who are allowed to view all reports may break down the feedback by a single reviewer.
+// For everyone else (e.g. the rated user looking at their own report) the feedback stays combined and anonymous.
+$reviewers = [];
+if ($canviewall && $touserid != 0) {
+    $submissionrepo = new submission_repository();
+    $reviewerids = $submissionrepo->get_completed_fromuserids($instanceid, $touserid);
+    foreach ($reviewerids as $reviewerid) {
+        if ($reviewer = core_user::get_user($reviewerid)) {
+            $reviewers[$reviewerid] = $reviewer;
+        }
     }
-} else if (!$instance->reports_are_released($instance)) {
-    throw new moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
+    // Ignore an invalid reviewer selection and fall back to the combined report.
+    if (!isset($reviewers[$fromuserid])) {
+        $fromuserid = 0;
+    }
+} else {
+    $fromuserid = 0;
 }
 
 $PAGE->set_context($context);
