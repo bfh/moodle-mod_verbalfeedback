@@ -32,9 +32,9 @@ use pdf;
 final class font_test extends \advanced_testcase {
     /** @var array */
     protected $students;
-    /** @var stdClass the verval feedback course module. */
+    /** @var \stdClass the verval feedback course module. */
     protected $cm;
-    /** @var stdClass the current course with the verbal feedback activity. */
+    /** @var \stdClass the current course with the verbal feedback activity. */
     protected $course;
 
     /**
@@ -97,7 +97,6 @@ final class font_test extends \advanced_testcase {
         global $SESSION;
 
         $this->resetAfterTest();
-        $reportservice = new report_service();
 
         $tests = [
             ['lang' => 'en', 'expected' => font::FONT_BASE],
@@ -110,8 +109,7 @@ final class font_test extends \advanced_testcase {
         ];
         foreach ($tests as $test) {
             $SESSION->forcelang = $test['lang'];
-            $report = $reportservice->create_report($this->cm->id, $this->students[0]->id);
-            $font = new font($report);
+            $font = new font((new report_service($this->students[0]->id, $this->cm->id))->create_report());
             $this->assertEquals($test['expected'], $font->get_font_base(), "Font for {$test['lang']} is not {$test['expected']}.");
         }
     }
@@ -136,9 +134,7 @@ final class font_test extends \advanced_testcase {
             font::FONT_JAPANESE,
         ];
         foreach ($this->students as $key => $student) {
-            $reportservice = new report_service();
-            $report = $reportservice->create_report($this->cm->id, $student->id);
-            $font = new font($report);
+            $font = new font((new report_service($student->id, $this->cm->id))->create_report());
             $this->assertEquals($expected[$key], $font->get_font_student(), "Font for student {$key} is not {$expected[$key]}.");
         }
     }
@@ -163,9 +159,7 @@ final class font_test extends \advanced_testcase {
         foreach ($this->get_teachers() as $key => $teacher) {
             $enroledteachers[] = $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher', $teacher);
             api::generate_verbalfeedback_feedback_states($this->cm->id, $enroledteachers[$key]->id);
-            $reportservice = new report_service();
-            $report = $reportservice->create_report($this->cm->id, $this->students[0]->id);
-            $font = new font($report);
+            $font = new font((new report_service($this->students[0]->id, $this->cm->id))->create_report());
             // Because looking at the first teacher only, the result here is always the same.
             $this->assertEquals(font::FONT_BASE, $font->get_font_teacher(), "Font for teacher {$key} is not Noto_Sans.");
         }
@@ -174,9 +168,7 @@ final class font_test extends \advanced_testcase {
 
         foreach ($this->get_teachers() as $key => $teacher) {
             api::generate_verbalfeedback_feedback_states($this->cm->id, $enroledteachers[$key]->id);
-            $reportservice = new report_service();
-            $report = $reportservice->create_report($this->cm->id, $this->students[3]->id);
-            $font = new font($report);
+            $font = new font((new report_service($this->students[3]->id, $this->cm->id))->create_report());
             $this->assertEquals($expected[$key], $font->get_font_teacher(), "Wrong font {$expected[$key]} for teacher {$key}.");
             // Remove submission skeletons by current teacher.
             (new submission_repository())->delete_by_instance($this->cm->id);
@@ -196,8 +188,8 @@ final class font_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         foreach ($this->students as $student) {
-            $pdf = new pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-            $font = new font((new report_service())->create_report($this->cm->id, $student->id));
+            $pdf = new pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8');
+            $font = new font((new report_service($student->id, $this->cm->id))->create_report());
             $font->set_font_for_pdf($pdf);
             $charfist = mb_substr($student->firstname, 0, 1);
             $charlast = mb_substr($student->lastname, 0, 1);

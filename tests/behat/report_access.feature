@@ -72,5 +72,8 @@ Feature: Access to verbal feedback reports depending on the view_all_reports cap
 
   Scenario: A non-editing teacher cannot download another trainer's single submission
     Given I log in as "teacher3"
+    When I visit the verbal feedback report for "student1" in "Test verbal feedback"
     # Requesting another reviewer's submission is denied because teacher3 lacks view_all_reports.
-    Then I get an exception "do not currently have permissions to do that" when I visit the verbal feedback report "report_download" for "student1" rated by "teacher1" in "Test verbal feedback"
+    # However, the generated report is the overall report without the fromuserid parameter.
+    Then I can download the verbal feedback report for "student1" rated by "teacher1" in "Test verbal feedback"
+    # The PDF content check is done in a unittest (checking that all teachers appear in the PDF - combined view).

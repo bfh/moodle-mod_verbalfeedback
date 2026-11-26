@@ -23,8 +23,6 @@
  */
 
 use mod_verbalfeedback\api;
-use mod_verbalfeedback\repository\instance_repository;
-use mod_verbalfeedback\repository\submission_repository;
 use mod_verbalfeedback\output\report;
 use mod_verbalfeedback\service\report_service;
 
@@ -36,85 +34,65 @@ $fromuserid = optional_param('fromuser', 0, PARAM_INT);
 [$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 require_login($course, true, $cm);
 $context = \core\context\module::instance($cm->id);
-$instancerepo = new instance_repository();
-$instance = $instancerepo->get_by_id($instanceid);
-$viewownreport = $touserid == $USER->id;
-$canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
-$participants = [];
 
-if (!$viewownreport) {
-    require_capability('mod/verbalfeedback:can_respond', $context);
-    $participants = api::get_participants($instanceid, $USER->id);
-} else if (!$instance->reports_are_released($instance) && !$canviewall) {
-    throw new \moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
-}
-
-// Only users who are allowed to view all reports may break down the feedback by a single reviewer.
-// For everyone else (e.g. the rated user looking at their own report) the feedback stays combined and anonymous.
-$reviewers = [];
-if ($canviewall && $touserid != 0) {
-    $submissionrepo = new submission_repository();
-    $reviewerids = $submissionrepo->get_completed_fromuserids($instanceid, $touserid);
-    foreach ($reviewerids as $reviewerid) {
-        if ($reviewer = core_user::get_user($reviewerid)) {
-            $reviewers[$reviewerid] = $reviewer;
-        }
-    }
-    // Ignore an invalid reviewer selection and fall back to the combined report.
-    if (!isset($reviewers[$fromuserid])) {
-        $fromuserid = 0;
-    }
-} else {
-    $fromuserid = 0;
-}
+$reportservice = new report_service($touserid, $instanceid);
+$reportservice->set_fromuserid($fromuserid)->validate($context);
 
 $PAGE->set_context($context);
 $PAGE->set_cm($cm, $course);
 $PAGE->set_pagelayout('incourse');
 
 $pageurlparams = ['instance' => $instanceid, 'touser' => $touserid];
-if ($fromuserid != 0) {
-    $pageurlparams['fromuser'] = $fromuserid;
+if ($reportservice->get_fromuserid() != 0) {
+    $pageurlparams['fromuser'] = $reportservice->get_fromuserid();
 }
 $PAGE->set_url('/mod/verbalfeedback/report.php', $pageurlparams);
 $PAGE->set_heading($course->fullname);
-$title = format_string($instance->get_name());
+$title = format_string($reportservice->get_instance()->get_name());
 $PAGE->set_title($title);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(format_string($title));
-if ($touserid != 0) {
-    // Result of a given user.
-    echo $OUTPUT->heading(get_string('viewfeedbackforuser', 'mod_verbalfeedback'), 3);
+// Result of a given user.
+echo $OUTPUT->heading(get_string('viewfeedbackforuser', 'mod_verbalfeedback'), 3);
 
-    $touser = core_user::get_user($touserid);
-    // Render user heading.
-    $userheading = [
-        'heading' => fullname($touser),
-        'user' => $touser,
-        'usercontext' => context_user::instance($touserid),
-    ];
+$touser = core_user::get_user($touserid);
+// Render user heading.
+$userheading = [
+    'heading' => fullname($touser),
+    'user' => $touser,
+    'usercontext' => context_user::instance($touserid),
+];
 
-    $contextheader = $OUTPUT->context_header($userheading, 3);
-    echo html_writer::div($contextheader, 'card card-block border-0 p-1');
+$contextheader = $OUTPUT->context_header($userheading, 3);
+echo html_writer::div($contextheader, 'card card-block border-0 p-1');
 
-    // Download format options.
-    $downloadformats = [];
-    $formats = core_plugin_manager::instance()->get_plugins_of_type('dataformat');
-    foreach ($formats as $format) {
-        if (!$format->is_enabled()) {
-            continue;
-        }
-        $downloadformats[$format->name] = $format->displayname;
+// Download format options.
+$downloadformats = [];
+$formats = core_plugin_manager::instance()->get_plugins_of_type('dataformat');
+foreach ($formats as $format) {
+    if (!$format->is_enabled()) {
+        continue;
     }
-
-    $reportservice = new report_service();
-    $report = $reportservice->create_report($instanceid, $touserid, $fromuserid);
-
-    $templatedata = new report($cm->id, $instanceid, $report, $participants, $touser, $downloadformats, $reviewers, $fromuserid);
-
-    $renderer = $PAGE->get_renderer('mod_verbalfeedback');
-
-    echo $renderer->render($templatedata);
+    $downloadformats[$format->name] = $format->displayname;
 }
+
+$report = $reportservice->create_report();
+$participants = api::get_participants($instanceid, $USER->id);
+
+$templatedata = new report(
+    $cm->id,
+    $instanceid,
+    $report,
+    $participants,
+    $touser,
+    $downloadformats,
+    $reportservice->get_reviewers(),
+    $fromuserid
+);
+
+$renderer = $PAGE->get_renderer('mod_verbalfeedback');
+
+echo $renderer->render($templatedata);
+
 echo $OUTPUT->footer();

@@ -22,10 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_verbalfeedback\api;
 use mod_verbalfeedback\output\report_download;
-use mod_verbalfeedback\repository\instance_repository;
-use mod_verbalfeedback\repository\submission_repository;
 use mod_verbalfeedback\service\report_service;
 use mod_verbalfeedback\utils\font;
 use mod_verbalfeedback\utils\graph_utils;
@@ -42,37 +39,9 @@ $fromuserid = optional_param('fromuser', 0, PARAM_INT);
 [$course, $cm] = get_course_and_cm_from_instance($instanceid, 'verbalfeedback');
 require_login($course, true, $cm);
 $context = \core\context\module::instance($cm->id);
-$instancerepo = new instance_repository();
-$instance = $instancerepo->get_by_id($instanceid);
-$viewownreport = $touserid == $USER->id;
-$canviewall = has_capability('mod/verbalfeedback:view_all_reports', $context);
-$participants = [];
 
-if (!$viewownreport) {
-    require_capability('mod/verbalfeedback:can_respond', $context);
-    $participants = api::get_participants($instanceid, $USER->id);
-} else if (!$instance->reports_are_released($instance) && !$canviewall) {
-    throw new \moodle_exception('errorreportnotavailable', 'mod_verbalfeedback');
-}
-
-// Only users who are allowed to view all reports may break down the feedback by a single reviewer.
-// For everyone else (e.g. the rated user looking at their own report) the feedback stays combined and anonymous.
-$reviewers = [];
-if ($canviewall && $touserid != 0) {
-    $submissionrepo = new submission_repository();
-    $reviewerids = $submissionrepo->get_completed_fromuserids($instanceid, $touserid);
-    foreach ($reviewerids as $reviewerid) {
-        if ($reviewer = core_user::get_user($reviewerid)) {
-            $reviewers[$reviewerid] = $reviewer;
-        }
-    }
-    // Ignore an invalid reviewer selection and fall back to the combined report.
-    if (!isset($reviewers[$fromuserid])) {
-        $fromuserid = 0;
-    }
-} else {
-    $fromuserid = 0;
-}
+$reportservice = new report_service($touserid, $instanceid);
+$reportservice->set_fromuserid($fromuserid)->validate($context);
 
 $PAGE->set_context($context);
 $PAGE->set_cm($cm, $course);
@@ -83,12 +52,12 @@ $urlparams = [
     'touser' => $touserid,
     'forcedownload' => 1,
 ];
-if ($fromuserid != 0) {
-    $urlparams['fromuser'] = $fromuserid;
+if ($reportservice->get_fromuserid() > 0) {
+    $urlparams['fromuser'] = $reportservice->get_fromuserid();
 }
 $PAGE->set_url('/mod/verbalfeedback/report_download.php', $urlparams);
 $PAGE->set_heading($course->fullname);
-$instancename = format_string($instance->get_name());
+$instancename = format_string($reportservice->get_instance()->get_name());
 $PAGE->set_title($instancename);
 
 // Fetch the user.
@@ -101,8 +70,7 @@ $userheading = [
 ];
 
 // Get the responses to the user.
-$reportservice = new report_service();
-$report = $reportservice->create_report($instanceid, $touserid, $fromuserid);
+$report = $reportservice->create_report();
 
 $fonthandler = new font($report);
 
@@ -120,7 +88,7 @@ $renderer = $PAGE->get_renderer('mod_verbalfeedback');
 $html = $renderer->render($templatedata);
 $radarimg = graph_utils::create_radar_graph($report);
 
-$pdf = new pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8');
 
 // Set document information.
 $pdf->SetCreator(PDF_CREATOR);
@@ -188,21 +156,21 @@ if (isset($imagefile)) {
         $imagefilewidth = $image[0];
         $imagefileheight = $image[1];
         $imagescaledwidth = 18 * $imagefilewidth / $imagefileheight;
-    }
 
-    $pdf->Image('@' . file_get_contents($imagefile), 15, 5, $imagescaledwidth, 18);
-    $pdf->ImageSVG(
-        '@' . $radarimg,
-        $x = 16,
-        $y = 28,
-        $w = '',
-        $h = '',
-        $link = '',
-        $align = '',
-        $palign = 'R',
-        $border = 1,
-        $fitonpage = false
-    );
+        $pdf->Image('@' . file_get_contents($imagefile), 15, 5, $imagescaledwidth, 18);
+        $pdf->ImageSVG(
+            '@' . $radarimg,
+            $x = 16,
+            $y = 28,
+            $w = '',
+            $h = '',
+            $link = '',
+            $align = '',
+            $palign = 'R',
+            $border = 1,
+            $fitonpage = false
+        );
+    }
 }
 // No external images that could harm the PDF.
 $html = preg_replace('/<img\b[^>]*>/i', '', $html);
